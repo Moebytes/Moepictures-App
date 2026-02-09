@@ -1,0 +1,26 @@
+# Dependency
+node_modules
+vendor
+.DS_Store
+.vscode
+
+# iOS
+build
+DerivedData
+Pods
+.xcode.env.local
+*.ipa
+*.hmap
+*.xcuserstate
+*.xcuserdata
+*.xccheckout
+*.moved-aside
+
+# Android
+.gradle
+.kotlin
+local.properties
+.cxx
+*.keystore
+*.iml
+*.pro

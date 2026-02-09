@@ -1,0 +1,28 @@
+{
+  "name": "moepictures-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android --active-arch-only",
+    "ios": "react-native run-ios",
+    "ruby": "cd ios && bundle exec pod install"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "react": "19.2.0",
+    "react-native": "0.83.1",
+    "@react-native/new-app-screen": "0.83.1",
+    "react-native-safe-area-context": "^5.5.2"
+  },
+  "devDependencies": {
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native/metro-config": "0.83.1",
+    "@types/react": "^19.2.0",
+    "typescript": "^5.8.3"
+  }
+}
