@@ -1,21 +1,23 @@
 {
-  "name": "moepictures-app",
+  "name": "moepictures",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android --active-arch-only",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator=\"iPhone 17 Pro\"",
     "ruby": "cd ios && bundle exec pod install"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "pixiv.ts": "^0.8.8",
     "react": "19.2.0",
     "react-native": "0.83.1",
-    "@react-native/new-app-screen": "0.83.1",
-    "react-native-safe-area-context": "^5.5.2"
+    "react-native-safe-area-context": "^5.5.2",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@react-native-community/cli": "20.0.0",

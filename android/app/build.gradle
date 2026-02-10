@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.moepictures"
+    namespace "com.moebytes.Moepictures"
     defaultConfig {
-        applicationId "com.moepictures"
+        applicationId "com.moebytes.Moepictures"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
