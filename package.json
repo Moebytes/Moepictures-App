@@ -1,6 +1,6 @@
 {
-  "name": "moepictures",
-  "version": "0.0.1",
+  "name": "moepictures-app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "react-native start",
@@ -12,13 +12,16 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@react-navigation/native": "^7.1.28",
+    "@react-navigation/native-stack": "^7.12.0",
     "@reduxjs/toolkit": "^2.11.2",
     "pixiv.ts": "^0.8.8",
     "react": "19.2.0",
     "react-native": "0.83.1",
-    "react-native-safe-area-context": "^5.5.2",
+    "react-native-gesture-handler": "^2.30.0",
+    "react-native-safe-area-context": "^5.6.2",
+    "react-native-screens": "^4.23.0",
     "react-native-svg": "^15.15.3",
-    "react-native-svg-transformer": "^1.5.3",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
@@ -27,6 +30,7 @@
     "@react-native-community/cli-platform-ios": "20.0.0",
     "@react-native/metro-config": "0.83.1",
     "@types/react": "^19.2.0",
+    "react-native-svg-transformer": "^1.5.3",
     "typescript": "^5.8.3"
   }
 }

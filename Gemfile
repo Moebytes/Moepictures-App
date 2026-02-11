@@ -11,5 +11,4 @@ gem "bigdecimal"
 gem "logger"
 gem "benchmark"
 gem "mutex_m"
-
 gem "nkf"

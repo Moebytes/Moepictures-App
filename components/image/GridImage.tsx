@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
-import {View, Image, ImageSourcePropType} from "react-native"
+import {Pressable, Image, ImageSourcePropType} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 
@@ -11,6 +12,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
 
     useEffect(() => {
         const updateSize = async () => {
@@ -46,9 +48,9 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         {width: size.width, height: size.height - borderWidth * 2}
 
     return (
-        <View style={[styles.container, size, {borderWidth}]}>
+        <Pressable style={[styles.container, size, {borderWidth}]} onPress={() => navigation.navigate("Post")}>
             <Image style={imageSize} source={props.img} resizeMode="contain"/>
-        </View>
+        </Pressable>
     )
 }
 
