@@ -11,6 +11,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		83CB9F982F3B101B007912AE /* JK-Gothic-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */; };
+		83CB9F992F3B101B007912AE /* TsunagiGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */; };
+		83CB9F9A2F3B101B007912AE /* irohamaru mikami.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */; };
+		83CB9F9B2F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */; };
+		83CB9F9C2F3B101B007912AE /* GenEi M Gothic v2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */; };
 		AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +29,11 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-Moepictures.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Moepictures.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Moepictures/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Moepictures/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenEi M Gothic v2.ttf"; sourceTree = "<group>"; };
+		83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Honoka-Shin-Antique-Kaku_M.ttf"; sourceTree = "<group>"; };
+		83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "irohamaru mikami.ttf"; sourceTree = "<group>"; };
+		83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JK-Gothic-M.ttf"; sourceTree = "<group>"; };
+		83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsunagiGothic-Black.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -47,6 +57,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				83CB9F972F3B101B007912AE /* fonts */,
 			);
 			name = Moepictures;
 			sourceTree = "<group>";
@@ -66,6 +77,19 @@
 			);
 			name = Libraries;
 			sourceTree = "<group>";
+		};
+		83CB9F972F3B101B007912AE /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */,
+				83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */,
+				83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */,
+				83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */,
+				83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */,
+			);
+			name = fonts;
+			path = ../assets/fonts;
+			sourceTree = SOURCE_ROOT;
 		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
@@ -159,6 +183,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				83CB9F982F3B101B007912AE /* JK-Gothic-M.ttf in Resources */,
+				83CB9F992F3B101B007912AE /* TsunagiGothic-Black.ttf in Resources */,
+				83CB9F9A2F3B101B007912AE /* irohamaru mikami.ttf in Resources */,
+				83CB9F9B2F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf in Resources */,
+				83CB9F9C2F3B101B007912AE /* GenEi M Gothic v2.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -263,7 +292,7 @@
 				DEVELOPMENT_TEAM = EKBT5ADU6E;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Moepictures/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Moepictures;
+				INFOPLIST_KEY_CFBundleDisplayName = Moepics;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -297,7 +326,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EKBT5ADU6E;
 				INFOPLIST_FILE = Moepictures/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Moepictures;
+				INFOPLIST_KEY_CFBundleDisplayName = Moepics;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (

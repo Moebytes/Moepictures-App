@@ -3,6 +3,8 @@ import {View, Text, Image} from "react-native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TitleBar.styles"
 
+const favicon = require("../../assets/icons/favicon.png")
+
 const TitleBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
@@ -22,7 +24,7 @@ const TitleBar: React.FunctionComponent = () => {
                 <Text style={styles.textB}>e</Text>
                 <Text style={styles.textA}>s</Text>
             </View>
-            <Image style={styles.icon} source={require("../../assets/icons/favicon.png")}/>
+            <Image style={styles.icon} source={favicon}/>
         </View>
     )
 }
