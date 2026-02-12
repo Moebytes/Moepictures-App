@@ -1,6 +1,8 @@
 import React from "react"
 import {View, Text, Pressable} from "react-native"
-import {useNavigation} from "@react-navigation/native"
+import {useNavigation, useNavigationState} from "@react-navigation/native"
+import {RootStackParamList} from "../../App"
+import {SvgProps} from "react-native-svg"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TabBar.styles"
 import PostsIcon from "../../assets/svg/posts.svg"
@@ -17,32 +19,41 @@ const TabBar: React.FunctionComponent = () => {
 
     let iconSize = 43
 
+    const activeRoute = useNavigationState(
+        (state) => state.routes[state.index].name
+    )
+
+    const generateTabsJSX = () => {
+        let jsx = [] as React.ReactElement[]
+
+        let tabMap: {name: keyof RootStackParamList, icon: React.ComponentType<SvgProps>}[] = [
+            {name: "Posts", icon: PostsIcon},
+            {name: "Comments", icon: CommentsIcon},
+            {name: "Notes", icon: NotesIcon},
+            {name: "Tags", icon: TagsIcon},
+            {name: "Groups", icon: GroupsIcon},
+            {name: "Profile", icon: ProfileIcon}
+        ]
+        for (const tab of tabMap) {
+            const Icon = tab.icon
+            const active = activeRoute === tab.name
+
+            jsx.push(
+                <Pressable style={styles.iconContainer} key={tab.name}
+                    onPress={() => navigation.navigate(tab.name, undefined, {pop: true})}>
+                    <Icon width={iconSize} height={iconSize} 
+                    color={colors.iconColor}/>
+                    <Text style={active ? styles.activeText : styles.text}>{tab.name}</Text>
+                </Pressable>
+            )
+        }
+
+        return jsx
+    }
+
     return (
         <View style={styles.container}>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Posts")}>
-                <PostsIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Posts</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Comments")}>
-                <CommentsIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Comments</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Notes")}>
-                <NotesIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Notes</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Tags")}>
-                <TagsIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Tags</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Groups")}>
-                <GroupsIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Groups</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => navigation.navigate("Profile")}>
-                <ProfileIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Profile</Text>
-            </Pressable>
+            {generateTabsJSX()}
         </View>
     )
 }

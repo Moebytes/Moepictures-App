@@ -15,10 +15,13 @@ const PostsScreen: React.FunctionComponent = () => {
     <SafeAreaProvider>
         <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
-            <TitleBar/>
-            <SearchBar/>
-            <SortBar/>
-            <ImageGrid/>
+            <ImageGrid headerComponent={
+              <>
+                <TitleBar/>
+                <SearchBar/>
+                <SortBar/>
+              </>
+            }/>
             <TabBar/>
         </SafeAreaView>
     </SafeAreaProvider>

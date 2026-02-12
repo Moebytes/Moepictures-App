@@ -8,11 +8,9 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: colors.mainColor,
-            paddingVertical: 7,
-            paddingHorizontal: 14,
-            height: 84,
-            gap: 18
+            paddingVertical: 10,
+            backgroundColor: colors.background,
+            gap: 25
         },
         iconContainer: {
             display: "flex",
@@ -23,13 +21,8 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         text: {
             fontFamily: "Honoka-Shin-Antique-Kaku",
-            fontSize: 12,
+            fontSize: 14,
             color: colors.textColor
-        },
-        activeText: {
-            fontFamily: "Honoka-Shin-Antique-Kaku",
-            fontSize: 12,
-            color: colors.iconColor
         }
     })
 }

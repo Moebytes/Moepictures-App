@@ -18,7 +18,11 @@ let images = [
     placeholder1, placeholder2, placeholder3, placeholder4, placeholder5, placeholder6
 ]
 
-const ImageGrid: React.FunctionComponent = () => {
+interface Props {
+    headerComponent: React.ReactElement
+}
+
+const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
@@ -30,11 +34,15 @@ const ImageGrid: React.FunctionComponent = () => {
         <View style={styles.container}>
             <FlatList 
                 style={{flex: 1}}
+                contentContainerStyle={{backgroundColor: colors.background}}
                 data={images} 
                 renderItem={renderItem}
                 keyExtractor={(_, i) => i.toString()}
                 numColumns={2}
                 columnWrapperStyle={styles.row}
+                ListHeaderComponent={props.headerComponent}
+                stickyHeaderIndices={[0]}
+                stickyHeaderHiddenOnScroll={true}
                 ListFooterComponent={<PageButtons/>}
                 ListFooterComponentStyle={styles.footer}
             />

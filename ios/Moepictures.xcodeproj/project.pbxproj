@@ -14,8 +14,8 @@
 		83CB9F982F3B101B007912AE /* JK-Gothic-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */; };
 		83CB9F992F3B101B007912AE /* TsunagiGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */; };
 		83CB9F9A2F3B101B007912AE /* irohamaru mikami.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */; };
-		83CB9F9B2F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */; };
 		83CB9F9C2F3B101B007912AE /* GenEi M Gothic v2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */; };
+		83F8630B2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83F8630A2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf */; };
 		AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -30,10 +30,10 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Moepictures/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Moepictures/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenEi M Gothic v2.ttf"; sourceTree = "<group>"; };
-		83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Honoka-Shin-Antique-Kaku_M.ttf"; sourceTree = "<group>"; };
 		83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "irohamaru mikami.ttf"; sourceTree = "<group>"; };
 		83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JK-Gothic-M.ttf"; sourceTree = "<group>"; };
 		83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsunagiGothic-Black.ttf"; sourceTree = "<group>"; };
+		83F8630A2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Honoka-Shin-Antique-Kaku.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -81,8 +81,8 @@
 		83CB9F972F3B101B007912AE /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				83F8630A2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf */,
 				83CB9F922F3B101B007912AE /* GenEi M Gothic v2.ttf */,
-				83CB9F932F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf */,
 				83CB9F942F3B101B007912AE /* irohamaru mikami.ttf */,
 				83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */,
 				83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */,
@@ -186,7 +186,7 @@
 				83CB9F982F3B101B007912AE /* JK-Gothic-M.ttf in Resources */,
 				83CB9F992F3B101B007912AE /* TsunagiGothic-Black.ttf in Resources */,
 				83CB9F9A2F3B101B007912AE /* irohamaru mikami.ttf in Resources */,
-				83CB9F9B2F3B101B007912AE /* Honoka-Shin-Antique-Kaku_M.ttf in Resources */,
+				83F8630B2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf in Resources */,
 				83CB9F9C2F3B101B007912AE /* GenEi M Gothic v2.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */,
@@ -220,9 +220,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -259,9 +263,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

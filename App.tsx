@@ -5,7 +5,7 @@ import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import DummyScreen from "./screens/search/DummyScreen"
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Posts: undefined
   Comments: undefined
   Notes: undefined

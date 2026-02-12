@@ -5,7 +5,7 @@ export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         container: {
             flex: 1, 
-            backgroundColor: colors.background
+            backgroundColor: colors.mainColor
         },
         row: {
             justifyContent: "space-evenly",

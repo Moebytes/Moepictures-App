@@ -21,7 +21,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             backgroundColor: colors.pageNumFill
         },
         text: {
-            fontFamily: "Honoka-Shin-Antique-Kaku_M",
+            fontFamily: "Honoka-Shin-Antique-Kaku",
             color: colors.pageNumColor,
             fontSize: 20
         }

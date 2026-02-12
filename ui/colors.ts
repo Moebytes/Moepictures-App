@@ -1,4 +1,5 @@
 export const LightTheme = {
+    transparent: "rgba(0, 0, 0, 0.5)",
     iconColor: "#FF579D",
     background: "#FFFFFF",
     borderColor: "#FF459F",
@@ -15,6 +16,7 @@ export const LightTheme = {
 }
 
 export const DarkTheme = {
+    transparent: "rgba(0, 0, 0, 0)",
     iconColor: "#FF4891",
     background: "#10030C",
     borderColor: "#FF459F",
