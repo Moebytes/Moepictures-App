@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "android": "react-native run-android --active-arch-only",
-    "ios": "react-native run-ios --simulator=\"iPhone 17 Pro\"",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "ruby": "cd ios && bundle exec pod install"
   },
   "engines": {

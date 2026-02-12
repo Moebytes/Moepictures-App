@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
+import {fonts} from "../../../ui/fonts"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
@@ -19,12 +20,12 @@ export const createStylesheet = (colors: ThemeColors) => {
         textA: {
             color: colors.moeTextA,
             fontSize: 44,
-            fontFamily: "GenEi M Gothic v2"
+            fontFamily: fonts.genEiMGothicV2
         },
         textB: {
             color: colors.moeTextB,
             fontSize: 44,
-            fontFamily: "GenEi M Gothic v2"
+            fontFamily: fonts.genEiMGothicV2
         },
         icon: {
             width: 63,

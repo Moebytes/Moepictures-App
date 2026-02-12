@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
+import {fonts} from "../../../ui/fonts"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
@@ -14,11 +15,14 @@ export const createStylesheet = (colors: ThemeColors) => {
             height: 48,
             gap: 18,
         },
+        textInputWrapper: {
+            position: "relative",
+            justifyContent: "center",
+        },
         textInput: {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            paddingHorizontal: 3,
             height: 34,
             width: 317,
             borderRadius: 11,
@@ -27,13 +31,14 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderColor: colors.borderColor,
             borderStyle: "solid",
             color: colors.textColor,
-            fontFamily: "GenEi M Gothic v2",
+            fontFamily: fonts.genEiMGothicV2,
             fontSize: 16,
+            padding: 0,
             paddingLeft: 30
         },
         searchIconContainer: {
             position: "absolute",
-            left: 25
+            left: 5
         }
     })
 }

@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
+import {fonts} from "../../../ui/fonts"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
@@ -21,7 +22,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             backgroundColor: colors.pageNumFill
         },
         text: {
-            fontFamily: "Honoka-Shin-Antique-Kaku",
+            fontFamily: fonts.honokaShinAntiqueKaku,
             color: colors.pageNumColor,
             fontSize: 20
         }

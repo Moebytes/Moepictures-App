@@ -1,5 +1,6 @@
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
+import {fonts} from "../../../ui/fonts"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
@@ -25,7 +26,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             width: 55
         },
         artistText: {
-            fontFamily: "irohamaru mikami",
+            fontFamily: fonts.irohamaruMikami,
             fontSize: 24,
             color: colors.iconColor
         },

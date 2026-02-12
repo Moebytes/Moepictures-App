@@ -13,8 +13,12 @@ const SearchBar: React.FunctionComponent = () => {
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.textInput} selectionColor={colors.borderColor}/>
-            <View style={styles.searchIconContainer}><SearchIcon width={iconSize} height={iconSize} color={colors.borderColor}/></View>
+            <View style={styles.textInputWrapper}>
+                <TextInput style={styles.textInput} selectionColor={colors.borderColor}/>
+                <View style={styles.searchIconContainer}>
+                    <SearchIcon width={iconSize} height={iconSize} color={colors.borderColor}/>
+                </View>
+            </View>
             <Pressable>
                 <OptionsIcon width={iconSize} height={iconSize} color={colors.borderColor}/>
             </Pressable>
