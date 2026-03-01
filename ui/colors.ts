@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Moepictures - A cute and moe anime image board ❤          *
+ * Copyright © 2026 Moebytes <moebytes.com>                  *
+ * Licensed under CC BY-NC 4.0. See license.txt for details. *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 export const LightTheme = {
     transparent: "rgba(0, 0, 0, 0.5)",
     iconColor: "#FF579D",

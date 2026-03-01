@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Moepictures - A cute and moe anime image board ❤          *
+ * Copyright © 2026 Moebytes <moebytes.com>                  *
+ * Licensed under CC BY-NC 4.0. See license.txt for details. *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 import React, {useState, useEffect} from "react"
 import {Pressable, Image, ImageSourcePropType} from "react-native"
 import {useNavigation} from "@react-navigation/native"
