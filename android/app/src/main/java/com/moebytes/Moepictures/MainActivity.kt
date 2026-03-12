@@ -1,4 +1,4 @@
-package com.moebytes.Moepictures
+package com.moebytes.moepictures
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

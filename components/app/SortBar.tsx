@@ -24,7 +24,7 @@ const SortBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
-    let iconSize = 23
+    let iconSize = 20
 
     return (
         <View style={styles.container}>

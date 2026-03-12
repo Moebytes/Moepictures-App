@@ -1,4 +1,4 @@
-package com.moebytes.Moepictures
+package com.moebytes.moepictures
 
 import android.app.Application
 import com.facebook.react.PackageList

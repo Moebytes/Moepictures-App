@@ -9,6 +9,7 @@ import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
+import ProfileScreen from "./screens/settings/ProfileScreen"
 import DummyScreen from "./screens/search/DummyScreen"
 
 export type RootStackParamList = {
@@ -38,7 +39,7 @@ const App: React.FunctionComponent = () => {
           <Stack.Screen name="Notes" component={DummyScreen}/>
           <Stack.Screen name="Tags" component={DummyScreen}/>
           <Stack.Screen name="Groups" component={DummyScreen}/>
-          <Stack.Screen name="Profile" component={DummyScreen}/>
+          <Stack.Screen name="Profile" component={ProfileScreen}/>
           <Stack.Screen name="Post" component={PostScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
