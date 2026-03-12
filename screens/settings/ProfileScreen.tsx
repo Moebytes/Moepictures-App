@@ -8,6 +8,7 @@ import React from "react"
 import {View, Text, Pressable, Switch, StatusBar} from "react-native"
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+import asyncStorage from "@react-native-async-storage/async-storage"
 import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
@@ -29,11 +30,15 @@ const ProfileScreen: React.FunctionComponent = () => {
     const styles = createStylesheet(colors)
 
     const changeTheme = () => {
-        setTheme(theme === "light" ? "dark" : "light")
+        const newTheme = theme === "light" ? "dark" : "light"
+        setTheme(newTheme)
+        asyncStorage.setItem("theme", newTheme)
     }
 
     const changeShowRelated = () => {
-        setShowRelated(!showRelated)
+        const newRelated = !showRelated
+        setShowRelated(newRelated)
+        asyncStorage.setItem("showRelated", JSON.stringify(newRelated))
     }
 
     const hapticFeedback = () => {

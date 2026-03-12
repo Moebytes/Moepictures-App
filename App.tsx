@@ -7,6 +7,7 @@
 import React from "react"
 import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
+import AsyncStorage from "./AsyncStorage"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
@@ -33,6 +34,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
 const App: React.FunctionComponent = () => {
     return (
       <NavigationContainer>
+        <AsyncStorage/>
         <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Posts" component={PostsScreen}/>
           <Stack.Screen name="Comments" component={DummyScreen}/>
