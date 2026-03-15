@@ -12,30 +12,29 @@ export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         container: {
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: colors.mainColor,
-            paddingVertical: 10,
-            paddingHorizontal: 14, 
-            gap: 18
-        },
-        iconContainer: {
-            display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            width: "100%",
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            backgroundColor: colors.background,
+            gap: 15,
+            flex: 1
+        },
+        titleContainer: {
+            display: "flex",
+            flexDirection: "row",
             alignItems: "center",
-            gap: 5
+            width: "100%",
+            marginBottom: 5
         },
-        text: {
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 12,
-            color: colors.textColor
+        title: {
+            color: colors.iconColor,
+            textAlign: "center",
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 26
         },
-        activeText: {
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 12,
-            color: colors.iconColor
+        footer: {
+            marginBottom: 10
         }
     })
 }

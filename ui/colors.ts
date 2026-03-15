@@ -26,7 +26,7 @@ export const LightTheme = {
 	profileBG: "#ffc6e3",
 	profileSeperator: "#ffc6e3",
 	profileLogin: "#ffe3f2",
-	itemBG: "#ffe5f2"
+	itemBG: "#FFF1F8"
 }
 
 export const DarkTheme = {
@@ -51,7 +51,7 @@ export const DarkTheme = {
 	profileBG: "#1e0411",
 	profileSeperator: "#4a092a",
 	profileLogin: "#361128",
-	itemBG: "#260f1a"
+	itemBG: "#1B0B12"
 }
 
 export type ThemeColors = typeof LightTheme

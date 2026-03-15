@@ -16,7 +16,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             padding: 10,
             backgroundColor: colors.profileBG,
-            gap: 10
+            gap: 10,
+            flex: 1
         },
         loginText: {
             color: colors.iconColor,

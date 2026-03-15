@@ -7,7 +7,8 @@
 import React from "react"
 import {View, Text, Pressable} from "react-native"
 import {useNavigation, useNavigationState} from "@react-navigation/native"
-import {RootStackParamList} from "../../App"
+import {useSafeAreaInsets} from "react-native-safe-area-context"
+import {StackParamList} from "../../App"
 import {SvgProps} from "react-native-svg"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TabBar.styles"
@@ -18,10 +19,15 @@ import TagsIcon from "../../assets/svg/tags.svg"
 import GroupsIcon from "../../assets/svg/groups.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
 
-const TabBar: React.FunctionComponent = () => {
+interface Props {
+    manualInset?: boolean
+}
+
+const TabBar: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
+    const insets = useSafeAreaInsets()
 
     let iconSize = 43
 
@@ -32,7 +38,7 @@ const TabBar: React.FunctionComponent = () => {
     const generateTabsJSX = () => {
         let jsx = [] as React.ReactElement[]
 
-        let tabMap: {name: keyof RootStackParamList, icon: React.ComponentType<SvgProps>}[] = [
+        let tabMap: {name: keyof StackParamList, icon: React.ComponentType<SvgProps>}[] = [
             {name: "Posts", icon: PostsIcon},
             {name: "Comments", icon: CommentsIcon},
             {name: "Notes", icon: NotesIcon},
@@ -58,7 +64,7 @@ const TabBar: React.FunctionComponent = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, paddingBottom: props.manualInset ? insets.bottom : 0}}>
             {generateTabsJSX()}
         </View>
     )

@@ -38,8 +38,9 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <FlatList 
+            <FlatList
                 style={{flex: 1}}
+                showsVerticalScrollIndicator={false}
                 contentContainerStyle={{backgroundColor: colors.background}}
                 data={images} 
                 renderItem={renderItem}

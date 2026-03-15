@@ -5,8 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, Pressable, Switch, StatusBar} from "react-native"
-import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context"
+import {View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
+import {SafeAreaView} from "react-native-safe-area-context"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
@@ -49,109 +49,108 @@ const ProfileScreen: React.FunctionComponent = () => {
     let pressDelay = 100
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
-                <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
-                <TitleBar/>
-                <View style={styles.container}>
-                    <View style={styles.buttonContainer}>
-                        <Pressable style={{...styles.itemContainer, backgroundColor: colors.profileLogin}}>
-                            <View style={styles.iconContainer}>
-                                <KeyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                                <Text style={styles.loginText}>Login</Text>
-                            </View>
-                        </Pressable>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <View style={styles.itemContainer}>
-                            <Text style={styles.text}>Dark Theme</Text>
-                            <Switch
-                                value={theme === "dark"}
-                                onValueChange={changeTheme}
-                                thumbColor="#ffffff"
-                                trackColor={{false: colors.switchOff, true: colors.switchOn}}
-                                ios_backgroundColor={colors.switchOff}
-                            />
+        <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
+            <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
+            <TitleBar/>
+            <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <Pressable style={{...styles.itemContainer, backgroundColor: colors.profileLogin}}>
+                        <View style={styles.iconContainer}>
+                            <KeyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                            <Text style={styles.loginText}>Login</Text>
                         </View>
-
-                        <View style={styles.separator}/>
-
-                        <View style={styles.itemContainer}>
-                            <Text style={styles.text}>Show Related</Text>
-                            <Switch
-                                value={showRelated}
-                                onValueChange={changeShowRelated}
-                                thumbColor="#ffffff"
-                                trackColor={{false: colors.switchOff, true: colors.switchOn}}
-                                ios_backgroundColor={colors.switchOff}
-                            />
-                        </View>
+                    </Pressable>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>Dark Theme</Text>
+                        <Switch
+                            value={theme === "dark"}
+                            onValueChange={changeTheme}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
                     </View>
-                    <View style={styles.buttonContainer}>
-                        <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
-                        style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                            <View style={styles.iconContainer}>
-                                <TOSIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                                <Text style={styles.text}>Terms of Service</Text>
-                            </View>
-                            <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                        </Pressable>
 
-                        <View style={styles.separator}/>
+                    <View style={styles.separator}/>
 
-                        <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
-                        style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                            <View style={styles.iconContainer}>
-                                <PrivacyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                                <Text style={styles.text}>Privacy Policy</Text>
-                            </View>
-                            <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                        </Pressable>
-
-                        <View style={styles.separator}/>
-
-                        <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
-                        style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                            <View style={styles.iconContainer}>
-                                <ContactIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                                <Text style={styles.text}>Contact Us</Text>
-                            </View>
-                            <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                        </Pressable>
-
-                        <View style={styles.separator}/>
-
-                        <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
-                        style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                            <View style={styles.iconContainer}>
-                                <HelpIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                                <Text style={styles.text}>Help</Text>
-                            </View>
-                            <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                        </Pressable>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
-                        style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                            <View style={styles.iconContainer}>
-                                <LinkIcon width={25} height={25} color={colors.iconColor}/>
-                                <Text style={styles.text}>Visit our website!</Text>
-                            </View>
-                        </Pressable>
-                    </View>
-                    <View style={styles.copyContainer}>
-                        <MoebytesLogo/>
-                        <Text style={styles.copyText}>© 2026 Moebytes</Text>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>Show Related</Text>
+                        <Switch
+                            value={showRelated}
+                            onValueChange={changeShowRelated}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
                     </View>
                 </View>
-                <TabBar/>
-            </SafeAreaView>
-        </SafeAreaProvider>
+                <View style={styles.buttonContainer}>
+                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <TOSIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                            <Text style={styles.text}>Terms of Service</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </Pressable>
+
+                    <View style={styles.separator}/>
+
+                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <PrivacyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                            <Text style={styles.text}>Privacy Policy</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </Pressable>
+
+                    <View style={styles.separator}/>
+
+                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <ContactIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                            <Text style={styles.text}>Contact Us</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </Pressable>
+
+                    <View style={styles.separator}/>
+
+                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <HelpIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                            <Text style={styles.text}>Help</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </Pressable>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    onPress={() => Linking.openURL("https://moepictures.net")}
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <LinkIcon width={25} height={25} color={colors.iconColor}/>
+                            <Text style={styles.text}>Visit our website!</Text>
+                        </View>
+                    </Pressable>
+                </View>
+                <View style={styles.copyContainer}>
+                    <MoebytesLogo/>
+                    <Text style={styles.copyText}>© 2026 Moebytes</Text>
+                </View>
+            </View>
+            <TabBar/>
+        </SafeAreaView>
     )
 }
 

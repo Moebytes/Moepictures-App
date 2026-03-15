@@ -60,6 +60,7 @@ const Related: React.FunctionComponent = () => {
                     columnWrapperStyle={styles.row}
                     ListFooterComponent={<PageButtons/>}
                     ListFooterComponentStyle={styles.footer}
+                    showsVerticalScrollIndicator={false}
                 />
             </View>
         </View>

@@ -5,16 +5,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {Pressable, Image, ImageSourcePropType} from "react-native"
+import {Pressable, Image, ImageSourcePropType, useWindowDimensions} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
+import functions from "../../functions/Functions"
 
 interface Props {
     img: ImageSourcePropType
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
+    const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
@@ -22,24 +24,8 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         const updateSize = async () => {
-            const asset = Image.resolveAssetSource(props.img)
-            const size = await Image.getSize(asset.uri)
-
-            const maxSize = 200
-            let newWidth = 0
-            let newHeight = 0
-
-            if (size.width > size.height) {
-                const ratio = size.height / size.width
-                newWidth = maxSize
-                newHeight = maxSize * ratio
-            } else {
-                const ratio = size.width / size.height
-                newHeight = maxSize
-                newWidth = maxSize * ratio
-            }
-
-            setSize({width: newWidth, height: newHeight})
+            const size = await functions.image.dynamicResize(props.img, 200, width)
+            setSize(size)
         }
         updateSize()
     }, [props.img])
