@@ -7,11 +7,13 @@
 import {configureStore} from "@reduxjs/toolkit"
 import themeReducer, {useThemeSelector, useThemeActions} from "./reducers/themeReducer"
 import sessionReducer, {useSessionSelector, useSessionActions} from "./reducers/sessionReducer"
+import layoutReducer, {useLayoutSelector, useLayoutActions} from "./reducers/layoutReducer"
 
 const store = configureStore({
     reducer: {
         theme: themeReducer,
-        session: sessionReducer
+        session: sessionReducer,
+        layout: layoutReducer
     }
 })
 
@@ -20,7 +22,8 @@ export type StoreDispatch = typeof store.dispatch
 
 export {
     useThemeSelector, useThemeActions,
-    useSessionSelector, useSessionActions
+    useSessionSelector, useSessionActions,
+    useLayoutSelector, useLayoutActions
 }
 
 export default store

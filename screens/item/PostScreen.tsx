@@ -5,9 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {StatusBar, ScrollView} from "react-native"
-import {SafeAreaView} from "react-native-safe-area-context"
-import {useThemeSelector} from "../../store"
+import {View, StatusBar, ScrollView} from "react-native"
+import {useThemeSelector, useLayoutSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
@@ -21,11 +20,13 @@ const placeholder7 = require("../../assets/images/placeholder/placeholder7.jpg")
 
 const PostScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
+  const {tabBarHeight} = useLayoutSelector()
 
   return (
-    <SafeAreaView edges={["top"]}style={{flex: 1, backgroundColor: colors.mainColor}}>
+    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
         <ScrollView style={{flex: 1, backgroundColor: colors.mainColor}} 
+          contentContainerStyle={{paddingBottom: tabBarHeight}}
           showsVerticalScrollIndicator={false}>
           <TitleBar/>
           <SearchBar/>
@@ -34,9 +35,9 @@ const PostScreen: React.FunctionComponent = () => {
           <ArtistInfo/>
           <Commentary/>
           <Related/>
-          <TabBar manualInset={true}/>
+          <TabBar/>
         </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }
 

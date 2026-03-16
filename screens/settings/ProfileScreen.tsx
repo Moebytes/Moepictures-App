@@ -6,7 +6,6 @@
 
 import React from "react"
 import {View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
-import {SafeAreaView} from "react-native-safe-area-context"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
@@ -49,7 +48,7 @@ const ProfileScreen: React.FunctionComponent = () => {
     let pressDelay = 100
 
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
+        <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <TitleBar/>
             <View style={styles.container}>
@@ -150,7 +149,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                 </View>
             </View>
             <TabBar/>
-        </SafeAreaView>
+        </View>
     )
 }
 

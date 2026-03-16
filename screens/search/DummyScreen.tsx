@@ -5,8 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {StatusBar} from "react-native"
-import {SafeAreaView} from "react-native-safe-area-context"
+import {View, StatusBar} from "react-native"
 import {useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -16,12 +15,12 @@ const DummyScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
+    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
         <TitleBar/>
         <SearchBar/>
         <TabBar/>
-    </SafeAreaView>
+    </View>
   )
 }
 

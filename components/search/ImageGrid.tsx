@@ -6,10 +6,11 @@
 
 import React from "react"
 import {View, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
+import {useAutoHideScroll} from "../app/useAutoHideScroll"
 
 const placeholder1 = require("../../assets/images/placeholder/placeholder1.jpg")
 const placeholder2 = require("../../assets/images/placeholder/placeholder2.jpg")
@@ -25,12 +26,15 @@ let images = [
 ]
 
 interface Props {
-    headerComponent: React.ReactElement
+    paddingTop: number
+    onScrollChange?: (visible: boolean) => void
 }
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
+    const {tabBarHeight} = useLayoutSelector()
     const styles = createStylesheet(colors)
+    const {handleScroll} = useAutoHideScroll(props.onScrollChange)
 
     const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
         return <GridImage img={item}/>
@@ -41,17 +45,17 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
             <FlatList
                 style={{flex: 1}}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{backgroundColor: colors.background}}
+                contentContainerStyle={{backgroundColor: colors.background, 
+                paddingTop: props.paddingTop, paddingBottom: tabBarHeight}}
                 data={images} 
                 renderItem={renderItem}
                 keyExtractor={(_, i) => i.toString()}
                 numColumns={2}
                 columnWrapperStyle={styles.row}
-                ListHeaderComponent={props.headerComponent}
-                stickyHeaderIndices={[0]}
-                stickyHeaderHiddenOnScroll={true}
                 ListFooterComponent={<PageButtons/>}
                 ListFooterComponentStyle={styles.footer}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
             />
         </View>
     )

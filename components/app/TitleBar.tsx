@@ -6,6 +6,7 @@
 
 import React from "react"
 import {View, Text, Image} from "react-native"
+import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TitleBar.styles"
 
@@ -14,9 +15,10 @@ const favicon = require("../../assets/icons/favicon.png")
 const TitleBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const insets = useSafeAreaInsets()
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, paddingTop: insets.top}}>
             <View style={styles.textContainer}>
                 <Text style={styles.textA}>M</Text>
                 <Text style={styles.textB}>o</Text>

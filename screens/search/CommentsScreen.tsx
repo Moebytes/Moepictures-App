@@ -4,15 +4,16 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, { useState } from "react"
 import {View, Text, StatusBar, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
-import {SafeAreaView} from "react-native-safe-area-context"
-import {useThemeSelector} from "../../store"
+import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
+import {useThemeSelector, useLayoutSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
 import CommentRow from "../../components/search/CommentRow"
 import PageButtons from "../../components/search/PageButtons"
+import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 
 const placeholder1 = require("../../assets/images/comments/placeholder1.jpg")
@@ -32,7 +33,10 @@ let images = [
 
 const CommentsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
+  const {headerHeight, tabBarHeight} = useLayoutSelector()
   const styles = createStylesheet(colors)
+  const [tabVisible, setTabVisible] = useState(true)
+  const {handleScroll} = useAutoHideScroll(setTabVisible)
 
   const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
       return <CommentRow img={item}/>
@@ -40,25 +44,25 @@ const CommentsScreen: React.FunctionComponent = () => {
 
   const headerJSX = () => {
     return (
-      <>
-        <TitleBar/>
-        <SearchBar/>
-        <View style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Comments</Text>
-            </View>
-        </View>
-      </>
+      <View style={styles.container}>
+          <View style={styles.titleContainer}>
+              <Text style={styles.title}>Comments</Text>
+          </View>
+      </View>
     )
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
+    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
+        <AnimatedHeaderWrapper visible={tabVisible}>
+          <TitleBar/>
+          <SearchBar/>
+        </AnimatedHeaderWrapper>
         <FlatList
             style={{flex: 1}}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{backgroundColor: colors.background}}
+            contentContainerStyle={{backgroundColor: colors.background, paddingTop: headerHeight, paddingBottom: tabBarHeight}}
             data={images} 
             renderItem={renderItem}
             keyExtractor={(_, i) => i.toString()}
@@ -66,9 +70,11 @@ const CommentsScreen: React.FunctionComponent = () => {
             ListHeaderComponent={headerJSX()}
             ListFooterComponent={<PageButtons/>}
             ListFooterComponentStyle={styles.footer}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
         />
-        <TabBar/>
-    </SafeAreaView>
+        <TabBar visible={tabVisible}/>
+    </View>
   )
 }
 

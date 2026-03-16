@@ -4,13 +4,13 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View, Text, Pressable} from "react-native"
+import React, {useRef, useEffect} from "react"
+import {Text, Pressable, Animated, LayoutChangeEvent} from "react-native"
 import {useNavigation, useNavigationState} from "@react-navigation/native"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {StackParamList} from "../../App"
 import {SvgProps} from "react-native-svg"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/TabBar.styles"
 import PostsIcon from "../../assets/svg/posts.svg"
 import CommentsIcon from "../../assets/svg/comments.svg"
@@ -20,20 +20,32 @@ import GroupsIcon from "../../assets/svg/groups.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
 
 interface Props {
-    manualInset?: boolean
+    visible?: boolean
 }
 
 const TabBar: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
+    const {tabBarHeight} = useLayoutSelector()
+    const {setTabBarHeight} = useLayoutActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
     const insets = useSafeAreaInsets()
+    const translateY = useRef(new Animated.Value(0)).current
 
     let iconSize = 43
 
     const activeRoute = useNavigationState(
         (state) => state.routes[state.index].name
     )
+
+    useEffect(() => {
+        const visible = props.visible ?? true
+        Animated.timing(translateY, {
+            toValue: visible ? 0 : tabBarHeight,
+            duration: 300,
+            useNativeDriver: true
+        }).start()
+    }, [props.visible])
 
     const generateTabsJSX = () => {
         let jsx = [] as React.ReactElement[]
@@ -63,10 +75,17 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         return jsx
     }
 
+    const onLayout = (event: LayoutChangeEvent) => {
+        const height = event.nativeEvent.layout.height
+        if (tabBarHeight !== height) setTabBarHeight(height)
+    }
+
     return (
-        <View style={{...styles.container, paddingBottom: props.manualInset ? insets.bottom : 0}}>
+        <Animated.View onLayout={onLayout} style={{...styles.container, 
+            paddingBottom: insets.bottom,
+            transform: [{translateY}]}}>
             {generateTabsJSX()}
-        </View>
+        </Animated.View>
     )
 }
 

@@ -16,7 +16,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: colors.mainColor,
-            height: 63,
+            minHeight: 63,
             gap: 13,
         },
         textContainer: {

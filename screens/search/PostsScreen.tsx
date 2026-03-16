@@ -4,31 +4,32 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {StatusBar} from "react-native"
-import {SafeAreaView} from "react-native-safe-area-context"
-import {useThemeSelector} from "../../store"
+import React, {useState} from "react"
+import {View, StatusBar} from "react-native"
+import {useThemeSelector, useLayoutSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
 import SortBar from "../../components/app/SortBar"
 import ImageGrid from "../../components/search/ImageGrid"
+import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 
 const PostsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
+  const {headerHeight} = useLayoutSelector()
+  const [tabVisible, setTabVisible] = useState(true)
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.mainColor}}>
+    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
-        <ImageGrid headerComponent={
-          <>
+        <AnimatedHeaderWrapper visible={tabVisible}>
             <TitleBar/>
             <SearchBar/>
             <SortBar/>
-          </>
-        }/>
-        <TabBar/>
-    </SafeAreaView>
+        </AnimatedHeaderWrapper>
+        <ImageGrid onScrollChange={setTabVisible} paddingTop={headerHeight}/>
+        <TabBar visible={tabVisible}/>
+    </View>
   )
 }
 

@@ -11,13 +11,17 @@ import {fonts} from "../../../ui/fonts"
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         container: {
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: colors.mainColor,
             paddingVertical: 10,
-            paddingHorizontal: 14, 
+            paddingHorizontal: 14,
             gap: 18
         },
         iconContainer: {
