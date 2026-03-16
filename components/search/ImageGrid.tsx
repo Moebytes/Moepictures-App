@@ -55,6 +55,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 ListFooterComponentStyle={styles.footer}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
+                keyboardDismissMode="on-drag"
+                keyboardShouldPersistTaps="handled"
             />
         </View>
     )

@@ -23,28 +23,51 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         textInputWrapper: {
             position: "relative",
-            justifyContent: "center",
-        },
-        textInput: {
-            display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            height: 34,
-            width: 317,
+            flex: 1,
+            minHeight: 34,
             borderRadius: 11,
             backgroundColor: colors.searchBG,
             borderWidth: 1.5,
             borderColor: colors.borderColor,
-            borderStyle: "solid",
+            paddingLeft: 30,
+            paddingRight: 8
+        },
+        textInputContainer: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
+        },
+        textInput: {
+            minWidth: 80,
+            height: 30,
             color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 16,
-            padding: 0,
-            paddingLeft: 30
+            padding: 0
         },
         searchIconContainer: {
             position: "absolute",
             left: 5
+        },
+        tag: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 6,
+            paddingVertical: 4,
+            borderRadius: 5,
+            marginRight: 5,
+            marginVertical: 3,
+            backgroundColor: colors.buttonColor
+        },
+        tagText: {
+            fontFamily: fonts.genEiMGothicV2,
+            color: colors.textColor2,
+            fontSize: 12,
+            lineHeight: 17,
+            marginRight: 4
         }
     })
 }

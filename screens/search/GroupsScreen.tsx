@@ -73,6 +73,8 @@ const GroupsScreen: React.FunctionComponent = () => {
             ListFooterComponentStyle={styles.footer}
             onScroll={handleScroll}
             scrollEventThrottle={16}
+            keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="handled"
         />
         <TabBar visible={tabVisible}/>
     </View>
