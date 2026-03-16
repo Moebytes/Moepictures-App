@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, Image} from "react-native"
+import {View, Text, Image, Pressable, Linking} from "react-native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistInfo.styles"
 
@@ -16,13 +16,37 @@ const ArtistInfo: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
+    const onArtistPress = async () => {
+        let appURL = `pixiv://www.pixiv.net/users/4292709`
+        let webURL = `https://www.pixiv.net/users/4292709`
+        if (await Linking.canOpenURL(appURL)) {
+            Linking.openURL(appURL)
+        } else {
+            Linking.openURL(webURL)
+        }
+    }
+
+    const onSourcePress = async () => {
+        let appURL = `pixiv://www.pixiv.net/artworks/85398657`
+        let webURL = `https://www.pixiv.net/artworks/85398657`
+        if (await Linking.canOpenURL(appURL)) {
+            Linking.openURL(appURL)
+        } else {
+            Linking.openURL(webURL)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.artistContainer}>
                 <Image style={styles.artistIcon} source={artistImage}/>
-                <Text style={styles.artistText}>mozukun43</Text>
+                <Pressable onPress={onArtistPress}>
+                    <Text style={styles.artistText}>mozukun43</Text>
+                </Pressable>
             </View>
-            <Image style={styles.sourceIcon} source={pixiv}/>
+            <Pressable onPress={onSourcePress}>
+                <Image style={styles.sourceIcon} source={pixiv}/>
+            </Pressable>
         </View>
     )
 }

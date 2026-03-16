@@ -12,6 +12,7 @@ import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
 import PostImage from "../../components/image/PostImage"
 import PostImageOptions from "../../components/post/PostImageOptions"
+import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
 import Commentary from "../../components/post/Commentary"
 import Related from "../../components/post/Related"
@@ -29,9 +30,10 @@ const PostScreen: React.FunctionComponent = () => {
           contentContainerStyle={{paddingBottom: tabBarHeight}}
           showsVerticalScrollIndicator={false}>
           <TitleBar/>
-          <SearchBar/>
+          <SearchBar random={true}/>
           <PostImage img={placeholder7}/>
           <PostImageOptions/>
+          <PixivTags/>
           <ArtistInfo/>
           <Commentary/>
           <Related/>

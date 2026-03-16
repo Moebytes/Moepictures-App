@@ -26,11 +26,13 @@ export const createStylesheet = (colors: ThemeColors) => {
         textA: {
             color: colors.moeTextA,
             fontSize: 44,
+            lineHeight: 50,
             fontFamily: fonts.genEiMGothicV2
         },
         textB: {
             color: colors.moeTextB,
             fontSize: 44,
+            lineHeight: 50,
             fontFamily: fonts.genEiMGothicV2
         },
         icon: {

@@ -40,7 +40,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center"
         },
         textInput: {
-            minWidth: 80,
+            minWidth: 60,
             height: 30,
             color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,

@@ -10,9 +10,14 @@ import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
+import RandomIcon from "../../assets/svg/random.svg"
 import XIcon from "../../assets/svg/x.svg"
 
-const SearchBar: React.FunctionComponent = () => {
+interface Props {
+    random?: boolean
+}
+
+const SearchBar: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [text, setText] = useState("")
@@ -31,8 +36,8 @@ const SearchBar: React.FunctionComponent = () => {
     }
 
     const handleKeyPress = (e: any) => {
-        if (e.nativeEvent.key === "Backspace" && !text) {
-            if (items.length) setItems(items.slice(0, -1))
+        if (e.nativeEvent.key === "Backspace" && !text && items.length) {
+            setItems(items.slice(0, -1))
         }
     }
 
@@ -81,7 +86,9 @@ const SearchBar: React.FunctionComponent = () => {
                 </View>
             </View>
             <Pressable>
-                <OptionsIcon width={iconSize} height={iconSize} color={colors.borderColor}/>
+                {props.random ?
+                <RandomIcon width={iconSize} height={iconSize} color={colors.borderColor}/> :
+                <OptionsIcon width={iconSize} height={iconSize} color={colors.borderColor}/>}
             </Pressable>
         </View>
     )
