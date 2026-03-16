@@ -1,37 +1,48 @@
-import React, {useRef, useEffect, useState} from "react"
-import {Animated, LayoutChangeEvent, ViewStyle} from "react-native"
-import {useLayoutActions} from "../../store"
+import React, {useRef, useCallback, useEffect} from "react"
+import {Animated, LayoutChangeEvent, View, ViewStyle} from "react-native"
+import {useFocusEffect} from "@react-navigation/native"
+import {useLayoutSelector, useLayoutActions} from "../../store"
 
 interface Props {
   visible: boolean
-  children: React.ReactElement[]
+  children: React.ReactNode
   style?: ViewStyle
   duration?: number
 }
 
 const AnimatedHeaderWrapper: React.FunctionComponent<Props> = (props) => {
-    const [localHeight, setLocalHeight] = useState(0)
+    const {headerHeight} = useLayoutSelector()
     const {setHeaderHeight} = useLayoutActions()
     const translateY = useRef(new Animated.Value(0)).current
+    const ref = useRef<View>(null)
 
     const onLayout = (event: LayoutChangeEvent) => {
         const height = event.nativeEvent.layout.height
-        if (height !== localHeight) {
-            setLocalHeight(height)
+        if (height !== headerHeight) {
             setHeaderHeight(height)
         }
     }
 
+    useFocusEffect(
+        useCallback(() => {
+            ref.current?.measure((x, y, width, height) => {
+                if (height && height !== headerHeight) {
+                    setHeaderHeight(height)
+                }
+            })
+        }, [headerHeight])
+    )
+
     useEffect(() => {
         Animated.timing(translateY, {
-        toValue: props.visible ? 0 : -localHeight,
+        toValue: props.visible ? 0 : -headerHeight,
         duration: props.duration ?? 300,
         useNativeDriver: true
         }).start()
-    }, [props.visible, localHeight, props.duration])
+    }, [props.visible, headerHeight, props.duration])
 
     return (
-        <Animated.View onLayout={onLayout}
+        <Animated.View ref={ref} onLayout={onLayout}
         style={[{
             position: "absolute",
             top: 0,

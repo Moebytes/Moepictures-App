@@ -6,7 +6,7 @@
 
 import React, {useState} from "react"
 import {View, StatusBar} from "react-native"
-import {useThemeSelector, useLayoutSelector} from "../../store"
+import {useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
@@ -16,7 +16,6 @@ import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 
 const PostsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
-  const {headerHeight} = useLayoutSelector()
   const [tabVisible, setTabVisible] = useState(true)
 
   return (
@@ -27,7 +26,7 @@ const PostsScreen: React.FunctionComponent = () => {
             <SearchBar/>
             <SortBar/>
         </AnimatedHeaderWrapper>
-        <ImageGrid onScrollChange={setTabVisible} paddingTop={headerHeight}/>
+        <ImageGrid onScrollChange={setTabVisible}/>
         <TabBar visible={tabVisible}/>
     </View>
   )

@@ -4,7 +4,21 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+const baseColors = {
+    artistTagColor: "#ff1994",
+    characterTagColor: "#ff1ce6",
+    seriesTagColor: "#b32fff",
+    metaTagColor: "#339fff",
+    appearanceTagColor: "#8928ff",
+    outfitTagColor: "#ff29b5",
+    accessoryTagColor: "#2be941",
+    actionTagColor: "#ff8e2b",
+    sceneryTagColor: "#2b6aff",
+    tagColor: "#641fff"
+}
+
 export const LightTheme = {
+    ...baseColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0.5)",
@@ -30,6 +44,7 @@ export const LightTheme = {
 }
 
 export const DarkTheme = {
+    ...baseColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0)",

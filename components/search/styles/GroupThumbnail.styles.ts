@@ -13,29 +13,29 @@ export const createStylesheet = (colors: ThemeColors) => {
         container: {
             display: "flex",
             flexDirection: "column",
-            width: "100%",
-            paddingVertical: 10,
-            paddingHorizontal: 20,
-            backgroundColor: colors.background,
-            gap: 15,
-            flex: 1
-        },
-        titleContainer: {
-            display: "flex",
-            flexDirection: "row",
             alignItems: "center",
-            width: "100%",
-            marginBottom: 5
+            justifyContent: "center",
+            paddingHorizontal: 5,
+            paddingVertical: 7,
+            gap: 5
         },
-        title: {
-            color: colors.iconColor,
-            textAlign: "center",
+        imageContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+        },
+        textContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexShrink: 1,
+            flexWrap: "wrap"
+        },
+        text: {
+            color: colors.textColor,
             fontFamily: fonts.tsunagiGothicBlack,
-            fontSize: 26,
-            lineHeight: 30
-        },
-        footer: {
-            marginBottom: 10
+            textAlign: "center",
+            fontSize: 20
         }
     })
 }

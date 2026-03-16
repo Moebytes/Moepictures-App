@@ -18,7 +18,7 @@ interface Props {
     img: ImageSourcePropType
 }
 
-const CommentRow: React.FunctionComponent<Props> = (props) => {
+const NoteRow: React.FunctionComponent<Props> = (props) => {
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
@@ -40,9 +40,9 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
+             <View style={styles.imageContainer}>
                 <Image style={size} source={props.img} resizeMode="contain"/>
-            </View>
+             </View>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={pfp} resizeMode="contain"/>
@@ -53,11 +53,11 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.dateText}>2 weeks ago</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text}>Super cute I love it so much</Text>
+                    <Text style={styles.text}>{"Character -> chino-kafuu-(is-the-order-a-rabbit)\nCharacter -> fuiba-fuyu-(is-the-order-a-rabbit)"}</Text>
                 </View>
             </View>
         </View>
     )
 }
 
-export default CommentRow
+export default NoteRow

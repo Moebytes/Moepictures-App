@@ -12,6 +12,9 @@ import AsyncStorage from "./AsyncStorage"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
+import NotesScreen from "./screens/search/NotesScreen"
+import TagsScreen from "./screens/search/TagsScreen"
+import GroupsScreen from "./screens/search/GroupsScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import DummyScreen from "./screens/search/DummyScreen"
 
@@ -41,9 +44,9 @@ const App: React.FunctionComponent = () => {
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>
-            <Stack.Screen name="Notes" component={DummyScreen}/>
-            <Stack.Screen name="Tags" component={DummyScreen}/>
-            <Stack.Screen name="Groups" component={DummyScreen}/>
+            <Stack.Screen name="Notes" component={NotesScreen}/>
+            <Stack.Screen name="Tags" component={TagsScreen}/>
+            <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Post" component={PostScreen}/>
           </Stack.Navigator>

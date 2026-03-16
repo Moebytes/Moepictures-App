@@ -11,18 +11,18 @@ import {useThemeSelector, useLayoutSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
-import CommentRow from "../../components/search/CommentRow"
+import NoteRow from "../../components/search/NoteRow"
 import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 
-const placeholder1 = require("../../assets/images/comments/placeholder1.jpg")
-const placeholder2 = require("../../assets/images/comments/placeholder2.jpg")
-const placeholder3 = require("../../assets/images/comments/placeholder3.jpg")
-const placeholder4 = require("../../assets/images/comments/placeholder4.jpg")
-const placeholder5 = require("../../assets/images/comments/placeholder5.jpg")
-const placeholder6 = require("../../assets/images/comments/placeholder6.jpg")
-const placeholder7 = require("../../assets/images/comments/placeholder7.jpg")
+const placeholder1 = require("../../assets/images/notes/placeholder1.jpg")
+const placeholder2 = require("../../assets/images/notes/placeholder2.jpg")
+const placeholder3 = require("../../assets/images/notes/placeholder3.jpg")
+const placeholder4 = require("../../assets/images/notes/placeholder4.jpg")
+const placeholder5 = require("../../assets/images/notes/placeholder5.jpg")
+const placeholder6 = require("../../assets/images/notes/placeholder6.jpg")
+const placeholder7 = require("../../assets/images/notes/placeholder7.jpg")
 
 let images = [
     placeholder1, placeholder2, placeholder3, placeholder4, 
@@ -31,7 +31,7 @@ let images = [
     placeholder5, placeholder6, placeholder7
 ]
 
-const CommentsScreen: React.FunctionComponent = () => {
+const NotesScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
   const {headerHeight, tabBarHeight} = useLayoutSelector()
   const styles = createStylesheet(colors)
@@ -39,14 +39,14 @@ const CommentsScreen: React.FunctionComponent = () => {
   const {handleScroll} = useAutoHideScroll(setTabVisible)
 
   const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
-      return <CommentRow img={item}/>
+      return <NoteRow img={item}/>
   }
 
   const headerJSX = () => {
     return (
       <View style={styles.container}>
           <View style={styles.titleContainer}>
-              <Text style={styles.title}>Comments</Text>
+              <Text style={styles.title}>Notes</Text>
           </View>
       </View>
     )
@@ -78,4 +78,4 @@ const CommentsScreen: React.FunctionComponent = () => {
   )
 }
 
-export default CommentsScreen
+export default NotesScreen

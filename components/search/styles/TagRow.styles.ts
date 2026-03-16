@@ -16,45 +16,35 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             width: "90%",
             alignSelf: "center",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
             gap: 10,
-            borderRadius: 13,
+            borderRadius: 7,
             backgroundColor: colors.itemBG,
-            marginBottom: 15
+            marginBottom: 10
         },
-        imageContainer: {
+        tagContainer: {
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "row",
             alignItems: "center",
-            paddingLeft: 10,
-            paddingVertical: 10
+            gap: 7
+        },
+        tag: {
+            color: colors.tagColor,
+            fontFamily: fonts.irohamaruMikami,
+            fontSize: 13
+        },
+        count: {
+            color: colors.textColor,
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 13
         },
         textContainer: {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            paddingHorizontal: 6,
-            paddingVertical: 7,
-            gap: 7,
             flexShrink: 1,
             flexWrap: "wrap"
-        },
-        rowContainer: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 5
-        },
-        userText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 15
-        },
-        dateText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.irohamaruMikami,
-            fontSize: 12
         },
         text: {
             color: colors.textColor,

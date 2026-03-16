@@ -26,13 +26,12 @@ let images = [
 ]
 
 interface Props {
-    paddingTop: number
     onScrollChange?: (visible: boolean) => void
 }
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
-    const {tabBarHeight} = useLayoutSelector()
+    const {headerHeight, tabBarHeight} = useLayoutSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
 
@@ -46,7 +45,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 style={{flex: 1}}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{backgroundColor: colors.background, 
-                paddingTop: props.paddingTop, paddingBottom: tabBarHeight}}
+                paddingTop: headerHeight, paddingBottom: tabBarHeight}}
                 data={images} 
                 renderItem={renderItem}
                 keyExtractor={(_, i) => i.toString()}
