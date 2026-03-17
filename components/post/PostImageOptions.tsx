@@ -6,6 +6,7 @@
 
 import React from "react"
 import {View, Text, Pressable} from "react-native"
+import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
@@ -14,9 +15,17 @@ import InfoIcon from "../../assets/svg/info.svg"
 import DownloadIcon from "../../assets/svg/download.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
 
-const TabBar: React.FunctionComponent = () => {
+interface Props {
+    openDrawer?: () => void
+}
+
+const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+
+    const hapticFeedback = () => {
+        ReactNativeHapticFeedback.trigger("impactMedium")
+    }
 
     let iconSize = 35
 
@@ -30,9 +39,12 @@ const TabBar: React.FunctionComponent = () => {
                 <StarGroupIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 <Text style={styles.text}>Favgroup</Text>
             </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => null}>
-                <InfoIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                <Text style={styles.text}>Info</Text>
+            <Pressable style={styles.iconContainer} delayLongPress={200} 
+                onLongPress={hapticFeedback} onPress={props.openDrawer}>
+                {({pressed}) => (<>
+                    <InfoIcon width={iconSize} height={iconSize} color={pressed ? colors.iconActive : colors.iconColor}/>
+                    <Text style={styles.text}>Info</Text>
+                </>)}
             </Pressable>
             <Pressable style={styles.iconContainer} onPress={() => null}>
                 <DownloadIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
@@ -46,4 +58,4 @@ const TabBar: React.FunctionComponent = () => {
     )
 }
 
-export default TabBar
+export default PostImageOptions

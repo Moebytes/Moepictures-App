@@ -4,14 +4,16 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, {useState} from "react"
 import {View, StatusBar, ScrollView} from "react-native"
+import {Drawer} from "react-native-drawer-layout"
 import {useThemeSelector, useLayoutSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
 import PostImage from "../../components/image/PostImage"
 import PostImageOptions from "../../components/post/PostImageOptions"
+import PostDrawer from "../../components/post/PostDrawer"
 import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
 import Commentary from "../../components/post/Commentary"
@@ -22,24 +24,39 @@ const placeholder7 = require("../../assets/images/placeholder/placeholder7.jpg")
 const PostScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
   const {tabBarHeight} = useLayoutSelector()
+  const [open, setOpen] = useState(false)
+
+  const openDrawer = () => {
+    setOpen((prev) => !prev)
+  }
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
-        <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
-        <ScrollView style={{flex: 1, backgroundColor: colors.mainColor}} 
-          contentContainerStyle={{paddingBottom: tabBarHeight}}
-          showsVerticalScrollIndicator={false}>
-          <TitleBar/>
-          <SearchBar random={true}/>
-          <PostImage img={placeholder7}/>
-          <PostImageOptions/>
-          <PixivTags/>
-          <ArtistInfo/>
-          <Commentary/>
-          <Related/>
-          <TabBar/>
-        </ScrollView>
-    </View>
+    <Drawer
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+      drawerPosition="right"
+      drawerStyle={{backgroundColor: "transparent"}}
+      drawerType="front"
+      renderDrawerContent={() => <PostDrawer/>}
+      swipeEdgeWidth={100}>
+      <View style={{flex: 1, backgroundColor: colors.mainColor}}>
+          <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
+          <ScrollView style={{flex: 1, backgroundColor: colors.mainColor}} 
+            contentContainerStyle={{paddingBottom: tabBarHeight}}
+            showsVerticalScrollIndicator={false}>
+            <TitleBar/>
+            <SearchBar random={true}/>
+            <PostImage img={placeholder7}/>
+            <PostImageOptions openDrawer={openDrawer}/>
+            <PixivTags/>
+            <ArtistInfo/>
+            <Commentary/>
+            <Related/>
+            <TabBar/>
+          </ScrollView>
+      </View>
+    </Drawer>
   )
 }
 

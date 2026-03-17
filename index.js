@@ -16,7 +16,7 @@ LogBox.ignoreLogs([
 
 const Root = () => (
   <Provider store={store}>
-    <App/>
+      <App/>
   </Provider>
 )
 

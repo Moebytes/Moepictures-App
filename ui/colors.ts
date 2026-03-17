@@ -14,7 +14,18 @@ const baseColors = {
     accessoryTagColor: "#2be941",
     actionTagColor: "#ff8e2b",
     sceneryTagColor: "#2b6aff",
-    tagColor: "#641fff"
+    tagColor: "#641fff",
+
+    artistTagColorGlass: "#ff199469",
+    characterTagColorGlass: "#ff1ce669",
+    seriesTagColorGlass: "#b32fff69",
+    metaTagColorGlass: "#339fff69",
+    appearanceTagColorGlass: "#8928ff69",
+    outfitTagColorGlass: "#ff29b569",
+    accessoryTagColorGlass: "#2be94169",
+    actionTagColorGlass: "#ff8e2b69",
+    sceneryTagColorGlass: "#2b6aff69",
+    tagColorGlass: "#641fff69"
 }
 
 export const LightTheme = {
@@ -23,6 +34,7 @@ export const LightTheme = {
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0.5)",
     iconColor: "#FF579D",
+    iconActive: "#ff8dbdff",
     background: "#FFFFFF",
     borderColor: "#FF459F",
     textColor: "#000000",
@@ -40,7 +52,8 @@ export const LightTheme = {
 	profileBG: "#ffc6e3",
 	profileSeperator: "#ffc6e3",
 	profileLogin: "#ffe3f2",
-	itemBG: "#FFF1F8"
+	itemBG: "#FFF1F8",
+    drawerTitle: "#FF02AF"
 }
 
 export const DarkTheme = {
@@ -49,6 +62,7 @@ export const DarkTheme = {
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0)",
     iconColor: "#FF4891",
+    iconActive: "#ff8dbdff",
     background: "#10030C",
     borderColor: "#FF459F",
     textColor: "#FFFFFF",
@@ -66,7 +80,8 @@ export const DarkTheme = {
 	profileBG: "#1e0411",
 	profileSeperator: "#4a092a",
 	profileLogin: "#361128",
-	itemBG: "#1B0B12"
+	itemBG: "#1B0B12",
+    drawerTitle: "#FF02AF"
 }
 
 export type ThemeColors = typeof LightTheme

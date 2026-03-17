@@ -26,5 +26,9 @@ export const fonts = {
     tsunagiGothicBlack: Platform.select({
         ios: "TsunagiGothic-Black",
         android: "TsunagiGothic-Black"
+    }),
+    pixelArial11: Platform.select({
+        ios: "Pixel Arial 11",
+        android: "Pixel-Arial-11"
     })
 }
