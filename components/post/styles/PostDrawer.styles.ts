@@ -59,7 +59,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         tagText: {
             fontFamily: fonts.irohamaruMikami,
-            color: colors.textColor2,
+            color: "white",
             fontSize: 15,
             textAlign: "center"
         }

@@ -14,7 +14,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            backgroundColor: colors.background,
             paddingHorizontal: 11,
             height: 37
         },

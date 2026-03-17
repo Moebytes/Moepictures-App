@@ -6,6 +6,7 @@
 
 import React from "react"
 import {View, Pressable} from "react-native"
+import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import RandomIcon from "../../assets/svg/random.svg"
@@ -24,10 +25,14 @@ const SortBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
+    const fallback = !isLiquidGlassSupported
+        ? {backgroundColor: "rgba(255,255,255,0.2)"}
+        : undefined
+
     let iconSize = 20
 
     return (
-        <View style={styles.container}>
+        <LiquidGlassView interactive effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
             <View style={styles.iconContainer}>
                 <Pressable>
                     <RandomIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
@@ -62,7 +67,7 @@ const SortBar: React.FunctionComponent = () => {
                     <SortIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 </Pressable>
             </View>
-        </View>
+        </LiquidGlassView>
     )
 }
 
