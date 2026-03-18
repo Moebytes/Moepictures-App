@@ -4,13 +4,14 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, {useEffect} from "react"
 import {View, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
-import {useThemeSelector, useLayoutSelector} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
 import {useAutoHideScroll} from "../app/useAutoHideScroll"
+import functions from "../../functions/Functions"
 
 const placeholder1 = require("../../assets/images/placeholder/placeholder1.jpg")
 const placeholder2 = require("../../assets/images/placeholder/placeholder2.jpg")
@@ -31,9 +32,18 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            const result = await functions.http.get("/api/search/posts", {type: "image"}, session)
+            console.log(result)
+        }
+        fetchItems()
+    }, [])
 
     const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
         return <GridImage img={item}/>

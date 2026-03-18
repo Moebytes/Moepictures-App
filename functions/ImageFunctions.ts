@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {Image, ImageSourcePropType, useWindowDimensions} from "react-native"
+import {Image, ImageSourcePropType} from "react-native"
 
 export default class ImageFunctions {
     public static dynamicResize = async (img: ImageSourcePropType, maxSize: number, deviceWidth: number) => {

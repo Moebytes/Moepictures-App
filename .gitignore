@@ -24,3 +24,6 @@ local.properties
 *.keystore
 *.iml
 *.pro
+
+# Crypto
+structures/Decryption.ts

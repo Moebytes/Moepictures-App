@@ -5,24 +5,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect} from "react"
-import {useThemeActions, useSessionActions} from "./store"
+import {useThemeActions, useSessionSelector, useSessionActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
+import functions from "./functions/Functions"
 import {Themes} from "./types/ParamTypes"
 
 const AsyncStorage: React.FunctionComponent = () => {
     const {setTheme} = useThemeActions()
-    const {setShowRelated} = useSessionActions()
+    const {session} = useSessionSelector()
+    const {setSession, setShowRelated} = useSessionActions()
 
     const restoreSettings = async () => {
-            const savedTheme = await asyncStorage.getItem("theme")
-            const savedShowRelated = await asyncStorage.getItem("showRelated")
+        const savedTheme = await asyncStorage.getItem("theme")
+        const savedShowRelated = await asyncStorage.getItem("showRelated")
 
-            if (savedTheme) setTheme(savedTheme as Themes)
-            if (savedShowRelated) setShowRelated(JSON.parse(savedShowRelated))
+        if (savedTheme) setTheme(savedTheme as Themes)
+        if (savedShowRelated) setShowRelated(JSON.parse(savedShowRelated))
+    }
+
+    const setSessionCookie = async () => {
+        const cookie = await functions.http.get("/api/user/session", null, session)
+        setSession(cookie)
     }
 
     useEffect(() => {
         restoreSettings()
+        setSessionCookie()
     }, [])
 
     return null
