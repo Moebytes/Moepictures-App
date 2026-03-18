@@ -8,6 +8,7 @@ import React, {useState} from "react"
 import {View, Text, StatusBar, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
 import {useThemeSelector, useLayoutSelector} from "../../store"
+import {useSearchGroupsQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
@@ -15,21 +16,7 @@ import GroupThumbnail from "../../components/search/GroupThumbnail"
 import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
-
-const placeholder1 = require("../../assets/images/groups/placeholder1.jpg")
-const placeholder2 = require("../../assets/images/groups/placeholder2.jpg")
-const placeholder3 = require("../../assets/images/groups/placeholder3.jpg")
-const placeholder4 = require("../../assets/images/groups/placeholder4.jpg")
-const placeholder5 = require("../../assets/images/groups/placeholder5.jpg")
-const placeholder6 = require("../../assets/images/groups/placeholder6.jpg")
-const placeholder7 = require("../../assets/images/groups/placeholder7.jpg")
-
-let images = [
-    placeholder1, placeholder2, placeholder3, placeholder4, 
-    placeholder5, placeholder6, placeholder7, 
-    placeholder1, placeholder2, placeholder3, placeholder4, 
-    placeholder5, placeholder6, placeholder7
-]
+import {GroupSearch} from "../../types/Types"
 
 const GroupsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
@@ -37,9 +24,10 @@ const GroupsScreen: React.FunctionComponent = () => {
   const styles = createStylesheet(colors)
   const [tabVisible, setTabVisible] = useState(true)
   const {handleScroll} = useAutoHideScroll(setTabVisible)
+  const {data: groups} = useSearchGroupsQuery({offset: 0})
 
-  const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
-      return <GroupThumbnail img={item}/>
+  const renderItem: ListRenderItem<GroupSearch> = ({item}) => {
+      return <GroupThumbnail group={item}/>
   }
 
   const headerJSX = () => {
@@ -64,7 +52,7 @@ const GroupsScreen: React.FunctionComponent = () => {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{backgroundColor: colors.background, paddingTop: headerHeight, paddingBottom: tabBarHeight}}
             columnWrapperStyle={{justifyContent: "center", gap: 5, marginBottom: 5}}
-            data={images} 
+            data={groups} 
             renderItem={renderItem}
             keyExtractor={(_, i) => i.toString()}
             numColumns={2}

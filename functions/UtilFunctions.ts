@@ -27,4 +27,34 @@ export default class UtilFunctions {
         })
         return parsed.toString()
     }
+
+    public static appendURLParams = (url: string, params: {[key: string]: string | boolean | undefined}) => {
+        if (!url) return ""
+        const [baseUrl, hash] = url.split("#")
+        const obj = new URL(baseUrl)
+    
+        for (const [key, value] of Object.entries(params)) {
+            if (typeof value !== "undefined") obj.searchParams.set(key, value.toString())
+        }
+
+        const query = obj.searchParams.toString()
+        let base = obj.pathname.endsWith("/") ? obj.pathname.slice(0, -1) : obj.pathname
+        if (obj.origin) base = obj.origin + base
+        const link = query ? `${base}?${query}` : base
+
+        return hash ? `${baseUrl}#${hash.split("?")[0]}?${query}` : link
+    }
+
+    public static readableFileSize = (bytes: number) => {
+        const i = bytes === 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024))
+        return `${Number((bytes / Math.pow(1024, i)).toFixed(2))} ${["B", "KB", "MB", "GB", "TB"][i]}`
+    }
+
+    public static toProperCase = (str: string) => {
+        if (!str) return ""
+        return str.replace(/\w\S*/g, (txt) => {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+            }
+        )
+    }
 }

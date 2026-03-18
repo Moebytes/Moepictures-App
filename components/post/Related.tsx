@@ -4,9 +4,10 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View, Text, Pressable, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
+import React, {useEffect} from "react"
+import {View, Text, Pressable, FlatList, ListRenderItem} from "react-native"
 import {useThemeSelector} from "../../store"
+import {useSearchPostsQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "../search/PageButtons"
@@ -14,24 +15,31 @@ import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
 import SizeIcon from "../../assets/svg/size.svg"
+import {PostSearch} from "../../types/Types"
 
-const related1 = require("../../assets/images/placeholder/related1.jpg")
-const related2 = require("../../assets/images/placeholder/related2.jpg")
-const related3 = require("../../assets/images/placeholder/related3.jpg")
-const related4 = require("../../assets/images/placeholder/related4.jpg")
-const related5 = require("../../assets/images/placeholder/related5.jpg")
-const related6 = require("../../assets/images/placeholder/related6.jpg")
+interface Props {
+    tag?: string
+    fallback?: string[]
+    post?: PostSearch
+}
 
-let images = [
-    related1, related2, related3, related4, related5, related6
-]
-
-const Related: React.FunctionComponent = () => {
+const Related: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const [fallbackIndex, setFallbackIndex] = React.useState(0)
 
-    const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
-        return <GridImage img={item}/>
+    const activeTag = props.tag || props.fallback?.[fallbackIndex]
+
+    const {data: posts} = useSearchPostsQuery({query: activeTag, type: "image", limit: 20, offset: 0})
+
+    useEffect(() => {
+        if (!posts?.length && props.fallback && fallbackIndex < props.fallback.length - 1) {
+            setFallbackIndex((i) => i + 1)
+        }
+    }, [posts, props.fallback, fallbackIndex])
+
+    const renderItem: ListRenderItem<PostSearch> = ({item}) => {
+        return <GridImage post={item}/>
     }
 
     let iconSize = 22
@@ -53,7 +61,7 @@ const Related: React.FunctionComponent = () => {
             <View style={styles.imageContainer}>
                 <FlatList 
                     style={{flex: 1}}
-                    data={images} 
+                    data={posts} 
                     renderItem={renderItem}
                     keyExtractor={(_, i) => i.toString()}
                     numColumns={2}

@@ -5,55 +5,84 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, ImageSourcePropType, useWindowDimensions} from "react-native"
-import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector} from "../../store"
+import {View, Image, Text, useWindowDimensions} from "react-native"
+import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
 import functions from "../../functions/Functions"
+import {NoteSearch} from "../../types/Types"
 
-const pfp = require("../../assets/images/pfp.jpg")
+const favicon = require("../../assets/icons/favicon.png")
 
 interface Props {
-    img: ImageSourcePropType
+    note: NoteSearch
 }
 
 const NoteRow: React.FunctionComponent<Props> = (props) => {
+    const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
-    const navigation = useNavigation()
+    const [img, setImg] = useState("")
+    const [userPfp, setUserPfp] = useState("")
+
+    useEffect(() => {
+        if (!props.note) return
+        const image = props.note.post.images[0]
+        const thumb = functions.link.getThumbnailLink(image, "medium", session)
+        setImg(thumb)
+        const pfp = functions.link.getTagLink("pfp", props.note.image, props.note.imageHash)
+        setUserPfp(pfp)
+    }, [props.note])
 
     useEffect(() => {
         const updateSize = async () => {
-            const size = await functions.image.dynamicResize(props.img, 120, width)
+            if (!img) return
+            const size = await functions.image.dynamicResize({uri: img}, 120, width)
             setSize(size)
         }
         updateSize()
-    }, [props.img])
+    }, [img])
 
-    if (!size.width) return null
+    const parseText = () => {
+        let lines = [] as string[]
+        if (!props.note.notes?.length) {
+            return "No data"
+        }
+        for (let i = 0; i < props.note.notes.length; i++) {
+            const item = props.note.notes[i]
+            if (item.character) {
+                lines.push(`Character -> ${item.characterTag}`)
+            } else {
+                lines.push(`${item.transcript || "N/A"} -> ${item.translation || "N/A"}`)
+            }
+        }
+        return lines.join("\n")
+    }
+
+    if (!img) return null
 
     let pfpSize = 30
     let iconSize = 18
+    let pfp = userPfp || favicon
 
     return (
         <View style={styles.container}>
              <View style={styles.imageContainer}>
-                <Image style={size} source={props.img} resizeMode="contain"/>
+                <Image style={size} source={{uri: img}} resizeMode="contain"/>
              </View>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
-                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={pfp} resizeMode="contain"/>
-                    <Text style={styles.userText}>Moebytes</Text>
+                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>
+                    <Text style={styles.userText}>{props.note.updater}</Text>
                 </View>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    <Text style={styles.dateText}>2 weeks ago</Text>
+                    <Text style={styles.dateText}>{functions.date.timeAgo(props.note.updatedDate)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text}>{"Character -> chino-kafuu-(is-the-order-a-rabbit)\nCharacter -> fuiba-fuyu-(is-the-order-a-rabbit)"}</Text>
+                    <Text style={styles.text}>{parseText()}</Text>
                 </View>
             </View>
         </View>

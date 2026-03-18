@@ -5,55 +5,68 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, ImageSourcePropType, useWindowDimensions} from "react-native"
-import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector} from "../../store"
+import {View, Image, Text, useWindowDimensions} from "react-native"
+import {useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
 import functions from "../../functions/Functions"
+import {CommentSearch} from "../../types/Types"
 
-const pfp = require("../../assets/images/pfp.jpg")
+const favicon = require("../../assets/icons/favicon.png")
 
 interface Props {
-    img: ImageSourcePropType
+    comment: CommentSearch
 }
 
 const CommentRow: React.FunctionComponent<Props> = (props) => {
+    const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
-    const navigation = useNavigation()
+    const [img, setImg] = useState("")
+    const [userPfp, setUserPfp] = useState("")
+
+    useEffect(() => {
+        if (!props.comment) return
+        const image = props.comment.post.images[0]
+        const thumb = functions.link.getThumbnailLink(image, "medium", session)
+        setImg(thumb)
+        const pfp = functions.link.getTagLink("pfp", props.comment.image, props.comment.imageHash)
+        setUserPfp(pfp)
+    }, [props.comment])
 
     useEffect(() => {
         const updateSize = async () => {
-            const size = await functions.image.dynamicResize(props.img, 120, width)
+            if (!img) return
+            const size = await functions.image.dynamicResize({uri: img}, 120, width)
             setSize(size)
         }
         updateSize()
-    }, [props.img])
+    }, [img])
 
-    if (!size.width) return null
+    if (!img) return null
 
     let pfpSize = 30
     let iconSize = 18
+    let pfp = userPfp || favicon
 
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image style={size} source={props.img} resizeMode="contain"/>
+                <Image style={size} source={{uri: img}} resizeMode="contain"/>
             </View>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
-                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={pfp} resizeMode="contain"/>
-                    <Text style={styles.userText}>Moebytes</Text>
+                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>
+                    <Text style={styles.userText}>{props.comment.username}</Text>
                 </View>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    <Text style={styles.dateText}>2 weeks ago</Text>
+                    <Text style={styles.dateText}>{functions.date.timeAgo(props.comment.postDate)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text}>Super cute I love it so much</Text>
+                    <Text style={styles.text}>{props.comment.comment}</Text>
                 </View>
             </View>
         </View>

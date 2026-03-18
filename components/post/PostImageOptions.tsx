@@ -7,24 +7,33 @@
 import React from "react"
 import {View, Text, Pressable} from "react-native"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
 import InfoIcon from "../../assets/svg/info.svg"
 import DownloadIcon from "../../assets/svg/download.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
+import functions from "../../functions/Functions"
+import {PostFull} from "../../types/Types"
 
 interface Props {
+    post?: PostFull
     openDrawer?: () => void
 }
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
+    const {session} = useSessionSelector()
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
     const hapticFeedback = () => {
         ReactNativeHapticFeedback.trigger("impactMedium")
+    }
+
+    const downloadImage = () => {
+        if (!props.post) return
+        const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
     }
 
     let iconSize = 35
@@ -46,7 +55,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.text}>Info</Text>
                 </>)}
             </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => null}>
+            <Pressable style={styles.iconContainer} onPress={downloadImage}>
                 <DownloadIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 <Text style={styles.text}>Download</Text>
             </Pressable>

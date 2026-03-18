@@ -64,7 +64,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
 
             jsx.push(
                 <Pressable style={styles.iconContainer} key={tab.name}
-                    onPress={() => navigation.navigate(tab.name, undefined, {pop: true})}>
+                    onPress={() => navigation.navigate(tab.name, undefined as any, {pop: true})}>
                     <Icon width={iconSize} height={iconSize} 
                     color={colors.iconColor}/>
                     <Text style={active ? styles.activeText : styles.text}>{tab.name}</Text>

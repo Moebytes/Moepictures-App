@@ -5,26 +5,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect} from "react"
-import {View, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
-import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
+import {View, FlatList, ListRenderItem} from "react-native"
+import {useThemeSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
 import {useAutoHideScroll} from "../app/useAutoHideScroll"
-import functions from "../../functions/Functions"
-
-const placeholder1 = require("../../assets/images/placeholder/placeholder1.jpg")
-const placeholder2 = require("../../assets/images/placeholder/placeholder2.jpg")
-const placeholder3 = require("../../assets/images/placeholder/placeholder3.jpg")
-const placeholder4 = require("../../assets/images/placeholder/placeholder4.jpg")
-const placeholder5 = require("../../assets/images/placeholder/placeholder5.jpg")
-const placeholder6 = require("../../assets/images/placeholder/placeholder6.jpg")
-
-let images = [
-    placeholder1, placeholder2, placeholder3, placeholder4, placeholder5, placeholder6,
-    placeholder1, placeholder2, placeholder3, placeholder4, placeholder5, placeholder6,
-    placeholder1, placeholder2, placeholder3, placeholder4, placeholder5, placeholder6
-]
+import {useSearchPostsQuery} from "../../api"
+import {PostSearch} from "../../types/PostTypes"
 
 interface Props {
     onScrollChange?: (visible: boolean) => void
@@ -32,21 +20,17 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
-    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
+    const {data: posts} = useSearchPostsQuery({type: "image", limit: 20, offset: 0})
 
     useEffect(() => {
-        const fetchItems = async () => {
-            const result = await functions.http.get("/api/search/posts", {type: "image"}, session)
-            console.log(result)
-        }
-        fetchItems()
-    }, [])
+        console.log(posts)
+    }, [posts])
 
-    const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
-        return <GridImage img={item}/>
+    const renderItem: ListRenderItem<PostSearch> = ({item}) => {
+        return <GridImage post={item}/>
     }
 
     return (
@@ -56,7 +40,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{backgroundColor: colors.background, 
                 paddingTop: headerHeight, paddingBottom: tabBarHeight}}
-                data={images} 
+                data={posts} 
                 renderItem={renderItem}
                 keyExtractor={(_, i) => i.toString()}
                 numColumns={2}

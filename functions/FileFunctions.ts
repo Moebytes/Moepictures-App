@@ -32,4 +32,15 @@ export default class FileFunctions {
         const ext = file.startsWith(".") ? file : path.extname(file)
         return functions.util.arrayIncludes(ext, audioExtensions)
     }
+
+    public static isZip = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return ext === ".zip"
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return ext === ".zip"
+    }
 }

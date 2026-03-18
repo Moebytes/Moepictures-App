@@ -4,15 +4,21 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View, Text, Image, Pressable} from "react-native"
+import React, {useState} from "react"
+import {View, Text, Pressable} from "react-native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"
+import {PostFull} from "../../types/Types"
 
-const Commentary: React.FunctionComponent = () => {
+interface Props {
+    post?: PostFull
+}
+
+const Commentary: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const [showTranslated, setShowTranslated] = useState(true)
 
     let iconSize = 30
 
@@ -20,12 +26,12 @@ const Commentary: React.FunctionComponent = () => {
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>Commentary</Text>
-                <Pressable style={styles.iconContainer}>
+                <Pressable style={styles.iconContainer} onPress={() => setShowTranslated((prev) => !prev)}>
                     <CommentaryIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>It is a new cover of C100. The outsourcing has begun, so thank you! [Melon Books] https://www.melonbooks.co.jp/detail/detail.php?product_id=1580900</Text>
+                <Text style={styles.text}>{showTranslated ? props.post?.englishCommentary : props.post?.commentary}</Text>
             </View>
         </View>
     )

@@ -38,7 +38,7 @@ export default class HTTPFunctions {
         return this.privateKey
     }
 
-    public static updatePublicKey = async (session: Session) => {
+    public static updateServerKey = async (session: Session) => {
         if (this.publicKey) return this.publicKey
         if (this.publicKeyLock) await functions.timeout(1000 + Math.random() * 1000)
         if (!this.publicKey) {
@@ -69,7 +69,7 @@ export default class HTTPFunctions {
 
     public static get = async <T extends string>(endpoint: T, params: GetEndpoint<T>["params"], session: Session) => {
         const privateKey = await this.updateClientKeys(session)
-        const publicKey = await this.updatePublicKey(session)
+        const publicKey = await this.updateServerKey(session)
         const headers = {"x-csrf-token": session.csrfToken}
 
         try {

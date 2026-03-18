@@ -5,9 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState} from "react"
-import {View, Text, StatusBar, FlatList, ListRenderItem, ImageSourcePropType} from "react-native"
+import {View, Text, StatusBar, FlatList, ListRenderItem} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
 import {useThemeSelector, useLayoutSelector} from "../../store"
+import {useSearchNotesQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
@@ -15,21 +16,7 @@ import NoteRow from "../../components/search/NoteRow"
 import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
-
-const placeholder1 = require("../../assets/images/notes/placeholder1.jpg")
-const placeholder2 = require("../../assets/images/notes/placeholder2.jpg")
-const placeholder3 = require("../../assets/images/notes/placeholder3.jpg")
-const placeholder4 = require("../../assets/images/notes/placeholder4.jpg")
-const placeholder5 = require("../../assets/images/notes/placeholder5.jpg")
-const placeholder6 = require("../../assets/images/notes/placeholder6.jpg")
-const placeholder7 = require("../../assets/images/notes/placeholder7.jpg")
-
-let images = [
-    placeholder1, placeholder2, placeholder3, placeholder4, 
-    placeholder5, placeholder6, placeholder7, 
-    placeholder1, placeholder2, placeholder3, placeholder4, 
-    placeholder5, placeholder6, placeholder7
-]
+import {NoteSearch} from "../../types/Types"
 
 const NotesScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
@@ -37,9 +24,10 @@ const NotesScreen: React.FunctionComponent = () => {
   const styles = createStylesheet(colors)
   const [tabVisible, setTabVisible] = useState(true)
   const {handleScroll} = useAutoHideScroll(setTabVisible)
-
-  const renderItem: ListRenderItem<ImageSourcePropType> = ({item}) => {
-      return <NoteRow img={item}/>
+  const {data: notes} = useSearchNotesQuery({offset: 0})
+  
+  const renderItem: ListRenderItem<NoteSearch> = ({item}) => {
+      return <NoteRow note={item}/>
   }
 
   const headerJSX = () => {
@@ -63,7 +51,7 @@ const NotesScreen: React.FunctionComponent = () => {
             style={{flex: 1}}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{backgroundColor: colors.background, paddingTop: headerHeight, paddingBottom: tabBarHeight}}
-            data={images} 
+            data={notes} 
             renderItem={renderItem}
             keyExtractor={(_, i) => i.toString()}
             numColumns={1}

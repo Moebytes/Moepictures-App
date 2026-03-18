@@ -9,9 +9,13 @@ import {View, Text, Pressable, Linking} from "react-native"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/PixivTags.styles"
+import {PostFull} from "../../types/Types"
 
+interface Props {
+    post?: PostFull
+}
 
-const PixivTags: React.FunctionComponent = () => {
+const PixivTags: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [activeTag, setActiveTag] = useState("")
@@ -21,15 +25,10 @@ const PixivTags: React.FunctionComponent = () => {
         setActiveTag(tag)
     }
 
-    const tags = [
-        "ごちうさ", "香風智乃", "チノ", "ご注文はうさぎですか?",
-        "笑顔", "ミニスカート", "高校生チノ", "クレープ",
-        "セーラー服", "ごちうさ5000users入り"
-    ]
-
     const generateJSX = () => {
         let jsx = [] as React.ReactElement[]
-        for (const tag of tags) {
+        const pixivTags = props.post?.pixivTags ?? []
+        for (const tag of pixivTags) {
             const isActive = activeTag === tag
 
             const onPress = async () => {

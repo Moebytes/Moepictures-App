@@ -8,12 +8,10 @@ import React from "react"
 import {View, Text} from "react-native"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TagRow.styles"
+import {TagSearch} from "../../types/Types"
 
 interface Props {
-    tag: string
-    count: number
-    text: string
-    type: string
+    tag: TagSearch
 }
 
 const TagRow: React.FunctionComponent<Props> = (props) => {
@@ -21,20 +19,26 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
 
     const getColor = () => {
-        if (props.type === "accessory") return colors.accessoryTagColor
-        if (props.type === "outfit") return colors.outfitTagColor
-        if (props.type === "scenery") return colors.sceneryTagColor
+        if (props.tag.type === "artist") return colors.artistTagColor
+        if (props.tag.type === "character") return colors.characterTagColor
+        if (props.tag.type === "series") return colors.seriesTagColor
+        if (props.tag.type === "meta") return colors.metaTagColor
+        if (props.tag.type === "appearance") return colors.appearanceTagColor
+        if (props.tag.type === "outfit") return colors.outfitTagColor
+        if (props.tag.type === "accessory") return colors.accessoryTagColor
+        if (props.tag.type === "action") return colors.actionTagColor
+        if (props.tag.type === "scenery") return colors.sceneryTagColor
         return colors.tagColor
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.tagContainer}>
-                <Text style={{...styles.tag, color: getColor()}}>{props.tag}</Text>
-                <Text style={styles.count}>{props.count}</Text>
+                <Text style={{...styles.tag, color: getColor()}}>{props.tag.tag}</Text>
+                <Text style={styles.count}>{props.tag.postCount}</Text>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{props.text}</Text>
+                <Text style={styles.text}>{props.tag.description}</Text>
             </View>
         </View>
     )

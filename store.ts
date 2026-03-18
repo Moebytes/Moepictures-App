@@ -5,15 +5,22 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {configureStore} from "@reduxjs/toolkit"
+import {api} from "./api"
 import themeReducer, {useThemeSelector, useThemeActions} from "./reducers/themeReducer"
 import sessionReducer, {useSessionSelector, useSessionActions} from "./reducers/sessionReducer"
 import layoutReducer, {useLayoutSelector, useLayoutActions} from "./reducers/layoutReducer"
+import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheReducer"
 
 const store = configureStore({
     reducer: {
+        [api.reducerPath]: api.reducer,
         theme: themeReducer,
         session: sessionReducer,
-        layout: layoutReducer
+        layout: layoutReducer,
+        cache: cacheReducer
+    },
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(api.middleware)
     }
 })
 
@@ -23,7 +30,8 @@ export type StoreDispatch = typeof store.dispatch
 export {
     useThemeSelector, useThemeActions,
     useSessionSelector, useSessionActions,
-    useLayoutSelector, useLayoutActions
+    useLayoutSelector, useLayoutActions,
+    useCacheSelector, useCacheActions
 }
 
 export default store

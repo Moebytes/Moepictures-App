@@ -5,38 +5,49 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, ImageSourcePropType, useWindowDimensions} from "react-native"
-import {useThemeSelector} from "../../store"
+import {View, Image, Text, useWindowDimensions} from "react-native"
+import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupThumbnail.styles"
 import functions from "../../functions/Functions"
+import {GroupSearch} from "../../types/Types"
 
 interface Props {
-    img: ImageSourcePropType
+    group: GroupSearch
 }
 
 const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
+    const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const [img, setImg] = useState("")
+
+    useEffect(() => {
+        if (!props.group) return
+        const image = props.group.posts[0].images[0]
+        const img = functions.link.getThumbnailLink(image, "medium", session)
+        setImg(img)
+    }, [props.group])
 
     useEffect(() => {
         const updateSize = async () => {
-            const size = await functions.image.dynamicResize(props.img, 200, width)
+            if (!img) return
+            const size = await functions.image.dynamicResize({uri: img}, 200, width)
             setSize(size)
         }
         updateSize()
-    }, [props.img])
+    }, [img])
 
-    if (!size.width) return null
+    if (!img) return null
 
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image style={size} source={props.img} resizeMode="contain"/>
+                <Image style={size} source={{uri: img}} resizeMode="contain"/>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>Pixiv 12304234</Text>
+                <Text style={styles.text}>{props.group.name}</Text>
             </View>
         </View>
     )

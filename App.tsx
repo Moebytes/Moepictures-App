@@ -16,7 +16,6 @@ import NotesScreen from "./screens/search/NotesScreen"
 import TagsScreen from "./screens/search/TagsScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
-import DummyScreen from "./screens/search/DummyScreen"
 
 export type StackParamList = {
   Posts: undefined
@@ -25,7 +24,7 @@ export type StackParamList = {
   Tags: undefined
   Groups: undefined
   Profile: undefined
-  Post: undefined
+  Post: {postID: string}
 }
 
 declare global {

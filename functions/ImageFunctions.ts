@@ -32,4 +32,20 @@ export default class ImageFunctions {
 
         return {width: newWidth, height: newHeight}
     }
+
+    public static imageDimensions = async (image: string) => {
+        return new Promise<{width: number, height: number, size: number}>(async (resolve) => {
+            Image.getSize(image, async (width: number, height: number) => {
+                try {
+                    const r = await fetch(image).then((r) => r.blob())
+                    const size = r.size
+                    resolve({width, height, size})
+                } catch {
+                    resolve({width, height, size: 0})
+                }
+            }, () => {
+                resolve({width: 0, height: 0, size: 0})
+            })
+        })
+    }
 }
