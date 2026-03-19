@@ -144,8 +144,21 @@ const ProfileScreen: React.FunctionComponent = () => {
                     </Pressable>
                 </View>
                 <View style={styles.copyContainer}>
-                    <MoebytesLogo/>
-                    <Text style={styles.copyText}>© 2026 Moebytes</Text>
+                    {/* <MoebytesLogo/> */}
+                    <View style={styles.textContainer}>
+                        <Text style={styles.textA}>M</Text>
+                        <Text style={styles.textB}>o</Text>
+                        <Text style={styles.textA}>e</Text>
+                        <Text style={styles.textB}>p</Text>
+                        <Text style={styles.textA}>i</Text>
+                        <Text style={styles.textB}>c</Text>
+                        <Text style={styles.textA}>t</Text>
+                        <Text style={styles.textB}>u</Text>
+                        <Text style={styles.textA}>r</Text>
+                        <Text style={styles.textB}>e</Text>
+                        <Text style={styles.textA}>s</Text>
+                    </View>
+                    <Text style={styles.copyText}>© 2026 Moepictures</Text>
                 </View>
             </View>
             <TabBar/>

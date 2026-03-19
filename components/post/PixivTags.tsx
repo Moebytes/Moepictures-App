@@ -32,13 +32,13 @@ const PixivTags: React.FunctionComponent<Props> = (props) => {
             const isActive = activeTag === tag
 
             const onPress = async () => {
-                setActiveTag(tag)
                 Linking.openURL(`https://www.pixiv.net/tags/${encodeURIComponent(tag)}/artworks`)
+                setActiveTag("")
             }
 
             jsx.push(
-                <Pressable key={tag} delayLongPress={200} onLongPress={() => hapticFeedback(tag)}
-                    onPress={onPress} onPressOut={() => setActiveTag("")}
+                <Pressable key={tag} delayLongPress={200} onLongPress={() => null}
+                    onPressIn={() => hapticFeedback(tag)} onPress={onPress} onPressOut={() => setActiveTag("")}
                     style={[styles.tagContainer, isActive && styles.tagContainerActive]}>
                     <Text style={[styles.tag, isActive && styles.tagActive]}>{tag}</Text>
                 </Pressable>

@@ -24,7 +24,7 @@ const TagsScreen: React.FunctionComponent = () => {
   const styles = createStylesheet(colors)
   const [tabVisible, setTabVisible] = useState(true)
   const {handleScroll} = useAutoHideScroll(setTabVisible)
-  const {data: tags} = useSearchTagsQuery({offset: 0})
+  const {data: tags} = useSearchTagsQuery({sort: "posts", offset: 0})
 
   const renderItem: ListRenderItem<TagSearch> = ({item}) => {
       return <TagRow tag={item}/>

@@ -74,6 +74,22 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.honokaShinAntiqueKaku,
             textAlign: "center",
             fontSize: 16
-        }
+        },
+        textContainer: {
+            display: "flex",
+            flexDirection: "row"
+        },
+        textA: {
+            color: colors.moeTextA,
+            fontSize: 25,
+            lineHeight: 30,
+            fontFamily: fonts.genEiMGothicV2
+        },
+        textB: {
+            color: colors.moeTextB,
+            fontSize: 25,
+            lineHeight: 30,
+            fontFamily: fonts.genEiMGothicV2
+        },
     })
 }

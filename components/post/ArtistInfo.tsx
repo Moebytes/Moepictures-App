@@ -64,7 +64,7 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.artistContainer}>
-                <Image style={styles.artistIcon} source={{uri: artistPfp}}/>
+                {artistPfp && <Image style={styles.artistIcon} source={{uri: artistPfp}}/>}
                 <Pressable onPress={onArtistPress}>
                     <Text style={styles.artistText}>{props.artists?.[0].tag}</Text>
                 </Pressable>

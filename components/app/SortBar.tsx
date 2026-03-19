@@ -7,7 +7,7 @@
 import React from "react"
 import {View, Pressable} from "react-native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import RandomIcon from "../../assets/svg/random.svg"
 import ImgUploadIcon from "../../assets/svg/imgupload.svg"
@@ -24,6 +24,8 @@ import SortIcon from "../../assets/svg/sort.svg"
 const SortBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const {scroll} = useSearchSelector()
+    const {setScroll} = useSearchActions()
 
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
@@ -51,8 +53,10 @@ const SortBar: React.FunctionComponent = () => {
                 </Pressable>
             </View>
             <View style={styles.iconContainer}>
-                <Pressable>
-                    <PagesIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                <Pressable onPress={() => setScroll(!scroll)}>
+                    {scroll ?
+                    <ScrollIcon width={iconSize} height={iconSize} color={colors.iconColor}/> :
+                    <PagesIcon width={iconSize} height={iconSize} color={colors.iconColor}/>}
                 </Pressable>
                 <Pressable>
                     <SquareIcon width={iconSize} height={iconSize} color={colors.iconColor}/>

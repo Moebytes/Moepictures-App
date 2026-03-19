@@ -19,7 +19,7 @@ const PostsScreen: React.FunctionComponent = () => {
   const [tabVisible, setTabVisible] = useState(true)
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.mainColor}}>
+    <View style={{flex: 1, backgroundColor: colors.background}}>
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
         <AnimatedHeaderWrapper visible={tabVisible}>
             <TitleBar/>

@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {Pressable, Image, useWindowDimensions} from "react-native"
+import {View, Pressable, Image, useWindowDimensions} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
@@ -19,11 +19,12 @@ interface Props {
 const GridImage: React.FunctionComponent<Props> = (props) => {
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
-    const [size, setSize] = useState({width: 0, height: 0})
+    const [size, setSize] = useState({width: width / 2, height: width / 2})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
     const [img, setImg] = useState("")
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         if (!props.post) return
@@ -36,11 +37,11 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
             if (!img) return
             const size = await functions.image.dynamicResize({uri: img}, 200, width)
             setSize(size)
+            setLoaded(true)
         }
+        setLoaded(false)
         updateSize()
     }, [img])
-
-    if (!img) return null
 
     const borderWidth = 1.2
     const landscape = size.width > size.height
@@ -50,9 +51,12 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         {width: size.width, height: size.height - borderWidth * 2}
 
     return (
-        <Pressable style={[styles.container, size, {borderWidth}]} 
+        <Pressable style={[styles.container, size, {opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
             onPress={() => navigation.navigate("Post", {postID: props.post.postID})}>
-            <Image style={imageSize} source={{uri: img}} resizeMode="contain"/>
+
+            {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
+
+            {img && <Image style={imageSize} source={{uri: img}} resizeMode="contain"/>}
         </Pressable>
     )
 }

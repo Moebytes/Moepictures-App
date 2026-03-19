@@ -11,10 +11,11 @@ export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         container: {
             flex: 1, 
-            backgroundColor: colors.mainColor
+            backgroundColor: colors.background
         },
         row: {
             justifyContent: "space-evenly",
+            alignItems: "center",
             marginBottom: 10,
         },
         footer: {

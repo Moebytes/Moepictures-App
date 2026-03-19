@@ -27,6 +27,9 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderRadius: 12,
             backgroundColor: colors.pageNumFill
         },
+        activeButton: {
+            backgroundColor: colors.iconActive
+        },
         text: {
             fontFamily: fonts.honokaShinAntiqueKaku,
             color: colors.pageNumColor,

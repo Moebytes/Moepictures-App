@@ -10,6 +10,9 @@ import themeReducer, {useThemeSelector, useThemeActions} from "./reducers/themeR
 import sessionReducer, {useSessionSelector, useSessionActions} from "./reducers/sessionReducer"
 import layoutReducer, {useLayoutSelector, useLayoutActions} from "./reducers/layoutReducer"
 import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheReducer"
+import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
+import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
+import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
 
 const store = configureStore({
     reducer: {
@@ -17,7 +20,10 @@ const store = configureStore({
         theme: themeReducer,
         session: sessionReducer,
         layout: layoutReducer,
-        cache: cacheReducer
+        cache: cacheReducer,
+        search: searchReducer,
+        flag: flagReducer,
+        miscDialog: miscDialogReducer
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(api.middleware)
@@ -31,7 +37,10 @@ export {
     useThemeSelector, useThemeActions,
     useSessionSelector, useSessionActions,
     useLayoutSelector, useLayoutActions,
-    useCacheSelector, useCacheActions
+    useCacheSelector, useCacheActions,
+    useSearchSelector, useSearchActions,
+    useFlagSelector, useFlagActions,
+    useMiscDialogSelector, useMiscDialogActions
 }
 
 export default store

@@ -7,7 +7,7 @@
 import React, {useEffect} from "react"
 import {View, Text, Pressable, FlatList, ListRenderItem} from "react-native"
 import {useThemeSelector} from "../../store"
-import {useSearchPostsQuery} from "../../api"
+import {useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "../search/PageButtons"
@@ -30,7 +30,7 @@ const Related: React.FunctionComponent<Props> = (props) => {
 
     const activeTag = props.tag || props.fallback?.[fallbackIndex]
 
-    const {data: posts} = useSearchPostsQuery({query: activeTag, type: "image", limit: 20, offset: 0})
+    const {data: posts} = useSearchPostsPageQuery({query: activeTag, type: "image", limit: 20, offset: 0})
 
     useEffect(() => {
         if (!posts?.length && props.fallback && fallbackIndex < props.fallback.length - 1) {

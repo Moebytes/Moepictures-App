@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Moepictures - A cute and moe anime image board ❤          *
+ * Copyright © 2026 Moebytes <moebytes.com>                  *
+ * Licensed under CC BY-NC 4.0. See license.txt for details. *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 import {createApi, BaseQueryFn} from "@reduxjs/toolkit/query/react"
 import functions from "./functions/Functions"
 import {StoreState} from "./store"
@@ -6,6 +12,11 @@ import {GetEndpoint} from "./types/Types"
 type QueryArgs = {
     url: string
     params?: unknown
+}
+
+type PageParams = {
+  offset: number
+  limit: number
 }
 
 const customFetch: BaseQueryFn<QueryArgs, unknown, {message: string}> = async (args, api) => {
@@ -18,25 +29,56 @@ const customFetch: BaseQueryFn<QueryArgs, unknown, {message: string}> = async (a
     }
 }
 
+const getNextPageParam = (lastPage: any, allPages: any[], 
+    lastPageParam: PageParams, allPageParams: PageParams[]) => {
+    const nextOffset = lastPageParam.offset + lastPageParam.limit
+
+    if (!lastPage || lastPage.length < lastPageParam.limit) {
+        return undefined
+    }
+
+    return {...lastPageParam, offset: nextOffset}
+}
+
+const getPreviousPageParam = (firstPage: any, allPages: any[], 
+    firstPageParam: PageParams, allPageParams: PageParams[]) => {
+    const prevOffset = firstPageParam.offset - firstPageParam.limit
+
+    if (firstPageParam.offset <= 0) {
+        return undefined
+    }
+
+    return {...firstPageParam, offset: prevOffset}
+}
+
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customFetch,
     endpoints: (builder) => ({
-        searchPosts: builder.query<
+        searchPosts: builder.infiniteQuery<
             GetEndpoint<"/api/search/posts">["response"], 
-            GetEndpoint<"/api/search/posts">["params"]
+            GetEndpoint<"/api/search/posts">["params"] & {refreshKey?: number},
+            PageParams
         >({
-            query: (params) => ({
-                url: "/api/search/posts", params
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/search/posts", params: {...queryArg, ...pageParam}
             })
         }),
 
-        getPost: builder.query<
-            GetEndpoint<"/api/post">["response"], 
-            GetEndpoint<"/api/post">["params"]
+        searchPostsPage: builder.query<
+            GetEndpoint<"/api/search/posts">["response"], 
+            GetEndpoint<"/api/search/posts">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
-                url: "/api/post", params
+                url: "/api/search/posts", params
             })
         }),
 
@@ -76,11 +118,20 @@ export const api = createApi({
             })
         }),
 
+        getPost: builder.query<
+            GetEndpoint<"/api/post">["response"], 
+            GetEndpoint<"/api/post">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/post", params
+            })
+        })
     })
 })
 
 export const {
-    useSearchPostsQuery,
+    useSearchPostsInfiniteQuery,
+    useSearchPostsPageQuery,
     useGetPostQuery,
     useSearchCommentsQuery,
     useSearchNotesQuery,

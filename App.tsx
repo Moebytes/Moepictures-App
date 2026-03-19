@@ -9,6 +9,7 @@ import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {SafeAreaProvider} from "react-native-safe-area-context"
 import AsyncStorage from "./AsyncStorage"
+import Dialogs from "./dialogs/Dialogs"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
@@ -40,6 +41,7 @@ const App: React.FunctionComponent = () => {
       <SafeAreaProvider>
         <NavigationContainer>
           <AsyncStorage/>
+          <Dialogs/>
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>

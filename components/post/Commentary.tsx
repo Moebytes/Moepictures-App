@@ -22,6 +22,8 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
 
     let iconSize = 30
 
+    if (!props.post?.commentary?.trim()) return null
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>

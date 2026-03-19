@@ -5,6 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 const baseColors = {
+    black: "#000000",
+    white: "#ffffff",
+    
     artistTagColor: "#ff1994",
     characterTagColor: "#ff1ce6",
     seriesTagColor: "#b32fff",
@@ -25,7 +28,8 @@ const baseColors = {
     accessoryTagColorGlass: "#2be94169",
     actionTagColorGlass: "#ff8e2b69",
     sceneryTagColorGlass: "#2b6aff69",
-    tagColorGlass: "#641fff69"
+    tagColorGlass: "#641fff69",
+    buttonColorGlass: "#ff579d91"
 }
 
 export const LightTheme = {
