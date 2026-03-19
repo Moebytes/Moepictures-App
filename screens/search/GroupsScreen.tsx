@@ -21,7 +21,7 @@ import {GroupSearch} from "../../types/Types"
 const noresults = require("../../assets/images/noresults.png")
 
 const GroupsScreen: React.FunctionComponent = () => {
-    const {theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll} = useSearchSelector()
     const styles = createStylesheet(colors)
@@ -85,7 +85,7 @@ const GroupsScreen: React.FunctionComponent = () => {
         return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Groups</Text>
+                <Text style={styles.title}>{i18n.sort.groups}</Text>
             </View>
         </View>
         )

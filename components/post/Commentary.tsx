@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Commentary: React.FunctionComponent<Props> = (props) => {
-    const {colors} = useThemeSelector()
+    const {i18n, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [showTranslated, setShowTranslated] = useState(true)
 
@@ -27,7 +27,7 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Commentary</Text>
+                <Text style={styles.headerText}>{i18n.post.commentary}</Text>
                 <Pressable style={styles.iconContainer} onPress={() => setShowTranslated((prev) => !prev)}>
                     <CommentaryIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 </Pressable>

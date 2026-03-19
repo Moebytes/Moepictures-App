@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Pressable} from "react-native"
+import {View} from "react-native"
 import IconButton from "../../ui/IconButton"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"

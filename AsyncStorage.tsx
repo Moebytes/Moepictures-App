@@ -4,17 +4,17 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import {useWindowDimensions} from "react-native"
 import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
 useSearchActions, useThemeSelector, useLayoutActions, useCacheActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
-import {Themes} from "./types/ParamTypes"
+import {Languages, Themes} from "./types/ParamTypes"
 
 const AsyncStorage: React.FunctionComponent = () => {
-    const {theme} = useThemeSelector()
-    const {setTheme} = useThemeActions()
+    const {theme, language} = useThemeSelector()
+    const {setTheme, setLanguage} = useThemeActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags} = useCacheActions()
     const {session, showRelated} = useSessionSelector()
@@ -22,6 +22,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {scroll} = useSearchSelector()
     const {setScroll} = useSearchActions()
     const {width, height} = useWindowDimensions()
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         const isTablet = Math.min(width, height) >= 600
@@ -40,12 +41,16 @@ const AsyncStorage: React.FunctionComponent = () => {
 
     const restoreSettings = async () => {
         const savedTheme = await asyncStorage.getItem("theme")
+        const savedLanguage = await asyncStorage.getItem("language")
         const savedShowRelated = await asyncStorage.getItem("showRelated")
         const savedScroll = await asyncStorage.getItem("scroll")
 
         if (savedTheme) setTheme(savedTheme as Themes)
-        if (savedShowRelated) setShowRelated(JSON.parse(savedShowRelated))
-        if (savedScroll) setScroll(JSON.parse(savedScroll))
+        if (savedLanguage) setLanguage(savedLanguage as Languages)
+        if (savedShowRelated) setShowRelated(savedShowRelated === "true")
+        if (savedScroll) setScroll(savedScroll === "true")
+
+        setLoaded(true)
     }
 
     useEffect(() => {
@@ -55,11 +60,16 @@ const AsyncStorage: React.FunctionComponent = () => {
     }, [])
 
     useEffect(() => {
+        if (!loaded) return
+        
         asyncStorage.setItem("theme", theme)
+        asyncStorage.setItem("language", language)
         asyncStorage.setItem("showRelated", String(showRelated))
-    }, [theme, showRelated])
+    }, [theme, language, showRelated])
 
     useEffect(() => {
+        if (!loaded) return
+
         asyncStorage.setItem("scroll", String(scroll))
     }, [scroll])
 

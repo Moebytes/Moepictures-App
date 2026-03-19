@@ -21,7 +21,7 @@ import {TagSearch} from "../../types/Types"
 const noresults = require("../../assets/images/noresults.png")
 
 const TagsScreen: React.FunctionComponent = () => {
-    const {theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll} = useSearchSelector()
     const styles = createStylesheet(colors)
@@ -86,7 +86,7 @@ const TagsScreen: React.FunctionComponent = () => {
         return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Tags</Text>
+                <Text style={styles.title}>{i18n.navbar.tags}</Text>
             </View>
         </View>
         )

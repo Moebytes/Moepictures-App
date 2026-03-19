@@ -1,0 +1,1925 @@
+{
+    "title": "Moepictures: アニメアート画像掲示板",
+    "email": "moepictures.moe@gmail.com",
+    "period": "。",
+    "navbar": {
+        "login": "ログイン",
+        "comments": "コメント",
+        "notes": "注釈",
+        "artists": "芸術家",
+        "characters": "登場人物",
+        "tags": "タグ",
+        "forum": "討論会",
+        "help": "ヘルプ",
+        "terms": "条件",
+        "contact": "コンタクト",
+        "mail": "メール",
+        "modQueue": "改造キュー",
+        "profile": "プロフィール"
+    },
+    "sidebar": {
+        "copyTags": "コピータグ",
+        "copyHash": "コピーハッシュ",
+        "unlockPost": "ロック解除ポスト",
+        "saveSearch": "検索を保存",
+        "english": "英語",
+        "details": "詳細",
+        "uploader": "アップローダー",
+        "uploaded": "アップロード済み",
+        "updater": "アップデータ",
+        "updated": "更新済み",
+        "approver": "承認者",
+        "approved": "承認済み",
+        "type": "タイプ",
+        "rating": "格付け",
+        "style": "スタイル",
+        "tagEdit": "タグ編集",
+        "sourceEdit": "ソース編集",
+        "setAvatar": "アバターを設定する",
+        "addParent": "親に追加",
+        "addGroup": "グループに追加",
+        "addNote": "メモを追加",
+        "unprivate": "非公開",
+        "takedown": "テイクダウン",
+        "restore": "リストア",
+        "lock": "ロック",
+        "unlock": "アンロック",
+        "history": "歴史",
+        "getInfo": "情報を得る",
+        "splitVariations": "スプリットのバリエーション",
+        "joinChildPosts": "子どもの投稿に参加する",
+        "flipParent": "親を反転させる",
+        "deleteFavorites": "お気に入りの削除",
+        "editThumbnail": "サムネイルの編集",
+        "result": "件の結果。",
+        "results": "件の結果。",
+        "loginRequired": "ログインが必要です。",
+        "accountDeleted": "アカウント削除。",
+        "$401": "401エラー。",
+        "$403": "403エラー。",
+        "$404": "404エラー。"
+    },
+    "sortbar": {
+        "bulk": "一括",
+        "type": {
+            "image": "画像",
+            "animation": "アニメーション",
+            "video": "動画",
+            "comic": "漫画",
+            "audio": "音声",
+            "live2d": "ライブ2D",
+            "model": "モデル"
+        },
+        "rating": {
+            "allL": "オール+L",
+            "cute": "かわいい",
+            "sexy": "セクシー",
+            "erotic": "エロチック",
+            "lewd": "下品な"
+        },
+        "style": {
+            "allS": "オール＋S",
+            "2d": "2D",
+            "3d": "3D",
+            "chibi": "チビ",
+            "pixel": "ピクセル",
+            "daki": "抱き枕",
+            "sketch": "スケッチ",
+            "lineart": "リニアート",
+            "promo": "宣伝"
+        },
+        "pages": "頁",
+        "scrolling": "巻物",
+        "size": {
+            "tiny": "超小型",
+            "small": "小さい",
+            "medium": "ミディアム",
+            "large": "大きい",
+            "massive": "超大型"
+        }
+    },
+    "footer": {
+        "bottom": "これはページの一番下です",
+        "bottomMobile": "ページの下部",
+        "top": "トップに戻る"
+    },
+    "filters": {
+        "filters": "ろ過器",
+        "brightness": "明るさ",
+        "contrast": "コントラスト",
+        "hue": "色相",
+        "saturation": "飽和",
+        "lightness": "軽さ",
+        "blur": "ブラー",
+        "sharpen": "研ぐ",
+        "pixelate": "ピクセルレート",
+        "splatter": "スプラッター",
+        "lowpass": "ローパス",
+        "highpass": "ハイパス",
+        "reverb": "リバーブ",
+        "delay": "遅延",
+        "phaser": "フェーザー",
+        "bitcrush": "ビットクラッシュ",
+        "reset": "リセット"
+    },
+    "sort": {
+        "reverse": "リバース",
+        "random": "ランダム",
+        "date": "日付",
+        "posted": "投稿日",
+        "bookmarks": "ブックマーク",
+        "favorites": "お気に入り",
+        "popularity": "人気",
+        "cuteness": "かわいさ",
+        "variations": "バリエーション",
+        "parent": "親",
+        "child": "子供",
+        "groups": "グループ",
+        "tagcount": "タグカウント",
+        "filesize": "ファイルサイズ",
+        "aspectRatio": "アスペクト比",
+        "hidden": "隠れた",
+        "locked": "鍵付き",
+        "private": "プライベート",
+        "alphabetic": "アルファベット",
+        "posts": "投稿",
+        "aliases": "別名",
+        "length": "長さ",
+        "image": "画像"
+    },
+    "post": {
+        "prev": "前へ",
+        "next": "次へ",
+        "favorite": "お気に入り",
+        "favorited": "お気に入りだ",
+        "favgroup": "好きなグループ",
+        "parentPost": "親投稿",
+        "childPosts": "子供の投稿",
+        "commentary": "アーティストのコメント",
+        "artistWorks": "アーティスト作品",
+        "related": "関連",
+        "noComments": "コメントはありません。",
+        "info": "情報"
+    },
+    "tag": {
+        "all": "全て",
+        "artist": "芸術家",
+        "character": "キャラクター",
+        "series": "シリーズ",
+        "meta": "メタ",
+        "appearance": "外見",
+        "outfit": "服装",
+        "accessory": "付属品",
+        "action": "アクション",
+        "scenery": "風景",
+        "tag": "タグ"
+    },
+    "buttons": {
+        "upload": "アップ",
+        "download": "ダウン",
+        "new": "新しい",
+        "old": "古い",
+        "readAll": "すべて読む",
+        "unreadAll": "すべて未読",
+        "hideSystem": "非表示システム",
+        "deleteAll": "すべて削除",
+        "post": "ポスト",
+        "preview": "プレビュー",
+        "unpreview": "アンプレビュー",
+        "reply": "返信",
+        "message": "メッセージ",
+        "submitting": "提出...",
+        "fetching": "フェッチ...",
+        "fetch": "フェッチ",
+        "submit": "投稿する",
+        "ok": "OK",
+        "yes": "はい",
+        "no": "いいえ",
+        "enable": "有効にする",
+        "disable": "無効にする",
+        "enabled": "有効",
+        "disabled": "無効",
+        "redo": "やり直し",
+        "undo": "元に戻す",
+        "edit": "編集",
+        "approve": "承認",
+        "reject": "却下",
+        "history": "歴史",
+        "delete": "削除",
+        "undelete": "削除解除",
+        "quote": "引用",
+        "report": "レポート",
+        "revert": "復帰",
+        "back": "戻る",
+        "validate": "検証",
+        "cancel": "キャンセル",
+        "go": "行く",
+        "alias": "別名",
+        "ban": "禁止",
+        "bulkAdd": "一括追加",
+        "bulkEdit": "一括編集",
+        "ignore": "無視",
+        "solve": "解く",
+        "categorize": "分類する",
+        "submitRequest": "リクエストを送信",
+        "compress": "圧縮",
+        "upscale": "高級",
+        "deleteAccount": "アカウント削除",
+        "add": "追加",
+        "forward": "フォワード",
+        "quit": "やめる",
+        "premiumPage": "プレミアムページ",
+        "over18": "私は18歳以上です",
+        "promote": "プロモーション",
+        "save": "保存",
+        "send": "送信",
+        "unban": "禁止解除",
+        "sendLink": "リンクを送る",
+        "appeal": "アピール",
+        "untranslated": "未翻訳",
+        "split": "スプリット",
+        "join": "参加",
+        "flip": "ひっくり返す",
+        "update": "更新",
+        "updateAll": "すべて更新",
+        "autogenerate": "自動生成",
+        "light": "ライト",
+        "dark": "暗い",
+        "set": "セット",
+        "remap": "再配置"
+    },
+    "history": {
+        "post": "投稿履歴",
+        "tag": "タグ 歴史",
+        "group": "グループ史",
+        "note": "メモ 歴史",
+        "alias": "エイリアス/インプリケーション履歴",
+        "search": "検索履歴",
+        "delete": "ごみ箱"
+    },
+    "mod": {
+        "postEdits": "編集後記",
+        "postDeletions": "投稿削除",
+        "tagEdits": "タグの編集",
+        "tagAliases": "タグの別名",
+        "tagDeletions": "タグの削除",
+        "groupEdits": "グループ編集",
+        "groupDeletions": "グループの削除",
+        "noteEdits": "メモ編集",
+        "reports": "レポート",
+        "rejected": "不採用"
+    },
+    "banner": {
+        "copiedTags": "コピーされたタグ！",
+        "copiedHash": "コピーハッシュ！",
+        "copiedNotes": "コピーノート！",
+        "pastedNotes": "貼り付けメモ！",
+        "editedTags": "編集済みタグ！",
+        "editedSource": "編集元！",
+        "updatedThumbnail": "サムネイルを更新しました！",
+        "logoutSessions": "他のセッションをログアウト！",
+        "blacklist": "ブラックリストに載ったIP！",
+        "unblacklist": "ブラックリストに載っていないIP！",
+        "removeBanner": "バナーを削除しました！",
+        "accountRestored": "90日間の猶予期間内にログインしたため、アカウントが復元されました。",
+        "changedSource": "ソースを変更しました！"
+    },
+    "user": {
+        "bannedReason": "あなたが追放されたのには理由がある：",
+        "banned": "出入り禁止",
+        "banReason": "禁止事項",
+        "ban": "禁止",
+        "banExpires": "禁止期間",
+        "premiumUntil": "プレミアムまで",
+        "premiumExpired": "プレミアム期限切れ",
+        "joinDate": "入会日",
+        "bio": "バイオ",
+        "noBio": "このユーザーは何も書いていない。",
+        "updateBio": "最新バイオ",
+        "favoritesPrivacy": "お気に入り プライバシー",
+        "tagFavoritesPrivacy": "タグ お気に入り プライバシー",
+        "showRelated": "ショー関連",
+        "showTooltips": "ツールチップの表示",
+        "showTagTooltips": "タグのツールチップを表示する",
+        "showTagBanner": "タグバナーを表示",
+        "downloadPixivID": "Pixiv IDをダウンロード",
+        "forceNoteBubbles": "フォース・ノート・バブル",
+        "liveAnimationPreview": "ライブ・アニメーション・プレビュー",
+        "liveModelPreview": "ライブ・モデル・プレビュー",
+        "deletedPosts": "削除された投稿",
+        "upscaledImages": "アップスケール画像",
+        "autosearchInterval": "オートサーチ間隔",
+        "showR18": "R18を表示",
+        "clearPfp": "クリアPfp",
+        "clearCookieConsent": "クッキーの同意",
+        "showBanner": "バナーを表示",
+        "changeUsername": "ユーザー名の変更",
+        "changeEmail": "電子メールの変更",
+        "changePassword": "パスワードの変更",
+        "$2fa": "2要素認証",
+        "loginHistory": "ログイン履歴",
+        "ipBlacklist": "IPブラックリスト",
+        "newsBanner": "ニュースバナー",
+        "apiKey": "APIキー",
+        "favoriteTags": "お気に入りタグ",
+        "forumPosts": "フォーラム投稿",
+        "deleted": "削除された",
+        "deletedAccount": "削除されたアカウント",
+        "darkTheme": "ダークテーマ",
+        "visitWebsite": "Moepicsのウェブサイト！"
+    },
+    "roles": {
+        "admin": "管理者",
+        "mod": "モデル",
+        "premiumCurator": "プレミアム・キュレーター",
+        "curator": "キュレーター",
+        "premiumContributor": "プレミアム・コントリビューター",
+        "contributor": "投稿者",
+        "premium": "プレミアム",
+        "user": "ユーザー"
+    },
+    "time": {
+        "january": "1月", 
+        "february": "2月", 
+        "march": "3月",
+        "april": "4月", 
+        "may": "5月", 
+        "june": "6月", 
+        "july": "7月",
+        "august": "8月", 
+        "september": "9月", 
+        "october": "10月",
+        "november": "11月", 
+        "december": "12月",
+        "comma": false,
+        "dayAppend": "日",
+        "yearAppend": "年",
+        "year": "年",
+        "month": "ヶ月",
+        "day": "日",
+        "hour": "時間",
+        "minute": "分",
+        "second": "秒",
+        "ago": "前",
+        "plural": "",
+        "by": "-",
+        "aliased": "別名：",
+        "implicated": "暗示されている：",
+        "uploaded": "アップロードした：",
+        "created": "作成された：",
+        "edited": "編集した：",
+        "updated": "更新された：",
+        "viewed": "見たよ：",
+        "deleted": "で削除された："
+    },
+    "labels": {
+        "reason": "理由",
+        "none": "無し",
+        "unknown": "不明",
+        "noDesc": "記述がない。",
+        "noTitle": "タイトルなし",
+        "affectedPosts": "影響を受けるポスト",
+        "name": "名前",
+        "email": "電子メール",
+        "description": "説明",
+        "orderUpdated": "オーダー更新",
+        "styleUpdated": "スタイル更新",
+        "imageUpdated": "画像更新",
+        "parentRemoved": "親を削除",
+        "images": "画像",
+        "uploads": "アップロード",
+        "parentID": "親のID",
+        "title": "タイトル",
+        "englishTitle": "英語タイトル",
+        "text": "テキスト",
+        "source": "ソース",
+        "link": "リンク",
+        "mirrors": "ミラーズ",
+        "commentary": "コメンタリー",
+        "englishCommentary": "英語解説",
+        "tagGroups": "タグ グループ",
+        "category": "カテゴリー",
+        "website": "ウェブサイト",
+        "social": "ソーシャル",
+        "twitter": "ツイッター",
+        "fandom": "ファンダム",
+        "wikipedia": "ウィキペディア",
+        "implications": "意味合い",
+        "pixivTags": "Pixivタグ",
+        "danbooruTag": "Danbooruタグ",
+        "noData": "データなし",
+        "sender": "送信者",
+        "recipients": "受賞者",
+        "newTags": "新しいタグ",
+        "implies": "インピーズ",
+        "createdBy": "作成者",
+        "updatedBy": "更新者",
+        "editedBy": "編集者",
+        "autoSearch": "オートサーチ",
+        "group": "グループ",
+        "requester": "要求者",
+        "oldName": "旧名",
+        "newName": "新名称",
+        "oldDescription": "古い説明",
+        "newDescription": "新着情報",
+        "groupName": "グループ名",
+        "thread": "スレッド",
+        "comment": "コメント",
+        "aliasTo": "エイリアス",
+        "similarPosts": "類似の投稿",
+        "resolution": "決議",
+        "size": "サイズ",
+        "selectFiles": "ファイルを選択",
+        "enterLinks": "リンクを入力",
+        "original": "オリジナル",
+        "upscaled": "アップスケール",
+        "removed": "削除",
+        "oldTag": "旧タグ",
+        "newTag": "新しいタグ",
+        "oldCategory": "旧カテゴリー",
+        "newCategory": "新カテゴリー",
+        "oldAliases": "古い別名",
+        "newAliases": "新しい別名",
+        "oldImplications": "古い意味合い",
+        "newImplications": "新しい意味合い",
+        "oldPixivTags": "旧Pixivタグ",
+        "newPixivTags": "新しいPixivタグ",
+        "oldDanbooruTag": "旧Danbooruタグ",
+        "newDanbooruTag": "新しいDanbooruタグ",
+        "oldWebsite": "旧ウェブサイト",
+        "newWebsite": "新しいウェブサイト",
+        "oldSocial": "旧ソーシャル",
+        "newSocial": "新しいソーシャル",
+        "oldTwitter": "旧ツイッター",
+        "newTwitter": "新しいツイッター",
+        "oldFandom": "古いファンダム",
+        "newFandom": "新しいファンダム",
+        "oldWikipedia": "旧ウィキペディア",
+        "newWikipedia": "新しいウィキペディア",
+        "oldR18": "旧R18",
+        "newR18": "新型R18",
+        "oldFeatured": "古い特集",
+        "newFeatured": "新着特集",
+        "days": "日数",
+        "favoriteGroup": "お気に入りのグループ",
+        "privacy": "プライバシー",
+        "public": "パブリック",
+        "quality": "品質",
+        "maxDimension": "最大寸法",
+        "maxUpscaled": "最大アップスケール",
+        "scaleFactor": "スケールファクター",
+        "compressTo": "に圧縮する：",
+        "content": "内容",
+        "transcription": "転写",
+        "translation": "翻訳",
+        "note": "メモ",
+        "wiki": "ウィキ",
+        "buyLink": "リンク購入",
+        "status": "ステータス",
+        "newEmail": "新規メール",
+        "offset": "オフセット",
+        "amount": "金額",
+        "page": "ページ",
+        "oldPassword": "旧パスワード",
+        "newPassword": "新しいパスワード",
+        "confirmNewPassword": "新しいパスワードの確認",
+        "newUsername": "新しいユーザー名",
+        "emailAddress": "メールアドレス",
+        "username": "ユーザー名",
+        "password": "パスワード",
+        "confirmPassword": "パスワードの確認",
+        "subject": "テーマ",
+        "attachFiles": "ファイルを添付する",
+        "sendMessage": "メッセージを送る",
+        "postID": "投稿ID",
+        "postIDs": "投稿ID",
+        "featured": "注目のポスト",
+        "edits": "編集",
+        "overlay": "オーバーレイ",
+        "fontSize": "文字サイズ",
+        "backgroundColor": "背景色",
+        "textColor": "テキストの色",
+        "fontFamily": "フォントファミリー",
+        "fontStyle": "フォントスタイル",
+        "backgroundAlpha": "背景 アルファ",
+        "strokeColor": "ストロークの色",
+        "strokeWidth": "ストローク幅",
+        "breakWord": "ブレイクワード",
+        "pending": "申請中",
+        "upscaledSize": "拡大サイズ",
+        "fileType": "ファイルタイプ",
+        "upscaledFileType": "アップスケール・ファイルタイプ",
+        "uploadLimit": "アップロード制限",
+        "appealer": "控訴人",
+        "borderRadius": "ボーダー半径",
+        "characterTag": "キャラクタータグ",
+        "joined": "参加",
+        "speed": "スピード",
+        "dimensions": "寸法",
+        "agree": "同意する",
+        "deny": "拒否する",
+        "imageSources": "画像ソース",
+        "imageLinks": "画像リンク",
+        "altSource": "代替ソース",
+        "directLink": "ダイレクトリンク",
+        "aliasing": "エイリアシング",
+        "drawingTools": "描画ツール",
+        "userProfile": "ユーザープロフィール",
+        "imageCount": "画像数"
+    },
+    "errors": {
+        "$401":"401エラー",
+        "$403":"403エラー",
+        "$404":"404エラー",
+        "username": {
+            "empty": "ユーザー名はない。",
+            "alphanumeric": "ユーザー名に特殊文字やスペースを含めることはできません。",
+            "profane": "ユーザー名は冒涜的だ。",
+            "disallowed": "このユーザー名は使用できません。",
+            "numericOnly": "ユーザー名は数字のみでは登録できません。",
+            "gibberish": "ユーザー名は意味不明な文字列であってはなりません。"
+        },
+        "password": {
+            "empty": "パスワードなし。",
+            "username": "パスワードにはユーザー名を含めてはならない。",
+            "common": "パスワードは一般的すぎる。",
+            "spaces": "パスワードにはスペースを含めないでください。",
+            "length": "パスワードは10文字以上でなければならない。",
+            "weak": "パスワードが弱すぎる。"
+        },
+        "email": {
+            "empty": "メールもない。",
+            "invalid": "電子メールは無効です。"
+        },
+        "comment": {
+            "empty": "ノーコメントだ。",
+            "length": "コメントは1000文字を超えることはできません。",
+            "gibberish": "コメントはちんぷんかんぷんであってはならない。",
+            "profane": "コメントは冒涜的だ。",
+            "bad": "悪いコメントだ。",
+            "added": "コメントが追加された。"
+        },
+        "reply": {
+            "empty": "返事はない。",
+            "profane": "返事は冒涜的だ。"
+        },
+        "message": {
+            "empty": "メッセージはない。",
+            "profane": "メッセージは冒涜的だ。"
+        },
+        "title": {
+            "empty": "タイトルはない。",
+            "profane": "タイトルは不敬だ。"
+        },
+        "thread": {
+            "empty": "スレッドの内容がない。",
+            "profane": "スレッドの内容は冒涜的だ。"
+        },
+        "reason": {
+            "empty": "理由が必要である。",
+            "gibberish": "理性はちんぷんかんぷんであってはならない。"
+        },
+        "bio": {
+            "empty": "バイオはない。",
+            "gibberish": "バイオがちんぷんかんぷんであるはずがない。",
+            "profane": "バイオは不敬だ。",
+            "bad": "悪い経歴だ。"
+        }
+    },
+    "pages": {
+        "enable2FA": {
+            "heading": "2FAは、ログイン時に追加の時間限定コードを要求することで、アカウントにはるかに強力なセキュリティを提供します。",
+            "scan": "2FA認証アプリ（Authyなど）で以下のQRコードを読み取ってください。",
+            "finish": "2FAを有効にするには、有効な2FAトークンを入力する必要があります。",
+            "enable": "2FAを有効にする"
+        },
+        "$2fa": {
+            "heading": "2FAトークンを入力してください。",
+            "token": "2FAトークン",
+            "badToken": "悪いトークンだ。"
+        },
+        "changeEmail": {
+            "heading": "新しいアドレスに確認メールが送信されます。新しいEメールを確認した場合のみ、Eメールが変更されます。",
+            "submitHeading": "新しいアドレスに確認リンクが送信されました。確認後、Eメールが変更されます。",
+            "error": "電子メールまたはcaptchaが正しくありません。",
+            "alreadySent": "メールはすでに送信されています。"
+        },
+        "changeEmailSuccess": {
+            "pageTitle": "成功メールの変更",
+            "title": "電子メールの変更に成功",
+            "label": "Eメールが変更されました： "
+        },
+        "changePassword": {
+            "submitHeading": "パスワードが変更されました。",
+            "noMatch": "パスワードが一致しない。",
+            "error": "パスワードが悪い。"
+        },
+        "changeUsername": {
+            "heading": "ユーザー名は7日ごとに変更できます。変更後は以前のユーザー名が使用可能になります。",
+            "submitHeading": "ユーザー名が変更されました。",
+            "error": "ユーザー名またはキャプチャが不正です。",
+            "rateLimit": "過去7日以内にユーザー名を変更しています。",
+            "changeIn": "で名前を変更できる："
+        },
+        "forgotPassword": {
+            "title": "パスワードを忘れた",
+            "heading": "パスワードリセットリンクを受け取るには、Eメールを入力してください。",
+            "submitHeading": "このアカウントが存在する場合、パスワードリセットリンクが送信されました。",
+            "error": "無効な電子メールまたはcaptcha。"
+        },
+        "resetPassword": {
+            "title": "パスワードのリセット",
+            "submitHeading": "パスワードがリセットされました。"
+        },
+        "verifyEmail": {
+            "title": "電子メールの確認",
+            "heading": "アカウントを使用するには、Eメールアドレスの確認が必要です。Eメールアドレスの変更や認証リンクの再送信が必要な場合は、以下から行うことができます。",
+            "submitHeading": "確認メールが再送されました。メールを確認してください。",
+            "unverifiedEmail": "未確認Eメール",
+            "optionalAddressChange": "住所変更オプション",
+            "resend": "検証リンクの再送"
+        },
+        "verifyEmailSuccess": {
+            "pageTitle": "電子メールの成功を確認する",
+            "title": "認証済みEメール",
+            "heading": "メールアドレスが認証されました！これでアカウントを使用できるようになります。"
+        },
+        "verifyLoginSuccess": {
+            "pageTitle": "ログインの成功を確認する",
+            "title": "ログイン認証",
+            "heading": "新しいIPロケーションが確認されました。アカウントにログインできるようになりました。"
+        },
+        "login": {
+            "signupText": "アカウントをお持ちでないですか？登録する",
+            "forgotText": "パスワードをお忘れですか？",
+            "captcha": "キャプチャを解く。",
+            "error": "ユーザー名またはパスワードが無効です。",
+            "rateLimit": "ログインの試行回数が多すぎます。",
+            "newIP": "新しいIPロケーションが検出されました。メールをチェックしてください。"
+        },
+        "signup": {
+            "title": "会員登録",
+            "loginText": "アカウントをお持ちですか？ログイン",
+            "submitHeading": "アカウントが作成されました。Eメールに確認リンクが届いているはずです。Eメールを確認し、再度ログインしてください。",
+            "error": "ユーザー名、パスワード、またはメールアドレスが不正です。",
+            "rateLimit": "アカウントが多すぎます。",
+            "banned": "このIPは禁止されたアカウントに関連付けられています。",
+            "lengthReq": "-パスワードは10文字以上であること",
+            "varietyReq": "-次のうち少なくとも3つ：小文字、大文字、数字、特殊記号"
+        },
+        "ipBlacklist": {
+            "title": "ブラックリストIP",
+            "ipAddress": "IPアドレス",
+            "blacklist": "ブラックリスト",
+            "unblacklist": "ブラックリスト解除"
+        },
+        "apiKey": {
+            "header": "APIキーを生成することで、アカウントで認証されたアクションをプログラムで実行できます。APIキーは決して共有しないでください。x-api-keyヘッダーを付けてリクエストを送信してください。",
+            "keyActive": "キー・アクティブ",
+            "noKey": "キーなし",
+            "displayKey": "APIキーは一度しか表示されません。必ず保存してください！",
+            "deleteKey": "削除キー",
+            "generateKey": "鍵の生成"
+        },
+        "loginHistory": {
+            "heading": "アクティビティに見覚えがない場合は、他のすべてのセッションからログアウトし、パスワードを変更してください！",
+            "logoutSessions": "他のセッションをログアウトする"
+        },
+        "newsBanner": {
+            "setBanner": "セットバナー"
+        },
+        "premiumSuccess": {
+            "pageTitle": "プレミアムサクセス",
+            "title": "アカウントがアップグレードされました！",
+            "thankYou": "プレミアムをご購入いただきありがとうございます！アカウントがアップグレードされ、すべてのプレミアム機能にアクセスできるようになりました。",
+            "lastUntil": "プレミアム会員の有効期限"
+        },
+        "tag": {
+            "bannedArtist": "このアーティストの作品をアップロードすることはできません。"
+        },
+        "comment": {
+            "banned": "あなたは禁止されています。コメントできません。"
+        },
+        "message": {
+            "system": "システムメッセージに応答できない。",
+            "banned": "あなたは利用禁止です。メッセージを送信できません。"
+        },
+        "thread": {
+            "locked": "このスレッドはロックされている。",
+            "banned": "あなたは出入り禁止です。返信できません。"
+        },
+        "contact": {
+            "heading": "こちらは一般的なお問い合わせフォームです。作品の削除をご希望の方は、",
+            "copyrightForm": "著作権削除フォームにご記入ください。",
+            "submitHeading": "メッセージが届きました。",
+            "attachFiles": "メールクライアントで後からファイルを添付できます。"
+        },
+        "copyrightRemoval": {
+            "title": "著作権の削除",
+            "heading": "あなたの作品がMoepicturesに掲載されているということは、私たちがあなたの作品を愛しているということです。このフォームに必要事項を記入し、あなたのコンテンツの削除を要求することができます。",
+            "submitHeading": "削除依頼が届きました。",
+            "artistTagHeading": "Moepicturesのアーティストタグの名前を正確にご記入ください。",
+            "socialMediaHeading": "あなたのソーシャルメディアへのリンク（例：Twitter、Pixiv）をご記入ください。あなたのプロフィールで作品を見つけることができるはずです。",
+            "socialMedia": "ソーシャルメディアリンク",
+            "removeSpecified": "指定したリンクをすべて削除する",
+            "removeAll": "関連コンテンツをすべて削除する",
+            "artistTagPageHeading": "アーティスト・タグ・ページへのリンクをご記入ください。",
+            "artistTagPage": "アーティストタグページ",
+            "postLinkHeading": "削除してほしい投稿リンクをすべてご記入ください。",
+            "postLinks": "リンクを貼る",
+            "proofHeading": "あなたが当該アーティストであることを証明する書類を提出してください。これらの証明は、2、3の許容可能な形式です：",
+            "proof": "証明へのリンク",
+            "verifyCopyright": "私は、上記リンク先のコンテンツの著作権者であるか、または著作権者に代わって行動する権限を与えられています。私は、提供されたすべての情報が正確であることを確認します。",
+            "submit": "削除リクエストを送信",
+            "nameReq": "名前は必須。",
+            "artistTagReq": "アーティストタグが必要です。",
+            "socialMediaReq": "ソーシャルメディアへのリンクは必須。",
+            "postLinkReq": "投稿リンクは必須。",
+            "proofReq": "証明となる添付ファイルまたはリンクの提出が必要。",
+            "confirmReq": "あなたが著作権者であることを確認する必要があります。",
+            "error": "メッセージの送信にエラーが発生しました。"
+        },
+        "upload": {
+            "guidelines": {
+                "line1": "女児のみのアニメ作品です。をお読みください：",
+                "uploadingGuidelines": "アップロードのガイドライン。",
+                "line2": "投稿は、アーチファクトのない効率的な圧縮でなければなりません。をお読みください：",
+                "compressingGuide": "圧縮ガイド。",
+                "line3": "画像はアップスケーリングされたものを使用してください。をお読みください：",
+                "upscalingGuide": "アップスケーリングガイド。",
+                "line4": "重複は認められません。類似画像は ",
+                "variation": "バリエーション",
+                "or": " または ",
+                "childPost": "子供のポスト。",
+                "line5": "最大寸法は ",
+                "size2000": "2000x2000px",
+                "forOriginal": " オリジナルに ",
+                "size8000": "8000x8000px",
+                "forUpscaled": " アップスケール用。",
+                "formats": {
+                    "image": {
+                        "title1": "画像フォーマット（オリジナル） ⇾ ",
+                        "header1": "透過の場合はプログレッシブJPGまたはWEBP。",
+                        "title2": "画像フォーマット（アップスケール） ⇾",
+                        "header2": "AVIF。"
+                    },
+                    "animation": {
+                        "title1": "アニメーション・フォーマット ⇾",
+                        "header1": "アニメーションのWEBP。"
+                    },
+                    "video": {
+                        "title1": "ビデオフォーマット ⇾ ",
+                        "header1": "H.264コーデックのMP4またはVP9コーデックのWEBM。"
+                    },
+                    "audio": {
+                        "title1": "オーディオ・フォーマット ⇾ ",
+                        "header1": "ジャケット・アートが埋め込まれたMP3。"
+                    },
+                    "live2d": {
+                        "title1": "Live2D フォーマット ⇾ ",
+                        "header1": "JSONファイルとテクスチャを含むZIP。"
+                    },
+                    "model": {
+                        "title1": "3Dモデルフォーマット ⇾ ",
+                        "header1": "GLBまたはFBX。"
+                    }
+                }
+            },
+            "submitHeading": "投稿がアップロードされた。",
+            "submitHeadingApproval": "あなたの投稿は投稿され、承認されればサイトに掲載されます。",
+            "submitMore": "もっと見る",
+            "classification": "分類",
+            "multipleHeading": "画像が複数ある場合は、一番右のタグを選択します。",
+            "possibleDuplicates": "重複の可能性",
+            "childHeading": "子投稿の場合は、親投稿のIDを入力してください： ",
+            "groupHeading": "グループに追加する場合は、グループ名を入力してください： ",
+            "fetchFromPixiv": "Pixivからフェッチ",
+            "fetchFromDanbooru": "Danbooruからフェッチ",
+            "banText": "禁止されています。アップロードできません。",
+            "limitReached": "アップロードの上限に達しました。これ以上アップロードできません。保留中の投稿が確認されるまでお待ちください。",
+            "artistExists": "アーティスト・タグがまだ存在しない場合は、アーティスト画像をアップロードしてください。",
+            "characterExists": "キャラクタータグがまだ存在しない場合は、キャラクター画像をアップロードしてください。",
+            "seriesExists": "シリーズタグがまだ存在しない場合は、シリーズ画像をアップロードしてください。",
+            "hideImage": "画像を隠す",
+            "displayImage": "表示イメージ",
+            "enterTags": "破線のタグをスペースで区切って入力します。タグはどの画像でも記述できます。タグが存在しない場合は、タグを作成するよう促されます。タグについてのヘルプが必要な場合は、こちらをお読みください：",
+            "taggingGuide": "タグ付けガイド",
+            "organizeTags": " 複数の文字がある場合は、タグを整理してください： ",
+            "tagGroups": "タグのグループ",
+            "artistTag": "アーティスト・タグ",
+            "artistImage": "アーティスト・イメージ",
+            "addArtist": "アーティストを追加",
+            "removeArtist": "アーティストを削除する",
+            "characterTag": "キャラクター・タグ",
+            "characterImage": "キャラクター・イメージ",
+            "addCharacter": "キャラクターの追加",
+            "removeCharacter": "文字の削除",
+            "seriesTag": "シリーズ・タグ",
+            "seriesImage": "シリーズ・イメージ",
+            "addSeries": "シリーズ追加",
+            "removeSeries": "シリーズ削除",
+            "optionalTagImage": "オプションのタグ画像",
+            "invalidCharacters": "タグに無効な文字があります： _ / \\",
+            "spaceSeparation": "タグはスペースで区切る。",
+            "tagMinimum": "最低5枚のタグが必要。",
+            "sizeLimit": "ファイルサイズの合計は300MBを超えないこと。",
+            "error": "送信に失敗しました。必須項目が不足している可能性があります。",
+            "errorImages": "これらの画像をアップロードできません。",
+            "wait": "数秒待つ。",
+            "noResults": "結果は見つからなかった。",
+            "nothingFound": "何も見つからない。",
+            "supportedFiletypes": "対応ファイル形式： png, jpg, webp, avif, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj, zip.",
+            "supportedFiletypesZip": "zipでサポートされているタイプ： png, jpg, webp, avif, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj.",
+            "maxFileSize": "最大ファイルサイズ"
+        },
+        "bulkUpload": {
+            "title": "一括アップロード",
+            "submitHeading": "投稿がアップロードされた。",
+            "commonArtist": "コモンアーティスト",
+            "commonCharacter": "共通キャラクター",
+            "commonSeries": "共通シリーズ",
+            "commonMeta": "コモンメタ",
+            "appendTags": "タグの追加"
+        },
+        "edit": {
+            "title": "投稿を編集する",
+            "unverifiedTitle": "未確認投稿の編集",
+            "submitHeading": "投稿が編集されました。",
+            "submitHeadingApproval": "投稿編集が送信され、承認されればサイトに表示されます。",
+            "banText": "あなたは出入り禁止です。編集できません。",
+            "locked": "この投稿はロックされています。編集できません。",
+            "editReason": "編集理由",
+            "noEdits": "ポスト編集は行われなかった。",
+            "reasonRequired": "編集理由が必要です。"
+        }
+    },
+    "dialogs": {
+        "page": {
+            "title": "ページへ"
+        },
+        "cookieBanner": {
+            "text": "私たちは、お客様の好みを保存し、お客様の経験を向上させるためにクッキーを使用しています。当サイトの利用を継続することで、クッキーの使用に同意したものとみなされます。"
+        },
+        "aliasTag": {
+            "title": "別名タグ",
+            "request": "エイリアス・タグ・リクエスト",
+            "submitText": "エイリアス申請が送信されました。"
+        },
+        "ban": {
+            "title": "ユーザー禁止",
+            "header": "このユーザーを追放しますか？理由も記入してください。",
+            "unverifiedChanges": "検証されていない変更を削除しますか？",
+            "historyChanges": "履歴の変更を削除しますか？",
+            "comments": "コメントや返信を削除しますか？",
+            "messages": "メッセージを削除しますか？"
+        },
+        "bulkDelete": {
+            "title": "一括削除",
+            "header": "本当に選択した投稿を削除したいのですか？"
+        },
+        "bulkGroup": {
+            "title": "バルクグループ"
+        },
+        "bulkFavgroup": {
+            "title": "一括お気に入りグループ"
+        },
+        "bulkTagEdit": {
+            "title": "タグの一括編集"
+        },
+        "captcha": {
+            "title": "レートリミット超過",
+            "header": "あなたが人間であることを確認してください。無視してもかまいませんが、コンテンツはロックされます。"
+        },
+        "categorizeTag": {
+            "title": "タグを分類する",
+            "request": "タグリクエストを分類する",
+            "submitText": "カテゴリー分けのリクエストが送信されました。",
+            "banText": "出入り禁止。分類できない。"
+        },
+        "compress": {
+            "title": "圧縮ポスト"
+        },
+        "upscale": {
+            "title": "高級ポスト"
+        },
+        "deleteAccount": {
+            "header": "本当にアカウントを削除しますか？この操作は不可逆的です。お気に入り、コメント、かわいさ評価などすべてを永久に失うことになります。",
+            "header2": "Moepicturesはコミュニティへの投稿に重点を置いたサイトであるため、投稿された投稿を削除することはありません。これらの投稿をアップロードしたアカウントは、「deleted 」として表示されます。",
+            "header3": "アカウントが完全に削除されるまで90日間の猶予期間があります。この期間中に再度ログインすると、削除をキャンセルしアカウントを復元します。",
+            "header4": "このままでいいんですか？"
+        },
+        "deleteAliasHistory": {
+            "aliasTitle": "エイリアス履歴の削除",
+            "implicationTitle": "インプリケーション履歴の削除"
+        },
+        "deleteAllSaveSearch": {
+            "title": "保存したすべての検索を削除する",
+            "header": "保存した検索をすべて削除してもよろしいですか？"
+        },
+        "deleteAllSearchHistory": {
+            "title": "すべての検索履歴を削除する",
+            "header": "すべての履歴を削除してもよろしいですか？"
+        },
+        "deleteComment": {
+            "title": "コメント削除",
+            "header": "このコメントを削除しますか？"
+        },
+        "deleteFavgroup": {
+            "title": "お気に入りグループの削除",
+            "header": "このお気に入りグループを削除してもよろしいですか？"
+        },
+        "deleteGroup": {
+            "title": "グループ削除",
+            "request": "グループ削除リクエスト",
+            "submitText": "削除依頼が送信されました。",
+            "banText": "禁止されています。リクエストを送信できません。",
+            "header": "このグループを削除しますか？",
+            "reasonHeader": "なぜこのグループを削除したいのですか？"
+        },
+        "deleteGroupPost": {
+            "title": "グループ投稿の削除",
+            "request": "グループ投稿削除リクエスト",
+            "header": "この投稿をグループから削除しますか？",
+            "reasonHeader": "なぜこの投稿をグループから削除したいのですか？"
+        },
+        "remapGroup": {
+            "title": "リマップ・グループ",
+            "request": "グループ再マッピング要求"
+        },
+        "deleteGroupHistory": {
+            "title": "グループ履歴の削除",
+            "header": "本当にこの履歴状態を削除したいのですか？",
+            "noDelete": "現在の履歴状態を削除することはできない。"
+        },
+        "deleteMessage": {
+            "title": "メッセージの削除",
+            "header": "このメッセージを永久に削除してもよろしいですか？"
+        },
+        "deleteMessageReply": {
+            "title": "返信メッセージの削除",
+            "header": "この返信メッセージを削除しますか？"
+        },
+        "deletePost": {
+            "title": "投稿を削除する",
+            "request": "投稿削除リクエスト",
+            "header": "本当にこの投稿を削除したいのですか？",
+            "reasonHeader": "なぜこの投稿を削除したいのですか？ 例：重複、低品質、AI生成、その他のルール違反）。"
+        },
+        "undeletePost": {
+            "title": "投稿の削除解除",
+            "header": "この投稿を削除しますか？"
+        },
+        "permaDeletePost": {
+            "title": "投稿を永久に削除する",
+            "header": "本当にこの投稿を永久に削除したいのか？"
+        },
+        "permaDeleteAllPost": {
+            "title": "ごみ箱を空にする",
+            "header": "ごみ箱にあるすべての投稿を永久に削除しますか？これは元に戻せません。"
+        },
+        "appealPost": {
+            "title": "アピールポスト",
+            "header": "この投稿をアピールしますか？これは一度しかできませんので、問題があれば必ず修正してください。"
+        },
+        "deleteReply": {
+            "title": "返信削除",
+            "header": "この返信を削除しますか？"
+        },
+        "deleteTag": {
+            "title": "タグの削除",
+            "request": "タグ削除リクエスト",
+            "header": "このタグを削除しますか？",
+            "reasonHeader": "タグが無意味/冗長である場合、削除を要求することができます。なぜこのタグを削除したいのですか？"
+        },
+        "deleteThread": {
+            "title": "スレッド削除",
+            "header": "このスレッドを削除しますか？"
+        },
+        "deletePostHistory": {
+            "title": "投稿履歴の削除"
+        },
+        "deleteSearchHistory": {
+            "title": "検索履歴の削除",
+            "header": "この投稿を履歴から削除しますか？"
+        },
+        "deleteTagHistory": {
+            "title": "タグ履歴の削除"
+        },
+        "deleteNoteHistory": {
+            "title": "ノート履歴の削除"
+        },
+        "disable2FA": {
+            "title": "2FAを無効にする",
+            "header": "本当に2FAを無効にしますか？"
+        },
+        "editComment": {
+            "title": "コメントを編集する"
+        },
+        "editMessageReply": {
+            "title": "返信メッセージを編集する"
+        },
+        "editReply": {
+            "title": "返信を編集する"
+        },
+        "editMessage": {
+            "title": "編集メッセージ"
+        },
+        "editThread": {
+            "title": "スレッドの編集"
+        },
+        "editFavgroup": {
+            "title": "お気に入りグループの編集"
+        },
+        "remapFavgroup": {
+            "title": "お気に入りグループを再割り当て"
+        },
+        "addFavgroupPost": {
+            "title": "お気に入りグループ投稿の追加"
+        },
+        "editGroup": {
+            "title": "編集グループ",
+            "request": "グループ・リクエストの編集",
+            "submitText": "編集リクエストが送信されました。",
+            "noName": "名前はない。"
+        },
+        "addGroupPost": {
+            "title": "グループ投稿の追加",
+            "request": "グループ投稿リクエストの追加",
+            "noPostID": "投稿IDはありません。",
+            "banText": "あなたは追放されています。投稿を追加できません。"
+        },
+        "editSaveSearch": {
+            "title": "保存された検索の編集",
+            "tagsReq": "タグは必須。"
+        },
+        "editTag": {
+            "title": "編集タグ",
+            "request": "タグの編集リクエスト",
+            "submitText": "タグの編集リクエストが送信されました。",
+            "implicationEdits": "これには、承認のために提出されたインプリケーション編集も含まれる。",
+            "error": "このタグを編集できませんでした。"
+        },
+        "editNote": {
+            "title": "編集ノート",
+            "characterNotesInfo": "*複数のキャラクターがいる場合のみ、キャラクターノートを使用する。"
+        },
+        "favgroup": {
+            "title": "お気に入りグループに追加"
+        },
+        "forwardMessage": {
+            "title": "転送メッセージ",
+            "header": "受信者の追加や削除も可能です。",
+            "recipientRequired": "最低1人の受信者が必要。",
+            "recipientLimit": "5人以上の受信者に送信することはできません。",
+            "error": "このメッセージは転送できません。"
+        },
+        "group": {
+            "titleRemove": "グループから外す",
+            "requestAdd": "グループ・リクエストに追加",
+            "requestRemove": "グループから外す",
+            "banText": "あなたは追放されています。グループには入れません。",
+            "header": "グループ名を入力します。グループが存在しない場合は作成されます。",
+            "removeHeader": "その投稿は削除されたグループから削除されます。",
+            "submitText": "リクエストは送信されました。"
+        },
+        "lockPost": {
+            "title": "ロックポスト",
+            "header": "本当にこの投稿をロックしたいのか？",
+            "unlockHeader": "この記事のロックを解除しますか？"
+        },
+        "privatePost": {
+            "title": "私設ポスト",
+            "unprivateTitle": "非公開ポスト",
+            "header": "この投稿を非公開にしますか？",
+            "unprivateHeader": "この投稿を非公開にしますか？"
+        },
+        "newThread": {
+            "title": "新しいスレッド",
+            "error": "内容が悪い。"
+        },
+        "ocr": {
+            "title": "OCRページ",
+            "header": "このページでOCRを実行しますか？(これは現在のノートを置き換えます）。",
+            "banText": "利用禁止です。この機能は使用できません。",
+            "running": "OCRを実行中..."
+        },
+        "lineart": {
+            "title": "線画を抽出する",
+            "header": "線画抽出を実行しますか？",
+            "running": "線画を抽出中..."
+        },
+        "segmentate": {
+            "title": "背景を削除",
+            "header": "背景除去を実行しますか？",
+            "running": "背景を削除中..."
+        },
+        "parent": {
+            "request": "保護者リクエストに追加",
+            "banText": "出入り禁止。親になれない。"
+        },
+        "premium": {
+            "title": "保険料が必要",
+            "header": "この機能を使用するにはプレミアムが必要です。プレミアムページをご覧になりますか？",
+            "headerTags": "3つ以上のタグを検索するにはプレミアムが必要です。プレミアムページをご覧になりますか？"
+        },
+        "r18": {
+            "pageTitle": "R18確認",
+            "title": "警告 露骨な内容",
+            "header": "R18コンテンツは18歳以上の方のみ閲覧可能です。続行することにより、あなたは18歳以上であり、そのようなコンテンツを閲覧する意思があることを確認します。"
+        },
+        "promote": {
+            "title": "ユーザー促進"
+        },
+        "reportComment": {
+            "title": "レポート・コメント",
+            "submitText": "コメントレポートを送信しました。ありがとう！",
+            "header": "スパム、攻撃的、またはその他のルール違反のコメントを報告する。"
+        },
+        "reportReply": {
+            "title": "レポート返信",
+            "submitText": "返信レポートを送信しました。ありがとうございました！",
+            "header": "スパム、攻撃的、またはその他のルール違反の返信を報告する。"
+        },
+        "reportThread": {
+            "title": "報告スレッド",
+            "submitText": "スレッドレポートを送信しました。ありがとう！",
+            "header": "スパム、攻撃的、その他ルール違反のスレッドを報告する。"
+        },
+        "revertAliasHistory": {
+            "undoAliasTitle": "エイリアシングの取り消し",
+            "redoAliasTitle": "エイリアシングのやり直し",
+            "undoImplicationTitle": "アンドゥ・インプリケーション",
+            "redoImplicationTitle": "やり直しの暗示",
+            "undoAliasHeading": "このエイリアシングを元に戻しますか？",
+            "redoAliasHeading": "このエイリアシングをやり直したいか？",
+            "undoImplicationHeading": "この意味合いを取り消したいか？",
+            "redoImplicationHeading": "この意味合いをやり直したいか？"
+        },
+        "revertGroupHistory": {
+            "title": "グループ履歴を戻す",
+            "currentState": "これはすでに現在の歴史の状態である。",
+            "banText": "あなたは追放されています。履歴を戻すことはできません。",
+            "header": "本当にこの履歴の状態に戻したいのですか？"
+        },
+        "revertPostHistory": {
+            "title": "投稿履歴を戻す",
+            "locked": "この投稿はロックされています。履歴を戻すことはできません。",
+            "imagePermission": "画像を置き換える権限がないため、この状態を適用できませんでした。"
+        },
+        "revertTagHistory": {
+            "title": "タグの履歴を戻す",
+            "implicationPermission": "このような意味合いを元に戻す許可はない。",
+            "renamePermission": "このタグの名前を変更する権限がありません。"
+        },
+        "revertNoteHistory": {
+            "title": "ノート履歴を戻す"
+        },
+        "saveNote": {
+            "title": "セーブノート",
+            "request": "ノート保存リクエスト",
+            "header": "この記事に加えたメモの変更を保存しますか？",
+            "submitText": "メモのリクエストは送信されました。",
+            "banText": "禁止されています。メモを保存できません。",
+            "locked": "この投稿はロックされています。メモを保存できません。"
+        },
+        "sendMessage": {
+            "error": "タイトルや内容が悪い。",
+            "errorR18": "このメッセージを送信できません。"
+        },
+        "softDeleteMessage": {
+            "title": "ソフト削除メッセージ",
+            "header": "このメッセージをソフト削除しますか？ 他の受信者が返信した場合、再度表示されます）。"
+        },
+        "takedownPost": {
+            "title": "テイクダウン・ポスト",
+            "restoreTitle": "ポストの復元",
+            "header": "本当にこの記事を削除したいのですか？",
+            "restoreHeader": "このポストを復元しますか？"
+        },
+        "takedownTag": {
+            "title": "テイクダウン・タグ",
+            "restoreTitle": "タグの復元",
+            "header": "このタグと関連記事を削除してもよろしいですか？",
+            "restoreHeader": "このタグとすべての関連記事を復元しますか？"
+        },
+        "unban": {
+            "title": "アンバンユーザー",
+            "header": "このユーザーを追放しますか？"
+        },
+        "sourceEdit": {
+            "request": "ソース編集リクエスト"
+        },
+        "tagEdit": {
+            "request": "タグ編集リクエスト"
+        },
+        "massImply": {
+            "title": "マスインプリ",
+            "header": "この文字列を含むタグを一括インプリメントする。同じカテゴリのタグのみが影響を受けます。",
+            "wildcard": "ワイルドカード",
+            "implyTo": "を意味する"
+        },
+        "blockedTags": {
+            "title": "ブロックされたDanbooruタグ"
+        },
+        "qrcode": {
+            "title": "QRコード"
+        },
+        "postInfo": {
+            "title": "投稿情報",
+            "format": "フォーマット",
+            "width": "幅",
+            "height": "高さ",
+            "dpi": "可処分所得",
+            "duration": "期間",
+            "frames": "フレーム",
+            "framerate": "フレームレート",
+            "bitrate": "ビットレート",
+            "bitdepth": "ビット深度",
+            "sampleRate": "サンプルレート",
+            "colorSpace": "色空間",
+            "chromaSubsampling": "サブサンプリング",
+            "colorChannels": "カラーチャンネル",
+            "audioChannels": "オーディオチャンネル",
+            "progressive": "プログレッシブ",
+            "alpha": "アルファ",
+            "encoder": "エンコーダー",
+            "scanType": "スキャンタイプ",
+            "colorMatrix": "カラーマトリックス"
+        },
+        "splitPost": {
+            "title": "スプリットのバリエーション",
+            "header": "この記事の子記事にバリエーションを分割しますか？この操作は不可逆です。",
+            "currentOnly": "現在のみ",
+            "mergeSubsequent": "後続をマージ"
+        },
+        "joinPost": {
+            "title": "子どもの投稿に参加する",
+            "header": "すべての子ポストをこのポストのバリエーションに統合する？",
+            "lostData": " *子投稿のタグとソースデータは失われます。",
+            "nestedChildren": "入れ子の子供たち"
+        },
+        "flipPost": {
+            "title": "Flip Parent",
+            "header": "この投稿を親投稿にするには？"
+        },
+        "deleteTagFavorites": {
+            "title": "タグのお気に入りを削除",
+            "header": "タグのお気に入りをすべて削除してもよろしいですか？"
+        },
+        "imageSource": {
+            "title": "画像ソースの設定",
+            "request": "画像ソース設定リクエスト",
+            "reminder": "*メインソースと異なる場合にのみ代替ソースを設定してください"
+        },
+        "ad": {
+            "pageTitle": "広告を許可する",
+            "title": "当サイトでの広告掲載を許可する",
+            "header": "広告は当サイトの運営資金源です。広告ブロック機能を無効にしてご支援ください。"
+        }
+    },
+    "help": {
+        "help": {
+            "welcome": "Moepicturesへようこそ！",
+            "line1": "Moepicturesは、タグごとに整理された、最もキュートで萌えるアート作品を紹介することに特化した画像掲示板です。2Dアートが中心ですが、アニメーション、音楽、3Dモデルなど様々なアートも受け付けています。",
+            "line2": "左側のカテゴリーをクリックすると、そのトピックのヘルプが表示されます。"
+        },
+        "searching": {
+            "title": "検索",
+            "header": "Moepicturesのタグはダッシュ（「-」）を区切り文字として使用しますが、検索はあなたが検索しているタグを推測できるため、スペースでも検索できます。この問題が発生した場合は、タグの破線バージョンを使用してください。これらは有効な検索の例です：",
+            "example1": "タグ 1 タグ 2 タグ 3",
+            "example2": "タグ-1 タグ-2 タグ-3",
+            "specialModifiers": {
+                "header": "特殊なタグ修飾子：",
+                "items": {
+                    "-タグ 1 -タグ 2": " - タグ1とタグ2を含む投稿を除外する。",
+                    "+タグ 1 +タグ 2": " - タグ1またはタグ2のいずれかを含む投稿を含む。",
+                    "+-タグ 1 +-タグ 2": " - タグ1またはタグ2を含む投稿を除外する。",
+                    "*タグ 1": " - タグ1を含むすべてのタグにマッチする。"
+                }
+            },
+            "specialSearches": {
+                "header": "特別な検索：",
+                "items": {
+                    "id:id": " - この投稿IDに一致する投稿を検索します（存在する場合）。",
+                    "pixiv:id": " - PixivのIDに一致する投稿を検索します（存在する場合）。",
+                    "twitter:id": " - TwitterのIDに一致する投稿を検索します（存在する場合）。",
+                    "source:リンク": " - 指定したリンクのすべての投稿リンクとミラーを検索します。",
+                    "hash:ハッシュ": " - 知覚ハッシュに一致するポストを検索する。",
+                    "favorites:ユーザー": " - ユーザーのお気に入りを検索します（公開されている場合）。",
+                    "favgroup:ユーザー:名前": " - ユーザーの favgroup を検索します（公開されている場合）。",
+                    "group:名前": " - グループ名で検索",
+                    "user:ユーザー": " - ユーザーのアップロードを検索します。",
+                    "history:ユーザー": "- 検索履歴を取得する（自分自身にのみ有効です）",
+                    "comments:ユーザー": " - (コメントページ) ユーザーによるすべてのコメントを取得します。",
+                    "notes:ユーザー": " - (メモページ) ユーザーによるすべてのメモを取得します。",
+                    "threads:ユーザー": " - (フォーラムページ)は、そのユーザーが投稿したすべてのスレッドを取得します。",
+                    "social:リンク": " - (タグのページ)ソーシャルリンクからアーティストを探す。"
+                }
+            },
+            "specialUses": {
+                "header": "これらは特別な用途のあるタグである：",
+                "items": {
+                    "original": " - 絵はオリジナル、つまりファンアートではない。",
+                    "self upload": " - この投稿は元の作成者によってアップロードされた。",
+                    "official art": " - これは、公表されたアーティストのいない公式アートである。",
+                    "unknown artist": " - 作者は不明。",
+                    "unknown character": " - キャラクターは不明で、オリジナルではないかもしれない。",
+                    "unknown series": " - シリーズは不明。",
+                    "no character": " - 文字がない、または該当しない。",
+                    "no series": " - どのシリーズにも属さないか、または該当しない。",
+                    "needs tags": " - 現在の投稿タグでは不十分です。",
+                    "transparent": " - ポストには透明性がある。",
+                    "translated": " - には全訳が掲載されている。",
+                    "untranslated": " - の投稿は未翻訳である。",
+                    "partially translated": " - この記事は部分的にしか翻訳されていない。",
+                    "no audio": " - この投稿は音声なしのビデオである。",
+                    "with audio": " - この投稿は音声付きのビデオです。",
+                    "multiple artists": " - このポストには複数のアーティストがいる。",
+                    "bad pixiv id": " - pixivの投稿は削除された。",
+                    "paid reward available": " - この投稿には報酬があります。",
+                    "third party edit": " - この投稿は第三者による編集です。",
+                    "third party source": " - 投稿元はオリジナル・アーティストではない。"
+                }
+            },
+            "borderColors": {
+                "header": "その結果、投稿のボーダーの色が異なる場合がある：",
+                "items": {
+                    "ピンク色": " - この投稿はお気に入りに登録されています。",
+                    "紫色": " - この投稿はfavgroupedです。",
+                    "赤色": " - 投稿は編集ロックされています。",
+                    "緑色": " - この投稿は親投稿です。",
+                    "黄色": " - この投稿は子投稿です。",
+                    "オレンジ色": " - 投稿がグループ内にある。",
+                    "青色": " - このポストには複数のバリエーションがある。"
+                }
+            }
+        },
+        "imageSearching": {
+            "title": "画像検索",
+            "line1": "Moepicturesにアップロードされた画像はすべて知覚ハッシュアルゴリズムでハッシュ化され、同じように見える画像は解像度に関係なく同じようなハッシュが得られるはずです。",
+            "line2": "画像検索を行うと、アップロードされた画像は知覚的にハッシュ化され、一致する画像を見つけようとします。通常、これはかなり正確に一致する画像を見つけることができます。ビデオ、曲、3Dモデルをアップロードした場合、ハッシュは最初のフレーム、曲のカバー、またはモデルのスクリーンショットに対してのみ計算されます。",
+            "line3": "また、ウェブページの左側に画像をドラッグ＆ドロップするか、クリップボードから画像を貼り付けて検索することもできます。ウェブページの右側部分に画像をドロップするか、アップロードページに画像を貼り付けると、代わりに画像がアップロードされます。"
+        },
+        "filters": {
+            "line1": "明るさ、コントラスト、色相、シャープなどのカスタムフィルターを適用できる。ピクセレートやぼかしのようないくつかのフィルタは、ほとんどの画像を台無しにし、純粋に楽しむためのものです。",
+            "line2": "オーディオ用には、ローパス、ビットクラッシュ、リバーブなどのエフェクト用フィルターもある。"
+        },
+        "customPlayers": {
+            "title": "カスタムプレーヤー",
+            "line1": "Moepicturesには、アニメーション、ビデオ、音楽、3Dモデル、ライブ2Dモデル用のカスタムプレーヤーがあり、逆再生や再生速度の変更など、ネイティブでは利用できない追加機能を利用できます。",
+            "line2": "音楽プレーヤーには、オーディオのピッチを変更するコントロールもあります。3dモデルプレーヤーには、ワイヤーフレーム、マットキャップ、シェイプキーとライティングの編集を有効にするオプションがあります。live2dプレーヤーには、パラメーターとパートのコントロールがあります。"
+        },
+        "music": {
+            "title": "音楽",
+            "line1": "音楽プレーヤーはグローバルに利用可能です（投稿ごとのプレーヤーも同期されます）。ナビバーから常に利用できるミニプレーヤーと、表示するかどうかを切り替えられる下部の大型プレーヤーがあります。再生を停止するには、停止ボタンをクリックするか、音楽以外の投稿でページをリロードしてください。"
+        },
+        "mangaReader": {
+            "title": "マンガ読本",
+            "line1": "マンガリーダーは、どの画像投稿からも開くことができ、コミック/マンガのためのより良い読書体験を提供します。投稿が翻訳されている場合（オーバーレイノート付き）、翻訳のオン・オフをすばやく切り替えることができます。右から左だけでなく、上から下に読むモードもあります。"
+        },
+        "notes": {
+            "line1": "ノートはどんな投稿にも追加でき、ソフトな翻訳に最もよく使われます。これは、非スピーカーが投稿の内容やジョークを理解できるようにするために便利です。",
+            "line2": "投稿を翻訳したい場合は、OCRアプリを使ってより簡単にテキストを取得することをお勧めする。日本語テキストの場合は、",
+            "line3": "日本語テキストの自動翻訳ジェネレーターは、",
+            "line4": "テキストの吹き出しを検出するには、",
+            "line5": "OCRを適用し、",
+            "line6": "を使用して機械翻訳を行います。テキストバブルの位置を修正したり、書き起こされたテキストと翻訳されたテキストの正確さを検証したりすることで、常に出力をクリーンアップする必要があります。",
+            "line7": "CTRL/CMD+Vで、任意の画像からメモをコピーし、別の画像に貼り付けることができます。投稿画像の並び順が変更された場合、メモの並び順も自動的に変更されます。"
+        },
+        "overlayNotes": {
+            "title": "オーバーレイノート",
+            "line1": "また、メモをテキストバブルの中に表示するのではなく、画像の上にオーバーレイ表示することもできます。オーバーレイノートは、通常のノートに比べてカスタマイズオプションが多く、テキストにカーソルを合わせる必要がなく、より速く読むことができます。*オーバーレイノートを表示するには、「フォース・ノート・バブル」がオフになっていることを確認してください。",
+            "customization": {
+                "header": "オーバーレイノートを使用する場合、以下のカスタマイズオプションを使用できます：",
+                "items": {
+                    "フォントファミリー": " - テキストのフォントファミリー。",
+                    "フォントスタイル": " - テキストを太字または斜体にする。",
+                    "文字サイズ": " - フォントのサイズ。",
+                    "ブレイクワード": " - 文字ごとではなく、単語ごとにテキストを改行する。(日本語テキストには影響しません）。",
+                    "テキストの色": " - 文字の色。",
+                    "背景色": " - テキストバブルの色。背景色と同じにすることで、元の文字を隠すことができます。",
+                    "背景 アルファ": " - テキストバブルの不透明度。0に設定すると完全に透明になり、テキストのみが表示されます。",
+                    "ストロークの色": " - テキストの周りのストロークの色。",
+                    "ストローク幅": " - ストロークの幅。0に設定するとストロークが適用されない。",
+                    "ボーダー半径": " - ボックスの境界半径。角を丸くします。"
+                }
+            }
+        },
+        "characterNotes": {
+            "title": "キャラクターノート",
+            "line1": "画像に複数のキャラクターが含まれている場合、キャラクターノートを使うと便利です。キャラクターノートを使うと、キャラクターの周囲にバウンディングボックスを描き、キャラクタータグにリンクさせることができます。キャラクターノートは完全に透明で、カーソルを乗せるとキャラクター名のポップアップのみが表示されます。"
+        },
+        "favorites": {
+            "line1": "気に入った画像があれば、お気に入りに追加しておくと、後で簡単にアクセスできます。デフォルトでは、お気に入りは公開されていますが、アカウント設定で非公開にすることもできます。",
+            "line2": "投稿の並べ替えを「お気に入り」に設定することで、お気に入りしたすべての投稿を素早く表示することができます。"
+        },
+        "favoriteGroups": {
+            "title": "お気に入りグループ",
+            "line1": "お気に入りグループは、あなただけの「お気に入り」カテゴリーのようなものです。お気に入りグループには、名前とプライバシーを指定することができます。また、グループと同様に、投稿の並び順も保存され、ページ上で並び替えることができます。お気に入りグループにはソートはありませんが、検索することができます：",
+            "search1": "favgroup:ユーザー:名前"
+        },
+        "cuteness": {
+            "line1": "Moepicturesの評価システムは「かわいさ」と呼ばれています。画像を評価するときは、その画像が呼び起こすかわいらしさの度合いを評価します。スケールは0（かわいくない）から500（かなりかわいい）から1000（めちゃくちゃかわいい）までです。"
+        },
+        "uploading": {
+            "title": "アップロード",
+            "line1": "Moepicturesは、画像、コミック、アニメーション、ビデオ、音楽、3Dモデル、ライブ2Dモデルをアップロードすることができます。",
+            "uploadGuidelines": {
+                "header": "アップロードのガイドラインをすべてよくお読みください。",
+                "guide1": "⇾ アニメの画風で描かれていること。他のスタイルで描かれた写真やアートは不可。*",
+                "guide2": "⇾ 主役は女子でなければならない。男子は脇役に限る。他の題材（動物、食べ物、背景など）を使ったアートは禁止。",
+                "guide3": "⇾ 萌えと可愛くあるべき！これがこのサイトの主眼です。",
+                "guide4": "⇾ 重複は許されません。同じ画像のバリエーションは、元の投稿に追加してください。",
+                "guide5": "⇾ カラーパレットは、見ていて心地よいものでなければならない。",
+                "guide6": "⇾ 図面は全体的にきれいであるべきで、乱雑に見えたり、明らかな間違いがあってはならない。*",
+                "guide7": "⇾ 遠近法、プロポーション、解剖学的構造が奇妙に見えてはならない。",
+                "guide8": "⇾ アニメーションは、あまりぎこちなく見えるべきではありません。",
+                "guide9": "⇾ すべての投稿には、その投稿がどこから取得されたのかのソースリンクが必要です。",
+                "guide10": "⇾ タグはすべてローマ字にする。タイトルと解説はローマ字にする必要はありませんが、翻訳してもかまいません。",
+                "guide11": "⇾ 画像の場合、アップスケーリングバージョンを追加する必要があります。",
+                "guide12": "⇾ 解像度： オリジナル画像は 2000x2000px 以下、アップスケール画像は 8000x8000px 以下にしてください。",
+                "guide13": "⇾ (音楽のみ) オーディオファイルのメタデータに曲のカバーが必要です。",
+                "guide14": "⇾ ファイルを圧縮/再エンコード(高品質を維持)し、ストレージ効率を上げる。*",
+                "guide15": "⇾ ヘンタイは禁止。軽いヌードと挑発的な内容のみ許可します。",
+                "guide16": "⇾ AIが生成した作品は使わない。情熱的な人間によって創られた芸術のみを求めます。",
+                "guide17": "⇾ 有料コンテンツはありません。これにはアニメクリップ、漫画や同人誌のスキャン、有料アーティストの報酬が含まれます。アーティストの作品を応援しましょう！"
+            },
+            "moreNotes": {
+                "header": "さらに注記がある：",
+                "note1": "*技術的にガイドラインを満たしていない良質なスケッチやリニアートも、スケッチ／リニアート・カテゴリーにアップロードすることができます。これらは、All+S（All+Sketches）、スケッチまたはリニアートのスタイルでフィルタリングした場合にのみ利用可能です。",
+                "note2": "*オリジナルの画像は最適化されていないことが多く、読み込みが遅くなります。正しく圧縮すれば、アーティファクトは発生しないはずです。高品質のロスレスPNGが欲しい場合は、アーティストから直接入手する方が良いでしょう。"
+            },
+            "categorization": {
+                "header": "アップロードを適切なカテゴリーに分類してください。カテゴリー分けは3段階あります：",
+                "type": {
+                    "line1": " - ポストの種類",
+                    "items": {
+                        "画像": " - 他のカテゴリーに属さない静的なアートやイメージ。",
+                        "アニメーション": " - gifのようなシンプルなフォーマットの短いフレームアニメーション。",
+                        "漫画": " - 様々なコマ、テキスト、吹き出しを含むマンガやコミックストリップ。",
+                        "動画": " - ビデオ形式の長編アニメーションで、音声が含まれることもある。",
+                        "音声": " - 音楽、ゲームサウンドトラック、その他単体のオーディオ。",
+                        "ライブ2D": " - メッシュとパラメータを含むLive2Dモデル。",
+                        "モデル": " - ポリゴンとテクスチャを含む3Dモデル。"
+                    }
+                },
+                "rating": {
+                    "line1": " - 見たくないコンテンツを制限するために使用されるコンテンツレーティング。",
+                    "items": {
+                        "かわいい": " - キュートで愛らしく、思わせぶりなところはほとんどない。",
+                        "セクシー": " - キュートというよりセクシーで、挑発的なポーズやタイトな服装（レギンスなど）。",
+                        "エロチック": " - 肌の露出が多いもの（ビキニなど）、パンティショット、その他境界線上のコンテンツ。"
+                    }
+                },
+                "style": {
+                    "line1": " - これらはごく一般的なアートスタイルだ。",
+                    "items": {
+                        "2d": " - 大多数の2Dアート、あるいは他のカテゴリーに当てはまらない音楽。",
+                        "3d": " - 3Dモデル、または何らかの形で3Dモデルを組み込んだもの。",
+                        "チビ": " - チビやスーパーデフォルメのスタイルで作られたアート。",
+                        "ピクセル": " - ピクセルアート風のアートやチップチューン音楽。",
+                        "抱き枕": " - 抱き枕にプリントするために作られたアート。",
+                        "スケッチ": " - ラフな彩色や線のあるスケッチや未完成の作品。",
+                        "リニアート": " - 彩色や陰影のないリニアートのみ。",
+                        "宣伝": " - 有料コンテンツ、商品、その他の商品の販売促進。"
+                    }
+                },
+                "parentID": "親ID - 投稿IDを指定すると、この投稿はその投稿の子として追加されます。投稿のバリエーションとしては、単純に複数の画像を投稿に追加します。"
+            },
+            "sourceInformation": {
+                "header": "すべての投稿に出典情報を記入してください。以下の欄にご記入ください：",
+                "items": {
+                    "タイトル": " - ソーシャルメディアに投稿された作品の原題。",
+                    "英語タイトル": " - タイトルの英訳。タイトルは日本語で表記するのが一般的だからだ。",
+                    "アーティスト": " - アーティストの名前（ローマ字である必要はない） - アーティストのタグと同じである必要はない。",
+                    "掲載": " - 作品が投稿された当初の日付。",
+                    "ソース": " - 作品への主要なリンク、できればアーティスト自身が掲載した場所。",
+                    "ブックマーク": " - pixivのブックマーク数、別サイトなら「いいね！」の数。",
+                    "解説": " - ソーシャルメディアに投稿された作品解説の原文。",
+                    "英語解説": " - 日本語で書かれることが多いので、解説の英訳。",
+                    "ミラーズ": " - 異なるサイトに投稿された作品のリポスト。アーティスト自身のリポストも含む。",
+                    "リンク購入": " - 有料の報酬がある場合は、ここに購入へのリンクを貼ってください。"
+                }
+            },
+            "appeals": "異議申し立て - 投稿が受理されなかった場合、30日以内に修正し、異議申し立てを提出するチャンスがあります。30日を過ぎると、投稿は削除されます。"
+        },
+        "tagging": {
+            "title": "タグ付け",
+            "line1": "すべての投稿には、その投稿に含まれる機能をタグ付けする必要があります。非常に徹底する必要はありませんが、タグ付けにはある程度の努力が必要です。タグは少なくとも10～20個を目安に。それ以下では不十分であり、それ以上になると過剰な領域に入り始める。",
+            "tagGuidelines": {
+                "header": "これらは、どのような特徴をタグ付けするかのガイドラインである：",
+                "guide1": "⇾ 服装（制服、セーラー服、コート、スカート、レギンスなど）。",
+                "guide2": "⇾ 髪の色（金髪、赤毛、青髪など）。",
+                "guide3": "⇾ 髪の長さ（短髪、中髪、長髪など）。",
+                "guide4": "⇾ ヘアスタイル（ツインテール、ポニーテール、三つ編みなど）。",
+                "guide5": "⇾ 特別なアクセサリー（帽子、リボン、ブレスレットなど）。",
+                "guide6": "⇾ 表情（笑う、泣く、驚くなど）。",
+                "guide7": "⇾ 行動（寝る、走る、食べるなど）。",
+                "guide8": "⇾ 体の部位（胸が小さい、足が長いなど）。",
+                "guide9": "⇾ 物（コーヒー、傘、花など）。",
+                "guide10": "⇾ 環境（日中、夜間、日の出、日没、雪、雨、霧など）。",
+                "guide11": "⇾ スペシャルタグ (透明、翻訳、音声なし、音声あり、など)。"
+            },
+            "line2": "投稿がすでに別のサイトでタグ付けされている場合は、タグをコピーして修正することができます。完全に車輪を再発明する必要はない。",
+            "categories": {
+                "header": "私たちはタグをいくつかのカテゴリーに分類し、その色も決めています。",
+                "items": {
+                    "芸術家": " - できればアーティストのツイッターユーザー名、そうでなければローマ字表記で。",
+                    "キャラクター": " - キャラクター名にシリーズ名を括弧で囲んだもの。該当しない場合は 「no-character」。",
+                    "シリーズ": " - キャラクターが所属しているシリーズ（アニメ、マンガ、ゲームなど）。該当しない場合は 「no-series 」を使用してください。",
+                    "メタ": " - unknown-artistやtransparentのような特殊な用途のタグ。",
+                    "外見": " - 髪や目など、キャラクターの外見に関するタグ。",
+                    "服装": " - スカートや靴など、キャラクターの衣装に関するタグ。",
+                    "付属品": " - ブレスレットや本など、アクセサリーやオブジェに関するタグ。",
+                    "アクション": " - 座る、走るなどの動作に関するタグ。",
+                    "風景": " - 空や木などの背景風景に関するタグ。",
+                    "タグ": " - 他のカテゴリーに当てはまらないすべてのタグ。"
+                }
+            },
+            "fields": {
+                "header": "まだ存在しない新しいタグは、投稿のアップロード時に作成され、投稿が承認されると実際に追加されます。タグがアップロードされると、タグページでより詳細な画像/説明/リンクを編集することができます。これらのフィールドのすべてが編集できるわけではなく、タグの種類によって異なります。",
+                "items": {
+                    "タグ": " - タグの名前。アーティストのタグはTwitterの名前を更新するたびに変更できますが、その他のタグは必要な場合のみ変更してください。",
+                    "ウェブサイト": " - アーティストのアニメやゲーム、個人サイトのリンク。",
+                    "ソーシャル": " - 作品をアップロードするアーティストの主要なソーシャルメディアアカウントで、アーティストのタイプにもよるが、通常はpixiv/soundcloud/sketchfabである。",
+                    "ツイッター": " - 大半の人がtwitter/xアカウントを持っている。また、ツイッターのユーザー名をタグ名として使用することを好む。",
+                    "ファンダム": " - キャラクタータグの場合、そのキャラクターのファンダムwiki（または他のwiki）へのリンクにすることができます。",
+                    "画像": " - タグ画像、通常はアーティストのプロフィール写真またはシリーズのロゴ。アーティスト、キャラクター、シリーズごとに1つずつ用意してください。",
+                    "説明": " - タグの長い説明で、そのタグが何についてのものかをより詳しく説明します。説明しにくいタグにとても便利です。",
+                    "別名": " - エイリアスは、このタグに解決される代替名である。タグとは異なり、ローマ字にする必要はありません。",
+                    "意味合い": " - このタグが投稿に追加されると、「親」タグが自動的に追加されます。",
+                    "Pixivタグ": " - これはpixivで使われているタグに対応しているはずで、複数あるかもしれない。ほとんどが日本語です。"
+                }
+            }
+        },
+        "tagGroups": {
+            "line1": "タググループは、投稿のサイドバーに表示されるタグのカスタムグループです。最も一般的には、投稿内の各文字のタグをグループ化し、タグをより整理して読みやすくするために使用します。",
+            "line2": "タグ付け中にタググループを追加する構文は以下の通り：",
+            "example": "グル-プ名{タグ-1 タグ-2 タグ-3}",
+            "line3": "タググループ名はスペースに直接対応していないことに注意してください。スペースを入れたい場合は、ダッシュ「-」 を使ってください。タググループに含まれない野良タグは、自動的に一般的なタググループに入ります。",
+            "line4": "タググループの追加は現在進行中で、グループ化する投稿が見つかるかもしれない：",
+            "search": " multiple-characters -tag-groups."
+        },
+        "selfUploads": {
+            "title": "自己アップロード",
+            "line1": "投稿の大半は再投稿だが、自分の作品を投稿することも歓迎される。",
+            "shouldTag": "自分の作品のアップロードには、タグをつけてください：",
+            "line2": "また、アーティストタグはmoepicturesのユーザー名と同じである必要があります。これにより、投稿を非公開にする追加オプションにアクセスできるようになります。",
+            "line3": "自分の投稿はいつでも非公開にすることができ、自分自身とモデレーターにのみ公開することができます。ただし、自分の投稿を削除したい場合は、通常の削除申請を提出する必要があることに注意してください。",
+            "contactUs": "すでに他のユーザーがあなたのアーティスト名を使用している場合は、こちらまでご連絡ください：",
+            "changeName": ""
+        },
+        "upscaling": {
+            "title": "アップスケーリング",
+            "line1": "画像、アニメーション、ビデオにはアップスケールバージョンがあります。画像については、アップスケーリングバージョンの提供が必要です。",
+            "line2": "アップスケーリングに使用しているアプリはこちらからダウンロードできます：",
+            "line3": "オリジナルのアップスケーラーはWaifu2xですが、その後、より優れたアップスケーラーが登場しました。現在、最も優れたアップスケーラーで、私たちが使用しているのは、スケールファクターが4倍のREAL-CUGANです。画像に透明度がない場合は、設定で「jpgに圧縮」をオンにし、JPGの品質を95以上に設定してください。"
+        },
+        "compressing": {
+            "title": "圧縮",
+            "line1": "投稿を圧縮/再エンコードすることは、読み込みの高速化とスペース効率の向上のために推奨されます。すべての圧縮は高品質であるべきで、アーチファクトを残してはいけません。",
+            "line2": "圧縮に使用しているアプリはこちらからダウンロードできます：",
+            "recommendedFormats": {
+                "header": "これらは、各タイプの投稿に推奨されるフォーマットです：",
+                "format1": "画像 ⇾ 透過画像にはプログレッシブJPGまたはWEBP。アップスケーリングされた画像にはAVIFを使い、ファイルサイズを小さくする。PNGはサイズが大きいので避ける。",
+                "format2": "アニメーション ⇾ GIFよりもWEBPアニメーションの方が好ましい。",
+                "format3": "動画 ⇾ H.264コーデックのMP4またはVP9コーデックのWEBM。H.265コーデックはブラウザのサポートが悪いので避けてください。",
+                "format4": "音楽 ⇾ カバーアートのあるMP3。WAVはカバーアートに対応していないので避けてください。",
+                "format5": "3Dモデル ⇾ GLBまたはVRM。OBJはサポートしていないテクスチャの読み込みが必要なので避けてください。",
+                "format6": "Live2D ⇾ MOC3、JSONファイル、テクスチャを含むZIP。"
+            },
+            "line3": "私たちが一般的に使用している圧縮設定は、プログレッシブをオンにした品質95％です。それ以上大きいと、アップスケールされた投稿が大きすぎてしまうので、オリジナルの投稿は2000x2000px以下になるようにダウンスケールしてください。"
+        },
+        "pixivDownloads": {
+            "title": "Pixiv ダウンロード",
+            "line1": "投稿の大半は、この日本のアートサイトから来ている：",
+            "line2": "しかし、気に入った作品を手動でダウンロードするのは時間がかかるので、一度にたくさんの記事を簡単にダウンロードできるアプリも用意しています。イラスト、マンガ、うごイラ（アニメーション）、小説のダウンロードが可能です。(ただし、現時点では小説などのテキストコンテンツのアップロードには対応していません）。"
+        },
+        "bookmarklet": {
+            "title": "ブックマークレット",
+            "line1": "ブックマークレットをブラウザのブックマークバーにドラッグ＆ドロップすると、他のサイトからMoepicturesに素早くアップロードできます。",
+            "line2": "リンクの入力」と同じサイトをサポートしている："
+        },
+        "variations": {
+            "line1": "同じ画像のバリエーションは1つの投稿にまとめられます。既存の投稿を編集することで、バリエーションを追加することができます（タグやソースの編集ではなく、本格的な編集を使用してください）。そうでない場合、サードパーティによる編集とみなされ、代わりに子投稿として追加されるべきです。",
+            "line2": "バリエーションはすべてメイン投稿と同じタグを共有し、メイン投稿だけが検索に直接表示されます。",
+            "line3": "もし画像がメインの投稿と大きく異なるタグを持っている場合（例：異なるキャラクター）、その画像は独立した投稿とし、グループを作って投稿を関連付けた方がよいでしょう。この場合、連続した漫画やコミックの複数のページは含まれません。より良い読書体験のために、グループではなくバリエーションを使用してください。"
+        },
+        "childPosts": {
+            "line1": "子投稿とは、よく似た投稿で、タグ付けや分類を変えたい投稿のことです。例えば、ある投稿の動画バージョンを親投稿とし、画像バージョンを子投稿とする。あるいは、同じ画像でも全体のカラーパレットを変更したり、背景を透明にしたりします。子投稿は、サードパーティによる編集（オリジナル・アーティストによるものではない作品への修正）や、同じ投稿のワイプ・スケッチにも使用されます。",
+            "line2": "子投稿は、独自のタグを持つ独自の投稿のように動作し、検索で表示されるように切り替えることができます。子記事は親記事とは別のセクションに追加されます。",
+            "line3": "もうひとつ重要なことは、複数のキャラクターを含む画像で、特定のキャラクターのクロップがあるものは、バリエーションではなく、子投稿で関連付けるべきであるということです。すべての文字を含む親画像が存在しない場合は、代わりにグループを使って関連付ける必要があります。"
+        },
+        "groups": {
+            "line1": "グループは、非常に異なるタグを持ついくつかの緩く関連した投稿を関連付ける方法なので、バリエーションや子投稿は、それらを関連付けるための素晴らしい方法ではありません。これは、アーティストが異なるキャラクターの複数のアートワークを含むpixivの投稿をするときや、連続しない一連の投稿/コミックストリップに便利です。もしそれが連続したページを持つ漫画/コミックであれば、私たちはまだバリエーションを使用することを好みます。",
+            "line2": "グループ化された投稿はすべて、それ自身の投稿のように動作し、常に検索に直接表示されます。",
+            "sameSource": "グループ内のすべての投稿が同じソースである場合は、次のようにグループ名を付けます： ",
+            "sitename": "サイト名 PostID",
+            "line3": "例: Pixiv 123456、説明文はそこへのリンクにする。そうでなければ、投稿シリーズの翻訳名を付けてください。オリジナルの翻訳されていない名前をグループの説明文に記載することができます。"
+        },
+        "aliases": {
+            "line1": "タグは、同じ結果を指す複数のエイリアスを持つことができます。これは、「with audio 」や 「has audio 」のような同義語の検索を容易にするためです。タグと異なり、エイリアスはASCII以外の文字を含むことができるので、日本語検索を可能にするために日本語のエイリアスを追加することができます。ただし、pixivのタグが日本語で記入されている場合は、そのタグで検索することもできます。",
+            "aliasingTo": {
+                "title": "エイリアシング",
+                "line1": "エイリアスは既存のタグである必要はありませんが、既存のタグを別のタグにエイリアスすることを「エイリアスする」と呼びます。aliasing toはより強力なアクションであるため、Modによるレビューと承認が必要です。",
+                "line2": "これを明確にするために、「エイリアス先」を開始したタグが、他のタグのエイリアスとして追加されます。ボックスに入力したタグは、この新しいエイリアスを受け取るタグです。古いタグの下にあったすべての投稿は、新しいタグに移動されます。"
+            }
+            
+        },
+        "implications": {
+            "line1": "タグは、それがまだ存在しない場合に投稿に自動的に追加されるタグである暗示を持つことができます。例えば、「red hat 」というタグが 「hat 」を意味するという含意を追加することができ、「red hat 」タグを含んでアップロードされた投稿には 「hat 」タグも付与されます。これらは主にタグ付けを補助するのに便利なので、広いタグをすべて入力する必要はありません。",
+            "line2": "1000件以上の投稿があるタグにインプリケーションを追加できるのはモデレーターだけです。インプリケーションは主に、投稿数が自然に少なくなるような、より特定のタグに使用されます。"
+        },
+        "users": {
+            "title": "ユーザー",
+            "userLevels": {
+                "header": "Moepicturesは、より多くの権限を与え、制限を削除する様々なユーザーアカウントレベルを持っています。",
+                "items": {
+                    "アカウントなし": " - サイトと「かわいい」と評価された投稿しか見ることができない。",
+                    "ユーザー": " - お気に入り、お気に入りグループ、コメント/フォーラム/メッセージにアクセスし、アップロード/編集/ノートを送信して承認することができます。セクシー 「や 」エロチック な投稿も閲覧可能。",
+                    "プレミアム": " - これは、アップスケールされた画像や検索履歴などのプレミアム機能にもアクセスできる、ユーザーレベルのアドオンです。",
+                    "投稿者": " - モデレーター キューを経由せずに投稿やタグを編集できます。キューで妨げたくない、優れた貢献実績を持つメンバーに与えられます。",
+                    "キュレーター": " - モデレーターのキューを通過せずに投稿をアップロードできます。キューで妨げたくない高品質の投稿を継続的に送信するメンバーに与えられます。",
+                    "モデル": " - モデレーターキューにアクセスし、アップロード/編集/エイリアスを承認したり、投稿の画像を置き換えたり、ユーザーを禁止したりできます。",
+                    "管理者": " - 一括アップロードや一括タグ付けなど、最もパワフルなツールへのアクセス。投稿を永久に削除し、ユーザーをより高いレベルに昇格させることができます。",
+                    "システム": " - これは、メッセージ通知を送信するボットアカウント専用です。"
+                }
+            },
+            "line1": "司会者や管理者はサイトに対して非常に破壊的な変更を加える可能性があるため、私たちは彼らのアカウントで2FAを有効にすることを要求しています。",
+            "avatars": {
+                "title": "アバター",
+                "line1": "アバターはサイトにある画像からしか選べません。これは「アニメのアバターのみ」というポリシーを強制する最も簡単な方法です. アバターとして使いたい画像がまだ存在しない場合は、アップロードしてみてください。",
+                "line2": "アバターは、投稿のサイドバーにある「アバターを設定」をクリックすることで変更できます。また、アカウント設定で削除することもできます。モバイルのタッチコントロールは少し細かいことが知られているので、PCで行ってください。"
+            }
+        },
+        "tooltips": {
+            "title": "ツールチップ",
+            "line1": "投稿やタグにカーソルを合わせると、独自のツールチップが表示されます。ツールチップが気に入らない場合は、アカウント登録時にアカウント設定で無効にすることができます。また、タグバナーと投稿ページの関連記事セクションの表示を切り替えることもできます。これらを無効にすると、サイトが少し速くなります。"
+        },
+        "commenting": {
+            "title": "コメント",
+            "rules": {
+                "header": "コメントや掲示板のスレッドに参加したり、メッセージを送ったりする際は、マナーを守ってください。これらは、すべてのコメント欄に関する一般的なガイドラインです：",
+                "rule1": "⇾ 英語でコミュニケーションしてください（機械翻訳機を使用しても構いません）。",
+                "rule2": "⇾ スパム、ちんぷんかんぷんなコメント、極端にトピックのずれたコメントは禁止です。",
+                "rule3": "⇾ 汚い言葉を使わない（何らかの方法でフィルタをバイパスした場合）。",
+                "rule4": "⇾ 不必要な無礼や無作法はせず、親切にしてください。",
+                "rule5": "⇾ その他の不快/不適切なコメントをしない。"
+            },
+            "moetext": {
+                "title": "MoeText",
+                "header": "MoeTextは、コメントや返信をフォーマットするためのマークアップ言語です。",
+                "quotes": {
+                    "title": "引用：",
+                    "line1": ">>[id] ユーザーが言った:",
+                    "line2": "> コメント"
+                },
+                "emojis": {
+                    "title": "絵文字：",
+                    "line1": ":絵文字名:"
+                },
+                "highlight": {
+                    "title": "ハイライト：",
+                    "line1": "==テキストをハイライト=="
+                },
+                "bold": {
+                    "title": "ボールドだ：",
+                    "line1": "**太字**"
+                },
+                "italic": {
+                    "title": "イタリック体：",
+                    "line1": "//イタリック体//"
+                },
+                "underline": {
+                    "title": "アンダーライン：",
+                    "line1": "__下線部__"
+                },
+                "strikethrough": {
+                    "title": "線引き：",
+                    "line1": "~~取り消し線付きテキスト~~"
+                },
+                "spoiler": {
+                    "title": "スポイラー：",
+                    "line1": "||ネタバレ||"
+                },
+                "link": {
+                    "title": "リンク:",
+                    "line1": "[名前](リンク)"
+                },
+                "dropdown": {
+                    "title": "ドロップダウン：",
+                    "line1": "<<ヘッダーテキスト||ドロップダウンテキスト||>>"
+                },
+                "color": {
+                    "title": "ヘックスカラー：",
+                    "line1": "#ヘックスカラー{カラーテキスト}"
+                },
+                "code": {
+                    "title": "コード：",
+                    "line1": "```コードブロック```"
+                },
+                "mention": {
+                    "title": "ユーザー・メンション：",
+                    "line1": "@ユーザー名"
+                },
+                "links": {
+                    "postTitle": "投稿リンク：",
+                    "postLine": "Post #id",
+                    "threadTitle": "スレッドリンク:",
+                    "threadLine": "Thread #id",
+                    "messageTitle": "メッセージリンク：",
+                    "messageLine": "Message #id",
+                    "tagTitle": "タグリンク:",
+                    "tagLine": "[[タグ]]"
+                },
+                "images": {
+                    "header": "投稿された画像や動画のリンクは自動的に表示されます。"
+                }
+            }
+        },
+        "bans": {
+            "title": "禁止事項",
+            "line1": "ルールを重大にまたは継続的に違反した場合は、禁止される可能性があります。禁止されても、サイトを閲覧することはできますが、ほとんどのやり取りが無効になります。",
+            "banActions": {
+                "header": "これらは出入り禁止になる可能性のある行為です：",
+                "action1": "⇾ コメント、フォーラムスレッド、プライベートメッセージでの不正行為。",
+                "action2": "⇾ ミームや低品質の投稿をアップロードするスパム。",
+                "action3": "⇾ 投稿、タグ、メモを荒らす。"
+            },
+            "line2": "また、冒涜的で不適切なユーザーネームもお断りします。ユーザーネームを適切なものに変更するよう問い合わせますが、返答がない場合はアク禁になることもあります。"
+        },
+        "captcha": {
+            "title": "キャプチャ",
+            "line1": "私たちはウェブサイトのスクレイピングを容認していませんし、キャプチャやエンドツーエンドの暗号化など、さまざまな対策を講じています。願わくば、これが通常のブラウジングによって引き起こされないことを願います。",
+            "line2": "万が一この現象が発生した場合は、キャプチャを解くだけで投稿のロックが解除されます。また、もしこの現象が頻繁に発生するようであれば（人間の訪問者として）、明らかに意図したものではありませんので、私たちにお知らせください。"
+        },
+        "language": {
+            "title": "言語",
+            "line1": "フッターでサイトの言語を変更できます。現在、英語と日本語の翻訳に対応しています。すべてのコミュニケーション（コメント、スレッドなど）は英語で投稿してください。"
+        },
+        "accountDeletion": {
+            "title": "アカウント削除",
+            "line1": "Moepicturesはユーザー投稿に重点を置いているため、アカウントを削除しても、投稿や編集などの公開投稿は削除されません。それらをアップロードしたアカウントは匿名化され、「削除済み 」として表示されます。その他のアカウントデータは削除されます。"
+        },
+        "copyrightRemoval": {
+            "line1": "あなたの作品がMoepicturesにアップされているということは、私たちがあなたの作品を愛しているということです。",
+            "submitForm": "とはいえ、私たちはあなたの権利を尊重し、あなたの作品をこれ以上ここに掲載したくない場合は、著作権削除フォームを下記までご提出ください：",
+            "copyrightForm": "著作権フォーム",
+            "emailUs": " または電子メール： ",
+            "line2": "あなたがアーティストであることを確認した後、あなたの作品は速やかに削除され、ご要望があれば、今後あなたの作品がアップロードされることも防ぎます。"
+        }
+    },
+    "premium": {
+        "premium": {
+            "title": "プレミアムアップグレード",
+            "line1": "より多くの機能をアンロックするために、アカウントのアップグレードを購入することができます。ご支援ありがとうございます！",
+            "line2": "皆様のご寄付により、当面はオンラインを維持することができます。ご寄付は、ホスティングとストレージの費用に充てさせていただきます。",
+            "line3": "すべてのプレミアム機能は左側にリストアップされている。"
+        },
+        "upscaledImages": {
+            "title": "アップスケール画像",
+            "header": "より高い解像度にアップスケールされた画像を見ることができます。アップスケールされた画像はディテールがより鮮明になり、ぼやけも修正されます。現在、Real-CUGAN 4xアップスケーラーを使用しています。"
+        },
+        "autoSearch": {
+            "title": "オートサーチ",
+            "header": "現在のタグを自動的にループ検索するオートサーチを使用します。検索間隔を設定できます。"
+        },
+        "searchHistory": {
+            "title": "検索履歴",
+            "header": "過去に閲覧した投稿の履歴を見ることができます。気に入った投稿があったのに、お気に入り登録するのを忘れてしまった場合などに便利です。"
+        },
+        "unlimitedTages": {
+            "title": "無制限タグ",
+            "header": "通常のアカウントでは、3つのタグしか検索できません。プレミアムアカウントではこの制限がなくなり、タグの検索数は無制限になります。"
+        },
+        "bookmarkSort": {
+            "title": "ブックマークソート",
+            "header": "Pixivのブックマーク数によるソートを解除しました。これにより、最も人気を集めた投稿を簡単に見つけることができます。"
+        },
+        "animatedAvatar": {
+            "title": "アニメーションアバター",
+            "header": "プレミアムユーザーは、アニメーション投稿からアニメーションアバターをレンダリングできます。一般ユーザーは静止フレームのみ使用できます。"
+        },
+        "changeUsername": {
+            "title": "ユーザー名の変更",
+            "header": "プレミアムユーザーは、ユーザーネームを変更することができます。ユーザー名は何度でも変更できます。"
+        },
+        "noAds": {
+            "title": "広告なし",
+            "header": "プレミアム・ユーザーには広告が削除され、サイトがより美しくなります。ありがとうございました！"
+        },
+        "purchase": {
+            "title": "購入",
+            "line1": "プレミアムアップグレードを購入したい場合は、Coinbaseから購入できます。",
+            "line2": "現在の価格は15米ドル/年です。アップグレードは購入日から1年間有効です。期間を延長するには、複数回購入することができます。",
+            "createA": "",
+            "line3": "のアカウントを持っていない場合は、アカウントを作成してください。Coinbaseで暗号通貨（ビットコインなど）をPaypalやカードで購入することができます。",
+            "payWithCrypto": "暗号で支払う"
+        },
+        "refundPolicy": {
+            "title": "返金ポリシー",
+            "header": "ご満足いただけなかった場合は、ご購入後48時間以内にご連絡ください。手数料を差し引いた金額を返金いたします。moepictures.moe@gmail.com までご連絡ください。"
+        }
+    },
+    "terms": {
+        "tos": {
+            "title": "利用規約",
+            "lastUpdated": "最終更新日 2024年10月25日",
+            "header": "本利用規約は、Moepictures（以下「当社」）が提供するウェブサイト（以下「サイト」）に適用されます。当サイトを利用することにより、お客様は本規約の全てに同意したものとみなされます。これらの条件に同意しない場合は、当サイトを使用しないでください。",
+            "accessToSite": {
+                "title": "サイトへのアクセス",
+                "line1": "⇾ 当サイトにアカウントを作成するには、18歳以上（または居住国の成人年齢以上）でなければなりません。",
+                "line2": "⇾ 当社は、理由の如何を問わず、いつでもアカウントを終了する権利を留保しますが、最も一般的な理由は当社の利用規約違反です。"
+            },
+            "prohibitedActions": {
+                "title": "禁止行為",
+                "header": "当サイトを利用する場合、以下の行為を禁止します：",
+                "line1": "⇾ サイト上の投稿、タグ、メモ、その他のコンテンツを荒らす。",
+                "line2": "⇾ コメントや未承諾のプライベートメッセージでスパムを送信する。",
+                "line3": "⇾ 他のユーザーに対する嫌がらせや差別。",
+                "line4": "⇾ アートワーク、タグ、その他のサイトコンテンツをロボットでスクレイピングする。",
+                "line5": "⇾ 他のユーザーのアカウントへの不正アクセスを試みる。",
+                "line6": "⇾ 自分のアカウントへのアクセスを他人に売る。",
+                "line7": "⇾ 複数のアカウントを作成して禁止を回避します。",
+                "line8": "⇾ ウイルス、マルウェア、その他の悪意のあるコンテンツをアップロードしようとすること。",
+                "line9": "⇾ DDoSを試み、当社サーバーの運営を妨害すること。"
+            },
+            "userContent": {
+                "title": "ユーザー生成コンテンツ",
+                "line1": "⇾ 当サイト上のコンテンツはユーザーによって生成されたものであり、画像、アニメーション、ビデオ、テキストのいずれであっても、ユーザーによって提出されたコンテンツについて、当社は一切の責任を負いません。その責任は、コンテンツを投稿したユーザーにあります。",
+                "line2": "⇾ 当社は、理由の如何を問わず、いつでもコンテンツを削除する権利を留保します。"
+            },
+            "copyrightTakedown": {
+                "title": "著作権とDMCAのテイクダウン",
+                "header": "私たちは他者の知的財産を尊重します。もしあなたがアーティストで、このサイトからの作品の削除を希望される場合は、著作権削除フォームから以下の情報をご連絡ください：",
+                "line1": "⇾ あなたの名前、アーティストタグ、特定の作品やアーティストタグページへのリンク。",
+                "line2": "⇾ あなたが問題のアーティストであることを証明する方法。",
+                "proofHeader": "これらは証拠として認められるものである：",
+                "proof1": "⇾ あなたのEメールがあなたのアカウントに公開されている場合、そのEメールを使ってご連絡ください。あなたのEメールが掲載されているリンクを貼ってください。",
+                "proof2": "⇾ プロフィールか投稿のどこかに 「Remove me from Moepictures 」と書いて、そのリンクを貼ってください。",
+                "proof3": "⇾ 公開されていない作品にソースファイル（.psd、.clip）を添付する。",
+                "goText": "あなたがいなくなるのは寂しい。"
+            },
+            "webScraping": {
+                "title": "ウェブ・スクレイピング",
+                "line1": "⇾ 当ウェブサイトの画像、音声、その他のコンテンツをスクレイピングすることは禁止されています。",
+                "line2": "⇾ 当社は、このような行為を行ったIPアドレスおよびIP範囲を完全に禁止する（当社サイトへのアクセスを防止する）権利を留保します。",
+                "line3": "⇾ 私たちはまた、レート制限、キャプチャー、暗号化などの手段を講じて、これを難しくしています。"
+            },
+            "accountUpgrades": {
+                "title": "アカウントのアップグレード",
+                "line1": "⇾ お客様は、当社サイトでアカウントのアップグレードを購入するために支払情報を提出することができます。お客様の支払情報はすべて、第三者の支払処理業者によってのみ処理されます。当社はお客様の支払情報を取り扱いませんし、今後も取り扱うことはありません。",
+                "line2": "⇾ アップグレードの価格や特典は、事前の予告なしに変更される場合があります。"
+            },
+            "liability": {
+                "title": "責任",
+                "header": "当サイトは、明示または黙示を問わず、いかなる保証もするものではありません。当社は、当サイトの利用に起因または関連して生じたいかなるクレーム、損害、その他の責任についても、一切責任を負いません。"
+            },
+            "changesToTerms": {
+                "title": "本規約の変更",
+                "header": "当社は本規約をいつでも変更することができ、その際には「最終更新日」が表示されます。規約の変更は直ちに有効となり、規約の変更後に当社サイトを利用することにより、お客様は新しく変更された規約に同意したものとみなされます。"
+            }
+        },
+        "privacy": {
+            "title": "プライバシーポリシー",
+            "lastUpdated": "最終更新日 2024年10月25日",
+            "header": "本プライバシーポリシーは、Moepictures（「弊社」、「弊社」、「弊社」）が、お客様が弊社のウェブサイト（「サイト」）をご利用になる際に収集する情報の概要を説明するものです。また、当社がお客様の情報をどのように使用し、お客様の情報をどのように共有するかについても説明しています。",
+            "collectedInformation": {
+                "title": "収集した情報",
+                "header": "当社は、当社に直接提供された情報を収集します：",
+                "accountInfo": "口座情報",
+                "accountInfoLine": " - お客様のユーザー名、Eメール、パスワード、経歴、IPアドレス、およびお客様が設定したアカウント設定を保存する必要があります。安全にハッシュ化されたパスワードのみを保存します。",
+                "contentSubmitted": "投稿コンテンツ",
+                "contentSubmittedLine": " - 当社は、お客様が送信したテキスト、画像、GIF、ビデオ、投稿、コメントなどのコンテンツを保存する必要があります。",
+                "actionsTaken": "あなたが取る行動",
+                "actionsTakenLine": " - 私たちは、投稿のお気に入り登録、評価、グループへの追加など、コンテンツとのやり取りに関する情報を収集します。",
+                "cookies": "クッキー",
+                "cookiesLine": " - ブラウザを閉じてもログアウトされないように、ログインセッションを維持するためにクッキーを使用しています。"
+            },
+            "howInfoIsUsed": {
+                "title": "お客様の情報の使用方法",
+                "header": "当社は、以下の目的でお客様の情報を使用します：",
+                "line1": "⇾ 当社サイトの機能を提供します。",
+                "line2": "⇾ 当サイトを悪用やスパムから守る。",
+                "line3": "⇾ 当社サイトの利用に関する匿名化された分析を収集します。"
+            },
+            "doNotShare": {
+                "title": "以下のいずれかに該当する場合を除き、個人情報を第三者と共有することはありません：",
+                "line1": "⇾ 私たちはあなたの同意を得ています。",
+                "line2": "⇾ それは集計され、あなたを追跡できない方法で異常分析される。",
+                "line3": "⇾ 法令を遵守するために必要である。"
+            },
+            "controllingInformation": {
+                "title": "お客様の情報の管理",
+                "changingInfo": "お客様情報の変更",
+                "changingInfoLine": " - Eメールやパスワードなどの情報は、アカウント設定でいつでも更新できます。お気に入りやお気に入りグループへのアクセスをコントロールするために、非公開にすることもできます。",
+                "deletingAccount": "アカウントの削除",
+                "deletingAccountLine": " - アカウントの削除はアカウント設定で行えます。アカウントを削除すると、すべての個人情報が削除されます。投稿などの公開投稿は削除されません。ただし、あなたの投稿はユーザー名から切り離され、「deleted」というアカウントの投稿として異常処理されます。"
+            },
+            "changesToPolicy": {
+                "title": "本ポリシーの変更",
+                "header": "当社は、「最終更新日」によって示される本ポリシーをいつでも変更することができます。本ポリシーの変更は即座に有効となり、ポリシーが変更された後も当社サイトの利用を継続することにより、変更後のポリシーに同意したものとみなされます。"
+            }
+        }
+    }
+}

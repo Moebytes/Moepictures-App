@@ -5,9 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
+import {ScrollView, View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
-import asyncStorage from "@react-native-async-storage/async-storage"
+import {useNavigation} from "@react-navigation/native"
 import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
@@ -22,11 +22,12 @@ import MoebytesLogo from "../../assets/svg/moebytes.svg"
 import {createStylesheet} from "./styles/ProfileScreen.styles"
 
 const ProfileScreen: React.FunctionComponent = () => {
-    const {theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {setTheme} = useThemeActions()
     const {showRelated} = useSessionSelector()
     const {setShowRelated} = useSessionActions()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
 
     const changeTheme = () => {
         setTheme(theme === "light" ? "dark" : "light")
@@ -43,18 +44,18 @@ const ProfileScreen: React.FunctionComponent = () => {
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <TitleBar/>
-            <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
                 <View style={styles.buttonContainer}>
                     <Pressable style={{...styles.itemContainer, backgroundColor: colors.profileLogin}}>
                         <View style={styles.iconContainer}>
                             <KeyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                            <Text style={styles.loginText}>Login</Text>
+                            <Text style={styles.loginText}>{i18n.navbar.login}</Text>
                         </View>
                     </Pressable>
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.itemContainer}>
-                        <Text style={styles.text}>Dark Theme</Text>
+                        <Text style={styles.text}>{i18n.user.darkTheme}</Text>
                         <Switch
                             value={theme === "dark"}
                             onValueChange={changeTheme}
@@ -66,8 +67,19 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Language", undefined, {pop: true})} style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.help.language.title}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+
+                    <View style={styles.separator}/>
+
                     <View style={styles.itemContainer}>
-                        <Text style={styles.text}>Show Related</Text>
+                        <Text style={styles.text}>{i18n.user.showRelated}</Text>
                         <Switch
                             value={showRelated}
                             onValueChange={changeShowRelated}
@@ -83,7 +95,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <TOSIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                            <Text style={styles.text}>Terms of Service</Text>
+                            <Text style={styles.text}>{i18n.terms.tos.title}</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
@@ -95,7 +107,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <PrivacyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                            <Text style={styles.text}>Privacy Policy</Text>
+                            <Text style={styles.text}>{i18n.terms.privacy.title}</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
@@ -107,7 +119,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <ContactIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                            <Text style={styles.text}>Contact Us</Text>
+                            <Text style={styles.text}>{i18n.navbar.contact}</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
@@ -119,7 +131,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <HelpIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                            <Text style={styles.text}>Help</Text>
+                            <Text style={styles.text}>{i18n.navbar.help}</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
@@ -131,7 +143,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <LinkIcon width={25} height={25} color={colors.iconColor}/>
-                            <Text style={styles.text}>Visit our website!</Text>
+                            <Text style={styles.text}>{i18n.user.visitWebsite}</Text>
                         </View>
                     </PressableHaptic>
                 </View>
@@ -152,7 +164,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     </View>
                     <Text style={styles.copyText}>© 2026 Moepictures</Text>
                 </View>
-            </View>
+            </ScrollView>
             <TabBar/>
         </View>
     )

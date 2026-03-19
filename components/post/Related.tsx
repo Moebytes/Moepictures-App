@@ -25,7 +25,7 @@ interface Props {
 }
 
 const Related: React.FunctionComponent<Props> = (props) => {
-    const {colors} = useThemeSelector()
+    const {i18n, colors} = useThemeSelector()
     const {scroll, pageMultiplier} = useSearchSelector()
     const {setScroll} = useSearchActions()
     const styles = createStylesheet(colors)
@@ -89,7 +89,7 @@ const Related: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Related</Text>
+                <Text style={styles.headerText}>{i18n.post.related}</Text>
                 <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
                 <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}/>

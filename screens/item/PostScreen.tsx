@@ -21,6 +21,7 @@ import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
 import Commentary from "../../components/post/Commentary"
 import Related from "../../components/post/Related"
+import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import functions from "../../functions/Functions"
 
 type Props = {
@@ -71,6 +72,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       swipeEdgeWidth={100}>
       <View style={{flex: 1, backgroundColor: colors.mainColor}}>
           <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
+          <SearchSuggestions/>
           <ScrollView ref={ref} style={{flex: 1, backgroundColor: colors.mainColor}} 
             contentContainerStyle={{paddingBottom: tabBarHeight}}
             showsVerticalScrollIndicator={false}>

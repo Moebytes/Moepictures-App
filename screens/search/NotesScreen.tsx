@@ -21,7 +21,7 @@ import {NoteSearch} from "../../types/Types"
 const noresults = require("../../assets/images/noresults.png")
 
 const NotesScreen: React.FunctionComponent = () => {
-    const {theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll} = useSearchSelector()
     const styles = createStylesheet(colors)
@@ -85,7 +85,7 @@ const NotesScreen: React.FunctionComponent = () => {
         return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Notes</Text>
+                <Text style={styles.title}>{i18n.navbar.notes}</Text>
             </View>
         </View>
         )

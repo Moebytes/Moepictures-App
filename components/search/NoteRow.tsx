@@ -20,10 +20,10 @@ interface Props {
 }
 
 const NoteRow: React.FunctionComponent<Props> = (props) => {
+    const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
-    const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [userPfp, setUserPfp] = useState("")
@@ -82,7 +82,7 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
                 </View>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    <Text style={styles.dateText}>{functions.date.timeAgo(props.note.updatedDate)}</Text>
+                    <Text style={styles.dateText}>{functions.date.timeAgo(props.note.updatedDate, i18n)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
                     <Text style={styles.text}>{parseText()}</Text>

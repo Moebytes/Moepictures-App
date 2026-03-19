@@ -23,8 +23,8 @@ interface Props {
 }
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
+    const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
-    const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
     const downloadImage = () => {
@@ -38,23 +38,23 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
             <IconButton icon={StarIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
-                <Text style={styles.text}>Favorite</Text>
+                <Text style={styles.text}>{i18n.post.favorite}</Text>
             </IconButton>
             <IconButton icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
-                <Text style={styles.text}>Favgroup</Text>
+                <Text style={styles.text}>{i18n.post.favgroup}</Text>
             </IconButton>
             <IconButton icon={InfoIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>
-                    <Text style={styles.text}>Info</Text>
+                    <Text style={styles.text}>{i18n.post.info}</Text>
             </IconButton>
             <IconButton icon={DownloadIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={downloadImage}>
-                <Text style={styles.text}>Download</Text>
+                <Text style={styles.text}>{i18n.buttons.download}</Text>
             </IconButton>
             <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
-                <Text style={styles.text}>Filters</Text>
+                <Text style={styles.text}>{i18n.filters.filters}</Text>
             </IconButton>
         </View>
     )

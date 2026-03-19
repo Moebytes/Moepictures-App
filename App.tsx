@@ -17,6 +17,7 @@ import NotesScreen from "./screens/search/NotesScreen"
 import TagsScreen from "./screens/search/TagsScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
+import LanguageScreen from "./screens/settings/LanguageScreen"
 
 export type StackParamList = {
   Posts: undefined
@@ -26,6 +27,7 @@ export type StackParamList = {
   Groups: undefined
   Profile: undefined
   Post: {postID: string}
+  Language: undefined
 }
 
 declare global {
@@ -50,6 +52,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Post" component={PostScreen}/>
+            <Stack.Screen name="Language" component={LanguageScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

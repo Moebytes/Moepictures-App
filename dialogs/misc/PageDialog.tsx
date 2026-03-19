@@ -13,10 +13,10 @@ import {createStylesheet} from "../Dialog.styles"
 import Draggable from "../Draggable"
 
 const PageDialog: React.FunctionComponent = () => {
+    const {i18n, colors} = useThemeSelector()
     const {showPageDialog} = useMiscDialogSelector()
     const {setShowPageDialog} = useMiscDialogActions()
     const {setPageFlag} = useFlagActions()
-    const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [input, setInput] = useState("")
     const textRef = useRef<TextInput>(null)
@@ -43,10 +43,10 @@ const PageDialog: React.FunctionComponent = () => {
                 <Draggable resetKey={showPageDialog}>{(panHandlers) => (
                     <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
                         <View {...panHandlers} style={styles.row}>
-                            <Text style={styles.title}>Go To Page</Text>
+                            <Text style={styles.title}>{i18n.dialogs.page.title}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Text style={styles.text}>Page: </Text>
+                            <Text style={styles.text}>{i18n.labels.page}: </Text>
                             <TextInput ref={textRef} style={styles.input} keyboardType="numeric" 
                                 value={input} onChangeText={setInput}
                                 selectionColor={colors.borderColor}/>
@@ -56,7 +56,7 @@ const PageDialog: React.FunctionComponent = () => {
                                 styles.button, pressed && styles.buttonActive
                             ]}>{({pressed}) => (
                                 <Text style={[styles.buttonText, 
-                                    pressed && styles.buttonTextActive]}>Cancel</Text>
+                                    pressed && styles.buttonTextActive]}>{i18n.buttons.cancel}</Text>
                             )}
                             </PressableHaptic>
 
@@ -64,7 +64,7 @@ const PageDialog: React.FunctionComponent = () => {
                                 styles.button, pressed && styles.buttonActive
                             ]}>{({pressed}) => (
                                 <Text style={[styles.buttonText, 
-                                    pressed && styles.buttonTextActive]}>Go</Text>
+                                    pressed && styles.buttonTextActive]}>{i18n.buttons.go}</Text>
                             )}
                             </PressableHaptic>
                         </View>

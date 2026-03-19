@@ -24,8 +24,8 @@ interface Props {
 }
 
 const PostDrawer: React.FunctionComponent<Props> = (props) => {
+    const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
-    const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const insets = useSafeAreaInsets()
     const [dimensions, setDimensions] = useState({width: 0, height: 0, size: 0})
@@ -84,85 +84,88 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         <LiquidGlassView effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
             <ScrollView ref={ref} style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
-                <Text style={styles.title}>Post Info</Text>
+                <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Title:</Text>
+                    <Text style={styles.highlightText}>{i18n.labels.title}:</Text>
                     <Text style={styles.text}>{props.post.title}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>English:</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.english}:</Text>
                     <Text style={styles.text}>{props.post.englishTitle}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Artist:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
                     <Text style={styles.text}>{props.post.artist}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Posted:</Text>
+                    <Text style={styles.highlightText}>{i18n.sort.posted}:</Text>
                     <Text style={styles.text}>{functions.date.formatDate(new Date(props.post.posted))}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Bookmarks:</Text>
+                    <Text style={styles.highlightText}>{i18n.sort.bookmarks}:</Text>
                     <Text style={styles.text}>{props.post.bookmarks}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Artist:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.artists)}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Character:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.character}:</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.characters)}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Series:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.series}:</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.series)}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Tags:</Text>
+                    <Text style={styles.highlightText}>{i18n.navbar.tags}:</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(organizeTags(props.tags))}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Uploader:</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
                     <Text style={styles.text}>{functions.util.toProperCase(props.post.uploader)}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Uploaded:</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.uploaded}:</Text>
                     <Text style={styles.text}>{functions.date.formatDate(new Date(props.post.uploadDate))}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Type:</Text>
-                    <Text style={styles.text}>{props.post.type}</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.type}:</Text>
+                    {/* @ts-ignore */}
+                    <Text style={styles.text}>{i18n.sortbar.type[props.post.type]}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Rating:</Text>
-                    <Text style={styles.text}>{props.post.rating}</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.rating}:</Text>
+                    {/* @ts-ignore */}
+                    <Text style={styles.text}>{i18n.sortbar.rating[props.post.rating]}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Style:</Text>
-                    <Text style={styles.text}>{props.post.style}</Text>
+                    <Text style={styles.highlightText}>{i18n.sidebar.style}:</Text>
+                    {/* @ts-ignore */}
+                    <Text style={styles.text}>{i18n.sortbar.style[props.post.style]}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Favorites:</Text>
+                    <Text style={styles.highlightText}>{i18n.sort.favorites}:</Text>
                     <Text style={styles.text}>{props.post.favoriteCount}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Cuteness:</Text>
+                    <Text style={styles.highlightText}>{i18n.sort.cuteness}:</Text>
                     <Text style={styles.text}>{props.post.cuteness}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Resolution:</Text>
+                    <Text style={styles.highlightText}>{i18n.labels.resolution}:</Text>
                     <Text style={styles.text}>{dimensions.width}x{dimensions.height}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>Size:</Text>
+                    <Text style={styles.highlightText}>{i18n.labels.size}:</Text>
                     <Text style={styles.text}>{functions.util.readableFileSize(dimensions.size)}</Text>
                 </View>
             </ScrollView>

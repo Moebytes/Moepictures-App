@@ -24,7 +24,7 @@ interface Props {
 }
 
 const TabBar: React.FunctionComponent<Props> = (props) => {
-    const {colors} = useThemeSelector()
+    const {i18n, colors} = useThemeSelector()
     const {tablet, tabBarHeight} = useLayoutSelector()
     const {setTabBarHeight} = useLayoutActions()
     const styles = createStylesheet(colors, tablet)
@@ -50,21 +50,21 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     const generateTabsJSX = () => {
         let jsx = [] as React.ReactElement[]
 
-        let tabMap: {name: keyof StackParamList, icon: React.ComponentType<SvgProps>}[] = [
-            {name: "Posts", icon: PostsIcon},
-            {name: "Comments", icon: CommentsIcon},
-            {name: "Notes", icon: NotesIcon},
-            {name: "Tags", icon: TagsIcon},
-            {name: "Groups", icon: GroupsIcon},
-            {name: "Profile", icon: ProfileIcon}
+        let tabMap: {screen: keyof StackParamList, icon: React.ComponentType<SvgProps>, name: string}[] = [
+            {screen: "Posts", icon: PostsIcon, name: i18n.sort.posts},
+            {screen: "Comments", icon: CommentsIcon, name: i18n.navbar.comments},
+            {screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
+            {screen: "Tags", icon: TagsIcon, name: i18n.navbar.tags},
+            {screen: "Groups", icon: GroupsIcon, name: i18n.sort.groups},
+            {screen: "Profile", icon: ProfileIcon, name: i18n.navbar.profile}
         ]
         for (const tab of tabMap) {
             const Icon = tab.icon
-            const active = activeRoute === tab.name
+            const active = activeRoute === tab.screen
 
             jsx.push(
-                <Pressable style={styles.iconContainer} key={tab.name}
-                    onPress={() => navigation.navigate(tab.name, undefined as any, {pop: true})}>
+                <Pressable style={styles.iconContainer} key={tab.screen}
+                    onPress={() => navigation.navigate(tab.screen, undefined as any, {pop: true})}>
                     <Icon width={iconSize} height={iconSize} 
                     color={colors.iconColor}/>
                     <Text style={active ? styles.activeText : styles.text}>{tab.name}</Text>
