@@ -8,7 +8,7 @@ import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
 import {fonts} from "../../../ui/fonts"
 
-export const createStylesheet = (colors: ThemeColors) => {
+export const createStylesheet = (colors: ThemeColors, tablet: boolean) => {
     return StyleSheet.create({
         container: {
             position: "absolute",
@@ -22,7 +22,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             backgroundColor: colors.mainColor,
             paddingVertical: 10,
             paddingHorizontal: 14,
-            gap: 18
+            gap: tablet ? 40 : 18
         },
         iconContainer: {
             display: "flex",

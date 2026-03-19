@@ -6,7 +6,7 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Image, useWindowDimensions} from "react-native"
-import {useThemeSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import {PostFull} from "../../types/Types"
@@ -16,6 +16,7 @@ interface Props {
 }
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
+    const {tablet} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const {colors} = useThemeSelector()
@@ -32,7 +33,8 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const size = await functions.image.dynamicResize({uri: img}, 500, width)
+            let imageSize = tablet ? 1100 : 500
+            const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
         }
         updateSize()

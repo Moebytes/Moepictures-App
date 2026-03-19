@@ -6,7 +6,7 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Image, Text, useWindowDimensions} from "react-native"
-import {useThemeSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupThumbnail.styles"
 import functions from "../../functions/Functions"
 import {GroupSearch} from "../../types/Types"
@@ -16,6 +16,7 @@ interface Props {
 }
 
 const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
+    const {tablet} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
@@ -33,7 +34,8 @@ const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const size = await functions.image.dynamicResize({uri: img}, 200, width)
+            const imageSize = tablet ? 450 : 200
+            const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
         }
         updateSize()

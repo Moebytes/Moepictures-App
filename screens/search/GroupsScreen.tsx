@@ -96,7 +96,7 @@ const GroupsScreen: React.FunctionComponent = () => {
               renderItem={renderItem}
               keyExtractor={(item) => item.groupID.toString()}
               numColumns={2}
-              columnWrapperStyle={{justifyContent: "center", gap: 5, marginBottom: 5}}
+              columnWrapperStyle={{justifyContent: "space-evenly", gap: 5, marginBottom: 5}}
 
               refreshing={isLoading}
               onRefresh={() => setRefreshKey(prev => prev + 1)}

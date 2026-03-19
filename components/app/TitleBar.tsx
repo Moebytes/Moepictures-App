@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, Image} from "react-native"
+import {View, Text, Image, Pressable} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TitleBar.styles"
@@ -16,9 +17,11 @@ const TitleBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const insets = useSafeAreaInsets()
+    const navigation = useNavigation()
 
     return (
-        <View style={{...styles.container, paddingTop: insets.top}}>
+        <Pressable style={{...styles.container, paddingTop: insets.top}}
+            onPress={() => navigation.navigate("Posts", undefined, {pop: true})}>
             <View style={styles.textContainer}>
                 <Text style={styles.textA}>M</Text>
                 <Text style={styles.textB}>o</Text>
@@ -33,7 +36,7 @@ const TitleBar: React.FunctionComponent = () => {
                 <Text style={styles.textA}>s</Text>
             </View>
             <Image style={styles.icon} source={favicon}/>
-        </View>
+        </Pressable>
     )
 }
 

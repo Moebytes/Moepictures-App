@@ -5,7 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect} from "react"
-import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, useSearchActions, useThemeSelector} from "./store"
+import {useWindowDimensions} from "react-native"
+import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
+useSearchActions, useThemeSelector, useLayoutActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import {Themes} from "./types/ParamTypes"
@@ -13,10 +15,17 @@ import {Themes} from "./types/ParamTypes"
 const AsyncStorage: React.FunctionComponent = () => {
     const {theme} = useThemeSelector()
     const {setTheme} = useThemeActions()
+    const {setTablet} = useLayoutActions()
     const {session, showRelated} = useSessionSelector()
     const {setSession, setShowRelated} = useSessionActions()
     const {scroll} = useSearchSelector()
     const {setScroll} = useSearchActions()
+    const {width, height} = useWindowDimensions()
+
+    useEffect(() => {
+        const isTablet = Math.min(width, height) >= 600
+        setTablet(isTablet)
+    }, [width, height])
 
     const setSessionCookie = async () => {
         const cookie = await functions.http.get("/api/user/session", null, session)

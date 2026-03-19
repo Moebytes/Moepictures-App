@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Pressable, Image, useWindowDimensions} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
@@ -17,6 +17,7 @@ interface Props {
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
+    const {tablet} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
@@ -35,7 +36,8 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const size = await functions.image.dynamicResize({uri: img}, 200, width)
+            const imageSize = tablet ? 500 : 200
+            const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
             setLoaded(true)
         }

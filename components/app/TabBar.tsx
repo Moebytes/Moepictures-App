@@ -25,9 +25,9 @@ interface Props {
 
 const TabBar: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
-    const {tabBarHeight} = useLayoutSelector()
+    const {tablet, tabBarHeight} = useLayoutSelector()
     const {setTabBarHeight} = useLayoutActions()
-    const styles = createStylesheet(colors)
+    const styles = createStylesheet(colors, tablet)
     const navigation = useNavigation()
     const insets = useSafeAreaInsets()
     const translateY = useRef(new Animated.Value(0)).current

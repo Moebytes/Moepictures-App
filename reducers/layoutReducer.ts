@@ -11,22 +11,25 @@ import type {StoreState, StoreDispatch} from "../store"
 const layoutSlice = createSlice({
     name: "layout",
     initialState: {
+        tablet: false,
         headerHeight: 210,
         tabBarHeight: 110
     },
     reducers: {
+        setTablet: (state, action) => {state.tablet = action.payload},
         setHeaderHeight: (state, action) => {state.headerHeight = action.payload},
         setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload}
     }    
 })
 
 const {
-    setHeaderHeight, setTabBarHeight
+    setHeaderHeight, setTabBarHeight, setTablet
 } = layoutSlice.actions
 
 export const useLayoutSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
+        tablet: selector((state) => state.layout.tablet),
         headerHeight: selector((state) => state.layout.headerHeight),
         tabBarHeight: selector((state) => state.layout.tabBarHeight),
     }
@@ -35,8 +38,9 @@ export const useLayoutSelector = () => {
 export const useLayoutActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
+        setTablet: (state: boolean) => dispatch(setTablet(state)),
         setHeaderHeight: (state: number) => dispatch(setHeaderHeight(state)),
-        setTabBarHeight: (state: number) => dispatch(setTabBarHeight(state))
+        setTabBarHeight: (state: number) => dispatch(setTabBarHeight(state)),
     }
 }
 

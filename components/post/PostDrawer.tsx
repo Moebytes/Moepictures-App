@@ -4,8 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {View, Text, ScrollView} from "react-native"
+import {useRoute} from "@react-navigation/native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector, useSessionSelector} from "../../store"
@@ -28,6 +29,12 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const insets = useSafeAreaInsets()
     const [dimensions, setDimensions] = useState({width: 0, height: 0, size: 0})
+    const ref = useRef<ScrollView>(null)
+    const route = useRoute()
+
+    useEffect(() => {
+      ref.current?.scrollTo({y: 0, animated: false})
+    }, [route.params])
 
     useEffect(() => {
         const updateDimensions = async () => {
@@ -88,7 +95,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     return (
         <LiquidGlassContainerView style={{flex: 1}}>
         <LiquidGlassView effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
-            <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}
+            <ScrollView ref={ref} style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
                 <Text style={styles.title}>Post Info</Text>
                 <View style={styles.rowItem}>
