@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
-import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+import PressableHaptic from "../../ui/PressableHaptic"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
@@ -29,19 +29,11 @@ const ProfileScreen: React.FunctionComponent = () => {
     const styles = createStylesheet(colors)
 
     const changeTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light"
-        setTheme(newTheme)
-        asyncStorage.setItem("theme", newTheme)
+        setTheme(theme === "light" ? "dark" : "light")
     }
 
     const changeShowRelated = () => {
-        const newRelated = !showRelated
-        setShowRelated(newRelated)
-        asyncStorage.setItem("showRelated", JSON.stringify(newRelated))
-    }
-
-    const hapticFeedback = () => {
-        ReactNativeHapticFeedback.trigger("rigid")
+        setShowRelated(!showRelated)
     }
 
     let iconSize = 21
@@ -86,7 +78,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -94,11 +86,11 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <Text style={styles.text}>Terms of Service</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </Pressable>
+                    </PressableHaptic>
 
                     <View style={styles.separator}/>
 
-                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -106,11 +98,11 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <Text style={styles.text}>Privacy Policy</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </Pressable>
+                    </PressableHaptic>
 
                     <View style={styles.separator}/>
 
-                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -118,11 +110,11 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <Text style={styles.text}>Contact Us</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </Pressable>
+                    </PressableHaptic>
 
                     <View style={styles.separator}/>
 
-                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -130,10 +122,10 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <Text style={styles.text}>Help</Text>
                         </View>
                         <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </Pressable>
+                    </PressableHaptic>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Pressable delayLongPress={pressDelay} onLongPress={hapticFeedback} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => Linking.openURL("https://moepictures.net")}
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
@@ -141,7 +133,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <LinkIcon width={25} height={25} color={colors.iconColor}/>
                             <Text style={styles.text}>Visit our website!</Text>
                         </View>
-                    </Pressable>
+                    </PressableHaptic>
                 </View>
                 <View style={styles.copyContainer}>
                     {/* <MoebytesLogo/> */}

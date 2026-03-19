@@ -6,7 +6,8 @@
 
 import React, {useState, useRef} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {View, Text, TextInput, Pressable} from "react-native"
+import {View, Text, TextInput} from "react-native"
+import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useFlagActions, useMiscDialogSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "../Dialog.styles"
 import Draggable from "../Draggable"
@@ -51,21 +52,21 @@ const PageDialog: React.FunctionComponent = () => {
                                 selectionColor={colors.borderColor}/>
                         </View>
                         <View style={styles.row}>
-                            <Pressable onPress={onClose} style={({pressed}) => [
+                            <PressableHaptic onPress={onClose} style={({pressed}) => [
                                 styles.button, pressed && styles.buttonActive
                             ]}>{({pressed}) => (
                                 <Text style={[styles.buttonText, 
                                     pressed && styles.buttonTextActive]}>Cancel</Text>
                             )}
-                            </Pressable>
+                            </PressableHaptic>
 
-                            <Pressable onPress={onSubmit} style={({pressed}) => [
+                            <PressableHaptic onPress={onSubmit} style={({pressed}) => [
                                 styles.button, pressed && styles.buttonActive
                             ]}>{({pressed}) => (
                                 <Text style={[styles.buttonText, 
                                     pressed && styles.buttonTextActive]}>Go</Text>
                             )}
-                            </Pressable>
+                            </PressableHaptic>
                         </View>
                     </LiquidGlassView>
                 )}</Draggable>

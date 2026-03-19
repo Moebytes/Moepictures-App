@@ -6,7 +6,7 @@
 
 import React, {useEffect, useState, useRef} from "react"
 import {View, StatusBar, ScrollView} from "react-native"
-import {RouteProp, useRoute} from "@react-navigation/native"
+import {RouteProp} from "@react-navigation/native"
 import {Drawer} from "react-native-drawer-layout"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useCacheSelector, useCacheActions} from "../../store"
 import {StackParamList} from "../../App"

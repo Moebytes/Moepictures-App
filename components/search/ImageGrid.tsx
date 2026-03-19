@@ -62,8 +62,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const totalPosts = Number(pageQuery.data?.[0].postCount ?? 0)
-    const totalPages = Math.ceil(totalPosts / pageSize)
+    const totalItems = Number(pageQuery.data?.[0].postCount ?? 0)
+    const totalPages = Math.ceil(totalItems / pageSize)
 
     return (
         <View style={styles.container}>
@@ -95,7 +95,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
                 onEndReached={scroll ? loadMore : undefined}
                 onEndReachedThreshold={scroll ? 0.1 : undefined}
-                ListFooterComponent={!scroll ? <PageButtons page={page} setPage={setPage} totalPages={totalPages}/> : undefined}
+                ListFooterComponent={!scroll ? <PageButtons page={page} 
+                    setPage={setPage} totalPages={totalPages}/> : undefined}
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
 
                 onScroll={handleScroll}

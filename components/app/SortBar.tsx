@@ -6,6 +6,7 @@
 
 import React from "react"
 import {View, Pressable} from "react-native"
+import IconButton from "../../ui/IconButton"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
@@ -34,42 +35,21 @@ const SortBar: React.FunctionComponent = () => {
     let iconSize = 20
 
     return (
-        <LiquidGlassView interactive effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
+        <LiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
             <View style={styles.iconContainer}>
-                <Pressable>
-                    <RandomIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <ImgUploadIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <AutoSearchIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <BookmarkIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <HeartIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
+                <IconButton icon={RandomIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={AutoSearchIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
             </View>
             <View style={styles.iconContainer}>
-                <Pressable onPress={() => setScroll(!scroll)}>
-                    {scroll ?
-                    <ScrollIcon width={iconSize} height={iconSize} color={colors.iconColor}/> :
-                    <PagesIcon width={iconSize} height={iconSize} color={colors.iconColor}/>}
-                </Pressable>
-                <Pressable>
-                    <SquareIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <FiltersIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <SizeIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
-                <Pressable>
-                    <SortIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                </Pressable>
+                <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setScroll(!scroll)}/>
+                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={SortIcon} size={iconSize} color={colors.iconColor}/>
             </View>
         </LiquidGlassView>
     )

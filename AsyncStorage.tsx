@@ -5,33 +5,47 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect} from "react"
-import {useThemeActions, useSessionSelector, useSessionActions} from "./store"
+import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, useSearchActions, useThemeSelector} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import {Themes} from "./types/ParamTypes"
 
 const AsyncStorage: React.FunctionComponent = () => {
+    const {theme} = useThemeSelector()
     const {setTheme} = useThemeActions()
-    const {session} = useSessionSelector()
+    const {session, showRelated} = useSessionSelector()
     const {setSession, setShowRelated} = useSessionActions()
-
-    const restoreSettings = async () => {
-        const savedTheme = await asyncStorage.getItem("theme")
-        const savedShowRelated = await asyncStorage.getItem("showRelated")
-
-        if (savedTheme) setTheme(savedTheme as Themes)
-        if (savedShowRelated) setShowRelated(JSON.parse(savedShowRelated))
-    }
+    const {scroll} = useSearchSelector()
+    const {setScroll} = useSearchActions()
 
     const setSessionCookie = async () => {
         const cookie = await functions.http.get("/api/user/session", null, session)
         setSession(cookie)
     }
 
+    const restoreSettings = async () => {
+        const savedTheme = await asyncStorage.getItem("theme")
+        const savedShowRelated = await asyncStorage.getItem("showRelated")
+        const savedScroll = await asyncStorage.getItem("scroll")
+
+        if (savedTheme) setTheme(savedTheme as Themes)
+        if (savedShowRelated) setShowRelated(Boolean(savedShowRelated))
+        if (savedScroll) setScroll(Boolean(savedScroll))
+    }
+
     useEffect(() => {
-        restoreSettings()
         setSessionCookie()
+        restoreSettings()
     }, [])
+
+    useEffect(() => {
+        asyncStorage.setItem("theme", theme)
+        asyncStorage.setItem("showRelated", String(showRelated))
+    }, [theme, showRelated])
+
+    useEffect(() => {
+        asyncStorage.setItem("scroll", String(scroll))
+    }, [scroll])
 
     return null
 }

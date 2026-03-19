@@ -82,36 +82,108 @@ export const api = createApi({
             })
         }),
 
-        searchComments: builder.query<
+        searchComments: builder.infiniteQuery<
             GetEndpoint<"/api/search/comments">["response"], 
-            GetEndpoint<"/api/search/comments">["params"]
+            GetEndpoint<"/api/search/comments">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/search/comments", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        searchCommentsPage: builder.query<
+            GetEndpoint<"/api/search/comments">["response"], 
+            GetEndpoint<"/api/search/comments">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/search/comments", params
             })
         }),
 
-        searchNotes: builder.query<
+        searchNotes: builder.infiniteQuery<
             GetEndpoint<"/api/search/notes">["response"], 
-            GetEndpoint<"/api/search/notes">["params"]
+            GetEndpoint<"/api/search/notes">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/search/notes", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        searchNotesPage: builder.query<
+            GetEndpoint<"/api/search/notes">["response"], 
+            GetEndpoint<"/api/search/notes">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/search/notes", params
             })
         }),
 
-        searchTags: builder.query<
+        searchTags: builder.infiniteQuery<
             GetEndpoint<"/api/search/tags">["response"], 
-            GetEndpoint<"/api/search/tags">["params"]
+            GetEndpoint<"/api/search/tags">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/search/tags", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        searchTagsPage: builder.query<
+            GetEndpoint<"/api/search/tags">["response"], 
+            GetEndpoint<"/api/search/tags">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/search/tags", params
             })
         }),
 
-        searchGroups: builder.query<
+        searchGroups: builder.infiniteQuery<
             GetEndpoint<"/api/search/groups">["response"], 
-            GetEndpoint<"/api/search/groups">["params"]
+            GetEndpoint<"/api/search/groups">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/search/groups", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        searchGroupsPage: builder.query<
+            GetEndpoint<"/api/search/groups">["response"], 
+            GetEndpoint<"/api/search/groups">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/search/groups", params
@@ -133,8 +205,12 @@ export const {
     useSearchPostsInfiniteQuery,
     useSearchPostsPageQuery,
     useGetPostQuery,
-    useSearchCommentsQuery,
-    useSearchNotesQuery,
-    useSearchTagsQuery,
-    useSearchGroupsQuery
+    useSearchCommentsInfiniteQuery,
+    useSearchCommentsPageQuery,
+    useSearchNotesInfiniteQuery,
+    useSearchNotesPageQuery,
+    useSearchTagsInfiniteQuery,
+    useSearchTagsPageQuery,
+    useSearchGroupsInfiniteQuery,
+    useSearchGroupsPageQuery
 } = api

@@ -6,6 +6,7 @@
 
 import React, {useState, useRef} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
+import IconButton from "../../ui/IconButton"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
@@ -87,8 +88,8 @@ const SearchBar: React.FunctionComponent<Props> = (props) => {
             </View>
             <Pressable>
                 {props.random ?
-                <RandomIcon width={iconSize} height={iconSize} color={colors.borderColor}/> :
-                <OptionsIcon width={iconSize} height={iconSize} color={colors.borderColor}/>}
+                <IconButton icon={RandomIcon} size={iconSize} color={colors.borderColor}/> :
+                <IconButton icon={OptionsIcon} size={iconSize} color={colors.borderColor}/> }
             </Pressable>
         </View>
     )

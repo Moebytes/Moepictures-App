@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, Text, Pressable} from "react-native"
-import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+import IconButton from "../../ui/IconButton"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
@@ -27,10 +27,6 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
-    const hapticFeedback = () => {
-        ReactNativeHapticFeedback.trigger("impactMedium")
-    }
-
     const downloadImage = () => {
         if (!props.post) return
         const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
@@ -40,29 +36,26 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.iconContainer} onPress={() => null}>
-                <StarIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+            <IconButton icon={StarIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>Favorite</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => null}>
-                <StarGroupIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+            </IconButton>
+            <IconButton icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>Favgroup</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} delayLongPress={200} 
-                onLongPress={hapticFeedback} onPress={props.openDrawer}>
-                {({pressed}) => (<>
-                    <InfoIcon width={iconSize} height={iconSize} color={pressed ? colors.iconActive : colors.iconColor}/>
+            </IconButton>
+            <IconButton icon={InfoIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>
                     <Text style={styles.text}>Info</Text>
-                </>)}
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={downloadImage}>
-                <DownloadIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+            </IconButton>
+            <IconButton icon={DownloadIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={downloadImage}>
                 <Text style={styles.text}>Download</Text>
-            </Pressable>
-            <Pressable style={styles.iconContainer} onPress={() => null}>
-                <FiltersIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+            </IconButton>
+            <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>Filters</Text>
-            </Pressable>
+            </IconButton>
         </View>
     )
 }

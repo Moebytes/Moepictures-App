@@ -87,7 +87,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
 
     return (
         <LiquidGlassContainerView style={{flex: 1}}>
-        <LiquidGlassView interactive effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
+        <LiquidGlassView effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
             <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
                 <Text style={styles.title}>Post Info</Text>

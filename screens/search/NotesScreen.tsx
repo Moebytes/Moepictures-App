@@ -4,11 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState} from "react"
-import {View, Text, StatusBar, FlatList, ListRenderItem} from "react-native"
+import React, {useState, useRef, useEffect} from "react"
+import {View, Text, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector} from "../../store"
-import {useSearchNotesQuery} from "../../api"
+import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useSearchNotesInfiniteQuery, useSearchNotesPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
@@ -21,14 +21,50 @@ import {NoteSearch} from "../../types/Types"
 const NotesScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
   const {headerHeight, tabBarHeight} = useLayoutSelector()
+  const {scroll} = useSearchSelector()
   const styles = createStylesheet(colors)
   const [tabVisible, setTabVisible] = useState(true)
   const {handleScroll} = useAutoHideScroll(setTabVisible)
-  const {data: notes} = useSearchNotesQuery({offset: 0})
+  const [page, setPage] = useState(1)
+  const [refreshKey, setRefreshKey] = useState(0)
+  const ref = useRef<FlatList>(null)
+
+  useEffect(() => {
+        ref.current?.scrollToOffset({offset: 0, animated: true})
+    }, [page])
+  
+    const pageSize = 15
+  
+    const infiniteQuery = useSearchNotesInfiniteQuery(
+        {refreshKey},
+        {skip: !scroll}
+    )
+  
+    const pageQuery = useSearchNotesPageQuery(
+        {offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
+        {skip: scroll}
+    )
+  
+    const notes = scroll
+        ? (infiniteQuery.data?.pages.flat() ?? [])
+        : (pageQuery.data ?? [])
   
   const renderItem: ListRenderItem<NoteSearch> = ({item}) => {
       return <NoteRow note={item}/>
   }
+
+  const isLoading = scroll
+        ? infiniteQuery.isLoading
+        : pageQuery.isLoading
+
+    const loadMore = () => {
+        if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
+            infiniteQuery.fetchNextPage()
+        }
+    }
+
+    const totalItems = Number(pageQuery.data?.[0].noteCount ?? 0)
+    const totalPages = Math.ceil(totalItems / pageSize)
 
   const headerJSX = () => {
     return (
@@ -48,20 +84,41 @@ const NotesScreen: React.FunctionComponent = () => {
           <SearchBar/>
         </AnimatedHeaderWrapper>
         <FlatList
-            style={{flex: 1}}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{backgroundColor: colors.background, paddingTop: headerHeight, paddingBottom: tabBarHeight}}
-            data={notes} 
-            renderItem={renderItem}
-            keyExtractor={(_, i) => i.toString()}
-            numColumns={1}
-            ListHeaderComponent={headerJSX()}
-            ListFooterComponent={<PageButtons/>}
-            ListFooterComponentStyle={styles.footer}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            keyboardDismissMode="on-drag"
-            keyboardShouldPersistTaps="handled"
+              ref={ref}
+              style={{flex: 1}}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                  backgroundColor: colors.background,
+                  marginTop: headerHeight,
+                  paddingBottom: tabBarHeight
+              }}
+              data={notes} 
+              renderItem={renderItem}
+              keyExtractor={(item) => item.noteID.toString()}
+              numColumns={1}
+
+              refreshing={isLoading}
+              onRefresh={() => setRefreshKey(prev => prev + 1)}
+              refreshControl={
+                  <RefreshControl
+                      refreshing={isLoading}
+                      onRefresh={() => setRefreshKey(prev => prev + 1)}
+                      tintColor={colors.iconColor}
+                      colors={[colors.iconColor]}
+                      progressViewOffset={headerHeight}
+                  />}
+
+              onEndReached={scroll ? loadMore : undefined}
+              onEndReachedThreshold={scroll ? 0.1 : undefined}
+              ListHeaderComponent={headerJSX()}
+              ListFooterComponent={!scroll ? <PageButtons page={page} 
+                  setPage={setPage} totalPages={totalPages}/> : undefined}
+              ListFooterComponentStyle={!scroll ? styles.footer : undefined}
+
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+              keyboardDismissMode="on-drag"
+              keyboardShouldPersistTaps="handled"
         />
         <TabBar visible={tabVisible}/>
     </View>

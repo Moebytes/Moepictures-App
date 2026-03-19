@@ -13,11 +13,7 @@ import App from "./App"
 
 global.Buffer = Buffer
 
-LogBox.ignoreLogs([
-  "VirtualizedLists should never be nested inside plain ScrollViews",
-  "InteractionManager has been deprecated and will be removed in a future release.",
-  "Require cycle:"
-])
+LogBox.ignoreAllLogs()
 
 const Root = () => (
   <Provider store={store}>

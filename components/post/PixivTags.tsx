@@ -6,7 +6,7 @@
 
 import React, {useState} from "react"
 import {View, Text, Pressable, Linking} from "react-native"
-import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/PixivTags.styles"
 import {PostFull} from "../../types/Types"
@@ -20,11 +20,6 @@ const PixivTags: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const [activeTag, setActiveTag] = useState("")
 
-    const hapticFeedback = (tag: string) => {
-        ReactNativeHapticFeedback.trigger("impactMedium")
-        setActiveTag(tag)
-    }
-
     const generateJSX = () => {
         let jsx = [] as React.ReactElement[]
         const pixivTags = props.post?.pixivTags ?? []
@@ -37,11 +32,11 @@ const PixivTags: React.FunctionComponent<Props> = (props) => {
             }
 
             jsx.push(
-                <Pressable key={tag} delayLongPress={200} onLongPress={() => null}
-                    onPressIn={() => hapticFeedback(tag)} onPress={onPress} onPressOut={() => setActiveTag("")}
+                <PressableHaptic key={tag} delayLongPress={200} onLongPress={() => null}
+                    onPressIn={() => setActiveTag(tag)} onPress={onPress} onPressOut={() => setActiveTag("")}
                     style={[styles.tagContainer, isActive && styles.tagContainerActive]}>
                     <Text style={[styles.tag, isActive && styles.tagActive]}>{tag}</Text>
-                </Pressable>
+                </PressableHaptic>
             )
         }
         return jsx
