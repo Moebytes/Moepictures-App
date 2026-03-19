@@ -23,9 +23,9 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const [size, setSize] = useState({width: width / 2, height: width / 2})
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
-    const navigation = useNavigation()
     const [img, setImg] = useState("")
     const [loaded, setLoaded] = useState(false)
+    const navigation = useNavigation()
 
     useEffect(() => {
         if (!props.post) return

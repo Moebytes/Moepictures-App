@@ -13,6 +13,7 @@ import TabBar from "../../components/app/TabBar"
 import SortBar from "../../components/app/SortBar"
 import ImageGrid from "../../components/search/ImageGrid"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
+import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 
 const PostsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
@@ -26,6 +27,7 @@ const PostsScreen: React.FunctionComponent = () => {
             <SearchBar/>
             <SortBar/>
         </AnimatedHeaderWrapper>
+        <SearchSuggestions/>
         <ImageGrid onScrollChange={setTabVisible}/>
         <TabBar visible={tabVisible}/>
     </View>

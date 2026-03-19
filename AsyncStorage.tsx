@@ -7,7 +7,7 @@
 import React, {useEffect} from "react"
 import {useWindowDimensions} from "react-native"
 import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
-useSearchActions, useThemeSelector, useLayoutActions} from "./store"
+useSearchActions, useThemeSelector, useLayoutActions, useCacheActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import {Themes} from "./types/ParamTypes"
@@ -16,6 +16,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {theme} = useThemeSelector()
     const {setTheme} = useThemeActions()
     const {setTablet} = useLayoutActions()
+    const {setSortedTags} = useCacheActions()
     const {session, showRelated} = useSessionSelector()
     const {setSession, setShowRelated} = useSessionActions()
     const {scroll} = useSearchSelector()
@@ -32,19 +33,25 @@ const AsyncStorage: React.FunctionComponent = () => {
         setSession(cookie)
     }
 
+    const updateCache = async () => {
+        const sorted = await functions.cache.sortedTagCounts("all", session)
+        setSortedTags(sorted)
+    }
+
     const restoreSettings = async () => {
         const savedTheme = await asyncStorage.getItem("theme")
         const savedShowRelated = await asyncStorage.getItem("showRelated")
         const savedScroll = await asyncStorage.getItem("scroll")
 
         if (savedTheme) setTheme(savedTheme as Themes)
-        if (savedShowRelated) setShowRelated(Boolean(savedShowRelated))
-        if (savedScroll) setScroll(Boolean(savedScroll))
+        if (savedShowRelated) setShowRelated(JSON.parse(savedShowRelated))
+        if (savedScroll) setScroll(JSON.parse(savedScroll))
     }
 
     useEffect(() => {
         setSessionCookie()
         restoreSettings()
+        updateCache()
     }, [])
 
     useEffect(() => {

@@ -81,8 +81,8 @@ const Related: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const totalPosts = Number(pageQuery.data?.[0].postCount ?? 0)
-    const totalPages = Math.ceil(totalPosts / pageSize)
+    const totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
+    const totalPages = Math.ceil(totalItems / pageSize)
 
     let iconSize = 22
 

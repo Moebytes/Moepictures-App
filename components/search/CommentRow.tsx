@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, useWindowDimensions} from "react-native"
+import {View, Image, Text, useWindowDimensions, Pressable} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import {useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
@@ -26,6 +27,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [userPfp, setUserPfp] = useState("")
+    const navigation = useNavigation()
 
     useEffect(() => {
         if (!props.comment) return
@@ -53,9 +55,10 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
+            <Pressable style={styles.imageContainer}
+            onPress={() => navigation.navigate("Post", {postID: props.comment.postID})}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
-            </View>
+            </Pressable>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>

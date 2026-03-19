@@ -6,6 +6,7 @@
 
 import functions from "./Functions"
 import {TagCount, Tag, Session, PostFull, Post} from "../types/Types"
+import { ThemeColors } from "../ui/colors"
 
 export default class TagFunctions {
     public static parseTags = async (posts: PostFull[], session: Session, isBanner?: boolean) => {
@@ -72,5 +73,28 @@ export default class TagFunctions {
             }
         }
         return {artists, characters, series, meta, tags}
+    }
+
+    public static trimSpecialCharacters = (query: string) => {
+        return query?.trim().split(/ +/g).map((item) => {
+            if (item.startsWith("+-")) return item.replace("+-", "")
+            if (item.startsWith("+")) return item.replace("+", "")
+            if (item.startsWith("-")) return item.replace("-", "")
+            if (item.startsWith("*")) return item.replace("*", "")
+            return item
+        }).join(" ") || ""
+    }
+
+    public static getGlassColor = (tag: TagCount, colors: ThemeColors) => {
+        if (tag.type === "artist") return colors.artistTagColorGlass
+        if (tag.type === "character") return colors.characterTagColorGlass
+        if (tag.type === "series") return colors.seriesTagColorGlass
+        if (tag.type === "meta") return colors.metaTagColorGlass
+        if (tag.type === "appearance") return colors.appearanceTagColorGlass
+        if (tag.type === "outfit") return colors.outfitTagColorGlass
+        if (tag.type === "accessory") return colors.accessoryTagColorGlass
+        if (tag.type === "action") return colors.actionTagColorGlass
+        if (tag.type === "scenery") return colors.sceneryTagColorGlass
+        return colors.tagColorGlass
     }
 }

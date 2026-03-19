@@ -4,10 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useRef} from "react"
+import React, {useRef, useCallback} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
+import {useFocusEffect} from "@react-navigation/native"
 import IconButton from "../../ui/IconButton"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useSearchActions, useSearchSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
@@ -15,30 +16,45 @@ import RandomIcon from "../../assets/svg/random.svg"
 import XIcon from "../../assets/svg/x.svg"
 
 interface Props {
+    managedProps?: {
+        text: string,
+        setText: (text: string) => void
+        searchTags: string[]
+        setSearchTags: (tags: string[]) => void
+        setSearch: (search: string) => void
+    }
     random?: boolean
 }
 
-const SearchBar: React.FunctionComponent<Props> = (props) => {
+const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => {
     const {colors} = useThemeSelector()
+    let {text, searchTags} = useSearchSelector()
+    let {setText, setFocused, setSearchTags, setSearch} = useSearchActions()
     const styles = createStylesheet(colors)
-    const [text, setText] = useState("")
-    const [items, setItems] = useState<string[]>([])
     const inputRef = useRef<TextInput>(null)
     const scrollRef = useRef<ScrollView>(null)
 
+    if (managedProps) {
+        text = managedProps.text
+        setText = managedProps.setText as any
+        searchTags = managedProps.searchTags
+        setSearchTags = managedProps.setSearchTags as any
+        setSearch = managedProps.setSearch as any
+    }
+
     const addItem = () => {
         if (!text.trim()) return
-        setItems([...items, text.trim()])
+        setSearchTags([...searchTags, text.trim()])
         setText("")
     }
 
     const removeItem = (index: number) => {
-        setItems(items.filter((_, i) => i !== index))
+        setSearchTags(searchTags.filter((_, i) => i !== index))
     }
 
     const handleKeyPress = (e: any) => {
-        if (e.nativeEvent.key === "Backspace" && !text && items.length) {
-            setItems(items.slice(0, -1))
+        if (e.nativeEvent.key === "Backspace" && !text && searchTags.length) {
+            setSearchTags(searchTags.slice(0, -1))
         }
     }
 
@@ -48,14 +64,13 @@ const SearchBar: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.textInputWrapper}>
-
                 <Pressable style={{flex: 1}} onPress={() => inputRef.current?.focus()}>
                     <ScrollView ref={scrollRef} horizontal
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.textInputContainer}
                         keyboardShouldPersistTaps="always"
                         onContentSizeChange={() => scrollRef.current?.scrollToEnd({animated: true})}>
-                        {items.map((item, index) => (
+                        {searchTags.map((item, index) => (
                             <View key={index} style={styles.tag}>
                                 <Text style={styles.tagText}>{item}</Text>
                                 <Pressable onPress={() => removeItem(index)} hitSlop={10}>
@@ -77,7 +92,17 @@ const SearchBar: React.FunctionComponent<Props> = (props) => {
                             spellCheck={false}
                             autoComplete="off"
                             importantForAutofill="no"
-                            onFocus={() => scrollRef.current?.scrollToEnd({animated: true})}
+                            onFocus={() => {
+                                setFocused(true)
+                                scrollRef.current?.scrollToEnd({animated: true})
+                            }}
+                            onBlur={() => {
+                                setFocused(false)
+                                let tags = [...searchTags, text.trim()].filter(Boolean)
+                                setSearchTags(tags)
+                                setSearch(tags.join(" "))
+                                setText("")
+                            }}
                         />
                     </ScrollView>
                 </Pressable>

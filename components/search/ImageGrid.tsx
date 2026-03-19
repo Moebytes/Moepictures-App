@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {View, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Image, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
@@ -14,6 +14,8 @@ import {useAutoHideScroll} from "../app/useAutoHideScroll"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {PostSearch} from "../../types/PostTypes"
 
+const noresults = require("../../assets/images/noresults.png")
+
 interface Props {
     onScrollChange?: (visible: boolean) => void
 }
@@ -21,7 +23,7 @@ interface Props {
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, pageMultiplier} = useSearchSelector()
+    const {search, scroll, pageMultiplier} = useSearchSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
     const [page, setPage] = useState(1)
@@ -35,12 +37,13 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const pageSize = 15 * pageMultiplier
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {type: "image", refreshKey},
+        {query: search, type: "image", refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {type: "image", offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
+        {query: search, type: "image", 
+        offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 
@@ -50,6 +53,15 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
         return <GridImage post={item}/>
+    }
+
+    const renderEmpty = () => {
+        if (isLoading) return null
+        return (
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
+                <Image source={noresults} style={{width: 350, height: 350, resizeMode: "contain"}}/>
+            </View>
+        )
     }
 
     const isLoading = scroll
@@ -62,7 +74,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const totalItems = Number(pageQuery.data?.[0].postCount ?? 0)
+    const totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
     const totalPages = Math.ceil(totalItems / pageSize)
 
     return (
@@ -98,6 +110,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 ListFooterComponent={!scroll ? <PageButtons page={page} 
                     setPage={setPage} totalPages={totalPages}/> : undefined}
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
+                ListEmptyComponent={renderEmpty}
 
                 onScroll={handleScroll}
                 scrollEventThrottle={16}

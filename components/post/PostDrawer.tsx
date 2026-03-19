@@ -51,22 +51,9 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         if (!tags) return jsx
 
         for (const item of tags) {
-            const getColor = () => {
-                if (item.type === "artist") return colors.artistTagColorGlass
-                if (item.type === "character") return colors.characterTagColorGlass
-                if (item.type === "series") return colors.seriesTagColorGlass
-                if (item.type === "meta") return colors.metaTagColorGlass
-                if (item.type === "appearance") return colors.appearanceTagColorGlass
-                if (item.type === "outfit") return colors.outfitTagColorGlass
-                if (item.type === "accessory") return colors.accessoryTagColorGlass
-                if (item.type === "action") return colors.actionTagColorGlass
-                if (item.type === "scenery") return colors.sceneryTagColorGlass
-                return colors.tagColor
-            }
-
             jsx.push(
                 <LiquidGlassView key={item.tag} interactive effect="clear" 
-                    style={[styles.tag, {backgroundColor: getColor()}]}>
+                    style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
                     <Text style={styles.tagText}>{item.tag}</Text>
                 </LiquidGlassView>
             )

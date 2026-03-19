@@ -27,7 +27,10 @@ const searchSlice = createSlice({
         autoSearch: false,
         saveSearch: false,
         favSearch: false,
-        showChildren: true
+        showChildren: true,
+        text: "",
+        focused: false,
+        searchTags: [] as string[]
     },
     reducers: {
         setSearch: (state, action) => {state.search = action.payload},
@@ -45,14 +48,18 @@ const searchSlice = createSlice({
         setAutoSearch: (state, action) => {state.autoSearch = action.payload},
         setSaveSearch: (state, action) => {state.saveSearch = action.payload},
         setFavSearch: (state, action) => {state.favSearch = action.payload},
-        setShowChildren: (state, action) => {state.showChildren = action.payload}
+        setShowChildren: (state, action) => {state.showChildren = action.payload},
+        setText: (state, action) => {state.text = action.payload},
+        setFocused: (state, action) => {state.focused = action.payload},
+        setSearchTags: (state, action) => {state.searchTags = action.payload}
     }    
 })
 
 const {
     setSearch, setSearchFlag, setImageType, setRatingType, setStyleType, setSizeType,
     setSortType, setSortReverse, setSquare, setScroll, setPageMultiplier,
-    setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren
+    setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren,
+    setText, setFocused, setSearchTags
 } = searchSlice.actions
 
 export const useSearchSelector = () => {
@@ -73,7 +80,10 @@ export const useSearchSelector = () => {
         autoSearch: selector((state) => state.search.autoSearch),
         saveSearch: selector((state) => state.search.saveSearch),
         favSearch: selector((state) => state.search.favSearch),
-        showChildren: selector((state) => state.search.showChildren)
+        showChildren: selector((state) => state.search.showChildren),
+        text: selector((state) => state.search.text),
+        focused: selector((state) => state.search.focused),
+        searchTags: selector((state) => state.search.searchTags)
     }
 }
 
@@ -95,7 +105,10 @@ export const useSearchActions = () => {
         setAutoSearch: (state: boolean) => dispatch(setAutoSearch(state)),
         setSaveSearch: (state: boolean) => dispatch(setSaveSearch(state)),
         setFavSearch: (state: boolean) => dispatch(setFavSearch(state)),
-        setShowChildren: (state: boolean) => dispatch(setShowChildren(state))
+        setShowChildren: (state: boolean) => dispatch(setShowChildren(state)),
+        setText: (state: string) => dispatch(setText(state)),
+        setFocused: (state: boolean) => dispatch(setFocused(state)),
+        setSearchTags: (state: string[]) => dispatch(setSearchTags(state))
     }
 }
 
