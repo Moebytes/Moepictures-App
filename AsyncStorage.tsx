@@ -40,30 +40,38 @@ const AsyncStorage: React.FunctionComponent = () => {
     }
 
     const restoreSettings = async () => {
-        const savedTheme = await asyncStorage.getItem("theme")
-        const savedLanguage = await asyncStorage.getItem("language")
-        const savedHue = await asyncStorage.getItem("appHue")
-        const savedSaturation = await asyncStorage.getItem("appSaturation")
-        const savedLightness = await asyncStorage.getItem("appLightness")
-        const savedShowRelated = await asyncStorage.getItem("showRelated")
-        const savedScroll = await asyncStorage.getItem("scroll")
+        let keys = [
+            "theme",
+            "appHue",
+            "appSaturation",
+            "appLightness",
+            "language",
+            "scroll",
+            "showRelated"
+        ]
 
-        if (savedTheme) setTheme(savedTheme as Themes)
-        if (savedLanguage) setLanguage(savedLanguage as Languages)
-        if (savedHue) setAppHue(Number(savedHue))
-        if (savedSaturation) setAppSaturation(Number(savedSaturation))
-        if (savedLightness) setAppLightness(Number(savedLightness))
-        if (savedShowRelated) setShowRelated(savedShowRelated === "true")
-        if (savedScroll) setScroll(savedScroll === "true")
+        const saved = await asyncStorage.getMany(keys)
+
+        if (saved.theme) setTheme(saved.theme as Themes)
+        if (saved.language) setLanguage(saved.language as Languages)
+        if (saved.appHue) setAppHue(Number(saved.appHue))
+        if (saved.appSaturation) setAppSaturation(Number(saved.appSaturation))
+        if (saved.appLightness) setAppLightness(Number(saved.appLightness))
+        if (saved.scroll) setScroll(saved.scroll === "true")
+        if (saved.showRelated) setShowRelated(saved.showRelated === "true")
 
         setLoaded(true)
     }
 
     useEffect(() => {
-        setSessionCookie()
         restoreSettings()
-        updateCache()
+        setSessionCookie()
     }, [])
+
+    useEffect(() => {
+        if (!loaded) return
+        updateCache()
+    }, [loaded])
 
     useEffect(() => {
         if (!loaded) return

@@ -20,9 +20,10 @@ const PixivTags: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const [activeTag, setActiveTag] = useState("")
 
+    const pixivTags = props.post?.pixivTags ?? []
+
     const generateJSX = () => {
         let jsx = [] as React.ReactElement[]
-        const pixivTags = props.post?.pixivTags ?? []
         for (const tag of pixivTags) {
             const isActive = activeTag === tag
 
@@ -41,6 +42,8 @@ const PixivTags: React.FunctionComponent<Props> = (props) => {
         }
         return jsx
     }
+
+    if (!pixivTags.length) return null
 
     return (
         <View style={styles.container}>

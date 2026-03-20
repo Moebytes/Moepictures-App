@@ -14,9 +14,11 @@ interface Props {
     setPage: (page: number) => void
     totalPages: number
     hideEndArrow?: boolean
+    marginBottom?: number
 }
 
-const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages, hideEndArrow}) => {
+const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages, 
+    hideEndArrow, marginBottom}) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const {setShowPageDialog} = useMiscDialogActions()
@@ -62,7 +64,7 @@ const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages,
     const pageNumbers = getPageNumbers()
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {marginBottom}]}>
             {page > 1 && (
                 <Pressable style={styles.button} onPress={() => setPage(Math.max(page - 1, 1))}>
                     <Text style={styles.text}>{"<"}</Text>

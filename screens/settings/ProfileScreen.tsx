@@ -8,7 +8,7 @@ import React from "react"
 import {ScrollView, View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeActions, useThemeSelector, useSessionSelector, useSessionActions} from "../../store"
+import {useThemeActions, useThemeSelector, useLayoutSelector, useSessionSelector, useSessionActions} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import KeyIcon from "../../assets/svg/key.svg"
@@ -23,6 +23,7 @@ import {createStylesheet} from "./styles/ProfileScreen.styles"
 
 const ProfileScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
+    const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {setTheme} = useThemeActions()
     const {showRelated} = useSessionSelector()
     const {setShowRelated} = useSessionActions()
@@ -44,7 +45,11 @@ const ProfileScreen: React.FunctionComponent = () => {
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <TitleBar/>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} 
+                contentContainerStyle={{
+                    ...styles.container,
+                    paddingBottom: tabBarHeight + 20
+                }}>
                 <View style={styles.buttonContainer}>
                     <Pressable style={{...styles.itemContainer, backgroundColor: colors.profileLogin}}>
                         <View style={styles.iconContainer}>

@@ -38,13 +38,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             width: "100%"
-        },
-        row: {
-            justifyContent: "space-evenly",
-            marginBottom: 10,
-        },
-        footer: {
-            marginBottom: 10
         }
     })
 }

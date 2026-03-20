@@ -20,6 +20,7 @@ import GroupsIcon from "../../assets/svg/groups.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
 
 interface Props {
+    relative?: boolean
     visible?: boolean
 }
 
@@ -60,7 +61,8 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         ]
         for (const tab of tabMap) {
             const Icon = tab.icon
-            const active = activeRoute === tab.screen
+            let active = activeRoute === tab.screen
+            if (activeRoute === "Post" && tab.screen === "Posts") active = true
 
             jsx.push(
                 <Pressable style={styles.iconContainer} key={tab.screen}
@@ -83,6 +85,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     return (
         <Animated.View onLayout={onLayout} style={{...styles.container, 
             paddingBottom: insets.bottom,
+            position: props.relative ? "relative" : "absolute",
             transform: [{translateY}]}}>
             {generateTabsJSX()}
         </Animated.View>

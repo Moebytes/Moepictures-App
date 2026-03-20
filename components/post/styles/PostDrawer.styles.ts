@@ -36,7 +36,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 22
         },
         text: {
-            color: colors.black,
+            color: colors.textColor,
             fontFamily: fonts.jkGothicM,
             fontSize: 18,
             lineHeight: 22

@@ -4,14 +4,12 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useEffectEvent, useState, useRef} from "react"
-import {View, Text, RefreshControl, FlatList, ListRenderItem} from "react-native"
+import React, {useEffect, useEffectEvent, useState} from "react"
+import {View, Text} from "react-native"
 import IconButton from "../../ui/IconButton"
 import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
-import GridImage from "../image/GridImage"
-import PageButtons from "../search/PageButtons"
 import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
@@ -24,20 +22,12 @@ interface Props {
     post?: PostSearch
 }
 
-const Related: React.FunctionComponent<Props> = (props) => {
-    const {i18n, colors} = useThemeSelector()
+export const useRelatedItems = (props: Props) => {
     const {scroll, pageMultiplier} = useSearchSelector()
-    const {setScroll} = useSearchActions()
-    const styles = createStylesheet(colors)
     const [fallbackIndex, setFallbackIndex] = React.useState(-1)
     const [activeTag, setActiveTag] = useState(props.tag)
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
-    const ref = useRef<FlatList>(null)
-
-    useEffect(() => {
-        ref.current?.scrollToOffset({offset: 0, animated: true})
-    }, [page])
 
     const pageSize = 15 * pageMultiplier
 
@@ -71,10 +61,6 @@ const Related: React.FunctionComponent<Props> = (props) => {
         }
     }, [fallbackIndex])
 
-    const renderItem: ListRenderItem<PostSearch> = ({item}) => {
-        return <GridImage post={item}/>
-    }
-
     const loadMore = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()
@@ -83,6 +69,21 @@ const Related: React.FunctionComponent<Props> = (props) => {
 
     const totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
     const totalPages = Math.ceil(totalItems / pageSize)
+
+    return {
+        posts,
+        loadMore,
+        page,
+        setPage,
+        totalPages
+    }
+}
+
+const Related: React.FunctionComponent = () => {
+    const {i18n, colors} = useThemeSelector()
+    const {scroll} = useSearchSelector()
+    const {setScroll} = useSearchActions()
+    const styles = createStylesheet(colors)
 
     let iconSize = 22
 
@@ -94,24 +95,6 @@ const Related: React.FunctionComponent<Props> = (props) => {
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
                 <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}/>
                 <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}/>
-            </View>
-            <View style={styles.imageContainer}>
-                <FlatList 
-                    ref={ref}
-                    style={{flex: 1}}
-                    showsVerticalScrollIndicator={false}
-                    data={posts} 
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.postID.toString()}
-                    numColumns={2}
-                    columnWrapperStyle={styles.row}
-
-                    onEndReached={scroll ? loadMore : undefined}
-                    onEndReachedThreshold={scroll ? 0.1 : undefined}
-                    ListFooterComponent={!scroll ? <PageButtons page={page} 
-                        setPage={setPage} totalPages={totalPages} hideEndArrow={true}/> : undefined}
-                    ListFooterComponentStyle={!scroll ? styles.footer : undefined}
-                />
             </View>
         </View>
     )

@@ -11,7 +11,7 @@ import {fonts} from "../ui/fonts"
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         overlay: {
-            ...StyleSheet.absoluteFill,
+            ...StyleSheet.absoluteFillObject,
             justifyContent: "center",
             alignItems: "center",
             pointerEvents: "box-none",
