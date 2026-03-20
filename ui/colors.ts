@@ -87,7 +87,7 @@ export const DarkTheme = {
     moeTextB: "#FF5099",
 	profileItem: "#28111f",
     profileItemPressed: "#611B47",
-	profileBG: "#1e0411",
+	profileBG: "#1A040F",
 	profileSeperator: "#4a092a",
 	profileLogin: "#361128",
 	itemBG: "#1B0B12",

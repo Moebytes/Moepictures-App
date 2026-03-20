@@ -45,6 +45,21 @@ export default class UtilFunctions {
         return hash ? `${baseUrl}#${hash.split("?")[0]}?${query}` : link
     }
 
+    public static pruneURLParams = (url: string) => {
+        if (!url) return ""
+
+        const [baseURL, hash] = url.split("#")
+        const parsed = new URL(baseURL)
+
+        let base = parsed.pathname.endsWith("/")
+            ? parsed.pathname.slice(0, -1)
+            : parsed.pathname
+
+        if (parsed.origin) base = parsed.origin + base
+
+        return hash ? `${base}#${hash.split("?")[0]}` : base
+    }
+
     public static readableFileSize = (bytes: number) => {
         const i = bytes === 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024))
         return `${Number((bytes / Math.pow(1024, i)).toFixed(2))} ${["B", "KB", "MB", "GB", "TB"][i]}`

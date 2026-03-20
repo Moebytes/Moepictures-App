@@ -5,9 +5,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, Pressable} from "react-native"
+import {View, Text} from "react-native"
+import {useActionSheet} from "@expo/react-native-action-sheet"
+import path from "path"
 import IconButton from "../../ui/IconButton"
-import {useThemeSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useSessionSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
@@ -23,13 +25,35 @@ interface Props {
 }
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
-    const {i18n, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
+    const {setShowSavePrompt} = useMiscDialogActions()
     const styles = createStylesheet(colors)
+    const {showActionSheetWithOptions} = useActionSheet()
 
-    const downloadImage = () => {
+    const downloadImage = async () => {
         if (!props.post) return
+        if (!await functions.file.requestStoragePermission()) return
+
         const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+        const filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+
+        showActionSheetWithOptions({
+            title: "Save Location",
+            options: ["Photos", "Files", "Cancel"],
+            cancelButtonIndex: 2,
+            tintColor: colors.iconColor,
+            cancelButtonTintColor: colors.iconColor,
+            userInterfaceStyle: theme
+        }, async (selectedIndex) => {
+            if (selectedIndex === 0) {
+                await functions.file.saveToCameraRoll(img, filename)
+                setShowSavePrompt(true)
+            } else if (selectedIndex === 1) {
+                await functions.file.saveToFiles(img, filename)
+                setShowSavePrompt(true)
+            }
+        })
     }
 
     let iconSize = 35

@@ -37,8 +37,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need permission to save images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need permission to save images</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GenEi-M-Gothic-v2.ttf</string>

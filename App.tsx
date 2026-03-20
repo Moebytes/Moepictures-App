@@ -8,8 +8,10 @@ import React from "react"
 import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {SafeAreaProvider} from "react-native-safe-area-context"
+import {ActionSheetProvider} from "@expo/react-native-action-sheet"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
+import SavePrompt from "./ui/SavePrompt"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
@@ -43,9 +45,11 @@ const Stack = createNativeStackNavigator<StackParamList>()
 const App: React.FunctionComponent = () => {
     return (
       <SafeAreaProvider>
+      <ActionSheetProvider>
         <NavigationContainer>
           <AsyncStorage/>
           <Dialogs/>
+          <SavePrompt/>
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>
@@ -58,6 +62,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="AppColor" component={AppColorScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
+      </ActionSheetProvider>
       </SafeAreaProvider>
     )
 }
