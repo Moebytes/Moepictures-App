@@ -78,6 +78,17 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("AppColor", undefined, {pop: true})} style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.user.appColor}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+
+                    <View style={styles.separator}/>
+
                     <View style={styles.itemContainer}>
                         <Text style={styles.text}>{i18n.user.showRelated}</Text>
                         <Switch

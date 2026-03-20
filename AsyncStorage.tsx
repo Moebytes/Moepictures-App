@@ -13,8 +13,8 @@ import functions from "./functions/Functions"
 import {Languages, Themes} from "./types/ParamTypes"
 
 const AsyncStorage: React.FunctionComponent = () => {
-    const {theme, language} = useThemeSelector()
-    const {setTheme, setLanguage} = useThemeActions()
+    const {theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
+    const {setTheme, setLanguage, setAppHue, setAppSaturation, setAppLightness} = useThemeActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags} = useCacheActions()
     const {session, showRelated} = useSessionSelector()
@@ -42,11 +42,17 @@ const AsyncStorage: React.FunctionComponent = () => {
     const restoreSettings = async () => {
         const savedTheme = await asyncStorage.getItem("theme")
         const savedLanguage = await asyncStorage.getItem("language")
+        const savedHue = await asyncStorage.getItem("appHue")
+        const savedSaturation = await asyncStorage.getItem("appSaturation")
+        const savedLightness = await asyncStorage.getItem("appLightness")
         const savedShowRelated = await asyncStorage.getItem("showRelated")
         const savedScroll = await asyncStorage.getItem("scroll")
 
         if (savedTheme) setTheme(savedTheme as Themes)
         if (savedLanguage) setLanguage(savedLanguage as Languages)
+        if (savedHue) setAppHue(Number(savedHue))
+        if (savedSaturation) setAppSaturation(Number(savedSaturation))
+        if (savedLightness) setAppLightness(Number(savedLightness))
         if (savedShowRelated) setShowRelated(savedShowRelated === "true")
         if (savedScroll) setScroll(savedScroll === "true")
 
@@ -61,15 +67,16 @@ const AsyncStorage: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!loaded) return
-        
         asyncStorage.setItem("theme", theme)
         asyncStorage.setItem("language", language)
         asyncStorage.setItem("showRelated", String(showRelated))
-    }, [theme, language, showRelated])
+        asyncStorage.setItem("appHue", String(appHue))
+        asyncStorage.setItem("appSaturation", String(appSaturation))
+        asyncStorage.setItem("appLightness", String(appLightness))
+    }, [theme, language, appHue, appSaturation, appLightness, showRelated])
 
     useEffect(() => {
         if (!loaded) return
-
         asyncStorage.setItem("scroll", String(scroll))
     }, [scroll])
 

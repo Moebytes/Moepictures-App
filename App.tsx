@@ -18,6 +18,7 @@ import TagsScreen from "./screens/search/TagsScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
+import AppColorScreen from "./screens/settings/AppColorScreen"
 
 export type StackParamList = {
   Posts: undefined
@@ -28,6 +29,7 @@ export type StackParamList = {
   Profile: undefined
   Post: {postID: string}
   Language: undefined
+  AppColor: undefined
 }
 
 declare global {
@@ -53,6 +55,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Post" component={PostScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>
+            <Stack.Screen name="AppColor" component={AppColorScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

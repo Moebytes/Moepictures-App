@@ -325,7 +325,8 @@
         "deleted": "deleted",
         "deletedAccount": "deleted account",
         "darkTheme": "Dark Theme",
-        "visitWebsite": "Visit our website!"
+        "visitWebsite": "Visit our website!",
+        "appColor": "App Color"
     },
     "roles": {
         "admin": "Admin",

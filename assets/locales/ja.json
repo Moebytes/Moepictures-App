@@ -326,7 +326,8 @@
         "deleted": "削除された",
         "deletedAccount": "削除されたアカウント",
         "darkTheme": "ダークテーマ",
-        "visitWebsite": "Moepicsのウェブサイト！"
+        "visitWebsite": "Moepicsのウェブサイト！",
+        "appColor": "アプリのカラー"
     },
     "roles": {
         "admin": "管理者",

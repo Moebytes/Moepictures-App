@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-const baseColors = {
+export const noRotation = {
     black: "#000000",
     white: "#ffffff",
     
@@ -19,26 +19,30 @@ const baseColors = {
     sceneryTagColor: "#2b6aff",
     tagColor: "#641fff",
 
-    artistTagColorGlass: "#ff199469",
-    characterTagColorGlass: "#ff1ce669",
-    seriesTagColorGlass: "#b32fff69",
-    metaTagColorGlass: "#339fff69",
-    appearanceTagColorGlass: "#8928ff69",
-    outfitTagColorGlass: "#ff29b569",
-    accessoryTagColorGlass: "#2be94169",
-    actionTagColorGlass: "#ff8e2b69",
-    sceneryTagColorGlass: "#2b6aff69",
-    tagColorGlass: "#641fff69",
-    buttonColorGlass: "#ff579d91"
+    artistTagColorGlass: "rgba(255, 25, 148, 0.41)",
+    characterTagColorGlass: "rgba(255, 28, 230, 0.41)",
+    seriesTagColorGlass: "rgba(179, 47, 255, 0.41)",
+    metaTagColorGlass: "rgba(51, 159, 255, 0.41)",
+    appearanceTagColorGlass: "rgba(137, 40, 255, 0.41)",
+    outfitTagColorGlass: "rgba(255, 41, 181, 0.41)",
+    accessoryTagColorGlass: "rgba(43, 233, 65, 0.41)",
+    actionTagColorGlass: "rgba(255, 142, 43, 0.41)",
+    sceneryTagColorGlass: "rgba(43, 106, 255, 0.41)",
+    tagColorGlass: "rgba(100, 31, 255, 0.41)"
+}
+
+export const sharedColors = {
+    buttonColorGlass: "rgba(255, 87, 157, 0.57)"
 }
 
 export const LightTheme = {
-    ...baseColors,
+    ...noRotation,
+    ...sharedColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0.5)",
     iconColor: "#FF579D",
-    iconActive: "#ff8dbdff",
+    iconActive: "#ff8dbd",
     background: "#FFFFFF",
     borderColor: "#FF459F",
     textColor: "#000000",
@@ -62,12 +66,13 @@ export const LightTheme = {
 }
 
 export const DarkTheme = {
-    ...baseColors,
+    ...noRotation,
+    ...sharedColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0)",
     iconColor: "#FF4891",
-    iconActive: "#ff8dbdff",
+    iconActive: "#ff8dbd",
     background: "#10030C",
     borderColor: "#FF459F",
     textColor: "#FFFFFF",

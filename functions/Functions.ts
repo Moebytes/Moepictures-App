@@ -6,6 +6,7 @@
 
 import ByteFunctions from "./ByteFunctions"
 import CacheFunctions from "./CacheFunctions"
+import ColorFunctions from "./ColorFunctions"
 import CryptoFunctions from "./CryptoFunctions"
 import DateFunctions from "./DateFunctions"
 import FileFunctions from "./FileFunctions"
@@ -18,6 +19,7 @@ import UtilFunctions from "./UtilFunctions"
 export default class Functions {
     public static byte = ByteFunctions
     public static cache = CacheFunctions
+    public static color = ColorFunctions
     public static crypto = CryptoFunctions
     public static date = DateFunctions
     public static file = FileFunctions
