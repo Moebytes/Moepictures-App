@@ -13,6 +13,7 @@ import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheR
 import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
 import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
+import searchDialogReducer, {useSearchDialogSelector, useSearchDialogActions} from "./reducers/searchDialogReducer"
 
 const store = configureStore({
     reducer: {
@@ -23,7 +24,8 @@ const store = configureStore({
         cache: cacheReducer,
         search: searchReducer,
         flag: flagReducer,
-        miscDialog: miscDialogReducer
+        miscDialog: miscDialogReducer,
+        searchDialog: searchDialogReducer
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(api.middleware)
@@ -40,7 +42,8 @@ export {
     useCacheSelector, useCacheActions,
     useSearchSelector, useSearchActions,
     useFlagSelector, useFlagActions,
-    useMiscDialogSelector, useMiscDialogActions
+    useMiscDialogSelector, useMiscDialogActions,
+    useSearchDialogSelector, useSearchDialogActions
 }
 
 export default store

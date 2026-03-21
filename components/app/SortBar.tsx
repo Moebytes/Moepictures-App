@@ -8,7 +8,8 @@ import React from "react"
 import {View} from "react-native"
 import IconButton from "../../ui/IconButton"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"
+import {useThemeSelector, useSearchSelector, useSearchActions, 
+useSearchDialogActions, useSearchDialogSelector} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import RandomIcon from "../../assets/svg/random.svg"
 import ImgUploadIcon from "../../assets/svg/imgupload.svg"
@@ -21,12 +22,15 @@ import SquareIcon from "../../assets/svg/square.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
 import SizeIcon from "../../assets/svg/size.svg"
 import SortIcon from "../../assets/svg/sort.svg"
+import SortReverseIcon from "../../assets/svg/sort-reverse.svg"
 
 const SortBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
-    const {scroll} = useSearchSelector()
-    const {setScroll} = useSearchActions()
+    const {scroll, square, sortReverse} = useSearchSelector()
+    const {setScroll, setSquare} = useSearchActions()
+    const {showSizeDialog, showSortDialog} = useSearchDialogSelector()
+    const {setShowSizeDialog, setShowSortDialog} = useSearchDialogActions()
 
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
@@ -46,10 +50,13 @@ const SortBar: React.FunctionComponent = () => {
             <View style={styles.iconContainer}>
                 <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)}/>
-                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setSquare(!square)}/>
                 <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={SortIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setShowSizeDialog(!showSizeDialog)}/>
+                <IconButton icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setShowSortDialog(!showSortDialog)}/>
             </View>
         </LiquidGlassView>
     )

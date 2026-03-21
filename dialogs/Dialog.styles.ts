@@ -32,12 +32,37 @@ export const createStylesheet = (colors: ThemeColors) => {
             minWidth: 200,
             gap: 20
         },
+        scrollerContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            pointerEvents: "auto",
+            borderWidth: 1,
+            borderColor: colors.black,
+            borderRadius: 12
+        },
+        scrollContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+            minWidth: 200,
+            gap: 20
+        },
         row: {
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
             gap: 10
+        },
+        rowContent: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 5
         },
         title: {
             color: colors.black,
@@ -84,6 +109,29 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         buttonTextActive: {
             color: colors.white
-        }
+        },
+        separator: {
+            height: 1,
+            width: "50%",
+            backgroundColor: colors.black
+        },
+        rowButton: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 10,
+            overflow: "hidden",
+            paddingVertical: 5,
+            borderRadius: 10,
+            gap: 10
+        },
+        absolute: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0
+        },
     })
 }

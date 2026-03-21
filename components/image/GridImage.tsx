@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Pressable, Image, useWindowDimensions, Keyboard} from "react-native"
 import {useNavigation, CommonActions} from "@react-navigation/native"
-import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
@@ -18,7 +18,8 @@ interface Props {
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
-    const {tablet, keyboardOpen} = useLayoutSelector()
+    const {tablet, keyboardOpen, dialogOpen} = useLayoutSelector()
+    const {sizeType, square} = useSearchSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
@@ -37,16 +38,21 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const imageSize = tablet ? 500 : 200
-            const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
+            const {imageSize} = functions.image.getImageSize(sizeType, square, tablet)
+            let size = await functions.image.dynamicResize({uri: img}, imageSize, width)
+
+            if (square) {
+                size = {width: imageSize, height: imageSize}
+            }
             setSize(size)
             setLoaded(true)
         }
         setLoaded(false)
         updateSize()
-    }, [img])
+    }, [img, tablet, sizeType, square])
 
     const onPress = () => {
+        if (dialogOpen) return
         if (keyboardOpen) return Keyboard.dismiss()
 
         const state = navigation.getState()!
@@ -73,20 +79,23 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         )
     }
 
-    const borderWidth = 1.2
+    const borderWidth = square ? 0 : 1.2
     const landscape = size.width > size.height
+    const marginVertical = square ? 0 :
+        sizeType === "large" || sizeType === "massive" ? 10 : 5
     
     const imageSize = landscape ?
         {width: size.width - borderWidth * 2, height: size.height} : 
         {width: size.width, height: size.height - borderWidth * 2}
 
     return (
-        <Pressable style={[styles.container, size, {opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
+        <Pressable style={[styles.container, size,
+            {marginVertical, opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
             onPress={onPress}>
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={imageSize} source={{uri: img}} resizeMode="contain"/>}
+            {img && <Image style={imageSize} source={{uri: img}} resizeMode={square ? "cover" : "contain"}/>}
         </Pressable>
     )
 }

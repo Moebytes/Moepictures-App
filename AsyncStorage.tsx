@@ -10,7 +10,7 @@ import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelecto
 useSearchActions, useThemeSelector, useLayoutActions, useCacheActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
-import {Languages, Themes} from "./types/ParamTypes"
+import {Languages, PostSize, PostSort, Themes} from "./types/ParamTypes"
 
 const AsyncStorage: React.FunctionComponent = () => {
     const {theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
@@ -19,8 +19,8 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {setSortedTags} = useCacheActions()
     const {session, showRelated} = useSessionSelector()
     const {setSession, setShowRelated} = useSessionActions()
-    const {scroll} = useSearchSelector()
-    const {setScroll} = useSearchActions()
+    const {scroll, square, sizeType, sortType, sortReverse} = useSearchSelector()
+    const {setScroll, setSquare, setSizeType, setSortType, setSortReverse} = useSearchActions()
     const {width, height} = useWindowDimensions()
     const [loaded, setLoaded] = useState(false)
 
@@ -47,7 +47,11 @@ const AsyncStorage: React.FunctionComponent = () => {
             "appLightness",
             "language",
             "scroll",
-            "showRelated"
+            "showRelated",
+            "square", 
+            "sizeType", 
+            "sortType", 
+            "sortReverse"
         ]
 
         const saved = await asyncStorage.getMany(keys)
@@ -58,6 +62,10 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (saved.appSaturation) setAppSaturation(Number(saved.appSaturation))
         if (saved.appLightness) setAppLightness(Number(saved.appLightness))
         if (saved.scroll) setScroll(saved.scroll === "true")
+        if (saved.square) setSquare(saved.square === "true")
+        if (saved.sizeType) setSizeType(saved.sizeType as PostSize)
+        if (saved.sortType) setSortType(saved.sortType as PostSort)
+        if (saved.sortReverse) setSortReverse(saved.sortReverse === "sortReverse")
         if (saved.showRelated) setShowRelated(saved.showRelated === "true")
 
         setLoaded(true)
@@ -86,7 +94,11 @@ const AsyncStorage: React.FunctionComponent = () => {
     useEffect(() => {
         if (!loaded) return
         asyncStorage.setItem("scroll", String(scroll))
-    }, [scroll])
+        asyncStorage.setItem("square", String(square))
+        asyncStorage.setItem("sizeType", String(sizeType))
+        asyncStorage.setItem("sortType", String(sortType))
+        asyncStorage.setItem("sortReverse", String(sortReverse))
+    }, [scroll, square, sizeType, sortType, sortReverse])
 
     return null
 }

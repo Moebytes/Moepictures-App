@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {Image, ImageSourcePropType} from "react-native"
+import { PostSize } from "../types/ParamTypes"
 
 export default class ImageFunctions {
     public static dynamicResize = async (img: ImageSourcePropType, maxSize: number, deviceWidth: number) => {
@@ -31,6 +32,34 @@ export default class ImageFunctions {
         }
 
         return {width: newWidth, height: newHeight}
+    }
+
+    public static getImageSize = (sizeType: PostSize, square: boolean, tablet: boolean) => {
+        if (tablet) {
+            if (sizeType === "tiny") {
+                return {imageSize: 300, columns: 4}
+            } else if (sizeType === "small") {
+                return {imageSize: 400, columns: 3}
+            } else if (sizeType === "medium") {
+                return {imageSize: square ? 600 : 500, columns: 2}
+            } else if (sizeType === "large") {
+                return {imageSize: square ? 600 : 700, columns: 2}
+            } else {
+                return {imageSize: 800, columns: 1}
+            }
+        } else {
+            if (sizeType === "tiny") {
+                return {imageSize: square ? 100 : 120, columns: 4}
+            } else if (sizeType === "small") {
+                return {imageSize: square ? 135 : 160, columns: 3}
+            } else if (sizeType === "medium") {
+                return {imageSize: 200, columns: 2}
+            } else if (sizeType === "large") {
+                return {imageSize: square ? 200 : 250, columns: 2}
+            } else {
+                return {imageSize: 350, columns: 1}
+            }
+        }
     }
 
     public static imageDimensions = async (image: string) => {

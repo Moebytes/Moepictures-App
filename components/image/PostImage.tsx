@@ -38,7 +38,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             setSize(size)
         }
         updateSize()
-    }, [img])
+    }, [img, tablet])
 
     if (!img) return null
 

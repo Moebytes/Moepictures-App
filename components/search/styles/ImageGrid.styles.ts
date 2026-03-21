@@ -15,8 +15,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         row: {
             justifyContent: "space-evenly",
-            alignItems: "center",
-            marginBottom: 10,
+            alignItems: "center"
         },
         footer: {
             marginBottom: 10

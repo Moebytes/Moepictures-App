@@ -39,7 +39,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         const filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
 
         showActionSheetWithOptions({
-            title: "Save Location",
+            title: "Pick a save location",
             options: ["Photos", "Files", "Cancel"],
             cancelButtonIndex: 2,
             tintColor: colors.iconColor,

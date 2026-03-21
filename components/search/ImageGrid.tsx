@@ -13,6 +13,7 @@ import PageButtons from "./PageButtons"
 import {useAutoHideScroll} from "../app/useAutoHideScroll"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {PostSearch} from "../../types/PostTypes"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
@@ -22,8 +23,8 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
-    const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {search, scroll, pageMultiplier} = useSearchSelector()
+    const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
+    const {search, scroll, sortType, sortReverse, sizeType, square, pageMultiplier} = useSearchSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
     const [page, setPage] = useState(1)
@@ -36,13 +37,16 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     const pageSize = 15 * pageMultiplier
 
+    const sort = functions.valid.parseSort(sortType, sortReverse)
+    const {columns} = functions.image.getImageSize(sizeType, square, tablet)
+
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {query: search, type: "image", refreshKey},
+        {query: search, sort, type: "image", refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {query: search, type: "image", 
+        {query: search, sort, type: "image", 
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
@@ -81,6 +85,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
             <FlatList
                 ref={ref}
+                key={columns}
                 style={{flex: 1}}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
@@ -91,8 +96,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 data={posts} 
                 renderItem={renderItem}
                 keyExtractor={(item) => item.postID.toString()}
-                numColumns={2}
-                columnWrapperStyle={styles.row}
+                numColumns={columns}
+                columnWrapperStyle={columns !== 1 ? styles.row : undefined}
 
                 refreshControl={
                     <RefreshControl
@@ -105,8 +110,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
                 onEndReached={scroll ? loadMore : undefined}
                 onEndReachedThreshold={scroll ? 0.1 : undefined}
-                ListFooterComponent={!scroll ? <PageButtons page={page} 
-                    setPage={setPage} totalPages={totalPages}/> : undefined}
+                ListFooterComponent={!scroll ? <PageButtons page={page} setPage={setPage}
+                    totalPages={totalPages} marginTop={square ? 10 : 0}/> : undefined}
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 

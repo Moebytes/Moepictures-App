@@ -15,7 +15,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             borderColor: colors.borderColor,
             borderRadius: 3,
-            borderStyle: "solid"
+            borderStyle: "solid",
+            alignSelf: "center"
         }
     })
 }

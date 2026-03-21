@@ -7,6 +7,7 @@
 import {createSlice} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
+import {closeAllDialogs} from "./layoutReducer"
 
 const miscDialogSlice = createSlice({
     name: "miscDialog",
@@ -17,6 +18,11 @@ const miscDialogSlice = createSlice({
     reducers: {
         setShowPageDialog: (state, action) => {state.showPageDialog = action.payload},
         setShowSavePrompt: (state, action) => {state.showSavePrompt = action.payload}
+    },
+    extraReducers: (builder) => {
+        builder.addCase(closeAllDialogs, (state) => {
+            state.showPageDialog = false
+        })
     }
 })
 
@@ -35,8 +41,11 @@ export const useMiscDialogSelector = () => {
 export const useMiscDialogActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
-        setShowPageDialog: (state: boolean) => dispatch(setShowPageDialog(state)),
-        setShowSavePrompt: (state: boolean) => dispatch(setShowSavePrompt(state))
+        setShowSavePrompt: (state: boolean) => dispatch(setShowSavePrompt(state)),
+        setShowPageDialog: (state: boolean) => {
+            if (state) dispatch(closeAllDialogs())
+            dispatch(setShowPageDialog(state))
+        },
     }
 }
 

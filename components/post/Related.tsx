@@ -7,7 +7,8 @@
 import React, {useEffect, useEffectEvent, useState} from "react"
 import {View, Text} from "react-native"
 import IconButton from "../../ui/IconButton"
-import {useThemeSelector, useSearchSelector, useSearchActions} from "../../store"
+import {useThemeSelector, useSearchSelector, useSearchActions, 
+useSearchDialogActions, useSearchDialogSelector} from "../../store"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
 import PagesIcon from "../../assets/svg/pages.svg"
@@ -81,8 +82,10 @@ export const useRelatedItems = (props: Props) => {
 
 const Related: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
-    const {scroll} = useSearchSelector()
-    const {setScroll} = useSearchActions()
+    const {scroll, square} = useSearchSelector()
+    const {setScroll, setSquare} = useSearchActions()
+    const {showSizeDialog} = useSearchDialogSelector()
+    const {setShowSizeDialog} = useSearchDialogActions()
     const styles = createStylesheet(colors)
 
     let iconSize = 22
@@ -93,8 +96,10 @@ const Related: React.FunctionComponent = () => {
                 <Text style={styles.headerText}>{i18n.post.related}</Text>
                 <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
-                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}/>
-                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}/>
+                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
+                    onPress={() => setSquare(!square)}/>
+                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
+                    onPress={() => setShowSizeDialog(!showSizeDialog)}/>
             </View>
         </View>
     )

@@ -4,8 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, { useEffect } from "react"
-import {View, Pressable, Text} from "react-native"
+import React, {useEffect} from "react"
+import {View, Text} from "react-native"
+import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useMiscDialogActions, useFlagSelector, useFlagActions} from "../../store"
 import {createStylesheet} from "./styles/PageButtons.styles"
 
@@ -14,11 +15,12 @@ interface Props {
     setPage: (page: number) => void
     totalPages: number
     hideEndArrow?: boolean
+    marginTop?: number
     marginBottom?: number
 }
 
 const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages, 
-    hideEndArrow, marginBottom}) => {
+    hideEndArrow, marginBottom, marginTop}) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const {setShowPageDialog} = useMiscDialogActions()
@@ -64,38 +66,38 @@ const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages,
     const pageNumbers = getPageNumbers()
 
     return (
-        <View style={[styles.container, {marginBottom}]}>
+        <View style={[styles.container, {marginBottom, marginTop}]}>
             {page > 1 && (
-                <Pressable style={styles.button} onPress={() => setPage(Math.max(page - 1, 1))}>
+                <PressableHaptic style={styles.button} onPress={() => setPage(Math.max(page - 1, 1))}>
                     <Text style={styles.text}>{"<"}</Text>
-                </Pressable>
+                </PressableHaptic>
             )}
 
             {pageNumbers.map((num) => (
-                <Pressable
+                <PressableHaptic
                     key={num}
                     style={[styles.button, num === page ? styles.activeButton : undefined]}
                     onPress={() => setPage(num)}>
                     <Text style={styles.text}>{num}</Text>
-                </Pressable>
+                </PressableHaptic>
             ))}
 
             {page < totalPages && (
-                <Pressable style={styles.button} onPress={() => setPage(Math.min(page + 1, totalPages))}>
+                <PressableHaptic style={styles.button} onPress={() => setPage(Math.min(page + 1, totalPages))}>
                     <Text style={styles.text}>{">"}</Text>
-                </Pressable>
+                </PressableHaptic>
             )}
 
             {!hideEndArrow && page < totalPages && (
-                <Pressable style={styles.button} onPress={() => setPage(totalPages)}>
+                <PressableHaptic style={styles.button} onPress={() => setPage(totalPages)}>
                     <Text style={styles.text}>{">>"}</Text>
-                </Pressable>
+                </PressableHaptic>
             )}
 
             {totalPages > 0 && (
-                <Pressable style={styles.button} onPress={pageDialog}>
+                <PressableHaptic style={styles.button} onPress={pageDialog}>
                     <Text style={styles.text}>{"?"}</Text>
-                </Pressable>
+                </PressableHaptic>
             )}
         </View>
     )

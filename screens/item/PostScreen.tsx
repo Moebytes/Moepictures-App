@@ -35,10 +35,10 @@ type Props = {
 const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {session} = useSessionSelector()
   const {theme, colors} = useThemeSelector()
-  const {tabBarHeight} = useLayoutSelector()
+  const {tablet} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
   const {setTagCategories} = useCacheActions()
-  const {scroll} = useSearchSelector()
+  const {scroll, sizeType, square} = useSearchSelector()
   const [open, setOpen] = useState(false)
   const {postID} = route.params
   const {data: post} = useGetPostQuery({postID})
@@ -67,6 +67,8 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     tag: tagCategories?.characters[0]?.tag,
     fallback: [tagCategories?.series[0]?.tag!, tagCategories?.artists[0]?.tag!]
   })
+
+  const {columns} = functions.image.getImageSize(sizeType, square, tablet)
 
   return (
     <Drawer
@@ -100,11 +102,12 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
               </>
             }
             ref={ref}
+            key={columns}
             data={related.posts}
             renderItem={({item}) => <GridImage post={item}/>}
             keyExtractor={(item) => item.postID.toString()}
-            numColumns={2}
-            columnWrapperStyle={styles.row}
+            numColumns={columns}
+            columnWrapperStyle={columns !== 1 ? styles.row : undefined}
 
             onEndReached={scroll ? related.loadMore : undefined}
             onEndReachedThreshold={scroll ? 0.1 : undefined}

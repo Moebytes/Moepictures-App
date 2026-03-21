@@ -15,6 +15,7 @@ import ImageFunctions from "./ImageFunctions"
 import LinkFunctions from "./LinkFunctions"
 import TagFunctions from "./TagFunctions"
 import UtilFunctions from "./UtilFunctions"
+import ValidationFunctions from "./ValidationFunctions"
 
 export default class Functions {
     public static byte = ByteFunctions
@@ -28,6 +29,7 @@ export default class Functions {
     public static link = LinkFunctions
     public static tag = TagFunctions
     public static util = UtilFunctions
+    public static valid = ValidationFunctions
 
     public static timeout = (ms: number) => {
         return new Promise((resolve) => setTimeout(resolve, ms))
