@@ -13,17 +13,19 @@ const layoutSlice = createSlice({
     initialState: {
         tablet: false,
         headerHeight: 210,
-        tabBarHeight: 110
+        tabBarHeight: 110,
+        keyboardOpen: false
     },
     reducers: {
         setTablet: (state, action) => {state.tablet = action.payload},
         setHeaderHeight: (state, action) => {state.headerHeight = action.payload},
-        setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload}
+        setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload},
+        setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload}
     }    
 })
 
 const {
-    setHeaderHeight, setTabBarHeight, setTablet
+    setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen
 } = layoutSlice.actions
 
 export const useLayoutSelector = () => {
@@ -32,6 +34,7 @@ export const useLayoutSelector = () => {
         tablet: selector((state) => state.layout.tablet),
         headerHeight: selector((state) => state.layout.headerHeight),
         tabBarHeight: selector((state) => state.layout.tabBarHeight),
+        keyboardOpen: selector((state) => state.layout.keyboardOpen)
     }
 }
 
@@ -41,6 +44,7 @@ export const useLayoutActions = () => {
         setTablet: (state: boolean) => dispatch(setTablet(state)),
         setHeaderHeight: (state: number) => dispatch(setHeaderHeight(state)),
         setTabBarHeight: (state: number) => dispatch(setTabBarHeight(state)),
+        setKeyboardOpen: (state: boolean) => dispatch(setKeyboardOpen(state))
     }
 }
 

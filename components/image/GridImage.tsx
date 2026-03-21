@@ -5,19 +5,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Pressable, Image, useWindowDimensions} from "react-native"
-import {useNavigation} from "@react-navigation/native"
+import {View, Pressable, Image, useWindowDimensions, Keyboard} from "react-native"
+import {useNavigation, CommonActions} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
+import clone from "fast-clone"
 
 interface Props {
     post: PostSearch
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
-    const {tablet} = useLayoutSelector()
+    const {tablet, keyboardOpen} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
@@ -45,6 +46,33 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         updateSize()
     }, [img])
 
+    const onPress = () => {
+        if (keyboardOpen) return Keyboard.dismiss()
+
+        const state = navigation.getState()!
+
+        const routes = clone(state.routes) as any
+        let lastRoute = routes[routes.length - 1]
+        if (lastRoute.name !== "Post") {
+            return navigation.navigate("Post", {postID: props.post.postID})
+        }
+
+        const newRoute = {
+            name: "Post",
+            params: {postID: props.post.postID},
+            key: lastRoute.key
+        }
+
+        routes[routes.length - 1].key = `Post-${Date.now()}`
+
+        navigation.dispatch(
+            CommonActions.reset({
+                index: state.routes.length,
+                routes: [...routes, newRoute]
+            })
+        )
+    }
+
     const borderWidth = 1.2
     const landscape = size.width > size.height
     
@@ -54,7 +82,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
     return (
         <Pressable style={[styles.container, size, {opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
-            onPress={() => navigation.navigate("Post", {postID: props.post.postID})}>
+            onPress={onPress}>
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 

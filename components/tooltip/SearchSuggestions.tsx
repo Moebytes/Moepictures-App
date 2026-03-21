@@ -8,7 +8,8 @@ import React, {useState, useEffect} from "react"
 import {Text, ScrollView, Keyboard} from "react-native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import PressableHaptic from "../../ui/PressableHaptic"
-import {useThemeSelector, useCacheSelector, useSearchSelector, useSearchActions} from "../../store"
+import {useThemeSelector, useCacheSelector, useSearchSelector, useSearchActions,
+useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/SearchSuggestions.styles"
 import functions from "../../functions/Functions"
 import {TagCount} from "../../types/Types"
@@ -18,6 +19,7 @@ const SearchSuggestions: React.FunctionComponent = () => {
     const {sortedTags} = useCacheSelector()
     const {text, focused, searchTags} = useSearchSelector()
     const {setText, setSearchTags} = useSearchActions()
+    const {setKeyboardOpen} = useLayoutActions()
     const styles = createStylesheet(colors)
     const [keyboardHeight, setKeyboardHeight] = useState(0)
     const [suggestions, setSuggestions] = useState<TagCount[]>([])
@@ -25,10 +27,12 @@ const SearchSuggestions: React.FunctionComponent = () => {
     useEffect(() => {
         const keyboardDidShow = Keyboard.addListener("keyboardDidShow", (event) => {
             setKeyboardHeight(event.endCoordinates.height)
+            setKeyboardOpen(true)
         })
 
         const keyboardDidHide = Keyboard.addListener("keyboardDidHide", () => {
             setKeyboardHeight(0)
+            setKeyboardOpen(false)
         })
 
         return () => {

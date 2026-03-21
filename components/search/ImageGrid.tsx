@@ -94,8 +94,6 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 numColumns={2}
                 columnWrapperStyle={styles.row}
 
-                refreshing={isLoading}
-                onRefresh={() => setRefreshKey(prev => prev + 1)}
                 refreshControl={
                     <RefreshControl
                         refreshing={isLoading}

@@ -82,6 +82,8 @@ const GroupsScreen: React.FunctionComponent = () => {
     const totalPages = Math.ceil(totalItems / pageSize)
 
     const headerJSX = () => {
+        if (isLoading) return null
+
         return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -92,7 +94,7 @@ const GroupsScreen: React.FunctionComponent = () => {
     }
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.mainColor}}>
+        <View style={{flex: 1, backgroundColor: colors.background}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <AnimatedHeaderWrapper visible={tabVisible}>
             <TitleBar/>
@@ -113,8 +115,6 @@ const GroupsScreen: React.FunctionComponent = () => {
                 numColumns={2}
                 columnWrapperStyle={{justifyContent: "space-evenly", gap: 5, marginBottom: 5}}
 
-                refreshing={isLoading}
-                onRefresh={() => setRefreshKey(prev => prev + 1)}
                 refreshControl={
                     <RefreshControl
                         refreshing={isLoading}

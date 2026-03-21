@@ -82,6 +82,8 @@ const NotesScreen: React.FunctionComponent = () => {
     const totalPages = Math.ceil(totalItems / pageSize)
 
     const headerJSX = () => {
+        if (isLoading) return null
+
         return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
@@ -92,7 +94,7 @@ const NotesScreen: React.FunctionComponent = () => {
     }
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.mainColor}}>
+        <View style={{flex: 1, backgroundColor: colors.background}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <AnimatedHeaderWrapper visible={tabVisible}>
             <TitleBar/>
@@ -112,8 +114,6 @@ const NotesScreen: React.FunctionComponent = () => {
                 keyExtractor={(item) => item.noteID.toString()}
                 numColumns={1}
 
-                refreshing={isLoading}
-                onRefresh={() => setRefreshKey(prev => prev + 1)}
                 refreshControl={
                     <RefreshControl
                         refreshing={isLoading}
