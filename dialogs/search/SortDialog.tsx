@@ -6,7 +6,7 @@
 
 import React from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {View, Text, ScrollView} from "react-native"
+import {View, Text, Modal, Pressable, ScrollView} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
 useSearchActions, useSearchSelector, useSessionSelector} from "../../store"
@@ -95,7 +95,8 @@ const SortDialog: React.FunctionComponent = () => {
 
     if (showSortDialog) {
         return (
-            <View style={styles.overlay}>
+            <Modal transparent visible={showSortDialog} animationType="fade">
+                <Pressable style={styles.modalOverlay} onPress={() => setShowSortDialog(false)}>
                 <LiquidGlassView effect="clear" style={[styles.scrollerContainer, fallback]}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 450}} 
                         contentContainerStyle={styles.scrollContainer}>
@@ -119,7 +120,8 @@ const SortDialog: React.FunctionComponent = () => {
                         {generateOptions()}
                     </ScrollView>
                 </LiquidGlassView>
-            </View>
+                </Pressable>
+            </Modal>
         )
     }
 }

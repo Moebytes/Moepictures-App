@@ -8,6 +8,7 @@ import React from "react"
 import PageDialog from "./misc/PageDialog"
 import SizeDialog from "./search/SizeDialog"
 import SortDialog from "./search/SortDialog"
+import PageMultiplierDialog from "./search/PageMultiplierDialog"
 
 const Dialogs: React.FunctionComponent = () => {
     return (
@@ -15,6 +16,7 @@ const Dialogs: React.FunctionComponent = () => {
         <PageDialog/>
         <SizeDialog/>
         <SortDialog/>
+        <PageMultiplierDialog/>
         </>
     )
 }

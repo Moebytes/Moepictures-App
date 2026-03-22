@@ -13,29 +13,33 @@ const searchDialogSlice = createSlice({
     name: "searchDialog",
     initialState: {
         showSizeDialog: false,
-        showSortDialog: false
+        showSortDialog: false,
+        showPageMultiplierDialog: false
     },
     reducers: {
         setShowSizeDialog: (state, action) => {state.showSizeDialog = action.payload},
-        setShowSortDialog: (state, action) => {state.showSortDialog = action.payload}
+        setShowSortDialog: (state, action) => {state.showSortDialog = action.payload},
+        setShowPageMultiplierDialog: (state, action) => {state.showPageMultiplierDialog = action.payload}
     },
     extraReducers: (builder) => {
         builder.addCase(closeAllDialogs, (state) => {
             state.showSizeDialog = false
             state.showSortDialog = false
+            state.showPageMultiplierDialog = false
         })
     }
 })
 
 const {
-    setShowSizeDialog, setShowSortDialog
+    setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog
 } = searchDialogSlice.actions
 
 export const useSearchDialogSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
         showSizeDialog: selector((state) => state.searchDialog.showSizeDialog),
-        showSortDialog: selector((state) => state.searchDialog.showSortDialog)
+        showSortDialog: selector((state) => state.searchDialog.showSortDialog),
+        showPageMultiplierDialog: selector((state) => state.searchDialog.showPageMultiplierDialog)
     }
 }
 
@@ -49,6 +53,10 @@ export const useSearchDialogActions = () => {
         setShowSortDialog: (state: boolean) => {
             if (state) dispatch(closeAllDialogs())
             dispatch(setShowSortDialog(state))
+        },
+        setShowPageMultiplierDialog: (state: boolean) => {
+            if (state) dispatch(closeAllDialogs())
+            dispatch(setShowPageMultiplierDialog(state))
         }
     }    
 }

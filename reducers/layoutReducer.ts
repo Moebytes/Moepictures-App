@@ -33,10 +33,12 @@ const {
 const dialogOpen = createSelector(
     [(state: StoreState) => state.miscDialog.showPageDialog,
      (state: StoreState) => state.searchDialog.showSizeDialog,
-     (state: StoreState) => state.searchDialog.showSortDialog],
-    (showPageDialog, showSizeDialog, showSortDialog) => {
+     (state: StoreState) => state.searchDialog.showSortDialog,
+    (state: StoreState) => state.searchDialog.showPageMultiplierDialog],
+    (showPageDialog, showSizeDialog, showSortDialog, showPageMultiplierDialog) => {
         return (
-            showPageDialog || showSizeDialog || showSortDialog
+            showPageDialog || showSizeDialog || 
+            showSortDialog || showPageMultiplierDialog
         )
     }
 )

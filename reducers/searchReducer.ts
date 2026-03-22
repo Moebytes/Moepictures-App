@@ -27,6 +27,7 @@ const searchSlice = createSlice({
         autoSearch: false,
         saveSearch: false,
         favSearch: false,
+        autoScroll: false,
         showChildren: true,
         text: "",
         focused: false,
@@ -48,6 +49,7 @@ const searchSlice = createSlice({
         setAutoSearch: (state, action) => {state.autoSearch = action.payload},
         setSaveSearch: (state, action) => {state.saveSearch = action.payload},
         setFavSearch: (state, action) => {state.favSearch = action.payload},
+        setAutoScroll: (state, action) => {state.autoScroll = action.payload},
         setShowChildren: (state, action) => {state.showChildren = action.payload},
         setText: (state, action) => {state.text = action.payload},
         setFocused: (state, action) => {state.focused = action.payload},
@@ -57,7 +59,7 @@ const searchSlice = createSlice({
 
 const {
     setSearch, setSearchFlag, setImageType, setRatingType, setStyleType, setSizeType,
-    setSortType, setSortReverse, setSquare, setScroll, setPageMultiplier,
+    setSortType, setSortReverse, setSquare, setScroll, setAutoScroll, setPageMultiplier,
     setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren,
     setText, setFocused, setSearchTags
 } = searchSlice.actions
@@ -80,6 +82,7 @@ export const useSearchSelector = () => {
         autoSearch: selector((state) => state.search.autoSearch),
         saveSearch: selector((state) => state.search.saveSearch),
         favSearch: selector((state) => state.search.favSearch),
+        autoScroll: selector((state) => state.search.autoScroll),
         showChildren: selector((state) => state.search.showChildren),
         text: selector((state) => state.search.text),
         focused: selector((state) => state.search.focused),
@@ -105,6 +108,7 @@ export const useSearchActions = () => {
         setAutoSearch: (state: boolean) => dispatch(setAutoSearch(state)),
         setSaveSearch: (state: boolean) => dispatch(setSaveSearch(state)),
         setFavSearch: (state: boolean) => dispatch(setFavSearch(state)),
+        setAutoScroll: (state: boolean) => dispatch(setAutoScroll(state)),
         setShowChildren: (state: boolean) => dispatch(setShowChildren(state)),
         setText: (state: string) => dispatch(setText(state)),
         setFocused: (state: boolean) => dispatch(setFocused(state)),

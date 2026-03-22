@@ -6,6 +6,7 @@
 
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
+import {fonts} from "../../../ui/fonts"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
@@ -22,6 +23,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             alignItems: "center",
             gap: 13
+        },
+        textButton: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            marginRight: -4,
+            fontSize: 19,
+            color: colors.iconColor
         }
     })
 }

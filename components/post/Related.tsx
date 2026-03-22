@@ -53,19 +53,22 @@ export const useRelatedItems = (props: Props) => {
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
-
     useEffect(() => {
         if (props.fallback && fallbackIndex >= 0 && fallbackIndex < props.fallback.length) {
             setActiveTag(props.fallback[fallbackIndex])
-            setRefreshKey(prev => prev + 1)
         }
     }, [fallbackIndex])
 
-    useEffect(() => {
+    const updateFallback = useEffectEvent(() => {
+        if (infiniteQuery.isLoading || pageQuery.isLoading) return
         if (!posts?.length && props.fallback && fallbackIndex < props.fallback.length - 1) {
             setFallbackIndex(prev => prev + 1)
         }
-    }, [posts, fallbackIndex, props.fallback])
+    })
+
+    useEffect(() => {
+        updateFallback()
+    }, [posts])
     
     const loadMore = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {

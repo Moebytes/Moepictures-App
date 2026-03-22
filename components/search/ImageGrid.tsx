@@ -5,9 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useEffectEvent, useRef} from "react"
-import {View, Image, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Image, FlatList, ListRenderItem, RefreshControl, 
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
-useFlagActions, useSessionSelector} from "../../store"
+useFlagActions, useSessionSelector, useSearchActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
@@ -28,17 +29,49 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
-    const {search, scroll, sortType, sortReverse, sizeType, square, pageMultiplier} = useSearchSelector()
+    const {search, scroll, sortType, sortReverse, sizeType, square, 
+    pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
+    const {setAutoScroll} = useSearchActions()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
     const [randomPosts, setRandomPosts] = useState<PostSearch[]>([])
     const ref = useRef<FlatList>(null)
+    const scrollOffsetRef = useRef(0)
+    const autoSearchRef = useRef<NodeJS.Timeout | null>(null)
+    const searchingRef = useRef(false)
 
     useEffect(() => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
+
+    useEffect(() => {
+        let frame: number
+
+        const step = () => {
+            ref.current?.scrollToOffset({
+                offset: scrollOffsetRef.current + 1,
+                animated: false
+            })
+            frame = requestAnimationFrame(step)
+        }
+
+        if (autoScroll) {
+            frame = requestAnimationFrame(step)
+        }
+
+        return () => cancelAnimationFrame(frame)
+    }, [autoScroll])
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        scrollOffsetRef.current = event.nativeEvent.contentOffset.y
+        handleScroll(event)
+    }
+
+    const stopAutoScroll = () => {
+        if (autoScroll) setAutoScroll(false)
+    }
 
     const pageSize = 15 * pageMultiplier
 
@@ -123,6 +156,31 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         getRandomPosts(true)
     }, [page])
 
+
+    useEffect(() => {
+        if (autoSearchRef.current) {
+            clearInterval(autoSearchRef.current)
+            autoSearchRef.current = null
+        }
+        if (!autoSearch) return
+        
+        const search = async () => {
+            if (searchingRef.current) return
+            searchingRef.current = true
+            await getRandomPosts(true)
+            searchingRef.current = false
+        }
+
+        search()
+        autoSearchRef.current = setInterval(search, Number(session.autosearchInterval || 5000))
+        return () => {
+            if (autoSearchRef.current) {
+                clearInterval(autoSearchRef.current)
+                autoSearchRef.current = null
+            }
+        }
+    }, [autoSearch, search, session.autosearchInterval])
+
     let totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
     if (imageSearchFlag) totalItems = imageSearchFlag.length
     const totalPages = Math.ceil(totalItems / pageSize)
@@ -161,7 +219,9 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onTouchStart={stopAutoScroll}
+                onMomentumScrollBegin={stopAutoScroll}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"

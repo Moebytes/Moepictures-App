@@ -11,42 +11,41 @@ import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
 useSearchActions, useSearchSelector} from "../../store"
 import {createStylesheet} from "../Dialog.styles"
-import {PostSize} from "../../types/Types"
 import CheckIcon from "../../assets/svg/check.svg"
 
-const SizeDialog: React.FunctionComponent = () => {
-    const {i18n, colors} = useThemeSelector()
-    const {showSizeDialog} = useSearchDialogSelector()
-    const {setShowSizeDialog} = useSearchDialogActions()
-    const {sizeType} = useSearchSelector()
-    const {setSizeType} = useSearchActions()
+const PageMultiplierDialog: React.FunctionComponent = () => {
+    const {colors} = useThemeSelector()
+    const {showPageMultiplierDialog} = useSearchDialogSelector()
+    const {setShowPageMultiplierDialog} = useSearchDialogActions()
+    const {pageMultiplier} = useSearchSelector()
+    const {setPageMultiplier} = useSearchActions()
     const styles = createStylesheet(colors)
 
-    const click = (size: PostSize) => {
-        setSizeType(size)
-        setShowSizeDialog(false)
+    const click = (multiplier: number) => {
+        setPageMultiplier(multiplier)
+        setShowPageMultiplierDialog(false)
     }
 
     const generateOptions = () => {
         let jsx = [] as React.ReactElement[]
 
-        let sizes = ["tiny", "small", "medium", "large", "massive"] as PostSize[]
+        let numbers = [1, 2, 3, 4, 5]
 
-        for (let i = 0; i < sizes.length; i++) {
-            const size = sizes[i]
-            const selected = size === sizeType
+        for (let i = 0; i < numbers.length; i++) {
+            const num = numbers[i]
+            const selected = num === pageMultiplier
 
             jsx.push(
                 <PressableHaptic 
-                    key={size}
+                    key={num}
                     hitSlop={{left: 100, right: 100, top: 20, bottom: 20}} 
                     style={styles.rowButton} 
-                    onPress={() => click(size)}>
+                    onPress={() => click(num)}>
                     {({pressed}) => (
                         <>
                         <View style={[styles.rowContent, pressed && {transform: [{scale: 1.1}]}]}>
                             <Text style={styles.text}>
-                                {i18n.sortbar.size[size]}
+                                {num}x
                             </Text>
 
                             {selected && (
@@ -57,7 +56,7 @@ const SizeDialog: React.FunctionComponent = () => {
                     )}
                 </PressableHaptic>
             )
-            if (i < sizes.length - 1) jsx.push(
+            if (i < numbers.length - 1) jsx.push(
                 <View style={styles.row}>
                     <View style={styles.separator}/>
                 </View>
@@ -70,10 +69,10 @@ const SizeDialog: React.FunctionComponent = () => {
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
 
-    if (showSizeDialog) {
+    if (showPageMultiplierDialog) {
         return (
-            <Modal transparent visible={showSizeDialog} animationType="fade">
-                <Pressable style={styles.modalOverlay} onPress={() => setShowSizeDialog(false)}>
+            <Modal transparent visible={showPageMultiplierDialog} animationType="fade">
+                <Pressable style={styles.modalOverlay} onPress={() => setShowPageMultiplierDialog(false)}>
                     <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
                         {generateOptions()}
                     </LiquidGlassView>
@@ -83,4 +82,4 @@ const SizeDialog: React.FunctionComponent = () => {
     }
 }
 
-export default SizeDialog
+export default PageMultiplierDialog

@@ -72,7 +72,7 @@ export const DarkTheme = {
     switchOff: "#FFDAEF",
     transparent: "rgba(0, 0, 0, 0)",
     iconColor: "#FF4891",
-    iconActive: "#ff8dbd",
+    iconActive: "#ffc6de",
     background: "#10030C",
     borderColor: "#FF459F",
     textColor: "#FFFFFF",

@@ -4,8 +4,8 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View} from "react-native"
+import React, {useEffect, useRef} from "react"
+import {View, Text, Animated, Easing} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import IconButton from "../../ui/IconButton"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
@@ -27,18 +27,20 @@ import FiltersIcon from "../../assets/svg/filters.svg"
 import SizeIcon from "../../assets/svg/size.svg"
 import SortIcon from "../../assets/svg/sort.svg"
 import SortReverseIcon from "../../assets/svg/sort-reverse.svg"
+import AutoScrollIcon from "../../assets/svg/autoscroll.svg"
 import functions from "../../functions/Functions"
 
 const SortBar: React.FunctionComponent = () => {
     const {theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const styles = createStylesheet(colors)
-    const {scroll, square, sortReverse, autoSearch} = useSearchSelector()
-    const {setScroll, setSquare, setAutoSearch} = useSearchActions()
-    const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
-    const {showSizeDialog, showSortDialog} = useSearchDialogSelector()
-    const {setShowSizeDialog, setShowSortDialog} = useSearchDialogActions()
+    const {scroll, square, sortReverse, autoSearch, pageMultiplier, autoScroll} = useSearchSelector()
+    const {setScroll, setSquare, setAutoSearch, setAutoScroll} = useSearchActions()
+    const {setImageSearchFlag} = useFlagActions()
+    const {showSizeDialog, showSortDialog, showPageMultiplierDialog} = useSearchDialogSelector()
+    const {setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog} = useSearchDialogActions()
     const {showActionSheetWithOptions} = useActionSheet()
+    const spinValue = useRef(new Animated.Value(0)).current
 
     const imageSearch = () => {
         showActionSheetWithOptions({
@@ -74,6 +76,31 @@ const SortBar: React.FunctionComponent = () => {
         })
     }
 
+    useEffect(() => {
+        let animation: Animated.CompositeAnimation
+        if (autoSearch) {
+            animation = Animated.loop(
+                Animated.timing(spinValue, {
+                    toValue: 1,
+                    duration: 3000,
+                    easing: Easing.linear,
+                    useNativeDriver: true
+                })
+            )
+            animation.start()
+        } else {
+            spinValue.stopAnimation()
+            spinValue.setValue(0)
+        }
+
+        return () => animation?.stop()
+    }, [autoSearch])
+
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["0deg", "360deg"]
+    })
+
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
@@ -85,13 +112,21 @@ const SortBar: React.FunctionComponent = () => {
             <View style={styles.iconContainer}>
                 <IconButton icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => imageSearch()}/>
-                <IconButton icon={AutoSearchIcon} size={iconSize} color={colors.iconColor}
-                    onPress={() => setAutoSearch(!autoSearch)}/>
+                <Animated.View style={{transform: [{rotate: spin}]}}>
+                    <IconButton icon={AutoSearchIcon} size={iconSize} color={autoSearch ? colors.iconActive : colors.iconColor}
+                        onPress={() => setAutoSearch(!autoSearch)}/>
+                </Animated.View>
                 <IconButton icon={OptionsIcon} size={iconSize} color={colors.iconColor}/>
                 <IconButton icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
                 <IconButton icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
             </View>
             <View style={styles.iconContainer}>
+                {scroll ? 
+                <IconButton icon={AutoScrollIcon} size={iconSize-3} color={autoScroll ? colors.iconActive : colors.iconColor}
+                    onPress={() => setAutoScroll(!autoScroll)} style={{marginRight: -5}}/> :
+                <IconButton onPress={() => setShowPageMultiplierDialog(!showPageMultiplierDialog)}>
+                    <Text style={styles.textButton}>{pageMultiplier}x</Text>
+                </IconButton>}
                 <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)}/>
                 <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor}

@@ -19,6 +19,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             elevation: 1000
             //backgroundColor: "#00000054"
         },
+        modalOverlay: {
+            ...StyleSheet.absoluteFillObject,
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+            elevation: 1000
+        },
         container: {
             display: "flex",
             justifyContent: "center",
