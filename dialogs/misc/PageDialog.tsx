@@ -7,7 +7,6 @@
 import React, {useState, useRef} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text, TextInput} from "react-native"
-import {BlurView} from "@react-native-community/blur"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useFlagActions, useMiscDialogSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "../Dialog.styles"
@@ -45,16 +44,10 @@ const PageDialog: React.FunctionComponent = () => {
                     <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
-                            <BlurView blurAmount={4} blurType="light" style={styles.absolute}
-                            reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
-
                             <Text style={styles.title}>{i18n.dialogs.page.title}</Text>
                         </View>
                         <View style={styles.row}>
                             <View style={{paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}}>
-                                <BlurView blurAmount={4} blurType="light" style={styles.absolute}
-                                reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
-
                                 <Text style={styles.text}>{i18n.labels.page}:</Text>
                             </View>
                             <TextInput ref={textRef} style={styles.input} keyboardType="numeric" 

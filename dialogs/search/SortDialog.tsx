@@ -7,7 +7,6 @@
 import React from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text, ScrollView} from "react-native"
-import {BlurView} from "@react-native-community/blur"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
 useSearchActions, useSearchSelector} from "../../store"
@@ -54,9 +53,6 @@ const SortDialog: React.FunctionComponent = () => {
                     onPress={() => click(sort)}>
                     {({pressed}) => (
                         <>
-                        <BlurView blurAmount={4} blurType="light" style={styles.absolute}
-                        reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
-
                         <View style={[styles.rowContent, pressed && {transform: [{scale: 1.1}]}]}>
                             <Text style={styles.text}>
                                 {i18n.sort[sort]}
@@ -95,9 +91,6 @@ const SortDialog: React.FunctionComponent = () => {
                             onPress={() => reverse()}>
                             {({pressed}) => (
                                 <>
-                                <BlurView blurAmount={4} blurType="light" style={styles.absolute}
-                                reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
-
                                 <Text style={[styles.text, pressed && {transform: [{scale: 1.1}]}]}>
                                     {i18n.sort.reverse}
                                 </Text>

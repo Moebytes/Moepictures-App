@@ -16,4 +16,13 @@ export default class ByteFunctions {
         }
         return fileType(new Uint8Array(buffer))
     }
+
+    public static fetchDataURL = async (url: string) => {
+        const blob = await fetch(url).then((r) => r.blob())
+        return new Promise<string>((resolve) => {
+            const reader = new FileReader()
+            reader.onloadend = () => resolve(reader.result as string)
+            reader.readAsDataURL(blob)
+        })
+    }
 }

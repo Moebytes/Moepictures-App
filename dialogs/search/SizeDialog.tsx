@@ -7,7 +7,6 @@
 import React from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text} from "react-native"
-import {BlurView} from "@react-native-community/blur"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
 useSearchActions, useSearchSelector} from "../../store"
@@ -45,9 +44,6 @@ const SizeDialog: React.FunctionComponent = () => {
                     onPress={() => click(size)}>
                     {({pressed}) => (
                         <>
-                        <BlurView blurAmount={4} blurType="light" style={styles.absolute}
-                        reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
-
                         <View style={[styles.rowContent, pressed && {transform: [{scale: 1.1}]}]}>
                             <Text style={styles.text}>
                                 {i18n.sortbar.size[size]}

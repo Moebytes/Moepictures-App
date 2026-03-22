@@ -8,7 +8,7 @@ import path from "path"
 import {Platform, PermissionsAndroid} from "react-native"
 import {saveDocuments} from "@react-native-documents/picker"
 import {CameraRoll} from "@react-native-camera-roll/camera-roll"
-import fs from "react-native-fs"
+import {Dirs, FileSystem as fs} from "react-native-file-access"
 import functions from "./Functions"
 
 const videoExtensions = [".mp4", ".webm", ".mov", ".mkv"]
@@ -18,20 +18,22 @@ export default class FileFunctions {
     public static requestStoragePermission = async () => {
         if (Platform.OS !== "android") return true
 
-        const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-        )
+        if (Platform.Version >= 33) return true
 
-        return granted === PermissionsAndroid.RESULTS.GRANTED
+        const granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+        if (granted) return true
+
+        const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+
+        return result === PermissionsAndroid.RESULTS.GRANTED
     }
     
     public static saveToCameraRoll = async (img: string, filename: string) => {
-        const dir = fs.TemporaryDirectoryPath
-        let protocol = Platform.OS === "android" ? "content://" : "file://"
-        const dest = `${protocol}${dir}/${filename}`
+        const dir = Dirs.DocumentDir
+        const dest = `file://${dir}/${filename}`
 
         try {
-            await fs.downloadFile({fromUrl: img, toFile: dest}).promise
+            await fs.fetch(img, {path: dest})
             await CameraRoll.saveAsset(dest)
         } finally {
             if (await fs.exists(dest)) {
@@ -40,14 +42,27 @@ export default class FileFunctions {
         }
     }
 
+    public static getMimeType = (filename: string) => {
+        const mimeTypes: Record<string, string> = {
+            jpg: "image/jpeg",
+            jpeg: "image/jpeg",
+            png: "image/png",
+            gif: "image/gif",
+            webp: "image/webp",
+            avif: "image/avif"
+        }
+
+        const ext = path.extname(filename).replace(".", "")
+        return mimeTypes[ext] || "application/octet-stream"
+    }
+
     public static saveToFiles = async (img: string, filename: string) => {
-        const dir = fs.TemporaryDirectoryPath
-        let protocol = Platform.OS === "android" ? "content://" : "file://"
-        const dest = `${protocol}${dir}/${filename}`
+        const dir = Dirs.DocumentDir
+        const dest = `file://${dir}/${filename}`
 
         try {
-            await fs.downloadFile({fromUrl: img, toFile: dest}).promise
-            await saveDocuments({sourceUris: [dest], copy: true, fileName: filename})
+            await fs.fetch(img, {path: dest})
+            await saveDocuments({sourceUris: [dest], copy: true, fileName: filename, mimeType: this.getMimeType(filename)})
         } finally {
             if (await fs.exists(dest)) {
                 await fs.unlink(dest)
