@@ -9,9 +9,9 @@ import {Pressable, PressableProps, GestureResponderEvent, Animated, StyleProp, V
 import ReactNativeHapticFeedback, {HapticFeedbackTypes} from "react-native-haptic-feedback"
 
 interface Props extends PressableProps {
-    icon: React.FunctionComponent<{width: number, height: number, color: string}>
-    size: number
-    color: string
+    icon?: React.FunctionComponent<{width: number, height: number, color: string}>
+    size?: number
+    color?: string
     activeColor?: string
     scaleFactor?: number
     style?: StyleProp<ViewStyle>
@@ -22,6 +22,8 @@ const IconButton: React.FunctionComponent<Props> = ({children, onPressIn, onPres
     size, color, activeColor, scaleFactor = 0.85, style, ...props}) => {
 
     const scale = useRef(new Animated.Value(1)).current
+    size = size ?? 0
+    color = color ?? ""
 
     const animateScale = (toValue: number) => {
         Animated.timing(scale, {
@@ -46,7 +48,7 @@ const IconButton: React.FunctionComponent<Props> = ({children, onPressIn, onPres
         <Pressable onPressIn={pressIn} onPressOut={pressOut} {...props} hitSlop={10}>
             {({pressed}) => (
                 <Animated.View style={[{transform: [{scale}]}, style]}>
-                    <Icon width={size} height={size} color={pressed && activeColor ? activeColor : color}/>
+                    {Icon ? <Icon width={size} height={size} color={pressed && activeColor ? activeColor : color}/> : null}
                     <>{children}</>
                 </Animated.View>
             )}

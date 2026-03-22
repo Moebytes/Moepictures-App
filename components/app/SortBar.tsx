@@ -8,7 +8,7 @@ import React from "react"
 import {View} from "react-native"
 import IconButton from "../../ui/IconButton"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {useThemeSelector, useSearchSelector, useSearchActions, 
+import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
 useSearchDialogActions, useSearchDialogSelector} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import RandomIcon from "../../assets/svg/random.svg"
@@ -27,8 +27,9 @@ import SortReverseIcon from "../../assets/svg/sort-reverse.svg"
 const SortBar: React.FunctionComponent = () => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
-    const {scroll, square, sortReverse} = useSearchSelector()
-    const {setScroll, setSquare} = useSearchActions()
+    const {scroll, square, sortReverse, autoSearch} = useSearchSelector()
+    const {setScroll, setSquare, setAutoSearch} = useSearchActions()
+    const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
     const {showSizeDialog, showSortDialog} = useSearchDialogSelector()
     const {setShowSizeDialog, setShowSortDialog} = useSearchDialogActions()
 
@@ -41,9 +42,12 @@ const SortBar: React.FunctionComponent = () => {
     return (
         <LiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
             <View style={styles.iconContainer}>
-                <IconButton icon={RandomIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={AutoSearchIcon} size={iconSize} color={colors.iconColor}/>
+                <IconButton icon={RandomIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setRandomSearchFlag(true)}/>
+                <IconButton icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setImageSearchFlag(true)}/>
+                <IconButton icon={AutoSearchIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setAutoSearch(!autoSearch)}/>
                 <IconButton icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
                 <IconButton icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
             </View>

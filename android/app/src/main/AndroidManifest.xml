@@ -9,6 +9,7 @@
       <intent>
           <action android:name="android.intent.action.VIEW"/>
           <data android:scheme="pixiv"/>
+          <data android:scheme="twitter"/>
       </intent>
     </queries>
 

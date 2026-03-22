@@ -5,7 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Text, Image, Pressable, Linking} from "react-native"
+import {View, Text, Image, Linking} from "react-native"
+import PressableHaptic from "../../ui/PressableHaptic"
+import IconButton from "../../ui/IconButton"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistInfo.styles"
 import {PostFull, TagCount} from "../../types/Types"
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const pixiv = require("../../assets/icons/pixiv.png")
+const twitter = require("../../assets/icons/twitter.png")
 
 const ArtistInfo: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
@@ -34,8 +37,16 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
 
         let appURL = ""
         let webURL = props.post.userProfile ?? ""
+
         if (webURL.includes("pixiv")) {
             appURL = `pixiv://${webURL.split("//")[1]}`
+        } else if (webURL.includes("twitter.com") || webURL.includes("x.com")) {
+            const userMatch = webURL.match(/twitter\.com\/([a-zA-Z0-9_]+)/) 
+                || webURL.match(/x\.com\/([a-zA-Z0-9_]+)/)
+            if (userMatch?.[1]) {
+                const username = userMatch[1]
+                appURL = `twitter://user?screen_name=${username}`
+            }
         }
 
         if (appURL && await Linking.canOpenURL(appURL)) {
@@ -45,13 +56,19 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const onSourcePress = async () => {
+    const onSourcePress = async (link?: string) => {
         if (!props.post) return
 
         let appURL = ""
-        let webURL = props.post.source ?? ""
+        let webURL = link ?? ""
         if (webURL.includes("pixiv")) {
             appURL = `pixiv://${webURL.split("//")[1]}`
+        } else if (webURL.includes("twitter.com") || webURL.includes("x.com")) {
+            const tweetMatch = webURL.match(/status\/(\d+)/)
+            if (tweetMatch?.[1]) {
+                const tweetID = tweetMatch[1]
+                appURL = `twitter://status?id=${tweetID}`
+            }
         }
         
         if (appURL && await Linking.canOpenURL(appURL)) {
@@ -61,17 +78,50 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         }
     }
 
+    const getSourceIcon = () => {
+        if (!props.post) return null
+        if (props.post?.source?.includes("pixiv.net")) {
+            return (
+                <IconButton onPress={() => onSourcePress(props.post?.source)}>
+                    <Image style={styles.sourceIcon} source={pixiv}/>
+                </IconButton>
+            )
+        } else if (props.post?.source?.includes("twitter.com") || 
+            props.post?.source?.includes("x.com")) {
+            return (
+                <IconButton onPress={() => onSourcePress(props.post?.source)}>
+                    <Image style={styles.sourceIcon} source={twitter}/>
+                </IconButton>
+            )
+        }
+    }
+
+    const getMirrorIcon = () => {
+        if (!props.post) return null
+        if (props.post?.mirrors?.pixiv) {
+            return (
+                <IconButton onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
+                    <Image style={styles.sourceIcon} source={pixiv}/>
+                </IconButton>
+            )
+        } else if (props.post?.mirrors?.twitter) {
+            return (
+                <IconButton onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
+                    <Image style={styles.sourceIcon} source={twitter}/>
+                </IconButton>
+            )
+        }
+    }
     return (
         <View style={styles.container}>
             <View style={styles.artistContainer}>
                 {artistPfp && <Image style={styles.artistIcon} source={{uri: artistPfp}}/>}
-                <Pressable onPress={onArtistPress}>
+                <PressableHaptic onPress={onArtistPress}>
                     <Text style={styles.artistText}>{props.artists?.[0].tag}</Text>
-                </Pressable>
+                </PressableHaptic>
+                {getSourceIcon()}
+                {getMirrorIcon()}
             </View>
-            <Pressable onPress={onSourcePress}>
-                <Image style={styles.sourceIcon} source={pixiv}/>
-            </Pressable>
         </View>
     )
 }

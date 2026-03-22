@@ -9,13 +9,16 @@ import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text, ScrollView} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
-useSearchActions, useSearchSelector} from "../../store"
+useSearchActions, useSearchSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "../Dialog.styles"
 import {PostSort} from "../../types/Types"
 import CheckIcon from "../../assets/svg/check.svg"
+import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 
 const SortDialog: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {showSortDialog} = useSearchDialogSelector()
     const {setShowSortDialog} = useSearchDialogActions()
     const {sortType, sortReverse} = useSearchSelector()
@@ -40,6 +43,17 @@ const SortDialog: React.FunctionComponent = () => {
             "cuteness", "variations", "parent", "child", "groups", "tagcount", "filesize",
             "aspectRatio", "hidden", "locked", "private"
         ] as const
+
+        if (!session.username) {
+            sortModes = functions.util.removeItem(sortModes as any, "bookmarks") as any
+            sortModes = functions.util.removeItem(sortModes as any, "favorites") as any
+        }
+
+        if (!permissions.isMod(session)) {
+            sortModes = functions.util.removeItem(sortModes as any, "hidden") as any
+            sortModes = functions.util.removeItem(sortModes as any, "locked") as any
+            sortModes = functions.util.removeItem(sortModes as any, "private") as any
+        }
 
         for (let i = 0; i < sortModes.length; i++) {
             const sort = sortModes[i]

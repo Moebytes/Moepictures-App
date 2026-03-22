@@ -72,4 +72,8 @@ export default class UtilFunctions {
             }
         )
     }
+
+    public static removeItem = <T>(array: T[], value: T) => {
+        return array.filter((item) => JSON.stringify(item) !== JSON.stringify(value))
+    }
 }
