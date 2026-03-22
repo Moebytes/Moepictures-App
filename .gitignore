@@ -19,6 +19,7 @@ Pods
 # Android
 .gradle
 .kotlin
+.idea
 local.properties
 .cxx
 *.keystore
