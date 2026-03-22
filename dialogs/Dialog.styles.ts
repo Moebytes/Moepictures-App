@@ -77,7 +77,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 25
         },
         input: {
-            color: colors.black,
+            color: colors.iconColor,
             fontFamily: fonts.genEiMGothicV2,
             borderWidth: 1,
             borderColor: colors.black,

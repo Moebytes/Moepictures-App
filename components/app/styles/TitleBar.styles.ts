@@ -25,15 +25,15 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         textA: {
             color: colors.moeTextA,
-            fontSize: 44,
-            lineHeight: 50,
-            fontFamily: fonts.genEiMGothicV2
+            fontSize: 48,
+            lineHeight: 53,
+            fontFamily: fonts.tsunagiGothicBlack
         },
         textB: {
             color: colors.moeTextB,
-            fontSize: 44,
-            lineHeight: 50,
-            fontFamily: fonts.genEiMGothicV2
+            fontSize: 48,
+            lineHeight: 53,
+            fontFamily: fonts.tsunagiGothicBlack
         },
         icon: {
             width: 63,

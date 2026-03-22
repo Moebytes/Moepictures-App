@@ -28,7 +28,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         headerText: {
             color: colors.headingColor,
-            fontFamily: fonts.jkGothicM,
+            fontFamily: fonts.tsunagiGothicBlack,
             fontSize: 25
         },
         iconContainer: {

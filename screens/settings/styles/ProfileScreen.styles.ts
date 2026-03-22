@@ -82,13 +82,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.moeTextA,
             fontSize: 25,
             lineHeight: 30,
-            fontFamily: fonts.genEiMGothicV2
+            fontFamily: fonts.tsunagiGothicBlack
         },
         textB: {
             color: colors.moeTextB,
             fontSize: 25,
             lineHeight: 30,
-            fontFamily: fonts.genEiMGothicV2
+            fontFamily: fonts.tsunagiGothicBlack
         },
     })
 }
