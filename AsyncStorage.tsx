@@ -30,6 +30,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     }, [width, height])
 
     const setSessionCookie = async () => {
+        await fetch("https://moepictures.net") // Make sure that we obtain a CSRF token
         const cookie = await functions.http.get("/api/user/session", null, session)
         setSession(cookie)
     }

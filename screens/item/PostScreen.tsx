@@ -63,9 +63,15 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     setOpen((prev) => !prev)
   }
 
+  const characterTag = tagCategories?.characters?.[0]?.tag
+  const fallbackTags = [
+    tagCategories?.series?.[0]?.tag,
+    tagCategories?.artists?.[0]?.tag
+  ].filter(Boolean) as string[]
+
   const related = useRelatedItems({
-    tag: tagCategories?.characters[0]?.tag,
-    fallback: [tagCategories?.series[0]?.tag!, tagCategories?.artists[0]?.tag!]
+    tag: characterTag,
+    fallback: fallbackTags
   })
 
   const {columns} = functions.image.getImageSize(sizeType, square, tablet)

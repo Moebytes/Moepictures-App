@@ -4,16 +4,19 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef, useCallback} from "react"
+import React, {useRef} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
-import {useFocusEffect} from "@react-navigation/native"
+import {useRoute, useNavigation, CommonActions} from "@react-navigation/native"
 import IconButton from "../../ui/IconButton"
-import {useThemeSelector, useSearchActions, useSearchSelector} from "../../store"
+import {useThemeSelector, useSearchActions, useSearchSelector, 
+useSessionSelector, useFlagActions} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
 import RandomIcon from "../../assets/svg/random.svg"
 import XIcon from "../../assets/svg/x.svg"
+import functions from "../../functions/Functions"
+import clone from "fast-clone"
 
 interface Props {
     managedProps?: {
@@ -28,11 +31,15 @@ interface Props {
 
 const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => {
     const {colors} = useThemeSelector()
-    let {text, searchTags} = useSearchSelector()
+    const {session} = useSessionSelector()
+    let {text, search, searchTags} = useSearchSelector()
     let {setText, setFocused, setSearchTags, setSearch} = useSearchActions()
+    const {setRandomSearchFlag} = useFlagActions()
     const styles = createStylesheet(colors)
     const inputRef = useRef<TextInput>(null)
     const scrollRef = useRef<ScrollView>(null)
+    const navigation = useNavigation()
+    const route = useRoute()
 
     if (managedProps) {
         text = managedProps.text
@@ -52,9 +59,46 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         setSearchTags(searchTags.filter((_, i) => i !== index))
     }
 
+    const commitItem = () => {
+        let tags = [...searchTags, text.trim()].filter(Boolean)
+        setSearchTags(tags)
+        setSearch(tags.join(" "))
+        setText("")
+    }
+
     const handleKeyPress = (e: any) => {
         if (e.nativeEvent.key === "Backspace" && !text && searchTags.length) {
             setSearchTags(searchTags.slice(0, -1))
+        }
+    }
+
+    const randomPost = async () => {
+        if (route.name === "Posts") {
+            setRandomSearchFlag(true)
+        } else if (route.name === "Post") {
+            const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
+                sort: "random", limit: 1}, session)
+            if (!result.length) return
+
+            const state = navigation.getState()!
+
+            const routes = clone(state.routes) as any
+            let lastRoute = routes[routes.length - 1]
+
+            const newRoute = {
+                name: "Post",
+                params: {postID: result[0].postID},
+                key: lastRoute.key
+            }
+
+            routes[routes.length - 1].key = `Post-${Date.now()}`
+
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: state.routes.length,
+                    routes: [...routes, newRoute]
+                })
+            )
         }
     }
 
@@ -98,10 +142,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
                             }}
                             onBlur={() => {
                                 setFocused(false)
-                                let tags = [...searchTags, text.trim()].filter(Boolean)
-                                setSearchTags(tags)
-                                setSearch(tags.join(" "))
-                                setText("")
+                                commitItem()
                             }}
                         />
                     </ScrollView>
@@ -113,7 +154,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
             </View>
             <Pressable>
                 {props.random ?
-                <IconButton icon={RandomIcon} size={iconSize} color={colors.borderColor}/> :
+                <IconButton icon={RandomIcon} size={iconSize} color={colors.borderColor}
+                    onPress={randomPost}/> :
                 <IconButton icon={OptionsIcon} size={iconSize} color={colors.borderColor}/> }
             </Pressable>
         </View>

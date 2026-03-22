@@ -30,6 +30,13 @@ export const useRelatedItems = (props: Props) => {
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
 
+    useEffect(() => {
+        setActiveTag(props.tag)
+        setFallbackIndex(-1)
+        setPage(1)
+        setRefreshKey(prev => prev + 1)
+    }, [props.tag])
+
     const pageSize = 15 * pageMultiplier
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
@@ -46,22 +53,20 @@ export const useRelatedItems = (props: Props) => {
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
-    useEffect(() => {
-        updateFallback()
-    }, [posts])
-
-    const updateFallback = useEffectEvent(() => {
-        if (!posts?.length && props.fallback && fallbackIndex < props.fallback.length - 1) {
-            setFallbackIndex((prev) => prev + 1)
-        }
-    })
 
     useEffect(() => {
-        if (props.fallback && fallbackIndex > -1 && fallbackIndex < props.fallback.length - 1) {
+        if (props.fallback && fallbackIndex >= 0 && fallbackIndex < props.fallback.length) {
             setActiveTag(props.fallback[fallbackIndex])
+            setRefreshKey(prev => prev + 1)
         }
     }, [fallbackIndex])
 
+    useEffect(() => {
+        if (!posts?.length && props.fallback && fallbackIndex < props.fallback.length - 1) {
+            setFallbackIndex(prev => prev + 1)
+        }
+    }, [posts, fallbackIndex, props.fallback])
+    
     const loadMore = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()

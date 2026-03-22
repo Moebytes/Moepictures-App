@@ -15,7 +15,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "space-around",
             alignItems: "center",
-            paddingHorizontal: 40,
+            paddingHorizontal: 10,
             paddingVertical: 20,
             backgroundColor: colors.background,
             gap: 25,

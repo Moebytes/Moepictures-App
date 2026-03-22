@@ -23,11 +23,13 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const [size, setSize] = useState({width: 0, height: 0})
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
         if (!props.post) return
         const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
         setImg(img)
+        setLoaded(false)
     }, [props.post])
 
     useEffect(() => {
@@ -36,6 +38,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             let imageSize = tablet ? 1100 : 500
             const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
+            setLoaded(true)
         }
         updateSize()
     }, [img, tablet])
@@ -43,8 +46,9 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     if (!img) return null
 
     return (
-        <View style={styles.container}>
-            <Image style={size} source={{uri: img}} resizeMode="contain"/>
+        <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
+
+            {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
         </View>
     )
 }

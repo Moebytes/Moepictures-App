@@ -7,13 +7,14 @@
 import {createSlice} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
+import {PostSearch} from "../types/Types"
 
 const flagSlice = createSlice({
     name: "flag",
     initialState: {
         pageFlag: null as number | null,
         randomSearchFlag: false,
-        imageSearchFlag: false
+        imageSearchFlag: null as PostSearch[] | null
     },
     reducers: {
         setPageFlag: (state, action) => {state.pageFlag = action.payload},
@@ -40,7 +41,7 @@ export const useFlagActions = () => {
     return {
         setPageFlag: (state: number | null) => dispatch(setPageFlag(state)),
         setRandomSearchFlag: (state: boolean) => dispatch(setRandomSearchFlag(state)),
-        setImageSearchFlag: (state: boolean) => dispatch(setImageSearchFlag(state))
+        setImageSearchFlag: (state: PostSearch[] | null) => dispatch(setImageSearchFlag(state))
     }
 }
 

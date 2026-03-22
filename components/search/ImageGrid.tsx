@@ -4,9 +4,10 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useEffectEvent, useRef} from "react"
 import {View, Image, FlatList, ListRenderItem, RefreshControl} from "react-native"
-import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
+useFlagActions, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
@@ -23,12 +24,16 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
+    const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
+    const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
     const {search, scroll, sortType, sortReverse, sizeType, square, pageMultiplier} = useSearchSelector()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
+    const [randomPosts, setRandomPosts] = useState<PostSearch[]>([])
     const ref = useRef<FlatList>(null)
 
     useEffect(() => {
@@ -40,19 +45,23 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const sort = functions.valid.parseSort(sortType, sortReverse)
     const {columns} = functions.image.getImageSize(sizeType, square, tablet)
 
+    const reverseSearch = imageSearchFlag !== null
+    const randomSearch = randomPosts.length > 0
+
     const infiniteQuery = useSearchPostsInfiniteQuery(
         {query: search, sort, type: "image", refreshKey},
-        {skip: !scroll}
+        {skip: !scroll || reverseSearch || randomSearch}
     )
 
     const pageQuery = useSearchPostsPageQuery(
         {query: search, sort, type: "image", 
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
-        {skip: scroll}
+        {skip: scroll || reverseSearch || randomSearch}
     )
 
-    const posts = scroll
-        ? (infiniteQuery.data?.pages.flat() ?? [])
+    let posts = reverseSearch ? imageSearchFlag :
+        randomSearch ? randomPosts :
+        scroll ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
@@ -73,12 +82,49 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         : pageQuery.isLoading
 
     const loadMore = () => {
+        if (randomSearch) {
+            if (!scroll) return
+            return getRandomPosts()
+        }
+
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()
         }
     }
 
-    const totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
+    const onRefresh = () => {
+        setImageSearchFlag(null)
+        setRandomPosts([])
+        setRefreshKey(prev => prev + 1)
+    }
+
+    useEffect(() => {
+        setImageSearchFlag(null)
+        setRandomPosts([])
+    }, [search, sort])
+
+    const getRandomPosts = useEffectEvent(async (reset?: boolean) => {
+        const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
+            sort: "random", limit: scroll ? 15 : pageSize}, session)
+        setRandomPosts((prev) => reset || !scroll ? result : [...prev, ...result])
+    })
+
+    useEffect(() => {
+        if (randomSearchFlag) {
+            setImageSearchFlag(null)
+            getRandomPosts(true)
+            setRandomSearchFlag(false)
+        }
+    }, [randomSearchFlag])
+
+    useEffect(() => {
+        if (!randomSearch) return
+        if (scroll) return
+        getRandomPosts(true)
+    }, [page])
+
+    let totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
+    if (imageSearchFlag) totalItems = imageSearchFlag.length
     const totalPages = Math.ceil(totalItems / pageSize)
 
     return (
@@ -102,7 +148,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={isLoading}
-                        onRefresh={() => setRefreshKey(prev => prev + 1)}
+                        onRefresh={onRefresh}
                         tintColor={colors.iconColor}
                         colors={[colors.iconColor]}
                         progressViewOffset={headerHeight}
