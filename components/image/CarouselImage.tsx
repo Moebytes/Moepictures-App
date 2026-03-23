@@ -5,20 +5,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Pressable, Image, useWindowDimensions, Keyboard} from "react-native"
+import {View, Image, useWindowDimensions, Keyboard} from "react-native"
+import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
-import {PostSearch} from "../../types/Types"
+import {Post} from "../../types/Types"
 
 interface Props {
-    post: PostSearch
+    post: Post
 }
 
-const GridImage: React.FunctionComponent<Props> = (props) => {
+const CarouselImage: React.FunctionComponent<Props> = (props) => {
     const {tablet, keyboardOpen, dialogOpen} = useLayoutSelector()
-    const {sizeType, square} = useSearchSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
@@ -26,6 +26,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [loaded, setLoaded] = useState(false)
+    const [pressed, setPressed] = useState(false)
     const navigation = useNavigation()
 
     useEffect(() => {
@@ -38,44 +39,37 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const {imageSize} = functions.image.getImageSize(sizeType, square, tablet)
+            const imageSize = tablet ? 400 : 200
             let size = await functions.image.dynamicResize({uri: img}, imageSize, width)
-
-            if (square) {
-                size = {width: imageSize, height: imageSize}
-            }
             setSize(size)
             setLoaded(true)
         }
         updateSize()
-    }, [img, tablet, sizeType, square])
+    }, [img, tablet])
 
     const onPress = () => {
+        setPressed(false)
         if (dialogOpen) return
         if (keyboardOpen) return Keyboard.dismiss()
         functions.navigateToPost(props.post.postID, navigation)
     }
 
-    const borderWidth = square ? 0 : 1.2
-    const borderColor = functions.post.borderColor(props.post, colors)
+
+    const borderWidth = pressed ? 3 :0
     const landscape = size.width > size.height
-    const marginVertical = square ? 0 :
-        sizeType === "large" || sizeType === "massive" ? 10 : 5
-    
     const imageSize = landscape ?
         {width: size.width - borderWidth * 2, height: size.height} : 
         {width: size.width, height: size.height - borderWidth * 2}
 
     return (
-        <Pressable style={[styles.container, size,
-            {marginVertical, borderColor, opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
-            onPress={onPress}>
+        <PressableHaptic style={[styles.container, size, {opacity: loaded ? 1 : 0, borderWidth}]} 
+            onPress={onPress} onPressIn={() => setPressed(true)} onPressOut={() => setPressed(false)}>
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={imageSize} source={{uri: img}} resizeMode={square ? "cover" : "contain"}/>}
-        </Pressable>
+            {img && <Image style={imageSize} source={{uri: img}} resizeMode="contain"/>}
+        </PressableHaptic>
     )
 }
 
-export default GridImage
+export default CarouselImage

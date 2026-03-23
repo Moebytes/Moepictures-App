@@ -28,7 +28,16 @@ export const noRotation = {
     accessoryTagColorGlass: "rgba(43, 233, 65, 0.41)",
     actionTagColorGlass: "rgba(255, 142, 43, 0.41)",
     sceneryTagColorGlass: "rgba(43, 106, 255, 0.41)",
-    tagColorGlass: "rgba(100, 31, 255, 0.41)"
+    tagColorGlass: "rgba(100, 31, 255, 0.41)",
+
+    favoriteBorder: "#e72d95",
+    favgroupBorder: "#c22de7",
+    variationBorder: "#1664de",
+    parentBorder: "#1eab3c",
+    childBorder: "#c59f23",
+    groupBorder: "#ff5c2e",
+    takendownBorder: "#7f0a0a",
+    lockedBorder: "#b40e1d"
 }
 
 export const sharedColors = {

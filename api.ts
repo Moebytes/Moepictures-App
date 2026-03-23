@@ -197,6 +197,24 @@ export const api = createApi({
             query: (params) => ({
                 url: "/api/post", params
             })
+        }),
+
+        getPostParent: builder.query<
+            GetEndpoint<"/api/post/parent">["response"], 
+            GetEndpoint<"/api/post/parent">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/post/parent", params
+            })
+        }),
+
+        getPostChildren: builder.query<
+            GetEndpoint<"/api/post/children">["response"], 
+            GetEndpoint<"/api/post/children">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/post/children", params
+            })
         })
     })
 })
@@ -204,7 +222,6 @@ export const api = createApi({
 export const {
     useSearchPostsInfiniteQuery,
     useSearchPostsPageQuery,
-    useGetPostQuery,
     useSearchCommentsInfiniteQuery,
     useSearchCommentsPageQuery,
     useSearchNotesInfiniteQuery,
@@ -212,5 +229,8 @@ export const {
     useSearchTagsInfiniteQuery,
     useSearchTagsPageQuery,
     useSearchGroupsInfiniteQuery,
-    useSearchGroupsPageQuery
+    useSearchGroupsPageQuery,
+    useGetPostQuery,
+    useGetPostParentQuery,
+    useGetPostChildrenQuery
 } = api

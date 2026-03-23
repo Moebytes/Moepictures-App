@@ -21,8 +21,12 @@ import PostImageOptions from "../../components/post/PostImageOptions"
 import PostDrawer from "../../components/post/PostDrawer"
 import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
+import Parent from "../../components/post/Parent"
+import Children from "../../components/post/Children"
+import ArtistWorks from "../../components/post/ArtistWorks"
 import Commentary from "../../components/post/Commentary"
 import Related, {useRelatedItems} from "../../components/post/Related"
+import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import {createStylesheet} from "./styles/PostScreen.styles"
@@ -64,14 +68,12 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   }
 
   const characterTag = tagCategories?.characters?.[0]?.tag
-  const fallbackTags = [
-    tagCategories?.series?.[0]?.tag,
-    tagCategories?.artists?.[0]?.tag
-  ].filter(Boolean) as string[]
-
+  const seriesTag = tagCategories?.series?.[0]?.tag
+  const artistTag = tagCategories?.artists?.[0]?.tag
+  
   const related = useRelatedItems({
     tag: characterTag,
-    fallback: fallbackTags
+    fallback: [seriesTag, artistTag].filter(Boolean) as string[]
   })
 
   const {columns} = functions.image.getImageSize(sizeType, square, tablet)
@@ -102,7 +104,10 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                 <PixivTags post={post}/>
                 <ArtistInfo post={post} artists={tagCategories?.artists}/>
                 <View style={{gap: 10}}>
+                  <Parent post={post}/>
+                  <Children post={post}/>
                   <Commentary post={post}/>
+                  <ArtistWorks tag={artistTag}/>
                   <Related/>
                 </View>
               </>
@@ -128,8 +133,12 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
               <PageButtons page={related.page} setPage={related.setPage} 
               totalPages={related.totalPages} hideEndArrow={true}
               marginBottom={20}/>
+              <BackToTop ref={ref}/>
               <TabBar relative={true}/>
-              </> : <TabBar relative={true}/>}
+              </> : <>
+              <BackToTop ref={ref}/>
+              <TabBar relative={true}/>
+              </>}
           />
       </View>
     </Drawer>

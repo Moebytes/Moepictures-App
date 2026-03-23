@@ -6,7 +6,7 @@
 
 import React, {useRef} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
-import {useRoute, useNavigation, CommonActions} from "@react-navigation/native"
+import {useRoute, useNavigation} from "@react-navigation/native"
 import IconButton from "../../ui/IconButton"
 import {useThemeSelector, useSearchActions, useSearchSelector, 
 useSessionSelector, useFlagActions} from "../../store"
@@ -16,7 +16,6 @@ import OptionsIcon from "../../assets/svg/options.svg"
 import RandomIcon from "../../assets/svg/random.svg"
 import XIcon from "../../assets/svg/x.svg"
 import functions from "../../functions/Functions"
-import clone from "fast-clone"
 
 interface Props {
     managedProps?: {
@@ -79,26 +78,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
             const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
                 sort: "random", limit: 1}, session)
             if (!result.length) return
-
-            const state = navigation.getState()!
-
-            const routes = clone(state.routes) as any
-            let lastRoute = routes[routes.length - 1]
-
-            const newRoute = {
-                name: "Post",
-                params: {postID: result[0].postID},
-                key: lastRoute.key
-            }
-
-            routes[routes.length - 1].key = `Post-${Date.now()}`
-
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: state.routes.length,
-                    routes: [...routes, newRoute]
-                })
-            )
+            
+            functions.navigateToPost(result[0].postID, navigation)
         }
     }
 

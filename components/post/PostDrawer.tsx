@@ -11,6 +11,7 @@ import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from 
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostDrawer.styles"
+import PressableHaptic from "../../ui/PressableHaptic"
 import functions from "../../functions/Functions"
 import {PostFull, TagCount} from "../../types/Types"
 
@@ -52,10 +53,12 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
 
         for (const item of tags) {
             jsx.push(
-                <LiquidGlassView key={item.tag} interactive effect="clear" 
-                    style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
-                    <Text style={styles.tagText}>{item.tag}</Text>
-                </LiquidGlassView>
+                <PressableHaptic>
+                    <LiquidGlassView key={item.tag} interactive effect="clear" 
+                        style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
+                            <Text style={styles.tagText}>{item.tag}</Text>
+                    </LiquidGlassView>
+                </PressableHaptic>
             )
         }
         return jsx
