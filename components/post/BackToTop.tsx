@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, Text, FlatList} from "react-native"
-import PressableHaptic from "../../ui/PressableHaptic"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import TriangleIcon from "../../assets/svg/back-to-top.svg"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/BackToTop.styles"
@@ -27,10 +27,10 @@ const BackToTop: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <PressableHaptic style={styles.iconContainer} onPress={onPress}>
+            <ScalableHaptic scaleFactor={0.95} style={styles.iconContainer} onPress={onPress}>
                 <TriangleIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                 <Text style={styles.text}>{i18n.footer.top}</Text>
-            </PressableHaptic>
+            </ScalableHaptic>
         </View>
     )
 }

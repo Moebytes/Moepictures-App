@@ -6,8 +6,8 @@
 
 import React, {useEffect} from "react"
 import {View, Text} from "react-native"
-import PressableHaptic from "../../ui/PressableHaptic"
-import {useThemeSelector, useMiscDialogActions, useFlagSelector, useFlagActions} from "../../store"
+import ScalableHaptic from "../../ui/ScalableHaptic"
+import {useThemeSelector, useMiscDialogActions, useFlagSelector, useFlagActions, useMiscDialogSelector} from "../../store"
 import {createStylesheet} from "./styles/PageButtons.styles"
 
 interface Props {
@@ -23,6 +23,7 @@ const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages,
     hideEndArrow, marginBottom, marginTop}) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const {showPageDialog} = useMiscDialogSelector()
     const {setShowPageDialog} = useMiscDialogActions()
     const {pageFlag} = useFlagSelector()
     const {setPageFlag} = useFlagActions()
@@ -60,7 +61,7 @@ const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages,
     }
 
     const pageDialog = () => {
-        setShowPageDialog(true)
+        setShowPageDialog(!showPageDialog)
     }
 
     const pageNumbers = getPageNumbers()
@@ -68,36 +69,37 @@ const PageButtons: React.FunctionComponent<Props> = ({page, setPage, totalPages,
     return (
         <View style={[styles.container, {marginBottom, marginTop}]}>
             {page > 1 && (
-                <PressableHaptic style={styles.button} onPress={() => setPage(Math.max(page - 1, 1))}>
+                <ScalableHaptic scaleFactor={0.92} style={styles.button} onPress={() => setPage(Math.max(page - 1, 1))}>
                     <Text style={styles.text}>{"<"}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
             )}
 
             {pageNumbers.map((num) => (
-                <PressableHaptic
+                <ScalableHaptic
+                    scaleFactor={0.92}
                     key={num}
                     style={[styles.button, num === page ? styles.activeButton : undefined]}
                     onPress={() => setPage(num)}>
                     <Text style={styles.text}>{num}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
             ))}
 
             {page < totalPages && (
-                <PressableHaptic style={styles.button} onPress={() => setPage(Math.min(page + 1, totalPages))}>
+                <ScalableHaptic scaleFactor={0.92} style={styles.button} onPress={() => setPage(Math.min(page + 1, totalPages))}>
                     <Text style={styles.text}>{">"}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
             )}
 
             {!hideEndArrow && page < totalPages && (
-                <PressableHaptic style={styles.button} onPress={() => setPage(totalPages)}>
+                <ScalableHaptic scaleFactor={0.92} style={styles.button} onPress={() => setPage(totalPages)}>
                     <Text style={styles.text}>{">>"}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
             )}
 
             {totalPages > 0 && (
-                <PressableHaptic style={styles.button} onPress={pageDialog}>
+                <ScalableHaptic scaleFactor={0.92} style={styles.button} onPress={pageDialog}>
                     <Text style={styles.text}>{"?"}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
             )}
         </View>
     )

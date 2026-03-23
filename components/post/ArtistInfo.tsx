@@ -82,14 +82,14 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return null
         if (props.post?.source?.includes("pixiv.net")) {
             return (
-                <ScalableHaptic onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
                 </ScalableHaptic>
             )
         } else if (props.post?.source?.includes("twitter.com") || 
             props.post?.source?.includes("x.com")) {
             return (
-                <ScalableHaptic onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
                 </ScalableHaptic>
             )
@@ -100,13 +100,13 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return null
         if (props.post?.mirrors?.pixiv) {
             return (
-                <ScalableHaptic onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
                 </ScalableHaptic>
             )
         } else if (props.post?.mirrors?.twitter) {
             return (
-                <ScalableHaptic onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
                 </ScalableHaptic>
             )
@@ -116,9 +116,9 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
             <View style={styles.artistContainer}>
                 {artistPfp && <Image style={styles.artistIcon} source={{uri: artistPfp}}/>}
-                <PressableHaptic onPress={onArtistPress}>
+                <ScalableHaptic scaleFactor={0.95} onPress={onArtistPress}>
                     <Text style={styles.artistText}>{props.artists?.[0].tag}</Text>
-                </PressableHaptic>
+                </ScalableHaptic>
                 {getSourceIcon()}
                 {getMirrorIcon()}
             </View>
