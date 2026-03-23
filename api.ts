@@ -215,6 +215,15 @@ export const api = createApi({
             query: (params) => ({
                 url: "/api/post/children", params
             })
+        }),
+
+        getPostGroups: builder.query<
+            GetEndpoint<"/api/groups">["response"], 
+            GetEndpoint<"/api/groups">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/groups", params
+            })
         })
     })
 })
@@ -232,5 +241,6 @@ export const {
     useSearchGroupsPageQuery,
     useGetPostQuery,
     useGetPostParentQuery,
-    useGetPostChildrenQuery
+    useGetPostChildrenQuery,
+    useGetPostGroupsQuery
 } = api

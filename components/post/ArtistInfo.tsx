@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Text, Image, Linking} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
-import IconButton from "../../ui/IconButton"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistInfo.styles"
 import {PostFull, TagCount} from "../../types/Types"
@@ -82,16 +82,16 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return null
         if (props.post?.source?.includes("pixiv.net")) {
             return (
-                <IconButton onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic onPress={() => onSourcePress(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
-                </IconButton>
+                </ScalableHaptic>
             )
         } else if (props.post?.source?.includes("twitter.com") || 
             props.post?.source?.includes("x.com")) {
             return (
-                <IconButton onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic onPress={() => onSourcePress(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
-                </IconButton>
+                </ScalableHaptic>
             )
         }
     }
@@ -100,15 +100,15 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return null
         if (props.post?.mirrors?.pixiv) {
             return (
-                <IconButton onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
+                <ScalableHaptic onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
-                </IconButton>
+                </ScalableHaptic>
             )
         } else if (props.post?.mirrors?.twitter) {
             return (
-                <IconButton onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
+                <ScalableHaptic onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
-                </IconButton>
+                </ScalableHaptic>
             )
         }
     }

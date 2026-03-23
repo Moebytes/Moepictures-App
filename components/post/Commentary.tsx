@@ -33,7 +33,7 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{showTranslated ? props.post?.englishCommentary : props.post?.commentary}</Text>
+                <Text style={styles.text}>{showTranslated ? props.post.englishCommentary : props.post.commentary}</Text>
             </View>
         </View>
     )

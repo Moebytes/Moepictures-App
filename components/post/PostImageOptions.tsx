@@ -8,7 +8,7 @@ import React from "react"
 import {View, Text} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import path from "path"
-import IconButton from "../../ui/IconButton"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
@@ -60,26 +60,26 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <IconButton icon={StarIcon} size={iconSize} color={colors.iconColor} 
+            <ScalableHaptic icon={StarIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>{i18n.post.favorite}</Text>
-            </IconButton>
-            <IconButton icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
+            </ScalableHaptic>
+            <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>{i18n.post.favgroup}</Text>
-            </IconButton>
-            <IconButton icon={InfoIcon} size={iconSize} color={colors.iconColor} 
+            </ScalableHaptic>
+            <ScalableHaptic icon={InfoIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>
                     <Text style={styles.text}>{i18n.post.info}</Text>
-            </IconButton>
-            <IconButton icon={DownloadIcon} size={iconSize} color={colors.iconColor} 
+            </ScalableHaptic>
+            <ScalableHaptic icon={DownloadIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={downloadImage}>
                 <Text style={styles.text}>{i18n.buttons.download}</Text>
-            </IconButton>
-            <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
+            </ScalableHaptic>
+            <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
                 <Text style={styles.text}>{i18n.filters.filters}</Text>
-            </IconButton>
+            </ScalableHaptic>
         </View>
     )
 }

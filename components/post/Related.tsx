@@ -6,7 +6,7 @@
 
 import React, {useEffect, useEffectEvent, useState} from "react"
 import {View, Text} from "react-native"
-import IconButton from "../../ui/IconButton"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchSelector, useSearchActions, 
 useSearchDialogActions, useSearchDialogSelector} from "../../store"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
@@ -102,11 +102,11 @@ const Related: React.FunctionComponent = () => {
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>{i18n.post.related}</Text>
-                <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
+                <ScalableHaptic icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
-                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
+                <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
                     onPress={() => setSquare(!square)}/>
-                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
+                <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
                     onPress={() => setShowSizeDialog(!showSizeDialog)}/>
             </View>
         </View>

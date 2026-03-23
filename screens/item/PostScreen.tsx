@@ -23,7 +23,9 @@ import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
 import Parent from "../../components/post/Parent"
 import Children from "../../components/post/Children"
+import Groups from "../../components/post/Groups"
 import ArtistWorks from "../../components/post/ArtistWorks"
+import BuyLink from "../../components/post/BuyLink"
 import Commentary from "../../components/post/Commentary"
 import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
@@ -106,6 +108,8 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                 <View style={{gap: 10}}>
                   <Parent post={post}/>
                   <Children post={post}/>
+                  <Groups post={post}/>
+                  <BuyLink post={post}/>
                   <Commentary post={post}/>
                   <ArtistWorks tag={artistTag}/>
                   <Related/>

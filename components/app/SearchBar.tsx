@@ -7,7 +7,7 @@
 import React, {useRef} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
 import {useRoute, useNavigation} from "@react-navigation/native"
-import IconButton from "../../ui/IconButton"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchActions, useSearchSelector, 
 useSessionSelector, useFlagActions} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
@@ -135,9 +135,9 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
             </View>
             <Pressable>
                 {props.random ?
-                <IconButton icon={RandomIcon} size={iconSize} color={colors.borderColor}
+                <ScalableHaptic icon={RandomIcon} size={iconSize} color={colors.borderColor}
                     onPress={randomPost}/> :
-                <IconButton icon={OptionsIcon} size={iconSize} color={colors.borderColor}/> }
+                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.borderColor}/> }
             </Pressable>
         </View>
     )

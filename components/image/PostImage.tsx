@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Image, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
-import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import {PostFull} from "../../types/Types"
@@ -19,6 +19,7 @@ interface Props {
 const PostImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
+    const {setSharingActive} = useLayoutActions()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
@@ -52,7 +53,12 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
 
             let title = props.post.englishTitle || props.post.title || "Post"
-            await Share.share({message: url, title})
+            setSharingActive(true)
+            try {
+                await Share.share({message: url, title})
+            } finally {
+                setSharingActive(false)
+            }
         }
     }
 
@@ -61,8 +67,8 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     return (
         <ContextMenu disableShadow borderRadius={0} previewBackgroundColor="transparent"
             actions={[
-                {title: i18n.contextMenu.openWebsite},
-                {title: i18n.contextMenu.share}
+                {title: i18n.contextMenu.openWebsite, icon: "link"},
+                {title: i18n.contextMenu.share, icon: "share"}
             ]}
             onPress={contextMenu}>
                 <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>

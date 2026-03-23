@@ -9,7 +9,7 @@ import {View, Pressable, Linking, Image, useWindowDimensions, Keyboard, NativeSy
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import {useNavigation} from "@react-navigation/native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
-import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector, useMiscDialogActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector, useMiscDialogActions, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
@@ -21,7 +21,8 @@ interface Props {
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
-    const {tablet, keyboardOpen, dialogOpen} = useLayoutSelector()
+    const {tablet, keyboardOpen, dialogOpen, sharingActive} = useLayoutSelector()
+    const {setSharingActive} = useLayoutActions()
     const {sizeType, square} = useSearchSelector()
     const {setShowSavePrompt} = useMiscDialogActions()
     const {session} = useSessionSelector()
@@ -57,6 +58,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
     const onPress = () => {
         if (dialogOpen) return
+        if (sharingActive) return
         if (keyboardOpen) return Keyboard.dismiss()
         functions.navigateToPost(props.post.postID, navigation)
     }
@@ -90,7 +92,12 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
             const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
 
             let title = props.post.englishTitle || props.post.title || "Post"
-            await Share.share({message: url, title})
+            setSharingActive(true)
+            try {
+                await Share.share({message: url, title})
+            } finally {
+                setSharingActive(false)
+            }
         }
     }
 
@@ -107,9 +114,9 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     return (
         <ContextMenu disableShadow borderRadius={0} previewBackgroundColor="transparent"
             actions={[
-                {title: i18n.contextMenu.openWebsite},
-                {title: i18n.contextMenu.saveImage},
-                {title: i18n.contextMenu.share}
+                {title: i18n.contextMenu.openWebsite, icon: "link"},
+                {title: i18n.contextMenu.saveImage, icon: "download"},
+                {title: i18n.contextMenu.share, icon: "share"}
             ]}
             onPress={contextMenu}>
             <Pressable style={[styles.container, size,

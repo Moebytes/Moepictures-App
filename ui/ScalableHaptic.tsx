@@ -18,7 +18,7 @@ interface Props extends PressableProps {
     hapticType?: HapticFeedbackTypes
 }
 
-const IconButton: React.FunctionComponent<Props> = ({children, onPressIn, onPressOut, icon: Icon, 
+const ScalableHaptic: React.FunctionComponent<Props> = ({children, onPressIn, onPressOut, icon: Icon, 
     size, color, activeColor, scaleFactor = 0.85, style, ...props}) => {
 
     const scale = useRef(new Animated.Value(1)).current
@@ -56,4 +56,4 @@ const IconButton: React.FunctionComponent<Props> = ({children, onPressIn, onPres
     )
 }
 
-export default IconButton
+export default ScalableHaptic

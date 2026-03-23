@@ -16,18 +16,20 @@ const layoutSlice = createSlice({
         tablet: false,
         headerHeight: 210,
         tabBarHeight: 110,
-        keyboardOpen: false
+        keyboardOpen: false,
+        sharingActive: false
     },
     reducers: {
         setTablet: (state, action) => {state.tablet = action.payload},
         setHeaderHeight: (state, action) => {state.headerHeight = action.payload},
         setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload},
-        setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload}
+        setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload},
+        setSharingActive: (state, action) => {state.sharingActive = action.payload}
     }    
 })
 
 const {
-    setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen
+    setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen, setSharingActive
 } = layoutSlice.actions
 
 const dialogOpen = createSelector(
@@ -50,6 +52,7 @@ export const useLayoutSelector = () => {
         headerHeight: selector((state) => state.layout.headerHeight),
         tabBarHeight: selector((state) => state.layout.tabBarHeight),
         keyboardOpen: selector((state) => state.layout.keyboardOpen),
+        sharingActive: selector((state) => state.layout.sharingActive),
         dialogOpen: selector(dialogOpen)
     }
 }
@@ -61,6 +64,7 @@ export const useLayoutActions = () => {
         setHeaderHeight: (state: number) => dispatch(setHeaderHeight(state)),
         setTabBarHeight: (state: number) => dispatch(setTabBarHeight(state)),
         setKeyboardOpen: (state: boolean) => dispatch(setKeyboardOpen(state)),
+        setSharingActive: (state: boolean) => dispatch(setSharingActive(state)),
         closeAllDialogs: () => dispatch(closeAllDialogs())
     }
 }

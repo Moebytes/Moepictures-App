@@ -7,7 +7,7 @@
 import React, {useEffect, useRef} from "react"
 import {View, Text, Animated, Easing} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
-import IconButton from "../../ui/IconButton"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
 useSearchDialogActions, useSearchDialogSelector, useSessionSelector} from "../../store"
@@ -110,31 +110,31 @@ const SortBar: React.FunctionComponent = () => {
     return (
         <LiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
             <View style={styles.iconContainer}>
-                <IconButton icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}
+                <ScalableHaptic icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => imageSearch()}/>
                 <Animated.View style={{transform: [{rotate: spin}]}}>
-                    <IconButton icon={AutoSearchIcon} size={iconSize} color={autoSearch ? colors.iconActive : colors.iconColor}
+                    <ScalableHaptic icon={AutoSearchIcon} size={iconSize} color={autoSearch ? colors.iconActive : colors.iconColor}
                         onPress={() => setAutoSearch(!autoSearch)}/>
                 </Animated.View>
-                <IconButton icon={OptionsIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
             </View>
             <View style={styles.iconContainer}>
                 {scroll ? 
-                <IconButton icon={AutoScrollIcon} size={iconSize-3} color={autoScroll ? colors.iconActive : colors.iconColor}
+                <ScalableHaptic icon={AutoScrollIcon} size={iconSize-3} color={autoScroll ? colors.iconActive : colors.iconColor}
                     onPress={() => setAutoScroll(!autoScroll)} style={{marginRight: -5}}/> :
-                <IconButton onPress={() => setShowPageMultiplierDialog(!showPageMultiplierDialog)}>
+                <ScalableHaptic onPress={() => setShowPageMultiplierDialog(!showPageMultiplierDialog)}>
                     <Text style={styles.textButton}>{pageMultiplier}x</Text>
-                </IconButton>}
-                <IconButton icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
+                </ScalableHaptic>}
+                <ScalableHaptic icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)}/>
-                <IconButton icon={SquareIcon} size={iconSize} color={colors.iconColor}
+                <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setSquare(!square)}/>
-                <IconButton icon={FiltersIcon} size={iconSize} color={colors.iconColor}/>
-                <IconButton icon={SizeIcon} size={iconSize} color={colors.iconColor}
+                <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowSizeDialog(!showSizeDialog)}/>
-                <IconButton icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}
+                <ScalableHaptic icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowSortDialog(!showSortDialog)}/>
             </View>
         </LiquidGlassView>
