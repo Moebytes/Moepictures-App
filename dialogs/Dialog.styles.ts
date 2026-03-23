@@ -72,13 +72,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             gap: 5
         },
         title: {
-            color: colors.black,
+            color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 20,
             lineHeight: 25
         },
         text: {
-            color: colors.black,
+            color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 18,
             lineHeight: 25

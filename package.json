@@ -28,6 +28,7 @@
     "pixiv.ts": "^0.8.9",
     "react": "^19.2.4",
     "react-native": "0.83.1",
+    "react-native-context-menu-view": "^1.21.0",
     "react-native-drawer-layout": "^4.2.2",
     "react-native-file-access": "^4.0.0",
     "react-native-gesture-handler": "^2.30.0",

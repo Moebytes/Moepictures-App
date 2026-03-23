@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, useWindowDimensions} from "react-native"
+import {View, Image, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
@@ -16,10 +17,10 @@ interface Props {
 }
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
+    const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
-    const {colors} = useThemeSelector()
     const [size, setSize] = useState({width: 0, height: 0})
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
@@ -43,13 +44,31 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
         updateSize()
     }, [img, tablet])
 
+    const contextMenu = async (event: NativeSyntheticEvent<ContextMenuOnPressNativeEvent>) => {
+        if (!props.post) return
+        if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
+            Linking.openURL(`https://moepictures.net/post/${props.post.postID}/${props.post.slug}`)
+        } else if (event.nativeEvent.name === i18n.contextMenu.share) {
+            const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
+
+            let title = props.post.englishTitle || props.post.title || "Post"
+            await Share.share({message: url, title})
+        }
+    }
+
     if (!img) return null
 
     return (
-        <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
-
-            {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
-        </View>
+        <ContextMenu disableShadow borderRadius={0} previewBackgroundColor="transparent"
+            actions={[
+                {title: i18n.contextMenu.openWebsite},
+                {title: i18n.contextMenu.share}
+            ]}
+            onPress={contextMenu}>
+                <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
+                    {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
+                </View>
+        </ContextMenu>
     )
 }
 

@@ -528,6 +528,14 @@
         "userProfile": "User Profile",
         "imageCount": "Image Count"
     },
+    "contextMenu": {
+        "openWebsite": "Open Website Link",
+        "saveImage": "Save Image",
+        "share": "Share",
+        "saveLocation": "Pick a save location",
+        "photos": "Photos",
+        "files": "Files"
+    },
     "errors": {
         "$401":"401 error",
         "$403":"403 error",

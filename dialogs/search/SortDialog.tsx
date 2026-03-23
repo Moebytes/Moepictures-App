@@ -73,7 +73,7 @@ const SortDialog: React.FunctionComponent = () => {
                             </Text>
 
                             {selected && (
-                                <CheckIcon width={22} height={22} color={colors.black}/>
+                                <CheckIcon width={22} height={22} color={colors.textColor}/>
                             )}
                         </View>
                         </>

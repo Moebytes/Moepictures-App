@@ -163,6 +163,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
             autoSearchRef.current = null
         }
         if (!autoSearch) return
+        setImageSearchFlag(null)
         
         const search = async () => {
             if (searchingRef.current) return

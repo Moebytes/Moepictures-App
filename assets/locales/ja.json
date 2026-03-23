@@ -529,6 +529,14 @@
         "userProfile": "ユーザープロフィール",
         "imageCount": "画像数"
     },
+    "contextMenu": {
+        "openExternal": "外部リンクを開く",
+        "saveImage": "画像を保存",
+        "share": "共有",
+        "saveLocation": "保存先を選択してください",
+        "photos": "写真",
+        "files": "ファイル"
+    },
     "errors": {
         "$401":"401エラー",
         "$403":"403エラー",

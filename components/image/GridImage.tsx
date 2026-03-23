@@ -5,27 +5,32 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Pressable, Image, useWindowDimensions, Keyboard} from "react-native"
+import {View, Pressable, Linking, Image, useWindowDimensions, Keyboard, NativeSyntheticEvent, Share} from "react-native"
+import {useActionSheet} from "@expo/react-native-action-sheet"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
+import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
+import path from "path"
 
 interface Props {
     post: PostSearch
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
+    const {i18n, theme, colors} = useThemeSelector()
     const {tablet, keyboardOpen, dialogOpen} = useLayoutSelector()
     const {sizeType, square} = useSearchSelector()
+    const {setShowSavePrompt} = useMiscDialogActions()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
-    const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [loaded, setLoaded] = useState(false)
+    const {showActionSheetWithOptions} = useActionSheet()
     const navigation = useNavigation()
 
     useEffect(() => {
@@ -56,7 +61,40 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         functions.navigateToPost(props.post.postID, navigation)
     }
 
-    const borderWidth = square ? 0 : 1.2
+    const contextMenu = async (event: NativeSyntheticEvent<ContextMenuOnPressNativeEvent>) => {
+        if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
+            Linking.openURL(`https://moepictures.net/post/${props.post.postID}/${props.post.slug}`)
+        } else if (event.nativeEvent.name === i18n.contextMenu.saveImage) {
+            if (!await functions.file.requestStoragePermission()) return
+    
+            const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+            const filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+
+            showActionSheetWithOptions({
+                title: i18n.contextMenu.saveLocation,
+                options: [i18n.contextMenu.photos, i18n.contextMenu.files, i18n.buttons.cancel],
+                cancelButtonIndex: 2,
+                tintColor: colors.iconColor,
+                cancelButtonTintColor: colors.iconColor,
+                userInterfaceStyle: theme
+            }, async (selectedIndex) => {
+                if (selectedIndex === 0) {
+                    await functions.file.saveToCameraRoll(img, filename)
+                    setShowSavePrompt(true)
+                } else if (selectedIndex === 1) {
+                    await functions.file.saveToFiles(img, filename)
+                    setShowSavePrompt(true)
+                }
+            })
+        } else if (event.nativeEvent.name === i18n.contextMenu.share) {
+            const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
+
+            let title = props.post.englishTitle || props.post.title || "Post"
+            await Share.share({message: url, title})
+        }
+    }
+
+    const borderWidth = square ? 0.8 : 1.2
     const borderColor = functions.post.borderColor(props.post, colors)
     const landscape = size.width > size.height
     const marginVertical = square ? 0 :
@@ -67,14 +105,22 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         {width: size.width, height: size.height - borderWidth * 2}
 
     return (
-        <Pressable style={[styles.container, size,
-            {marginVertical, borderColor, opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
-            onPress={onPress}>
+        <ContextMenu disableShadow borderRadius={0} previewBackgroundColor="transparent"
+            actions={[
+                {title: i18n.contextMenu.openWebsite},
+                {title: i18n.contextMenu.saveImage},
+                {title: i18n.contextMenu.share}
+            ]}
+            onPress={contextMenu}>
+            <Pressable style={[styles.container, size,
+                {marginVertical, borderColor, opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
+                onPress={onPress}>
 
-            {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
+                {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={imageSize} source={{uri: img}} resizeMode={square ? "cover" : "contain"}/>}
-        </Pressable>
+                {img && <Image style={imageSize} source={{uri: img}} resizeMode={square ? "cover" : "contain"}/>}
+            </Pressable>
+        </ContextMenu>
     )
 }
 
