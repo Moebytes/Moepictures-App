@@ -10,7 +10,8 @@ import {useActionSheet} from "@expo/react-native-action-sheet"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
-useSearchDialogActions, useSearchDialogSelector, useSessionSelector} from "../../store"
+useSearchDialogActions, useSearchDialogSelector, useSessionSelector, 
+useSheetSelector, useSheetActions} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import {launchImageLibrary} from "react-native-image-picker"
 import {pick, types} from "@react-native-documents/picker"
@@ -39,6 +40,8 @@ const SortBar: React.FunctionComponent = () => {
     const {setImageSearchFlag} = useFlagActions()
     const {showSizeDialog, showSortDialog, showPageMultiplierDialog} = useSearchDialogSelector()
     const {setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog} = useSearchDialogActions()
+    const {showPostsSheet} = useSheetSelector()
+    const {setShowPostsSheet} = useSheetActions()
     const {showActionSheetWithOptions} = useActionSheet()
     const spinValue = useRef(new Animated.Value(0)).current
 
@@ -116,7 +119,8 @@ const SortBar: React.FunctionComponent = () => {
                     <ScalableHaptic icon={AutoSearchIcon} size={iconSize} color={autoSearch ? colors.iconActive : colors.iconColor}
                         onPress={() => setAutoSearch(!autoSearch)}/>
                 </Animated.View>
-                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setShowPostsSheet(!showPostsSheet)}/>
                 <ScalableHaptic icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
                 <ScalableHaptic icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
             </View>

@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {PostSearch} from "../types/Types"
+import {PostSearch, PostRating, PostStyle} from "../types/Types"
 import {ThemeColors} from "../ui/colors"
 
 export default class PostFunctions {
@@ -18,5 +18,13 @@ export default class PostFunctions {
         if (post.isGrouped) return colors.groupBorder
         if (Number(post.variationCount) > 1) return colors.variationBorder
         return colors.borderColor
+    }
+
+    public static isR18 = (ratingType: PostRating) => {
+        return ratingType === "lewd" || ratingType === "all+l"
+    }
+
+    public static isSketch = (styleType: PostStyle) => {
+        return styleType === "sketch" || styleType === "lineart"
     }
 }

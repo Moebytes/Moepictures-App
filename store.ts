@@ -14,6 +14,7 @@ import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/sea
 import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
 import searchDialogReducer, {useSearchDialogSelector, useSearchDialogActions} from "./reducers/searchDialogReducer"
+import sheetReducer, {useSheetSelector, useSheetActions} from "./reducers/sheetReducer"
 
 const store = configureStore({
     reducer: {
@@ -25,7 +26,8 @@ const store = configureStore({
         search: searchReducer,
         flag: flagReducer,
         miscDialog: miscDialogReducer,
-        searchDialog: searchDialogReducer
+        searchDialog: searchDialogReducer,
+        sheet: sheetReducer
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(api.middleware)
@@ -43,7 +45,8 @@ export {
     useSearchSelector, useSearchActions,
     useFlagSelector, useFlagActions,
     useMiscDialogSelector, useMiscDialogActions,
-    useSearchDialogSelector, useSearchDialogActions
+    useSearchDialogSelector, useSearchDialogActions,
+    useSheetSelector, useSheetActions
 }
 
 export default store

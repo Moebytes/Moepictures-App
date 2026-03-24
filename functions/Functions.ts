@@ -18,6 +18,7 @@ import TagFunctions from "./TagFunctions"
 import UtilFunctions from "./UtilFunctions"
 import ValidationFunctions from "./ValidationFunctions"
 import {CommonActions, NavigationProp, NavigationState} from "@react-navigation/native"
+import {PostRating} from "../types/Types"
 import clone from "fast-clone"
 
 type Navigation = Omit<NavigationProp<ReactNavigation.RootParamList>, "getState"> & {
@@ -41,6 +42,22 @@ export default class Functions {
 
     public static timeout = (ms: number) => {
         return new Promise((resolve) => setTimeout(resolve, ms))
+    }
+
+    public static r13 = () => {
+        return "cute" as PostRating
+    }
+
+    public static r15 = () => {
+        return "sexy" as PostRating
+    }
+
+    public static r17 = () => {
+        return "erotic" as PostRating
+    }
+
+    public static r18 = () => {
+        return "lewd" as PostRating
     }
 
     public static navigateToPost = async (postID: string | number, navigation: Navigation) => {

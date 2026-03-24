@@ -11,6 +11,7 @@ import {SafeAreaProvider} from "react-native-safe-area-context"
 import {ActionSheetProvider} from "@expo/react-native-action-sheet"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
+import Sheets from "./sheets/Sheets"
 import SavePrompt from "./ui/SavePrompt"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
@@ -48,8 +49,9 @@ const App: React.FunctionComponent = () => {
       <ActionSheetProvider>
         <NavigationContainer>
           <AsyncStorage/>
-          <Dialogs/>
           <SavePrompt/>
+          <Dialogs/>
+          <Sheets/>
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>

@@ -28,7 +28,7 @@ const searchSlice = createSlice({
         saveSearch: false,
         favSearch: false,
         autoScroll: false,
-        showChildren: true,
+        showChildren: false,
         text: "",
         focused: false,
         searchTags: [] as string[]

@@ -16,6 +16,7 @@ import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
 import SizeIcon from "../../assets/svg/size.svg"
 import {PostSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 interface Props {
     tag?: string
@@ -24,7 +25,7 @@ interface Props {
 }
 
 export const useRelatedItems = (props: Props) => {
-    const {scroll, pageMultiplier} = useSearchSelector()
+    const {scroll, pageMultiplier, ratingType} = useSearchSelector()
     const [fallbackIndex, setFallbackIndex] = React.useState(-1)
     const [activeTag, setActiveTag] = useState(props.tag)
     const [page, setPage] = useState(1)
@@ -39,13 +40,21 @@ export const useRelatedItems = (props: Props) => {
 
     const pageSize = 15 * pageMultiplier
 
+    let rating = props.post?.rating || (ratingType === functions.r18() ? ratingType : "all")
+
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {query: activeTag, type: "image", refreshKey},
+        {query: activeTag, type: "image", 
+        rating: functions.post.isR18(rating) ? rating : "all", 
+        style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
+        refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {query: activeTag, type: "image", offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
+        {query: activeTag, type: "image", 
+        rating: functions.post.isR18(rating) ? rating : "all", 
+        style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
+        offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 

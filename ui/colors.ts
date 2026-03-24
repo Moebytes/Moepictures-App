@@ -71,7 +71,13 @@ export const LightTheme = {
 	profileLogin: "#ffe3f2",
 	itemBG: "#FFF1F8",
     drawerTitle: "#ff2d8c",
-    glassTint: "rgba(255, 160, 212, 0.5)"
+    glassTint: "rgba(255, 160, 212, 0.5)",
+    optionActive: "#FF4F91",
+    optionInactive: "#FFEAF6",
+    blueIcon: "#628FFF",
+    optionBlueActive: "#76AAFF",
+    optionBlueInactive: "#E7F0FF",
+    optionReset: "#F2F0F7"
 }
 
 export const DarkTheme = {
@@ -101,7 +107,13 @@ export const DarkTheme = {
 	profileLogin: "#361128",
 	itemBG: "#1B0B12",
     drawerTitle: "#ff2d8c",
-    glassTint: "rgba(72, 13, 47, 0.2)"
+    glassTint: "rgba(72, 13, 47, 0.2)",
+    optionActive: "#FF4F91",
+    optionInactive: "#331928",
+    blueIcon: "#628FFF",
+    optionBlueActive: "#76AAFF",
+    optionBlueInactive: "#182945",
+    optionReset: "#F2F0F7"
 }
 
 export type ThemeColors = typeof LightTheme

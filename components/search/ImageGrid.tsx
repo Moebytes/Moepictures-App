@@ -29,8 +29,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
-    const {search, scroll, sortType, sortReverse, sizeType, square, 
-    pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
+    const {search, scroll, ratingType, styleType, showChildren, sortType, 
+    sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
     const {setAutoScroll} = useSearchActions()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
@@ -82,12 +82,12 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const randomSearch = randomPosts.length > 0
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {query: search, sort, type: "image", refreshKey},
+        {query: search, type: "image", rating: ratingType, style: styleType, sort, showChildren, refreshKey},
         {skip: !scroll || reverseSearch || randomSearch}
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {query: search, sort, type: "image", 
+        {query: search, type: "image", rating: ratingType, style: styleType, sort, showChildren,
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll || reverseSearch || randomSearch}
     )
@@ -138,6 +138,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     const getRandomPosts = useEffectEvent(async (reset?: boolean) => {
         const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
+            rating: ratingType, style: styleType, showChildren,
             sort: "random", limit: scroll ? 15 : pageSize}, session)
         setRandomPosts((prev) => reset || !scroll ? result : [...prev, ...result])
     })
