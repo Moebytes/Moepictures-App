@@ -13,6 +13,7 @@ import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelect
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
+import {siteURL} from "../../ui/site"
 import path from "path"
 
 interface Props {
@@ -65,7 +66,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
     const contextMenu = async (event: NativeSyntheticEvent<ContextMenuOnPressNativeEvent>) => {
         if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
-            Linking.openURL(`https://moepictures.net/post/${props.post.postID}/${props.post.slug}`)
+            Linking.openURL(`${siteURL}/post/${props.post.postID}/${props.post.slug}`)
         } else if (event.nativeEvent.name === i18n.contextMenu.saveImage) {
             if (!await functions.file.requestStoragePermission()) return
     
@@ -89,7 +90,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
                 }
             })
         } else if (event.nativeEvent.name === i18n.contextMenu.share) {
-            const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
+            const url = `${siteURL}/post/${props.post.postID}/${props.post.slug}`
 
             let title = props.post.englishTitle || props.post.title || "Post"
             setSharingActive(true)

@@ -45,24 +45,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 18,
             lineHeight: 22
         },
-        buttonContainer: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 6,
-            overflow: "hidden"
-        },
-        button: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingHorizontal: 17,
-            paddingVertical: 7,
-            gap: 6,
-            backgroundColor: colors.optionInactive
-        },
         buttonText: {
             fontFamily: fonts.honokaShinAntiqueKaku,
             color: colors.textColor,

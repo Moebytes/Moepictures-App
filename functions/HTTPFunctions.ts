@@ -8,8 +8,7 @@ import functions from "./Functions"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import decryption from "../structures/Decryption"
 import {GetEndpoint, PostEndpoint, Session} from "../types/Types"
-
-let baseURL = "https://moepictures.net"
+import {siteURL} from "../ui/site"
 
 export default class HTTPFunctions {
     public static privateKey = ""
@@ -73,7 +72,7 @@ export default class HTTPFunctions {
         const headers = {"x-csrf-token": session.csrfToken}
 
         try {
-            let parsedURL = functions.util.parseURLParams(baseURL + endpoint, params)
+            let parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
             let response = await fetch(parsedURL, {headers, credentials: "include"})
 
             if (response.status === 404) throw new Error("404")
@@ -98,7 +97,7 @@ export default class HTTPFunctions {
         const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken}
         try {
             let body = data ? JSON.stringify(data) : null
-            let response = await fetch(baseURL + endpoint, {method: "POST", headers, credentials: "include", body})
+            let response = await fetch(siteURL + endpoint, {method: "POST", headers, credentials: "include", body})
             let text = await response.text()
             if (!response.ok) throw new Error(text)
             try {

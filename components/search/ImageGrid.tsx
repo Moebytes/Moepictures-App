@@ -97,6 +97,19 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         scroll ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
+    const filterPosts = (posts: PostSearch[]) => {
+        let filtered = [] as PostSearch[]
+        for (const post of posts) {
+            if (post.type !== "image" && post.type !== "comic") continue
+            if (!session.username) if (post.rating !== functions.r13()) continue
+            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(post.rating)) continue
+            filtered.push(post)
+        }
+        return filtered
+    }
+
+    posts = filterPosts(posts)
+
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
         return <GridImage post={item}/>
     }

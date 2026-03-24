@@ -11,6 +11,7 @@ import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelecto
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import {PostFull} from "../../types/Types"
+import {siteURL} from "../../ui/site"
 
 interface Props {
     post?: PostFull
@@ -48,9 +49,9 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const contextMenu = async (event: NativeSyntheticEvent<ContextMenuOnPressNativeEvent>) => {
         if (!props.post) return
         if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
-            Linking.openURL(`https://moepictures.net/post/${props.post.postID}/${props.post.slug}`)
+            Linking.openURL(`${siteURL}/post/${props.post.postID}/${props.post.slug}`)
         } else if (event.nativeEvent.name === i18n.contextMenu.share) {
-            const url = `https://moepictures.net/post/${props.post.postID}/${props.post.slug}`
+            const url = `${siteURL}/post/${props.post.postID}/${props.post.slug}`
 
             let title = props.post.englishTitle || props.post.title || "Post"
             setSharingActive(true)

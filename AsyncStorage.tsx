@@ -11,6 +11,7 @@ useSearchActions, useThemeSelector, useLayoutActions, useCacheActions} from "./s
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import {Languages, PostSize, PostSort, Themes} from "./types/ParamTypes"
+import {siteURL} from "./ui/site"
 
 const AsyncStorage: React.FunctionComponent = () => {
     const {theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
@@ -30,7 +31,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     }, [width, height])
 
     const setSessionCookie = async () => {
-        await fetch("https://moepictures.net") // Make sure that we obtain a CSRF token
+        await fetch(siteURL) // Make sure that we obtain a CSRF token
         const cookie = await functions.http.get("/api/user/session", null, session)
         setSession(cookie)
     }

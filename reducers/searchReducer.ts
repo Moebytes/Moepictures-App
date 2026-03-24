@@ -7,7 +7,8 @@
 import {createSlice} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
-import {PostType, PostRating, PostStyle, PostSize, PostSort, ImageFormat} from "../types/Types"
+import {PostType, PostRating, PostStyle, PostSize, PostSort, 
+ImageFormat, CommentSort, GroupSort, TagSort, TagType} from "../types/Types"
 
 const searchSlice = createSlice({
     name: "search",
@@ -31,7 +32,12 @@ const searchSlice = createSlice({
         showChildren: false,
         text: "",
         focused: false,
-        searchTags: [] as string[]
+        searchTags: [] as string[],
+        commentSort: "date" as CommentSort,
+        noteSort: "date" as CommentSort,
+        groupSort: "date" as GroupSort,
+        tagSort: "posts" as TagSort,
+        tagType: "all" as TagType
     },
     reducers: {
         setSearch: (state, action) => {state.search = action.payload},
@@ -53,7 +59,12 @@ const searchSlice = createSlice({
         setShowChildren: (state, action) => {state.showChildren = action.payload},
         setText: (state, action) => {state.text = action.payload},
         setFocused: (state, action) => {state.focused = action.payload},
-        setSearchTags: (state, action) => {state.searchTags = action.payload}
+        setSearchTags: (state, action) => {state.searchTags = action.payload},
+        setCommentSort: (state, action) => {state.commentSort = action.payload},
+        setNoteSort: (state, action) => {state.noteSort = action.payload},
+        setGroupSort: (state, action) => {state.groupSort = action.payload},
+        setTagSort: (state, action) => {state.tagSort = action.payload},
+        setTagType: (state, action) => {state.tagType = action.payload}
     }    
 })
 
@@ -61,7 +72,8 @@ const {
     setSearch, setSearchFlag, setImageType, setRatingType, setStyleType, setSizeType,
     setSortType, setSortReverse, setSquare, setScroll, setAutoScroll, setPageMultiplier,
     setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren,
-    setText, setFocused, setSearchTags
+    setText, setFocused, setSearchTags, setCommentSort, setNoteSort, setGroupSort,
+    setTagSort, setTagType
 } = searchSlice.actions
 
 export const useSearchSelector = () => {
@@ -86,7 +98,12 @@ export const useSearchSelector = () => {
         showChildren: selector((state) => state.search.showChildren),
         text: selector((state) => state.search.text),
         focused: selector((state) => state.search.focused),
-        searchTags: selector((state) => state.search.searchTags)
+        searchTags: selector((state) => state.search.searchTags),
+        commentSort: selector((state) => state.search.commentSort),
+        noteSort: selector((state) => state.search.noteSort),
+        groupSort: selector((state) => state.search.groupSort),
+        tagSort: selector((state) => state.search.tagSort),
+        tagType: selector((state) => state.search.tagType)
     }
 }
 
@@ -112,7 +129,12 @@ export const useSearchActions = () => {
         setShowChildren: (state: boolean) => dispatch(setShowChildren(state)),
         setText: (state: string) => dispatch(setText(state)),
         setFocused: (state: boolean) => dispatch(setFocused(state)),
-        setSearchTags: (state: string[]) => dispatch(setSearchTags(state))
+        setSearchTags: (state: string[]) => dispatch(setSearchTags(state)),
+        setCommentSort: (state: CommentSort) => dispatch(setCommentSort(state)),
+        setNoteSort: (state: CommentSort) => dispatch(setNoteSort(state)),
+        setGroupSort: (state: GroupSort) => dispatch(setGroupSort(state)),
+        setTagSort: (state: TagSort) => dispatch(setTagSort(state)),
+        setTagType: (state: TagType) => dispatch(setTagType(state))
     }
 }
 

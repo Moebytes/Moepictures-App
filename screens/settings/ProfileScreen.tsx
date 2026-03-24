@@ -20,6 +20,7 @@ import RightIcon from "../../assets/svg/right.svg"
 import LinkIcon from "../../assets/svg/link.svg"
 import MoebytesLogo from "../../assets/svg/moebytes.svg"
 import {createStylesheet} from "./styles/ProfileScreen.styles"
+import {siteURL} from "../../ui/site"
 
 const ProfileScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
@@ -154,7 +155,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => Linking.openURL("https://moepictures.net")}
+                    onPress={() => Linking.openURL(siteURL)}
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>

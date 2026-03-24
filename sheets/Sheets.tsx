@@ -5,12 +5,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
+import CommentsSheet from "./CommentsSheet"
+import GroupsSheet from "./GroupsSheet"
+import NotesSheet from "./NotesSheet"
 import PostsSheet from "./PostsSheet"
+import TagsSheet from "./TagsSheet"
 
 const Sheets: React.FunctionComponent = () => {
     return (
         <>
+        <CommentsSheet/>
+        <GroupsSheet/>
+        <NotesSheet/>
         <PostsSheet/>
+        <TagsSheet/>
         </>
     )
 }

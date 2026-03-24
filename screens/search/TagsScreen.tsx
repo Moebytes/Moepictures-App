@@ -7,7 +7,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
 import {useSearchTagsInfiniteQuery, useSearchTagsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -17,13 +17,15 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 import {TagSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
 const TagsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll} = useSearchSelector()
+    const {scroll, ratingType, tagSort, tagType} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -41,19 +43,29 @@ const TagsScreen: React.FunctionComponent = () => {
     const pageSize = 50
 
     const infiniteQuery = useSearchTagsInfiniteQuery(
-        {query: search, sort: "posts", refreshKey},
+        {query: search, sort: tagSort, type: tagType, refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchTagsPageQuery(
-        {query: search, sort: "posts", 
+        {query: search, sort: tagSort, type: tagType,
             offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 
+    const filterTags = (tags: TagSearch[]) => {
+        let filtered = [] as TagSearch[]
+        for (const tag of tags) {
+            if (!session.username) if (tag.r18) continue
+            if (!functions.post.isR18(ratingType)) if (tag.r18) continue
+            filtered.push(tag)
+        }
+        return filtered
+    }
+
     const tags = scroll
-        ? (infiniteQuery.data?.pages.flat() ?? [])
-        : (pageQuery.data ?? [])
+        ? filterTags((infiniteQuery.data?.pages.flat() ?? []))
+        : filterTags((pageQuery.data ?? []))
 
 
     const isLoading = scroll

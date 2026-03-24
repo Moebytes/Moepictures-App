@@ -184,7 +184,7 @@ const PostsSheet: React.FunctionComponent = () => {
             style={{borderColor: colors.optionActive, borderWidth: 1, borderRadius: 30, height: "100%"}}>
             <View style={styles.container}>
                 <View style={styles.centerRow}>
-                    <Text style={styles.mainTitle}>Search Options</Text>
+                    <Text style={styles.mainTitle}>{i18n.options.searchOptions}</Text>
                 </View>
                 <View style={styles.row}>
                     <Text style={styles.title}>{i18n.sidebar.rating}</Text>
@@ -199,7 +199,7 @@ const PostsSheet: React.FunctionComponent = () => {
                 </View>
                 <View style={styles.row}>
                     <View style={styles.toggleContainer}>
-                        <Text style={styles.buttonText}>Show Child Posts</Text>
+                        <Text style={styles.buttonText}>{i18n.options.showChildPosts}</Text>
                         <Switch
                             value={localShowChildren}
                             onValueChange={toggleShowChildren}
@@ -211,7 +211,8 @@ const PostsSheet: React.FunctionComponent = () => {
                 </View>
                 <View style={styles.row}>
                     <View style={styles.evenContainer}>
-                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton, {backgroundColor: colors.optionReset}]}
+                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton, 
+                            {backgroundColor: colors.optionReset}]}
                             onPress={reset}>
                             {({colorAnim}) => {
                                 const color = colorAnim.interpolate({
@@ -220,7 +221,9 @@ const PostsSheet: React.FunctionComponent = () => {
                                 })
 
                                return (
-                                    <Animated.Text style={[styles.wideButtonText, {color}]}>Reset</Animated.Text>
+                                    <Animated.Text style={[styles.wideButtonText, {color}]}>
+                                        {i18n.filters.reset}
+                                    </Animated.Text>
                                 )
                             }}
                         </ScalableHaptic>
@@ -232,7 +235,9 @@ const PostsSheet: React.FunctionComponent = () => {
                                 })
 
                                return (
-                                    <Animated.Text style={[styles.wideButtonText, {color}]}>Apply</Animated.Text>
+                                    <Animated.Text style={[styles.wideButtonText, {color}]}>
+                                        {i18n.buttons.apply}
+                                    </Animated.Text>
                                 )
                             }}
                         </ScalableHaptic>

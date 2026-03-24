@@ -40,12 +40,27 @@ export const noRotation = {
     lockedBorder: "#b40e1d"
 }
 
+export const noRotationLight = {
+    blueIcon: "#628FFF",
+    optionBlueActive: "#76AAFF",
+    optionBlueInactive: "#E7F0FF",
+    optionReset: "#F2F0F7"
+}
+
+export const noRotationDark = {
+    blueIcon: "#628FFF",
+    optionBlueActive: "#76AAFF",
+    optionBlueInactive: "#182945",
+    optionReset: "#F2F0F7"
+}
+
 export const sharedColors = {
     buttonColorGlass: "rgba(255, 87, 157, 0.57)"
 }
 
 export const LightTheme = {
     ...noRotation,
+    ...noRotationLight,
     ...sharedColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
@@ -73,15 +88,12 @@ export const LightTheme = {
     drawerTitle: "#ff2d8c",
     glassTint: "rgba(255, 160, 212, 0.5)",
     optionActive: "#FF4F91",
-    optionInactive: "#FFEAF6",
-    blueIcon: "#628FFF",
-    optionBlueActive: "#76AAFF",
-    optionBlueInactive: "#E7F0FF",
-    optionReset: "#F2F0F7"
+    optionInactive: "#FFEAF6"
 }
 
 export const DarkTheme = {
     ...noRotation,
+    ...noRotationDark,
     ...sharedColors,
     switchOn: "#FF579D",
     switchOff: "#FFDAEF",
@@ -109,11 +121,7 @@ export const DarkTheme = {
     drawerTitle: "#ff2d8c",
     glassTint: "rgba(72, 13, 47, 0.2)",
     optionActive: "#FF4F91",
-    optionInactive: "#331928",
-    blueIcon: "#628FFF",
-    optionBlueActive: "#76AAFF",
-    optionBlueInactive: "#182945",
-    optionReset: "#F2F0F7"
+    optionInactive: "#331928"
 }
 
 export type ThemeColors = typeof LightTheme

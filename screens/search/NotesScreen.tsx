@@ -7,7 +7,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
 import {useSearchNotesInfiniteQuery, useSearchNotesPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -17,13 +17,15 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 import {NoteSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
 const NotesScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll} = useSearchSelector()
+    const {scroll, ratingType, noteSort} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -41,18 +43,30 @@ const NotesScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchNotesInfiniteQuery(
-        {query: search, refreshKey},
+        {query: search, sort: noteSort, refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchNotesPageQuery(
-        {query: search, offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
+        {query: search, sort: noteSort,
+        offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 
+    const filterNotes = (notes: NoteSearch[]) => {
+        let filtered = [] as NoteSearch[]
+        for (const note of notes) {
+            if (note.post.type !== "image" && note.post.type !== "comic") continue
+            if (!session.username) if (note.post.rating !== functions.r13()) continue
+            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(note.post.rating)) continue
+            filtered.push(note)
+        }
+        return filtered
+    }
+
     const notes = scroll
-        ? (infiniteQuery.data?.pages.flat() ?? [])
-        : (pageQuery.data ?? [])
+        ? filterNotes((infiniteQuery.data?.pages.flat() ?? []))
+        : filterNotes((pageQuery.data ?? []))
 
 
     const isLoading = scroll

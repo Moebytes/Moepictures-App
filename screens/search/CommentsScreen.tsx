@@ -7,7 +7,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
 import {useSearchCommentsInfiniteQuery, useSearchCommentsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -17,13 +17,15 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 import {CommentSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
 const CommentsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll} = useSearchSelector()
+    const {scroll, ratingType, commentSort} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -41,19 +43,30 @@ const CommentsScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchCommentsInfiniteQuery(
-        {query: search, refreshKey},
+        {query: search, sort: commentSort, refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchCommentsPageQuery(
-        {query: search, 
+        {query: search, sort: commentSort,
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 
+    const filterComments = (comments: CommentSearch[]) => {
+        let filtered = [] as CommentSearch[]
+        for (const comment of comments) {
+            if (comment.post.type !== "image" && comment.post.type !== "comic") continue
+            if (!session.username) if (comment.post.rating !== functions.r13()) continue
+            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(comment.post.rating)) continue
+            filtered.push(comment)
+        }
+        return filtered
+    }
+
     const comments = scroll
-        ? (infiniteQuery.data?.pages.flat() ?? [])
-        : (pageQuery.data ?? [])
+        ? filterComments((infiniteQuery.data?.pages.flat() ?? []))
+        : filterComments((pageQuery.data ?? []))
 
     const isLoading = scroll
         ? infiniteQuery.isLoading

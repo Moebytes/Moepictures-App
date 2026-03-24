@@ -6,14 +6,13 @@
 
 import functions from "./Functions"
 import {Session, Image} from "../types/Types"
-
-let baseURL = "https://moepictures.net"
+import {siteURL} from "../ui/site"
 
 export default class LinkFunctions {
     public static getImageLink = (image: Image, upscaled?: boolean) => {
         if (!image.filename && !image.upscaledFilename) return ""
         let filename = upscaled ? image.upscaledFilename || image.filename : image.filename
-        const link = `${baseURL}/${image.type}/${image.postID}-${image.order}-${encodeURIComponent(filename)}`
+        const link = `${siteURL}/${image.type}/${image.postID}-${image.order}-${encodeURIComponent(filename)}`
         return functions.util.appendURLParams(link, {hash: image.pixelHash})
     }
 
@@ -33,7 +32,7 @@ export default class LinkFunctions {
         if (image.type === "model" || image.type === "live2d") {
             if (session.liveModelPreview && !mobile) return this.getImageLink(image, false)
         }
-        const link = `${baseURL}/thumbnail/${image.type}/${encodeURIComponent(filename)}`
+        const link = `${siteURL}/thumbnail/${image.type}/${encodeURIComponent(filename)}`
         return functions.util.appendURLParams(link, {hash: image.pixelHash})
     }
 
@@ -44,8 +43,8 @@ export default class LinkFunctions {
         if (folder === "character") dest = "character"
         if (folder === "series") dest = "series"
         if (folder === "pfp") dest = "pfp"
-        if (!folder || filename.includes("history/")) return `${baseURL}/${filename}`
-        const link = `${baseURL}/${dest}/${encodeURIComponent(filename)}`
+        if (!folder || filename.includes("history/")) return `${siteURL}/${filename}`
+        const link = `${siteURL}/${dest}/${encodeURIComponent(filename)}`
         return hash ? functions.util.appendURLParams(link, {hash: hash}) : link
     }
 }

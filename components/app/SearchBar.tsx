@@ -9,7 +9,7 @@ import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchActions, useSearchSelector, 
-useSessionSelector, useFlagActions} from "../../store"
+useSessionSelector, useFlagActions, useSheetSelector, useSheetActions} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
@@ -34,6 +34,10 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     let {text, search, searchTags} = useSearchSelector()
     let {setText, setFocused, setSearchTags, setSearch} = useSearchActions()
     const {setRandomSearchFlag} = useFlagActions()
+    const {showCommentsSheet, showNotesSheet, 
+        showGroupsSheet, showTagsSheet} = useSheetSelector()
+    const {setShowCommentsSheet, setShowNotesSheet, 
+        setShowGroupsSheet, setShowTagsSheet} = useSheetActions()
     const styles = createStylesheet(colors)
     const inputRef = useRef<TextInput>(null)
     const scrollRef = useRef<ScrollView>(null)
@@ -80,6 +84,18 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
             if (!result.length) return
             
             functions.navigateToPost(result[0].postID, navigation)
+        }
+    }
+
+    const openSheet = () => {
+        if (route.name === "Comments") {
+            setShowCommentsSheet(!showCommentsSheet)
+        } else if (route.name === "Notes") {
+            setShowNotesSheet(!showNotesSheet)
+        } else if (route.name === "Tags") {
+            setShowTagsSheet(!showTagsSheet)
+        } else if (route.name === "Groups") {
+            setShowGroupsSheet(!showGroupsSheet)
         }
     }
 
@@ -137,7 +153,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
                 {props.random ?
                 <ScalableHaptic icon={RandomIcon} size={iconSize} color={colors.borderColor}
                     onPress={randomPost}/> :
-                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.borderColor}/> }
+                <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.borderColor}
+                    onPress={openSheet}/> }
             </Pressable>
         </View>
     )

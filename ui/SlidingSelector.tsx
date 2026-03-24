@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {View, Text, Animated, Easing, LayoutChangeEvent} from "react-native"
+import {View, Text, Animated, LayoutChangeEvent} from "react-native"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/SlidingSelector.styles"
 import PressableHaptic from "./PressableHaptic"

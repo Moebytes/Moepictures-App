@@ -7,7 +7,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
 import {useSearchGroupsInfiniteQuery, useSearchGroupsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -17,13 +17,15 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 import {GroupSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
 const GroupsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll} = useSearchSelector()
+    const {scroll, ratingType, groupSort} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -41,18 +43,31 @@ const GroupsScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchGroupsInfiniteQuery(
-        {query: search, refreshKey},
+        {query: search, sort: groupSort, refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchGroupsPageQuery(
-        {query: search, offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
+        {query: search, sort: groupSort, 
+        offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
 
+    const filterGroups = (groups: GroupSearch[]) => {
+        let filtered = [] as GroupSearch[]
+        for (const group of groups) {
+            if (group.posts[0].type !== "image" && group.posts[0].type !== "comic") continue
+            if (!session.username) if (group.rating !== functions.r13()) continue
+            if (!session.username) if (group.posts[0].rating !== functions.r13()) continue
+            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(group.rating)) continue
+            filtered.push(group)
+        }
+        return filtered
+    }
+
     const groups = scroll
-        ? (infiniteQuery.data?.pages.flat() ?? [])
-        : (pageQuery.data ?? [])
+        ? filterGroups((infiniteQuery.data?.pages.flat() ?? []))
+        : filterGroups((pageQuery.data ?? []))
 
         
     const isLoading = scroll
