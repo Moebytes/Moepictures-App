@@ -18,28 +18,19 @@ export default class HTTPFunctions {
 
     public static updateClientKeys = async (session: Session) => {
         if (this.privateKey) return this.privateKey
-        if (this.privateKeyLock) await functions.timeout(1000 + Math.random() * 1000)
+        if (this.privateKeyLock) await functions.timeout(100 + Math.random() * 100)
         if (!this.privateKey) {
             this.privateKeyLock = true
-            const savedPublicKey = await asyncStorage.getItem("publicKey") as string
-            const savedPrivateKey = await asyncStorage.getItem("privateKey") as string
-            if (savedPublicKey && savedPrivateKey) {
-                await functions.http.post("/api/client-key", {publicKey: savedPublicKey}, session)
-                this.privateKey = savedPrivateKey
-            } else {
-                const keys = decryption.generateKeys()
-                await functions.http.post("/api/client-key", {publicKey: keys.publicKey}, session)
-                await asyncStorage.setItem("publicKey", keys.publicKey)
-                await asyncStorage.setItem("privateKey", keys.privateKey)
-                this.privateKey = keys.privateKey
-            }
+            const keys = decryption.generateKeys()
+            await functions.http.post("/api/client-key", {publicKey: keys.publicKey}, session)
+            this.privateKey = keys.privateKey
         }
         return this.privateKey
     }
 
     public static updateServerKey = async (session: Session) => {
         if (this.publicKey) return this.publicKey
-        if (this.publicKeyLock) await functions.timeout(1000 + Math.random() * 1000)
+        if (this.publicKeyLock) await functions.timeout(100 + Math.random() * 100)
         if (!this.publicKey) {
             this.publicKeyLock = true
             const response = await functions.http.post("/api/server-key", null, session)

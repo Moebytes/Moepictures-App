@@ -13,7 +13,7 @@ import TitleBar from "../../components/app/TitleBar"
 import LeftIcon from "../../assets/svg/left.svg"
 import TermsIcon from "../../assets/svg/tos.svg"
 import TabBar from "../../components/app/TabBar"
-import {createStylesheet} from "./styles/TermsOfServiceScreen.styles"
+import {createStylesheet} from "./styles/TermsScreen.styles"
 
 const TermsOfServiceScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()

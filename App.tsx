@@ -22,8 +22,8 @@ import GroupsScreen from "./screens/search/GroupsScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
 import AppColorScreen from "./screens/settings/AppColorScreen"
-import TermsOfServiceScreen from "./screens/settings/TermsOfServiceScreen"
-import PrivacyPolicyScreen from "./screens/settings/PrivacyPolicyScreen"
+import TermsOfServiceScreen from "./screens/info/TermsScreen"
+import PrivacyPolicyScreen from "./screens/info/PrivacyScreen"
 
 export type StackParamList = {
   Posts: undefined
