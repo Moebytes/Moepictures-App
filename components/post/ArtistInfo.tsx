@@ -28,7 +28,7 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         if (!props.artists) return
-        let pfp = functions.link.getTagLink("artist", props.artists[0].image, props.artists[0].imageHash)
+        let pfp = functions.link.getTagLink(props.artists[0])
         setArtistPfp(pfp)
     }, [props.artists])
 

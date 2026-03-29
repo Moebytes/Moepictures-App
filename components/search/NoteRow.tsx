@@ -34,7 +34,7 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
         const image = props.note.post.images[0]
         const thumb = functions.link.getThumbnailLink(image, "medium", session)
         setImg(thumb)
-        const pfp = functions.link.getTagLink("pfp", props.note.image, props.note.imageHash)
+        const pfp = functions.link.getFolderLink("pfp", props.note.image, props.note.imageHash)
         setUserPfp(pfp)
     }, [props.note])
 

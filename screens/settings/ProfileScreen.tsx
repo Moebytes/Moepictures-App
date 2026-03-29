@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {ScrollView, View, Text, Pressable, Switch, Linking, StatusBar} from "react-native"
+import {ScrollView, View, Text, Switch, Linking, StatusBar} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeActions, useThemeSelector, useLayoutSelector, useSessionSelector, useSessionActions} from "../../store"
@@ -52,12 +52,13 @@ const ProfileScreen: React.FunctionComponent = () => {
                     paddingBottom: tabBarHeight + 20
                 }}>
                 <View style={styles.buttonContainer}>
-                    <Pressable style={{...styles.itemContainer, backgroundColor: colors.profileLogin}}>
+                    <PressableHaptic style={({pressed}) => [styles.itemContainer, 
+                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}>
                         <View style={styles.iconContainer}>
                             <KeyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                             <Text style={styles.loginText}>{i18n.navbar.login}</Text>
                         </View>
-                    </Pressable>
+                    </PressableHaptic>
                 </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.itemContainer}>
@@ -74,7 +75,8 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <View style={styles.separator}/>
 
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => navigation.navigate("Language", undefined, {pop: true})} style={({pressed}) => [styles.itemContainer, 
+                    onPress={() => navigation.navigate("Language", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <Text style={styles.text}>{i18n.help.language.title}</Text>
@@ -85,7 +87,8 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <View style={styles.separator}/>
 
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => navigation.navigate("AppColor", undefined, {pop: true})} style={({pressed}) => [styles.itemContainer, 
+                    onPress={() => navigation.navigate("AppColor", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
                             <Text style={styles.text}>{i18n.user.appColor}</Text>
@@ -108,6 +111,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Terms", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -120,6 +124,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <View style={styles.separator}/>
 
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Privacy", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -132,6 +137,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <View style={styles.separator}/>
 
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Contact", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>
@@ -143,7 +149,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
-                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null}
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>

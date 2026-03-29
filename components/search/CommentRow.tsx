@@ -34,7 +34,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
         const image = props.comment.post.images[0]
         const thumb = functions.link.getThumbnailLink(image, "medium", session)
         setImg(thumb)
-        const pfp = functions.link.getTagLink("pfp", props.comment.image, props.comment.imageHash)
+        const pfp = functions.link.getFolderLink("pfp", props.comment.image, props.comment.imageHash)
         setUserPfp(pfp)
     }, [props.comment])
 

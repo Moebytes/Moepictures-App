@@ -14,7 +14,7 @@ import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeActions, useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import LeftIcon from "../../assets/svg/left.svg"
-import {createStylesheet} from "./styles/AppColor.styles"
+import {createStylesheet} from "./styles/AppColorScreen.styles"
 
 const AppColorScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors, appHue, appSaturation, appLightness} = useThemeSelector()

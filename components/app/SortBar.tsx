@@ -32,7 +32,7 @@ import AutoScrollIcon from "../../assets/svg/autoscroll.svg"
 import functions from "../../functions/Functions"
 
 const SortBar: React.FunctionComponent = () => {
-    const {theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const styles = createStylesheet(colors)
     const {scroll, square, sortReverse, autoSearch, pageMultiplier, autoScroll} = useSearchSelector()
@@ -47,8 +47,8 @@ const SortBar: React.FunctionComponent = () => {
 
     const imageSearch = () => {
         showActionSheetWithOptions({
-            title: "Pick an upload location",
-            options: ["Photos", "Files", "Cancel"],
+            title: i18n.contextMenu.uploadLocation,
+            options: [i18n.contextMenu.photos, i18n.contextMenu.files, i18n.buttons.cancel],
             cancelButtonIndex: 2,
             tintColor: colors.iconColor,
             cancelButtonTintColor: colors.iconColor,

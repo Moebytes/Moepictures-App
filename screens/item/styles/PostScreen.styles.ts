@@ -12,8 +12,7 @@ export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         row: {
             justifyContent: "space-evenly",
-            alignItems: "center",
-            marginBottom: 10
+            alignItems: "center"
         },
         footer: {
             marginBottom: 10
