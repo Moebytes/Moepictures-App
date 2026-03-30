@@ -43,7 +43,7 @@ export const useRelatedItems = (props: Props) => {
     let rating = props.post?.rating || (ratingType === functions.r18() ? ratingType : "all")
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {query: activeTag, type: "image", 
+        {query: activeTag, type: props.post?.type || "mobile", 
         rating: functions.post.isR18(rating) ? rating : "all", 
         style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
         refreshKey},
@@ -51,7 +51,7 @@ export const useRelatedItems = (props: Props) => {
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {query: activeTag, type: "image", 
+        {query: activeTag, type: props.post?.type || "mobile", 
         rating: functions.post.isR18(rating) ? rating : "all", 
         style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},

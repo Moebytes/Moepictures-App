@@ -15,7 +15,7 @@ const searchSlice = createSlice({
     initialState: {
         search: "",
         searchFlag: false,
-        imageType: "image" as PostType,
+        imageType: "mobile" as PostType,
         ratingType: "all" as PostRating,
         styleType: "all" as PostStyle,
         sizeType: "medium" as PostSize,

@@ -24,6 +24,8 @@ import LanguageScreen from "./screens/settings/LanguageScreen"
 import AppColorScreen from "./screens/settings/AppColorScreen"
 import TermsOfServiceScreen from "./screens/info/TermsScreen"
 import PrivacyPolicyScreen from "./screens/info/PrivacyScreen"
+import ContactScreen from "./screens/info/ContactScreen"
+import CopyrightRemovalScreen from "./screens/info/CopyrightRemovalScreen"
 
 export type StackParamList = {
   Posts: undefined
@@ -38,6 +40,7 @@ export type StackParamList = {
   Terms: undefined
   Privacy: undefined
   Contact: undefined
+  Copyright: undefined
 }
 
 declare global {
@@ -69,6 +72,8 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="AppColor" component={AppColorScreen}/>
             <Stack.Screen name="Terms" component={TermsOfServiceScreen}/>
             <Stack.Screen name="Privacy" component={PrivacyPolicyScreen}/>
+            <Stack.Screen name="Contact" component={ContactScreen}/>
+            <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ActionSheetProvider>

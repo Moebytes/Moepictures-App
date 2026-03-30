@@ -66,22 +66,24 @@ export const createStylesheet = (colors: ThemeColors) => {
             width: "100%",
             height: 40
         },
-        resetButton: {
-            marginTop: 15,
-            paddingVertical: 10,
-            paddingHorizontal: 10,
-            borderRadius: 10,
-            backgroundColor: colors.buttonColorGlass,
-            alignItems: "center",
+        wideButton: {
+            display: "flex",
+            flexDirection: "row",
             justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 15,
+            paddingVertical: 9,
+            borderRadius: 6,
+            backgroundColor: colors.buttonColor,
             borderWidth: 1,
-            borderColor: colors.black
+            borderColor: colors.black,
+            marginTop: 10
         },
-        resetText: {
-            color: colors.black,
+        wideButtonText: {
             fontFamily: fonts.tsunagiGothicBlack,
-            fontSize: 18,
-            textAlign: "center"
+            color: colors.white,
+            fontSize: 20,
+            lineHeight: 22
         }
     })
 }

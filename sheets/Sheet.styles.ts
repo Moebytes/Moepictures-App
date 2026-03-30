@@ -89,6 +89,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.white,
             fontSize: 16,
             lineHeight: 20
-        },
+        }
     })
 }

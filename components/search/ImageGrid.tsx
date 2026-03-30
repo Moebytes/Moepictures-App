@@ -29,7 +29,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
-    const {search, scroll, ratingType, styleType, showChildren, sortType, 
+    const {search, scroll, imageType, ratingType, styleType, showChildren, sortType, 
     sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
     const {setAutoScroll} = useSearchActions()
     const styles = createStylesheet(colors)
@@ -82,12 +82,12 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const randomSearch = randomPosts.length > 0
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
-        {query: search, type: "image", rating: ratingType, style: styleType, sort, showChildren, refreshKey},
+        {query: search, type: imageType, rating: ratingType, style: styleType, sort, showChildren, refreshKey},
         {skip: !scroll || reverseSearch || randomSearch}
     )
 
     const pageQuery = useSearchPostsPageQuery(
-        {query: search, type: "image", rating: ratingType, style: styleType, sort, showChildren,
+        {query: search, type: imageType, rating: ratingType, style: styleType, sort, showChildren,
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll || reverseSearch || randomSearch}
     )
@@ -150,7 +150,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     }, [search, sort])
 
     const getRandomPosts = useEffectEvent(async (reset?: boolean) => {
-        const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
+        const result = await functions.http.get("/api/search/posts", {query: search, type: imageType, 
             rating: ratingType, style: styleType, showChildren,
             sort: "random", limit: scroll ? 15 : pageSize}, session)
         setRandomPosts((prev) => reset || !scroll ? result : [...prev, ...result])

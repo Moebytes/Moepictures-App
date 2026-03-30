@@ -5,12 +5,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, StatusBar} from "react-native"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {View, Text, Animated, StatusBar} from "react-native"
 import Slider from "@react-native-community/slider"
 import LinearGradient from "react-native-linear-gradient"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeActions, useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import LeftIcon from "../../assets/svg/left.svg"
@@ -102,14 +102,19 @@ const AppColorScreen: React.FunctionComponent = () => {
                         />
                     </LinearGradient>
 
-                    <PressableHaptic onPress={reset}>{({pressed}) => (
-                        <LiquidGlassView effect="clear" style={[styles.resetButton, 
-                            pressed && {borderColor: colors.white}]}>
-                            <Text style={[styles.resetText, pressed && {color: colors.white}]}>
+                    <ScalableHaptic scaleFactor={0.98} style={styles.wideButton} onPress={reset}>
+                    {({colorAnim}) => {
+                        const color = colorAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [colors.black, colors.white],
+                        })
+                        return (
+                            <Animated.Text style={[styles.wideButtonText, {color}]}>
                                 {i18n.filters.reset}
-                            </Text>
-                        </LiquidGlassView>
-                    )}</PressableHaptic>
+                            </Animated.Text>
+                        )
+                    }}
+                    </ScalableHaptic>
                 </View>
             </View>
         </View>

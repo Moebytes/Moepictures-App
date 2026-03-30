@@ -54,10 +54,18 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             gap: 13
         },
+        centerRow: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gap: 13
+        },
         title: {
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 27,
-            lineHeight: 30,
+            lineHeight: 34,
             color: colors.textColor
         },
         heading: {
@@ -72,9 +80,21 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 22,
             color: colors.textColor
         },
+        miniText: {
+            fontFamily: fonts.irohamaruMikami,
+            fontSize: 15,
+            lineHeight: 18,
+            color: colors.textColor
+        },
         textAlt: {
             fontFamily: fonts.irohamaruMikami,
             fontSize: 17,
+            lineHeight: 22,
+            color: colors.iconColor
+        },
+        textAltBold: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 18,
             lineHeight: 22,
             color: colors.iconColor
         },
@@ -88,6 +108,55 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 17,
             lineHeight: 22,
             color: colors.iconColor
+        },
+        bigText: {
+            fontFamily: fonts.genEiMGothicV2,
+            fontSize: 20,
+            lineHeight: 25,
+            color: colors.textColor
+        },
+        textInput: {
+            width: "70%",
+            height: 27,
+            color: colors.textColor,
+            fontFamily: fonts.jkGothicM,
+            borderWidth: 1,
+            borderColor: colors.textColor,
+            fontSize: 25,
+            padding: 0
+        },
+        messageInput: {
+            width: "100%",
+            height: 150,
+            color: colors.textColor,
+            fontFamily: fonts.jkGothicM,
+            borderWidth: 1,
+            borderColor: colors.textColor,
+            fontSize: 20,
+            padding: 0
+        },
+        wideButton: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 30,
+            paddingVertical: 9,
+            borderRadius: 6,
+            backgroundColor: colors.buttonColor,
+            borderWidth: 1,
+            borderColor: colors.black
+        },
+        wideButtonText: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            color: colors.white,
+            fontSize: 20,
+            lineHeight: 22
+        },
+        checkbox: {
+            color: colors.iconColor,
+            width: 20,
+            height: 20
         }
     })
 }

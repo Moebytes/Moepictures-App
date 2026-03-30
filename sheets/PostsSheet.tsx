@@ -12,6 +12,8 @@ useSearchActions} from "../store"
 import ScalableHaptic from "../ui/ScalableHaptic"
 import SlidingSelector from "../ui/SlidingSelector"
 import AllIcon from "../assets/svg/all.svg"
+import ImageIcon from "../assets/svg/image.svg"
+import ComicIcon from "../assets/svg/comic.svg"
 import CuteIcon from "../assets/svg/cute.svg"
 import SexyIcon from "../assets/svg/sexy.svg"
 import EroticIcon from "../assets/svg/erotic.svg"
@@ -30,8 +32,9 @@ const PostsSheet: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {showPostsSheet} = useSheetSelector()
     const {setShowPostsSheet} = useSheetActions()
-    const {ratingType, styleType, showChildren} = useSearchSelector()
-    const {setRatingType, setStyleType, setShowChildren} = useSearchActions()
+    const {imageType, ratingType, styleType, showChildren} = useSearchSelector()
+    const {setImageType, setRatingType, setStyleType, setShowChildren} = useSearchActions()
+    const [localType, setLocalType] = useState(imageType)
     const [localRating, setLocalRating] = useState(ratingType)
     const [localStyle, setLocalStyle] = useState(styleType)
     const [localShowChildren, setLocalShowChildren] = useState(showChildren)
@@ -42,6 +45,7 @@ const PostsSheet: React.FunctionComponent = () => {
         if (showPostsSheet) {
             sheet.current?.present()
 
+            setLocalType(imageType)
             setLocalRating(ratingType)
             setLocalStyle(styleType)
             setLocalShowChildren(showChildren)
@@ -55,17 +59,43 @@ const PostsSheet: React.FunctionComponent = () => {
     }
 
     const reset = () => {
+        setLocalType("mobile")
         setLocalRating("all")
         setLocalStyle("all")
         setLocalShowChildren(false)
     }
 
     const apply = () => {
+        setImageType(localType)
         setRatingType(localRating)
         setStyleType(localStyle)
         setShowChildren(localShowChildren)
 
         sheet.current?.dismiss()
+    }
+
+    const generateTypeButtons = () => {
+        let types = [
+            {name: i18n.tag.all, icon: AllIcon, value: "mobile"},
+            {name: i18n.sortbar.type.image, icon: ImageIcon, value: "image"},
+            {name: i18n.sortbar.type.comic, icon: ComicIcon, value: "comic"}
+        ] as any
+
+        return (
+            <View style={styles.row}>
+                <SlidingSelector
+                    data={types}
+                    value={localType}
+                    onChange={setLocalType}
+                    inactiveColor={colors.optionInactive}
+                    activeColor={colors.optionActive}
+                    iconColor={colors.iconColor}
+                    activeIconColor={colors.white}
+                    textColor={colors.textColor}
+                    activeTextColor={colors.white}
+                />
+            </View>
+        )
     }
 
     const generateRatingButtons = () => {
@@ -177,7 +207,7 @@ const PostsSheet: React.FunctionComponent = () => {
     return (
         <TrueSheet
             ref={sheet}
-            detents={[0.74]}
+            detents={[0.79]}
             cornerRadius={30}
             grabber={false}
             backgroundColor={colors.background}
@@ -186,6 +216,10 @@ const PostsSheet: React.FunctionComponent = () => {
                 <View style={styles.centerRow}>
                     <Text style={styles.mainTitle}>{i18n.options.searchOptions}</Text>
                 </View>
+                <View style={styles.row}>
+                    <Text style={styles.title}>{i18n.sidebar.type}</Text>
+                </View>
+                {generateTypeButtons()}
                 <View style={styles.row}>
                     <Text style={styles.title}>{i18n.sidebar.rating}</Text>
                 </View>
