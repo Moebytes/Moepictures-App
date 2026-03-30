@@ -21,9 +21,18 @@ export default class HTTPFunctions {
         if (this.privateKeyLock) await functions.timeout(100 + Math.random() * 100)
         if (!this.privateKey) {
             this.privateKeyLock = true
-            const keys = decryption.generateKeys()
-            await functions.http.post("/api/client-key", {publicKey: keys.publicKey}, session)
-            this.privateKey = keys.privateKey
+            const savedPublicKey = await asyncStorage.getItem("publicKey") as string
+            const savedPrivateKey = await asyncStorage.getItem("privateKey") as string
+            if (savedPublicKey && savedPrivateKey) {
+                await functions.http.post("/api/client-key", {publicKey: savedPublicKey}, session)
+                this.privateKey = savedPrivateKey
+            } else {
+                const keys = decryption.generateKeys()
+                await functions.http.post("/api/client-key", {publicKey: keys.publicKey}, session)
+                await asyncStorage.setItem("publicKey", keys.publicKey)
+                await asyncStorage.setItem("privateKey", keys.privateKey)
+                this.privateKey = keys.privateKey
+            }
         }
         return this.privateKey
     }
