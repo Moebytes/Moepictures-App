@@ -14,17 +14,19 @@ const flagSlice = createSlice({
     initialState: {
         pageFlag: null as number | null,
         randomSearchFlag: false,
-        imageSearchFlag: null as PostSearch[] | null
+        imageSearchFlag: null as PostSearch[] | null,
+        searchScrollFlag: false
     },
     reducers: {
         setPageFlag: (state, action) => {state.pageFlag = action.payload},
         setRandomSearchFlag: (state, action) => {state.randomSearchFlag = action.payload},
-        setImageSearchFlag: (state, action) => {state.imageSearchFlag = action.payload}
+        setImageSearchFlag: (state, action) => {state.imageSearchFlag = action.payload},
+        setSearchScrollFlag: (state, action) => {state.searchScrollFlag = action.payload}
     }
 })
 
 const {
-    setPageFlag, setRandomSearchFlag, setImageSearchFlag
+    setPageFlag, setRandomSearchFlag, setImageSearchFlag, setSearchScrollFlag
 } = flagSlice.actions
 
 export const useFlagSelector = () => {
@@ -32,7 +34,8 @@ export const useFlagSelector = () => {
     return {
         pageFlag: selector((state) => state.flag.pageFlag),
         randomSearchFlag: selector((state) => state.flag.randomSearchFlag),
-        imageSearchFlag: selector((state) => state.flag.imageSearchFlag)
+        imageSearchFlag: selector((state) => state.flag.imageSearchFlag),
+        searchScrollFlag: selector((state) => state.flag.searchScrollFlag)
     }
 }
 
@@ -41,7 +44,8 @@ export const useFlagActions = () => {
     return {
         setPageFlag: (state: number | null) => dispatch(setPageFlag(state)),
         setRandomSearchFlag: (state: boolean) => dispatch(setRandomSearchFlag(state)),
-        setImageSearchFlag: (state: PostSearch[] | null) => dispatch(setImageSearchFlag(state))
+        setImageSearchFlag: (state: PostSearch[] | null) => dispatch(setImageSearchFlag(state)),
+        setSearchScrollFlag: (state: boolean) => dispatch(setSearchScrollFlag(state))
     }
 }
 

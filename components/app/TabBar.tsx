@@ -63,6 +63,8 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
             const Icon = tab.icon
             let active = activeRoute === tab.screen
             if (activeRoute === "Post" && tab.screen === "Posts") active = true
+            if (activeRoute === "Tag" && tab.screen === "Tags") active = true
+            if (activeRoute === "Group" && tab.screen === "Groups") active = true
             if ((activeRoute === "Terms" || activeRoute === "Privacy" || activeRoute === "Contact"
                 || activeRoute === "Copyright") && tab.screen === "Profile") active = true
 

@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text} from "react-native"
+import {View} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import BuyLinkIcon from "../../assets/svg/buy-link.svg"
@@ -32,7 +33,8 @@ const BuyLink: React.FunctionComponent<Props> = (props) => {
                 </View>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{props.post.buyLink}</Text>
+                <Text style={styles.text} selectable uiTextView 
+                selectionColor={colors.borderColor}>{props.post.buyLink}</Text>
             </View>
         </View>
     )

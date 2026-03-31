@@ -27,6 +27,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            flexWrap: "wrap",
+            maxWidth: 100,
             gap: 7
         },
         tag: {
@@ -42,14 +44,20 @@ export const createStylesheet = (colors: ThemeColors) => {
         textContainer: {
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-            flexShrink: 1,
-            flexWrap: "wrap"
+            alignItems: "flex-start"
         },
         text: {
             color: colors.textColor,
             fontFamily: fonts.irohamaruMikami,
             fontSize: 13
-        }
+        },
+        image: {
+            height: 40,
+            width: 40
+        },
+        icon: {
+            height: 20,
+            width: 20
+        },
     })
 }

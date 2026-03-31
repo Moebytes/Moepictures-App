@@ -4,11 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef} from "react"
+import React, {useEffect, useRef} from "react"
 import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {useThemeSelector, useSearchActions, useSearchSelector, 
+import {useThemeSelector, useSearchActions, useSearchSelector, useFlagSelector,
 useSessionSelector, useFlagActions, useSheetSelector, useSheetActions} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
@@ -33,7 +33,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     const {session} = useSessionSelector()
     let {text, search, searchTags} = useSearchSelector()
     let {setText, setFocused, setSearchTags, setSearch} = useSearchActions()
-    const {setRandomSearchFlag} = useFlagActions()
+    const {searchScrollFlag} = useFlagSelector()
+    const {setRandomSearchFlag, setSearchScrollFlag} = useFlagActions()
     const {showCommentsSheet, showNotesSheet, 
         showGroupsSheet, showTagsSheet} = useSheetSelector()
     const {setShowCommentsSheet, setShowNotesSheet, 
@@ -51,6 +52,15 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         setSearchTags = managedProps.setSearchTags as any
         setSearch = managedProps.setSearch as any
     }
+
+    useEffect(() => {
+        if (searchScrollFlag) {
+            setTimeout(() => {
+                scrollRef.current?.scrollTo({x: 0})
+            }, 100)
+            setSearchScrollFlag(false)
+        }
+    }, [searchScrollFlag])
 
     const addItem = () => {
         if (!text.trim()) return

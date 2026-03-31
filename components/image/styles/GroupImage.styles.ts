@@ -15,8 +15,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            paddingHorizontal: 5,
-            paddingVertical: 7,
             borderWidth: 2,
             borderColor: "transparent",
             gap: 5
@@ -25,19 +23,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
-        },
-        textContainer: {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexShrink: 1,
-            flexWrap: "wrap"
-        },
-        text: {
-            color: colors.textColor,
-            fontFamily: fonts.tsunagiGothicBlack,
-            textAlign: "center",
-            fontSize: 20
         }
     })
 }

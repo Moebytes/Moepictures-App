@@ -5,8 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "./Functions"
-import {TagCount, Tag, Session, PostFull, Post} from "../types/Types"
-import { ThemeColors } from "../ui/colors"
+import {TagCount, TagSearch, Tag, Session, PostFull, Post} from "../types/Types"
+import {ThemeColors} from "../ui/colors"
 
 export default class TagFunctions {
     public static parseTags = async (posts: PostFull[], session: Session, isBanner?: boolean) => {
@@ -96,5 +96,18 @@ export default class TagFunctions {
         if (tag.type === "action") return colors.actionTagColorGlass
         if (tag.type === "scenery") return colors.sceneryTagColorGlass
         return colors.tagColorGlass
+    }
+
+    public static getTagColor = (tag: TagSearch | Tag, colors: ThemeColors) => {
+        if (tag.type === "artist") return colors.artistTagColor
+        if (tag.type === "character") return colors.characterTagColor
+        if (tag.type === "series") return colors.seriesTagColor
+        if (tag.type === "meta") return colors.metaTagColor
+        if (tag.type === "appearance") return colors.appearanceTagColor
+        if (tag.type === "outfit") return colors.outfitTagColor
+        if (tag.type === "accessory") return colors.accessoryTagColor
+        if (tag.type === "action") return colors.actionTagColor
+        if (tag.type === "scenery") return colors.sceneryTagColor
+        return colors.tagColor
     }
 }

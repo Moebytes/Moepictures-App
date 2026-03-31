@@ -5,10 +5,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text} from "react-native"
+import {View, ScrollView, Image, Pressable} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
+import {useNavigation} from "@react-navigation/native"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TagRow.styles"
 import {TagSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
+
+const pixiv = require("../../assets/icons/pixiv.png")
+const twitter = require("../../assets/icons/twitter.png")
+const website = require("../../assets/icons/website.png")
+const wikipedia = require("../../assets/icons/wikipedia.png")
+const fandom = require("../../assets/icons/fandom.png")
 
 interface Props {
     tag: TagSearch
@@ -17,29 +27,64 @@ interface Props {
 const TagRow: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
 
-    const getColor = () => {
-        if (props.tag.type === "artist") return colors.artistTagColor
-        if (props.tag.type === "character") return colors.characterTagColor
-        if (props.tag.type === "series") return colors.seriesTagColor
-        if (props.tag.type === "meta") return colors.metaTagColor
-        if (props.tag.type === "appearance") return colors.appearanceTagColor
-        if (props.tag.type === "outfit") return colors.outfitTagColor
-        if (props.tag.type === "accessory") return colors.accessoryTagColor
-        if (props.tag.type === "action") return colors.actionTagColor
-        if (props.tag.type === "scenery") return colors.sceneryTagColor
-        return colors.tagColor
+    const socialIcons = () => {
+        let jsx = [] as React.ReactElement[]
+        if (props.tag.website) {
+            jsx.push(
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSocialLink(props.tag.website)}>
+                    <Image style={styles.icon} source={website}/>
+                </ScalableHaptic>
+            )
+        }
+        if (props.tag.fandom) {
+            jsx.push(
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSocialLink(props.tag.fandom)}>
+                    <Image style={styles.icon} source={fandom}/>
+                </ScalableHaptic>
+            )
+        }
+        if (props.tag.social) {
+            jsx.push(
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSocialLink(props.tag.social)}>
+                    <Image style={styles.icon} source={pixiv}/>
+                </ScalableHaptic>
+            )
+        }
+        if (props.tag.twitter) {
+            jsx.push(
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSocialLink(props.tag.twitter)}>
+                    <Image style={styles.icon} source={twitter}/>
+                </ScalableHaptic>
+            )
+        }
+        if (props.tag.wikipedia) {
+            jsx.push(
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSocialLink(props.tag.wikipedia)}>
+                    <Image style={styles.icon} source={wikipedia}/>
+                </ScalableHaptic>
+            )
+        }
+        return jsx
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.tagContainer}>
-                <Text style={{...styles.tag, color: getColor()}}>{props.tag.tag}</Text>
+                {props.tag.image && <Image style={styles.image} source={{uri: functions.link.getTagLink(props.tag)}}/>}
+                <Pressable onPress={() => navigation.navigate("Tag", {name: props.tag.tag})}>
+                    <Text style={{...styles.tag, color: functions.tag.getTagColor(props.tag, colors)}}>
+                        {props.tag.tag.replace(/-/g, " ")}
+                    </Text>
+                </Pressable>
                 <Text style={styles.count}>{props.tag.postCount}</Text>
+                {socialIcons()}
             </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>{props.tag.description}</Text>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>{props.tag.description}</Text>
+            </ScrollView>
         </View>
     )
 }

@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, Pressable, useWindowDimensions} from "react-native"
+import {View, Image, Pressable, useWindowDimensions} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
@@ -85,7 +86,8 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.dateText}>{functions.date.timeAgo(props.note.updatedDate, i18n)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text}>{parseText()}</Text>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{parseText()}</Text>
                 </View>
             </View>
         </View>

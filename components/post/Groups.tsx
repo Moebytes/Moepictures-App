@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, FlatList, ListRenderItem} from "react-native"
+import {View, Text, FlatList, ListRenderItem, Pressable} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector} from "../../store"
 import {useGetPostGroupsQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
@@ -19,6 +20,7 @@ interface Props {
 const Groups: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
 
     const {data: groups} = useGetPostGroupsQuery(
         {postID: props.post?.postID ?? ""},
@@ -36,9 +38,10 @@ const Groups: React.FunctionComponent<Props> = (props) => {
         for (const group of groups) {
             jsx.push(
                 <View style={styles.container}>
-                    <View style={styles.headerContainer}>
+                    <Pressable style={styles.headerContainer}
+                        onPress={() => navigation.navigate("Group", {slug: group.slug})}>
                         <Text style={styles.headerText}>{i18n.labels.group}: {group.name}</Text>
-                    </View>
+                    </Pressable>
 
                     <FlatList 
                         horizontal

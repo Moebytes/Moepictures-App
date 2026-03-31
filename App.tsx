@@ -18,7 +18,9 @@ import PostScreen from "./screens/item/PostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
 import NotesScreen from "./screens/search/NotesScreen"
 import TagsScreen from "./screens/search/TagsScreen"
+import TagScreen from "./screens/item/TagScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
+import GroupScreen from "./screens/item/GroupScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
 import AppColorScreen from "./screens/settings/AppColorScreen"
@@ -35,6 +37,8 @@ export type StackParamList = {
   Groups: undefined
   Profile: undefined
   Post: {postID: string}
+  Tag: {name: string}
+  Group: {slug: string}
   Language: undefined
   AppColor: undefined
   Terms: undefined
@@ -62,12 +66,14 @@ const App: React.FunctionComponent = () => {
           <Sheets/>
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
+            <Stack.Screen name="Post" component={PostScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>
             <Stack.Screen name="Notes" component={NotesScreen}/>
             <Stack.Screen name="Tags" component={TagsScreen}/>
+            <Stack.Screen name="Tag" component={TagScreen}/>
             <Stack.Screen name="Groups" component={GroupsScreen}/>
+            <Stack.Screen name="Group" component={GroupScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
-            <Stack.Screen name="Post" component={PostScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>
             <Stack.Screen name="AppColor" component={AppColorScreen}/>
             <Stack.Screen name="Terms" component={TermsOfServiceScreen}/>

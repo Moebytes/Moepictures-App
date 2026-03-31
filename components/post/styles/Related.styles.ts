@@ -31,6 +31,11 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.tsunagiGothicBlack,
             fontSize: 25
         },
+        headerTextAlt: {
+            color: colors.buttonColor,
+            fontFamily: fonts.genEiMGothicV2,
+            fontSize: 25
+        },
         iconContainer: {
             marginTop: 0
         },

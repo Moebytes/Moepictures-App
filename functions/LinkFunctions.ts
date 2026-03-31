@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "./Functions"
+import {Linking} from "react-native"
 import {Session, Image, Tag, TagCount, MiniTag} from "../types/Types"
 import {siteURL} from "../ui/site"
 
@@ -61,5 +62,27 @@ export default class LinkFunctions {
         if (!folder || filename.includes("history/")) return `${siteURL}/${filename}`
         const link = `${siteURL}/${dest}/${encodeURIComponent(filename)}`
         return hash ? functions.util.appendURLParams(link, {hash: hash}) : link
+    }
+
+    public static openSocialLink = async (link: string | null) => {
+        let appURL = ""
+        let webURL = link ?? ""
+
+        if (webURL.includes("pixiv")) {
+            appURL = `pixiv://${webURL.split("//")[1]}`
+        } else if (webURL.includes("twitter.com") || webURL.includes("x.com")) {
+            const userMatch = webURL.match(/twitter\.com\/([a-zA-Z0-9_]+)/) 
+                || webURL.match(/x\.com\/([a-zA-Z0-9_]+)/)
+            if (userMatch?.[1]) {
+                const username = userMatch[1]
+                appURL = `twitter://user?screen_name=${username}`
+            }
+        }
+
+        if (appURL && await Linking.canOpenURL(appURL)) {
+            Linking.openURL(appURL)
+        } else {
+            Linking.openURL(webURL)
+        }
     }
 }

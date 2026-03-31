@@ -5,8 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {View, Text, ScrollView} from "react-native"
-import {useRoute} from "@react-navigation/native"
+import {View, ScrollView} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
+import {useRoute, useNavigation} from "@react-navigation/native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector, useSessionSelector} from "../../store"
@@ -32,6 +33,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     const [dimensions, setDimensions] = useState({width: 0, height: 0, size: 0})
     const ref = useRef<ScrollView>(null)
     const route = useRoute()
+    const navigation = useNavigation()
 
     useEffect(() => {
       ref.current?.scrollTo({y: 0, animated: false})
@@ -53,10 +55,10 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
 
         for (const item of tags) {
             jsx.push(
-                <PressableHaptic>
+                <PressableHaptic onPress={() => navigation.navigate("Tag", {name: item.tag})}>
                     <LiquidGlassView key={item.tag} interactive effect="clear" 
                         style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
-                            <Text style={styles.tagText}>{item.tag}</Text>
+                            <Text style={styles.tagText}>{item.tag.replace(/-/g, " ")}</Text>
                     </LiquidGlassView>
                 </PressableHaptic>
             )
@@ -90,23 +92,28 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.title}:</Text>
-                    <Text style={styles.text}>{props.post.title}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.title}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.english}:</Text>
-                    <Text style={styles.text}>{props.post.englishTitle}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.englishTitle}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
-                    <Text style={styles.text}>{props.post.artist}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.artist}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.posted}:</Text>
-                    <Text style={styles.text}>{functions.date.formatDate(new Date(props.post.posted))}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {functions.date.formatDate(new Date(props.post.posted))}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.bookmarks}:</Text>
-                    <Text style={styles.text}>{props.post.bookmarks}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.bookmarks}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
@@ -134,42 +141,51 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
-                    <Text style={styles.text}>{functions.util.toProperCase(props.post.uploader)}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {functions.util.toProperCase(props.post.uploader)}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploaded}:</Text>
-                    <Text style={styles.text}>{functions.date.formatDate(new Date(props.post.uploadDate))}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {functions.date.formatDate(new Date(props.post.uploadDate))}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.type}:</Text>
-                    {/* @ts-ignore */}
-                    <Text style={styles.text}>{i18n.sortbar.type[props.post.type]}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {/* @ts-ignore */}
+                        {i18n.sortbar.type[props.post.type]}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.rating}:</Text>
-                    {/* @ts-ignore */}
-                    <Text style={styles.text}>{i18n.sortbar.rating[props.post.rating]}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {/* @ts-ignore */}
+                        {i18n.sortbar.rating[props.post.rating]}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.style}:</Text>
-                    {/* @ts-ignore */}
-                    <Text style={styles.text}>{i18n.sortbar.style[props.post.style]}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {/* @ts-ignore */}
+                        {i18n.sortbar.style[props.post.style]}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.favorites}:</Text>
-                    <Text style={styles.text}>{props.post.favoriteCount}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.favoriteCount}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.cuteness}:</Text>
-                    <Text style={styles.text}>{props.post.cuteness}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {props.post.cuteness}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.resolution}:</Text>
-                    <Text style={styles.text}>{dimensions.width}x{dimensions.height}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {dimensions.width}x{dimensions.height}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.size}:</Text>
-                    <Text style={styles.text}>{functions.util.readableFileSize(dimensions.size)}</Text>
+                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {functions.util.readableFileSize(dimensions.size)}</Text>
                 </View>
             </ScrollView>
         </LiquidGlassView>

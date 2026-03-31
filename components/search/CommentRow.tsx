@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, useWindowDimensions, Pressable} from "react-native"
+import {View, Image, useWindowDimensions, Pressable} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
@@ -69,7 +70,8 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.dateText}>{functions.date.timeAgo(props.comment.postDate, i18n)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text}>{props.comment.comment}</Text>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{props.comment.comment}</Text>
                 </View>
             </View>
         </View>

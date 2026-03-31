@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useEffectEvent, useState} from "react"
-import {View, Text} from "react-native"
+import {View, Text, Pressable} from "react-native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchSelector, useSearchActions, 
 useSearchDialogActions, useSearchDialogSelector} from "../../store"
@@ -40,7 +40,7 @@ export const useRelatedItems = (props: Props) => {
 
     const pageSize = 15 * pageMultiplier
 
-    let rating = props.post?.rating || (ratingType === functions.r18() ? ratingType : "all")
+    let rating = props.post?.rating || (functions.post.isR18(ratingType) ? ratingType : "all")
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
         {query: activeTag, type: props.post?.type || "mobile", 
@@ -93,11 +93,17 @@ export const useRelatedItems = (props: Props) => {
         loadMore,
         page,
         setPage,
+        totalItems,
         totalPages
     }
 }
 
-const Related: React.FunctionComponent = () => {
+interface RelatedProps {
+    count?: number
+    pressAction?: () => void
+}
+
+const Related: React.FunctionComponent<RelatedProps> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {scroll, square} = useSearchSelector()
     const {setScroll, setSquare} = useSearchActions()
@@ -110,7 +116,10 @@ const Related: React.FunctionComponent = () => {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>{i18n.post.related}</Text>
+                <Pressable onPress={props.pressAction}>
+                    <Text style={styles.headerText}>{props.count ? i18n.sort.posts : i18n.post.related}</Text>
+                </Pressable>
+                {props.count ? <Text style={styles.headerTextAlt}>{props.count}</Text> : null}
                 <ScalableHaptic icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
                 <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}

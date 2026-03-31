@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState} from "react"
-import {View, Text, Pressable} from "react-native"
+import {View, Pressable} from "react-native"
+import {UITextView as Text} from "react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"
@@ -33,7 +34,10 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{showTranslated ? props.post.englishCommentary : props.post.commentary}</Text>
+                <Text style={styles.text} selectable uiTextView 
+                    selectionColor={colors.borderColor}>
+                    {showTranslated ? props.post.englishCommentary : props.post.commentary}
+                </Text>
             </View>
         </View>
     )

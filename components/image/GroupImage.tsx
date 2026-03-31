@@ -5,18 +5,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, useWindowDimensions, Pressable} from "react-native"
+import {View, Image, useWindowDimensions, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
-import {createStylesheet} from "./styles/GroupThumbnail.styles"
+import {createStylesheet} from "./styles/GroupImage.styles"
 import functions from "../../functions/Functions"
-import {GroupSearch} from "../../types/Types"
+import {PostOrdered} from "../../types/Types"
 
 interface Props {
-    group: GroupSearch
+    post: PostOrdered
 }
 
-const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
+const GroupImage: React.FunctionComponent<Props> = (props) => {
     const {tablet} = useLayoutSelector()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
@@ -27,11 +27,11 @@ const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
     const navigation = useNavigation()
 
     useEffect(() => {
-        if (!props.group) return
-        const image = props.group.posts[0].images[0]
+        if (!props.post) return
+        const image = props.post.images[0]
         const img = functions.link.getThumbnailLink(image, "medium", session)
         setImg(img)
-    }, [props.group])
+    }, [props.post])
 
     useEffect(() => {
         const updateSize = async () => {
@@ -47,15 +47,12 @@ const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
 
     return (
         <Pressable style={(({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}])}
-            onPress={() => navigation.navigate("Group", {slug: props.group.slug})}>
+            onPress={() => navigation.navigate("Post", {postID: props.post.postID})}>
             <View style={styles.imageContainer}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>{props.group.name}</Text>
             </View>
         </Pressable>
     )
 }
 
-export default GroupThumbnail
+export default GroupImage
