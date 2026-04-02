@@ -7,6 +7,7 @@
 import React, {useEffect, useRef} from "react"
 import {View, Text, Animated, Easing} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
+import Toast from "react-native-toast-message"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
@@ -79,6 +80,15 @@ const SortBar: React.FunctionComponent = () => {
         })
     }
 
+    const savedSearches = () => {
+        Toast.show({text1: i18n.toast.loginRequired})
+    }
+
+    const favoriteTags = () => {
+        Toast.show({text1: i18n.toast.loginRequired})
+
+    }
+
     useEffect(() => {
         let animation: Animated.CompositeAnimation
         if (autoSearch) {
@@ -121,8 +131,10 @@ const SortBar: React.FunctionComponent = () => {
                 </Animated.View>
                 <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowPostsSheet(!showPostsSheet)}/>
-                <ScalableHaptic icon={BookmarkIcon} size={iconSize} color={colors.iconColor}/>
-                <ScalableHaptic icon={HeartIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={BookmarkIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => savedSearches()}/>
+                <ScalableHaptic icon={HeartIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => favoriteTags()}/>
             </View>
             <View style={styles.iconContainer}>
                 {scroll ? 

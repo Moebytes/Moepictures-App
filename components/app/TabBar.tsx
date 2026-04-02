@@ -17,6 +17,7 @@ import CommentsIcon from "../../assets/svg/comments.svg"
 import NotesIcon from "../../assets/svg/notes.svg"
 import TagsIcon from "../../assets/svg/tags.svg"
 import GroupsIcon from "../../assets/svg/groups.svg"
+import HistoryIcon from "../../assets/svg/history.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
 
 interface Props {
@@ -54,9 +55,10 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         let tabMap: {screen: keyof StackParamList, icon: React.ComponentType<SvgProps>, name: string}[] = [
             {screen: "Posts", icon: PostsIcon, name: i18n.sort.posts},
             {screen: "Comments", icon: CommentsIcon, name: i18n.navbar.comments},
-            {screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
+            //{screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
             {screen: "Tags", icon: TagsIcon, name: i18n.navbar.tags},
             {screen: "Groups", icon: GroupsIcon, name: i18n.sort.groups},
+            {screen: "History", icon: HistoryIcon, name: i18n.sidebar.history},
             {screen: "Profile", icon: ProfileIcon, name: i18n.navbar.profile}
         ]
         for (const tab of tabMap) {

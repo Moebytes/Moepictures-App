@@ -55,7 +55,8 @@ export const noRotationDark = {
 }
 
 export const sharedColors = {
-    buttonColorGlass: "rgba(255, 87, 157, 0.57)"
+    buttonColorGlass: "rgba(255, 87, 157, 0.57)",
+    toastColor: "#FF63B4"
 }
 
 export const LightTheme = {

@@ -7,12 +7,14 @@
 import React from "react"
 import {NavigationContainer} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
-import {SafeAreaProvider} from "react-native-safe-area-context"
+import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {ActionSheetProvider} from "@expo/react-native-action-sheet"
+import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
 import Sheets from "./sheets/Sheets"
 import SavePrompt from "./ui/SavePrompt"
+import ToastUI from "./ui/Toast"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
@@ -21,6 +23,7 @@ import TagsScreen from "./screens/search/TagsScreen"
 import TagScreen from "./screens/item/TagScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import GroupScreen from "./screens/item/GroupScreen"
+import HistoryScreen from "./screens/search/HistoryScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
 import AppColorScreen from "./screens/settings/AppColorScreen"
@@ -35,6 +38,7 @@ export type StackParamList = {
   Notes: undefined
   Tags: undefined
   Groups: undefined
+  History: undefined
   Profile: undefined
   Post: {postID: string}
   Tag: {name: string}
@@ -56,8 +60,9 @@ declare global {
 const Stack = createNativeStackNavigator<StackParamList>()
 
 const App: React.FunctionComponent = () => {
+    const {top} = useSafeAreaInsets()
+
     return (
-      <SafeAreaProvider>
       <ActionSheetProvider>
         <NavigationContainer>
           <AsyncStorage/>
@@ -73,6 +78,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Tag" component={TagScreen}/>
             <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Group" component={GroupScreen}/>
+            <Stack.Screen name="History" component={HistoryScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>
             <Stack.Screen name="AppColor" component={AppColorScreen}/>
@@ -81,9 +87,9 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Contact" component={ContactScreen}/>
             <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
           </Stack.Navigator>
+          <Toast type="info" visibilityTime={2000} topOffset={top+10} config={{info: ToastUI}}/>
         </NavigationContainer>
       </ActionSheetProvider>
-      </SafeAreaProvider>
     )
 }
 

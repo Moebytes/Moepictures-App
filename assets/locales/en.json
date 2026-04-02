@@ -543,6 +543,9 @@
         "showChildPosts": "Show Child Posts",
         "sort": "Sort"
     },
+    "toast": {
+        "loginRequired": "You must login to use this action."
+    },
     "errors": {
         "$401":"401 error",
         "$403":"403 error",

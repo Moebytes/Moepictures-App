@@ -7,6 +7,7 @@
 import React from "react"
 import {View, Text} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
+import Toast from "react-native-toast-message"
 import path from "path"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector, useMiscDialogActions} from "../../store"
@@ -30,6 +31,14 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {setShowSavePrompt} = useMiscDialogActions()
     const styles = createStylesheet(colors)
     const {showActionSheetWithOptions} = useActionSheet()
+
+    const favorite = () => {
+        Toast.show({text1: i18n.toast.loginRequired})
+    }
+
+    const favgroup = () => {
+        Toast.show({text1: i18n.toast.loginRequired})
+    }
 
     const downloadImage = async () => {
         if (!props.post) return
@@ -61,11 +70,11 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <ScalableHaptic icon={StarIcon} size={iconSize} color={colors.iconColor} 
-                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={favorite}>
                 <Text style={styles.text}>{i18n.post.favorite}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
-                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={favgroup}>
                 <Text style={styles.text}>{i18n.post.favgroup}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={InfoIcon} size={iconSize} color={colors.iconColor} 

@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {AppRegistry, LogBox} from "react-native"
+import {SafeAreaProvider} from "react-native-safe-area-context"
 import {Provider} from "react-redux"
 import {name} from "./app.json"
 import {Buffer} from "buffer"
@@ -17,7 +18,9 @@ LogBox.ignoreAllLogs()
 
 const Root = () => (
   <Provider store={store}>
-    <App/>
+    <SafeAreaProvider>
+      <App/>
+    </SafeAreaProvider>
   </Provider>
 )
 
