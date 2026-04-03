@@ -41,7 +41,7 @@ export default class LinkFunctions {
     }
 
     public static getTagLink = (tag: Tag | TagCount | MiniTag) => {
-        if (!tag.image) return ""
+        if (!tag?.image) return ""
         let dest = "tag"
         if (tag.type === "artist") dest = "artist"
         if (tag.type === "character") dest = "character"

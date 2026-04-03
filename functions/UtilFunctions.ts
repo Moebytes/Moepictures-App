@@ -60,6 +60,12 @@ export default class UtilFunctions {
         return hash ? `${base}#${hash.split("?")[0]}` : base
     }
 
+    public static safeNumber = (text?: string) => {
+        if (typeof text === "undefined") return null
+        if (Number.isNaN(Number(text))) return null
+        return Number(text)
+    }
+
     public static readableFileSize = (bytes: number) => {
         const i = bytes === 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024))
         return `${Number((bytes / Math.pow(1024, i)).toFixed(2))} ${["B", "KB", "MB", "GB", "TB"][i]}`

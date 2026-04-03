@@ -7,7 +7,7 @@
 import {createSlice, createSelector} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
-import {LightTheme, DarkTheme, noRotation} from "../ui/colors"
+import {LightTheme, DarkTheme, noRotation, noRotationLight} from "../ui/colors"
 import {Themes, Languages} from "../types/Types"
 import functions from "../functions/Functions"
 import en from "../assets/locales/en.json"
@@ -51,7 +51,7 @@ const rotateColors = createSelector(
             const key = Object.keys(colorList)[i] as keyof typeof colorList
             const color = colorList[key]
 
-            if (key in noRotation) {
+            if (key in {...noRotation, ...noRotationLight}) {
                 newColorList[key] = color
             } else {
                 let targetLightness = appLightness

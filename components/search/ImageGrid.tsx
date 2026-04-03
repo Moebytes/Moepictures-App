@@ -25,7 +25,7 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
-    const {session} = useSessionSelector()
+    const {session, autosearchInterval} = useSessionSelector()
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
@@ -187,14 +187,14 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         }
 
         search()
-        autoSearchRef.current = setInterval(search, Number(session.autosearchInterval || 5000))
+        autoSearchRef.current = setInterval(search, autosearchInterval * 1000)
         return () => {
             if (autoSearchRef.current) {
                 clearInterval(autoSearchRef.current)
                 autoSearchRef.current = null
             }
         }
-    }, [autoSearch, search, session.autosearchInterval])
+    }, [autoSearch, search, autosearchInterval])
 
     let totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
     if (imageSearchFlag) totalItems = imageSearchFlag.length

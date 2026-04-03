@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "./Functions"
-import {TagCount, TagSearch, Tag, Session, PostFull, Post} from "../types/Types"
+import {TagCount, TagSearch, Tag, Session, PostFull, Post, TinyUser} from "../types/Types"
 import {ThemeColors} from "../ui/colors"
 
 export default class TagFunctions {
@@ -109,5 +109,17 @@ export default class TagFunctions {
         if (tag.type === "action") return colors.actionTagColor
         if (tag.type === "scenery") return colors.sceneryTagColor
         return colors.tagColor
+    }
+
+    public static getUserColor = (user: TinyUser, colors: ThemeColors) => {
+        if (user.role === "admin") return colors.adminColor
+        if (user.role === "mod") return colors.modColor
+        if (user.role === "system") return colors.systemColor
+        if (user.role === "premium-curator") return colors.premiumColor
+        if (user.role === "curator") return colors.curatorColor
+        if (user.role === "premium-contributor") return colors.premiumColor
+        if (user.role === "contributor") return colors.contributorColor
+        if (user.role === "premium") return colors.premiumColor
+        return colors.userColor
     }
 }

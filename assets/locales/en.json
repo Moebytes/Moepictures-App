@@ -299,6 +299,8 @@
         "updateBio": "Update Bio",
         "favoritesPrivacy": "Favorites Privacy",
         "tagFavoritesPrivacy": "Tag Favorites Privacy",
+        "privateFavorites": "Private Favorites",
+        "privateTagFavorites": "Private Tag Favorites",
         "showRelated": "Show Related",
         "showTooltips": "Show Tooltips",
         "showTagTooltips": "Show Tag Tooltips",
@@ -527,7 +529,9 @@
         "aliasing": "Aliasing",
         "drawingTools": "Drawing Tools",
         "userProfile": "User Profile",
-        "imageCount": "Image Count"
+        "imageCount": "Image Count",
+        "token": "Token",
+        "logout": "Logout"
     },
     "contextMenu": {
         "openWebsite": "Open Website Link",
@@ -536,7 +540,9 @@
         "saveLocation": "Pick a save location",
         "uploadLocation": "Pick an upload location",
         "photos": "Photos",
-        "files": "Files"
+        "files": "Files",
+        "logout": "Are you sure that you want to logout?",
+        "enterInterval": "Enter a new interval"
     },
     "options": {
         "searchOptions": "Search Options",
@@ -544,7 +550,9 @@
         "sort": "Sort"
     },
     "toast": {
-        "loginRequired": "You must login to use this action."
+        "loginRequired": "You must login to use this action.",
+        "loggedIn": "Logged in as ",
+        "loggedOut": "Successfully logged out!"
     },
     "errors": {
         "$401":"401 error",
@@ -613,6 +621,7 @@
             "enable": "Enable 2FA"
         },
         "$2fa": {
+            "title": "2FA",
             "heading": "Please enter your 2FA token.",
             "token": "2FA Token",
             "badToken": "Bad token."
@@ -669,12 +678,14 @@
             "heading": "New IP location has been verified. You should be able to login into your account now."
         },
         "login": {
-            "signupText": "Don't have an account? Sign up.",
+            "signupText": "Don't have an account?",
+            "signupText2": "Sign up.",
             "forgotText": "Forgot Password?",
             "captcha": "Solve the captcha.",
             "error": "Invalid username or password.",
             "rateLimit": "Too many login attempts, try again later.",
-            "newIP": "New IP location detected. Check your email."
+            "newIP": "New IP location detected. Check your email.",
+            "button": "Log In"
         },
         "signup": {
             "title": "Sign Up",

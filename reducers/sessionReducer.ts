@@ -13,32 +13,42 @@ const sessionSlice = createSlice({
     name: "session",
     initialState: {
         session: {} as Session,
-        privateKey: "",
-        publicKey: "",
-        csrfToken: "",
-        showRelated: true
+        userImg: "",
+        showRelated: true,
+        autosearchInterval: 5,
+        privateFavorites: false,
+        privateTagFavorites: false,
+        upscaledImages: false,
+        showR18: false
     },
     reducers: {
         setSession: (state, action) => {state.session = action.payload},
-        setPrivateKey: (state, action) => {state.privateKey = action.payload},
-        setPublicKey: (state, action) => {state.publicKey = action.payload},
-        setCSRFToken: (state, action) => {state.csrfToken = action.payload},
-        setShowRelated: (state, action) => {state.showRelated = action.payload}
+        setUserImg: (state, action) => {state.userImg = action.payload},
+        setShowRelated: (state, action) => {state.showRelated = action.payload},
+        setAutosearchInterval: (state, action) => {state.autosearchInterval = action.payload},
+        setPrivateFavorites: (state, action) => {state.privateFavorites = action.payload},
+        setPrivateTagFavorites: (state, action) => {state.privateTagFavorites = action.payload},
+        setUpscaledImages: (state, action) => {state.upscaledImages = action.payload},
+        setShowR18: (state, action) => {state.showR18 = action.payload}
     }    
 })
 
 const {
-    setSession, setPrivateKey, setPublicKey, setCSRFToken, setShowRelated
+    setSession, setUserImg, setShowRelated, setAutosearchInterval, setPrivateFavorites,
+    setPrivateTagFavorites, setUpscaledImages, setShowR18
 } = sessionSlice.actions
 
 export const useSessionSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
         session: selector((state) => state.session.session),
-        privateKey: selector((state) => state.session.privateKey),
-        publicKey: selector((state) => state.session.publicKey),
-        csrfToken: selector((state) => state.session.csrfToken),
-        showRelated: selector((state) => state.session.showRelated)
+        userImg: selector((state) => state.session.userImg),
+        showRelated: selector((state) => state.session.showRelated),
+        autosearchInterval: selector((state) => state.session.autosearchInterval),
+        privateFavorites: selector((state) => state.session.privateFavorites),
+        privateTagFavorites: selector((state) => state.session.privateTagFavorites),
+        upscaledImages: selector((state) => state.session.upscaledImages),
+        showR18: selector((state) => state.session.showR18)
     }
 }
 
@@ -46,10 +56,13 @@ export const useSessionActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
         setSession: (state: Session) => dispatch(setSession(state)),
-        setPrivateKey: (state: string) => dispatch(setPrivateKey(state)),
-        setPublicKey: (state: string) => dispatch(setPublicKey(state)),
-        setCSRFToken: (state: string) => dispatch(setCSRFToken(state)),
-        setShowRelated: (state: boolean) => dispatch(setShowRelated(state))
+        setUserImg: (state: string) => dispatch(setUserImg(state)),
+        setShowRelated: (state: boolean) => dispatch(setShowRelated(state)),
+        setAutosearchInterval: (state: number) => dispatch(setAutosearchInterval(state)),
+        setPrivateFavorites: (state: boolean) => dispatch(setPrivateFavorites(state)),
+        setPrivateTagFavorites: (state: boolean) => dispatch(setPrivateTagFavorites(state)),
+        setUpscaledImages: (state: boolean) => dispatch(setUpscaledImages(state)),
+        setShowR18: (state: boolean) => dispatch(setShowR18(state))
     }
 }
 

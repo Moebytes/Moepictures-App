@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, Text, FlatList, Image, ListRenderItem} from "react-native"
-import {useThemeSelector} from "../../store"
+import {useSessionSelector, useThemeSelector} from "../../store"
 import {useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
 import {PostSearch} from "../../types/Types"
@@ -18,18 +18,19 @@ interface Props {
 
 const ArtistWorks: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {showRelated} = useSessionSelector()
     const styles = createStylesheet(colors)
 
     const {data: posts} = useSearchPostsPageQuery(
         {query: props.tag, type: "image", rating: "all", style: "all", sort: "posted", limit: 1000},
-        {skip: !Boolean(props.tag)}
+        {skip: !showRelated || !Boolean(props.tag)}
     )
 
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
         return <CarouselImage post={item}/>
     }
 
-    if (!posts?.length) return null
+    if (!showRelated || !posts?.length) return null
 
     return (
         <View style={styles.container}>

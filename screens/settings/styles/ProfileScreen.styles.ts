@@ -18,6 +18,11 @@ export const createStylesheet = (colors: ThemeColors) => {
             backgroundColor: colors.profileBG,
             gap: 10
         },
+        pfp: {
+            height: 40,
+            width: 40,
+            borderRadius: 5
+        },
         loginText: {
             color: colors.iconColor,
             fontFamily: fonts.honokaShinAntiqueKaku,

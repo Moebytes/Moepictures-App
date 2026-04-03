@@ -8,7 +8,8 @@ import React, {useEffect, useState, useRef} from "react"
 import {View, Text, Switch, Animated} from "react-native"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSearchSelector,
-useSearchActions} from "../store"
+useSearchActions,
+useSessionSelector} from "../store"
 import ScalableHaptic from "../ui/ScalableHaptic"
 import SlidingSelector from "../ui/SlidingSelector"
 import AllIcon from "../assets/svg/all.svg"
@@ -32,6 +33,7 @@ const PostsSheet: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {showPostsSheet} = useSheetSelector()
     const {setShowPostsSheet} = useSheetActions()
+    const {session} = useSessionSelector()
     const {imageType, ratingType, styleType, showChildren} = useSearchSelector()
     const {setImageType, setRatingType, setStyleType, setShowChildren} = useSearchActions()
     const [localType, setLocalType] = useState(imageType)
@@ -106,7 +108,14 @@ const PostsSheet: React.FunctionComponent = () => {
             {name: i18n.sortbar.rating.erotic, icon: EroticIcon, value: "erotic"}
         ] as any
 
+
+        let redRatings = [
+            {name: i18n.sortbar.rating.allL, icon: AllIcon, value: "all+l"},
+            {name: i18n.sortbar.rating.lewd, icon: LewdIcon, value: "lewd"}
+        ] as any
+
         return (
+            <>
             <View style={styles.row}>
                 <SlidingSelector
                     data={ratings}
@@ -120,6 +129,21 @@ const PostsSheet: React.FunctionComponent = () => {
                     activeTextColor={colors.white}
                 />
             </View>
+            {session.showR18 ? 
+            <View style={styles.row}>
+                <SlidingSelector
+                    data={redRatings}
+                    value={localRating}
+                    onChange={setLocalRating}
+                    inactiveColor={colors.optionRedInactive}
+                    activeColor={colors.optionRedActive}
+                    iconColor={colors.redIcon}
+                    activeIconColor={colors.white}
+                    textColor={colors.textColor}
+                    activeTextColor={colors.white}
+                />
+            </View> : null}
+            </>
         )
     }
 
@@ -207,7 +231,7 @@ const PostsSheet: React.FunctionComponent = () => {
     return (
         <TrueSheet
             ref={sheet}
-            detents={[0.79]}
+            detents={[0.85]}
             cornerRadius={30}
             grabber={false}
             backgroundColor={colors.background}

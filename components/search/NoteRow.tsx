@@ -79,7 +79,8 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>
-                    <Text style={styles.userText}>{props.note.updater}</Text>
+                    <Text style={[styles.userText, {color: functions.tag.getUserColor({username: props.note.updater, ...props.note}, colors)}]}>
+                        {functions.util.toProperCase(props.note.updater)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>

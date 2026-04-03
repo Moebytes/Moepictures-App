@@ -5,10 +5,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {ScrollView, View, Text, Switch, Linking, StatusBar} from "react-native"
+import {ScrollView, View, Text, Image, Switch, Linking, Alert, StatusBar} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeActions, useThemeSelector, useLayoutSelector, useSessionSelector, useSessionActions} from "../../store"
+import Toast from "react-native-toast-message"
+import {useThemeActions, useThemeSelector, useLayoutSelector, 
+useSessionSelector, useSessionActions, useFlagActions} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import KeyIcon from "../../assets/svg/key.svg"
@@ -18,16 +20,22 @@ import ContactIcon from "../../assets/svg/mail.svg"
 import HelpIcon from "../../assets/svg/help.svg"
 import RightIcon from "../../assets/svg/right.svg"
 import LinkIcon from "../../assets/svg/link.svg"
+import LogoutIcon from "../../assets/svg/logout.svg"
 import MoebytesLogo from "../../assets/svg/moebytes.svg"
 import {createStylesheet} from "./styles/ProfileScreen.styles"
 import {siteURL} from "../../ui/site"
+import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 
 const ProfileScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
-    const {headerHeight, tabBarHeight} = useLayoutSelector()
+    const {tabBarHeight} = useLayoutSelector()
     const {setTheme} = useThemeActions()
-    const {showRelated} = useSessionSelector()
-    const {setShowRelated} = useSessionActions()
+    const {session, userImg, showRelated, autosearchInterval,
+    privateFavorites, privateTagFavorites, upscaledImages, showR18} = useSessionSelector()
+    const {setShowRelated, setAutosearchInterval, setPrivateFavorites, 
+        setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
+    const {setSessionFlag} = useFlagActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
 
@@ -35,8 +43,66 @@ const ProfileScreen: React.FunctionComponent = () => {
         setTheme(theme === "light" ? "dark" : "light")
     }
 
-    const changeShowRelated = () => {
+    const changeShowRelated = async () => {
         setShowRelated(!showRelated)
+        if (session.username) {
+            await functions.http.post("/api/user/showrelated", null, session)
+            setSessionFlag(true)
+        }
+    }
+
+    const changeAutosearchInterval = async () => {
+        Alert.prompt(i18n.user.autosearchInterval, i18n.contextMenu.enterInterval, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.ok, onPress: async (value?: string) => {
+                const num = functions.util.safeNumber(value)
+                if (!num) return
+
+                setAutosearchInterval(num)
+
+                if (session.username) {
+                    await functions.http.post("/api/user/autosearchinterval", {interval: num}, session)
+                    setSessionFlag(true)
+                }
+            }}
+        ], "plain-text", String(autosearchInterval), "numeric", {cancelable: true})
+    }
+
+    const changePrivateFavorites = async () => {
+        setPrivateFavorites(!privateFavorites)
+        await functions.http.post("/api/user/favoritesprivacy", null, session)
+        setSessionFlag(true)
+    }
+
+    const changePrivateTagFavorites = async () => {
+        setPrivateTagFavorites(!privateTagFavorites)
+        await functions.http.post("/api/user/tagfavoritesprivacy", null, session)
+        setSessionFlag(true)
+    }
+
+    const changeUpscaledImages = async () => {
+        setUpscaledImages(!upscaledImages)
+        await functions.http.post("/api/user/upscaledimages", null, session)
+        setSessionFlag(true)
+    }
+
+    const changeShowR18 = async () => {
+        setShowR18(!showR18)
+        await functions.http.post("/api/user/r18", {r18: !showR18}, session)
+        setSessionFlag(true)
+    }
+
+    const logout = async () => {
+        Alert.alert(i18n.labels.logout, i18n.contextMenu.logout, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.labels.logout, style: "destructive", onPress: async () => {
+                await functions.http.post("/api/user/logout", null, session)
+                functions.http.privateKey = ""
+                functions.http.privateKeyLock = false
+                setSessionFlag(true)
+                Toast.show({text1: i18n.toast.loggedOut})
+            }}
+        ], {cancelable: true})
     }
 
     let iconSize = 21
@@ -52,15 +118,39 @@ const ProfileScreen: React.FunctionComponent = () => {
                     paddingBottom: tabBarHeight + 20
                 }}>
                 <View style={styles.buttonContainer}>
+                    {session.username ? 
+                    /* Profile Picture */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 
-                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}>
+                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}
+                        onPress={() => null}>
+                        <View style={styles.iconContainer}>
+                            <Image source={{uri: userImg}} style={styles.pfp}/>
+                            <Text style={styles.loginText}>{functions.util.toProperCase(session.username)}</Text>
+                        </View>
+                    </PressableHaptic> : 
+                    /* Login */
+                    <PressableHaptic style={({pressed}) => [styles.itemContainer, 
+                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}
+                        onPress={() => navigation.navigate("Login", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <KeyIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                             <Text style={styles.loginText}>{i18n.navbar.login}</Text>
                         </View>
-                    </PressableHaptic>
+                    </PressableHaptic>}
                 </View>
+                {session.username ? <View style={styles.buttonContainer}>
+                    /* Logout */
+                    <PressableHaptic style={({pressed}) => [styles.itemContainer, 
+                        {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}
+                        onPress={logout}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.loginText}>{i18n.labels.logout}</Text>
+                        </View>
+                            <LogoutIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+                </View> : null}
                 <View style={styles.buttonContainer}>
+                    /* Dark Theme */
                     <View style={styles.itemContainer}>
                         <Text style={styles.text}>{i18n.user.darkTheme}</Text>
                         <Switch
@@ -74,6 +164,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Language */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("Language", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -86,6 +177,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* App Color */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("AppColor", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -98,6 +190,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Show Related */
                     <View style={styles.itemContainer}>
                         <Text style={styles.text}>{i18n.user.showRelated}</Text>
                         <Switch
@@ -108,6 +201,79 @@ const ProfileScreen: React.FunctionComponent = () => {
                             ios_backgroundColor={colors.switchOff}
                         />
                     </View>
+
+                    <View style={styles.separator}/>
+
+                    /* Autosearch Interval */
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={changeAutosearchInterval} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.user.autosearchInterval}</Text>
+                        </View>
+                        <Text style={styles.text}>{autosearchInterval}</Text>
+                    </PressableHaptic>
+
+                    {session.username ? <>
+                    <View style={styles.separator}/>
+
+                    /* Private Favorites */
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>{i18n.user.privateFavorites}</Text>
+                        <Switch
+                            value={privateFavorites}
+                            onValueChange={changePrivateFavorites}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View></> : null}
+
+                    {session.username ? <>
+                    <View style={styles.separator}/>
+
+                    /* Private Tag Favorites */
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>{i18n.user.privateTagFavorites}</Text>
+                        <Switch
+                            value={privateTagFavorites}
+                            onValueChange={changePrivateTagFavorites}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View></> : null}
+
+                    {session.username ? <>
+                    <View style={styles.separator}/>
+
+                    /* Upscaled Images */
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>{i18n.user.upscaledImages}</Text>
+                        <Switch
+                            value={upscaledImages}
+                            onValueChange={changeUpscaledImages}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View></> : null}
+
+                    {permissions.isAdmin(session) ? <>
+                    <View style={styles.separator}/>
+
+                    /* Show R18 */
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>{i18n.user.showR18}</Text>
+                        <Switch
+                            value={showR18}
+                            onValueChange={changeShowR18}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View></> : null}
                 </View>
                 <View style={styles.buttonContainer}>
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 

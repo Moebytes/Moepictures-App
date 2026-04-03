@@ -37,13 +37,24 @@ export const noRotation = {
     childBorder: "#c59f23",
     groupBorder: "#ff5c2e",
     takendownBorder: "#7f0a0a",
-    lockedBorder: "#b40e1d"
+    lockedBorder: "#b40e1d",
+
+    userColor: "#4b48ff",
+    contributorColor: "#b948ff",
+    curatorColor: "#fc279f",
+    premiumColor: "#ff22e5",
+    systemColor: "#ffa923",
+    modColor: "#1365f6",
+    adminColor: "#d70c67"
 }
 
 export const noRotationLight = {
     blueIcon: "#628FFF",
     optionBlueActive: "#76AAFF",
     optionBlueInactive: "#E7F0FF",
+    redIcon: "#ff3277",
+    optionRedActive: "#e2296a",
+    optionRedInactive: "#ffc8da",
     optionReset: "#F2F0F7"
 }
 
@@ -51,12 +62,16 @@ export const noRotationDark = {
     blueIcon: "#628FFF",
     optionBlueActive: "#76AAFF",
     optionBlueInactive: "#182945",
+    redIcon: "#ff3277",
+    optionRedActive: "#ff377d",
+    optionRedInactive: "#451823",
     optionReset: "#F2F0F7"
 }
 
 export const sharedColors = {
     buttonColorGlass: "rgba(255, 87, 157, 0.57)",
-    toastColor: "#FF63B4"
+    toastColor: "#FF63B4",
+    drawerTitle: "#ff4cc6"
 }
 
 export const LightTheme = {
@@ -82,11 +97,10 @@ export const LightTheme = {
     moeTextB: "#FF5099",
 	profileItem: "#ffedf3",
     profileItemPressed: "#FFA3CB",
-	profileBG: "#ffc6e3",
+	profileBG: "#FFC6E3",
 	profileSeperator: "#ffc6e3",
 	profileLogin: "#ffe3f2",
 	itemBG: "#FFF1F8",
-    drawerTitle: "#ff2d8c",
     glassTint: "rgba(255, 160, 212, 0.5)",
     optionActive: "#FF4F91",
     optionInactive: "#FFEAF6"
@@ -119,7 +133,6 @@ export const DarkTheme = {
 	profileSeperator: "#4a092a",
 	profileLogin: "#361128",
 	itemBG: "#1B0B12",
-    drawerTitle: "#ff2d8c",
     glassTint: "rgba(72, 13, 47, 0.2)",
     optionActive: "#FF4F91",
     optionInactive: "#331928"

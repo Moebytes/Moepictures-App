@@ -6,20 +6,27 @@
 
 import React, {useState, useEffect} from "react"
 import {useWindowDimensions} from "react-native"
+import Toast from "react-native-toast-message"
 import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
-useSearchActions, useThemeSelector, useLayoutActions, useCacheActions} from "./store"
+useSearchActions, useThemeSelector, useLayoutActions, useCacheActions,
+useFlagActions, useFlagSelector} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import {Languages, PostSize, PostSort, Themes} from "./types/ParamTypes"
 import {siteURL} from "./ui/site"
 
+const favicon = require("./assets/icons/favicon.png")
+
 const AsyncStorage: React.FunctionComponent = () => {
-    const {theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
+    const {i18n, theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
     const {setTheme, setLanguage, setAppHue, setAppSaturation, setAppLightness} = useThemeActions()
+    const {sessionFlag} = useFlagSelector()
+    const {setSessionFlag} = useFlagActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags} = useCacheActions()
     const {session, showRelated} = useSessionSelector()
-    const {setSession, setShowRelated} = useSessionActions()
+    const {setSession, setUserImg, setShowRelated, setAutosearchInterval, 
+    setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
     const {scroll, square, sizeType, sortType, sortReverse} = useSearchSelector()
     const {setScroll, setSquare, setSizeType, setSortType, setSortReverse} = useSearchActions()
     const {width, height} = useWindowDimensions()
@@ -33,12 +40,35 @@ const AsyncStorage: React.FunctionComponent = () => {
     const setSessionCookie = async () => {
         await fetch(siteURL) // Make sure that we obtain a CSRF token
         const cookie = await functions.http.get("/api/user/session", null, session)
+        if (loaded && !session.username && cookie.username) {
+            let msg = language === "ja" ? `${functions.util.toProperCase(cookie.username)}${i18n.toast.loggedIn}` : 
+                `${i18n.toast.loggedIn}${functions.util.toProperCase(cookie.username)}`
+            Toast.show({text1: msg})
+        }
         setSession(cookie)
     }
 
     const updateCache = async () => {
         const sorted = await functions.cache.sortedTagCounts("all", session)
         setSortedTags(sorted)
+    }
+
+    const updatePfp = () => {
+        if (session.username) {
+            let img = session.image ? functions.link.getFolderLink("pfp", session.image, session.imageHash) : favicon.uri
+            setUserImg(img)
+        }
+    }
+
+    const syncSettings = () => {
+        if (session.username) {
+            setShowRelated(session.showRelated)
+            setAutosearchInterval(Math.floor(session.autosearchInterval / 1000))
+            setPrivateFavorites(!session.publicFavorites)
+            setPrivateTagFavorites(!session.publicTagFavorites)
+            setUpscaledImages(session.upscaledImages)
+            setShowR18(session.showR18)
+        }
     }
 
     const restoreSettings = async () => {
@@ -77,6 +107,18 @@ const AsyncStorage: React.FunctionComponent = () => {
         restoreSettings()
         setSessionCookie()
     }, [])
+
+    useEffect(() => {
+        updatePfp()
+        syncSettings()
+    }, [session])
+
+    useEffect(() => {
+        if (sessionFlag) {
+            setSessionCookie()
+            setSessionFlag(false)
+        }
+    }, [sessionFlag])
 
     useEffect(() => {
         if (!loaded) return

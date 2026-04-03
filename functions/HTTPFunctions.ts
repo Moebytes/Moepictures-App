@@ -7,7 +7,7 @@
 import functions from "./Functions"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import decryption from "../structures/Decryption"
-import {GetEndpoint, PostEndpoint, Session} from "../types/Types"
+import {GetEndpoint, PostEndpoint, PutEndpoint, DeleteEndpoint, Session} from "../types/Types"
 import {siteURL} from "../ui/site"
 
 export default class HTTPFunctions {
@@ -104,6 +104,38 @@ export default class HTTPFunctions {
                 text = JSON.parse(text)
             } catch {}
             return text as PostEndpoint<T>["response"]
+        } catch (err: any) {
+            return Promise.reject(err)
+        }
+    }
+
+    public static put = async <T extends string>(endpoint: T, data: PutEndpoint<T>["params"], session: Session) => {
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken}
+        try {
+            let body = data ? JSON.stringify(data) : null
+            let response = await fetch(siteURL + endpoint, {method: "PUT", headers, credentials: "include", body})
+            let text = await response.text()
+            if (!response.ok) throw new Error(text)
+            try {
+                text = JSON.parse(text)
+            } catch {}
+            return text as PutEndpoint<T>["response"]
+        } catch (err: any) {
+            return Promise.reject(err)
+        }
+    }
+
+    public static delete = async <T extends string>(endpoint: T, params: DeleteEndpoint<T>["params"], session: Session) => {
+        const headers = {"x-csrf-token": session.csrfToken}
+        try {
+            const parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
+            let response = await fetch(parsedURL, {method: "DELETE", headers, credentials: "include"})
+            let text = await response.text()
+            if (!response.ok) throw new Error(text)
+            try {
+                text = JSON.parse(text)
+            } catch {}
+            return text as DeleteEndpoint<T>["response"]
         } catch (err: any) {
             return Promise.reject(err)
         }

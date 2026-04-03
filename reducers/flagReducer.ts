@@ -12,12 +12,14 @@ import {PostSearch} from "../types/Types"
 const flagSlice = createSlice({
     name: "flag",
     initialState: {
+        sessionFlag: false,
         pageFlag: null as number | null,
         randomSearchFlag: false,
         imageSearchFlag: null as PostSearch[] | null,
         searchScrollFlag: false
     },
     reducers: {
+        setSessionFlag: (state, action) => {state.sessionFlag = action.payload},
         setPageFlag: (state, action) => {state.pageFlag = action.payload},
         setRandomSearchFlag: (state, action) => {state.randomSearchFlag = action.payload},
         setImageSearchFlag: (state, action) => {state.imageSearchFlag = action.payload},
@@ -26,12 +28,13 @@ const flagSlice = createSlice({
 })
 
 const {
-    setPageFlag, setRandomSearchFlag, setImageSearchFlag, setSearchScrollFlag
+    setSessionFlag, setPageFlag, setRandomSearchFlag, setImageSearchFlag, setSearchScrollFlag
 } = flagSlice.actions
 
 export const useFlagSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
+        sessionFlag: selector((state) => state.flag.sessionFlag),
         pageFlag: selector((state) => state.flag.pageFlag),
         randomSearchFlag: selector((state) => state.flag.randomSearchFlag),
         imageSearchFlag: selector((state) => state.flag.imageSearchFlag),
@@ -42,6 +45,7 @@ export const useFlagSelector = () => {
 export const useFlagActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
+        setSessionFlag: (state: boolean) => dispatch(setSessionFlag(state)),
         setPageFlag: (state: number | null) => dispatch(setPageFlag(state)),
         setRandomSearchFlag: (state: boolean) => dispatch(setRandomSearchFlag(state)),
         setImageSearchFlag: (state: PostSearch[] | null) => dispatch(setImageSearchFlag(state)),

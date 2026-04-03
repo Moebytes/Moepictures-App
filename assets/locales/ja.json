@@ -300,6 +300,8 @@
         "updateBio": "最新バイオ",
         "favoritesPrivacy": "お気に入り プライバシー",
         "tagFavoritesPrivacy": "タグ お気に入り プライバシー",
+        "privateFavorites": "非公開のお気に入り",
+        "privateTagFavorites": "非公開タグ お気に入り",
         "showRelated": "ショー関連",
         "showTooltips": "ツールチップの表示",
         "showTagTooltips": "タグのツールチップを表示する",
@@ -528,7 +530,9 @@
         "aliasing": "エイリアシング",
         "drawingTools": "描画ツール",
         "userProfile": "ユーザープロフィール",
-        "imageCount": "画像数"
+        "imageCount": "画像数",
+        "token": "トークン",
+        "logout": "ログアウト"
     },
     "contextMenu": {
         "openExternal": "外部リンクを開く",
@@ -537,7 +541,9 @@
         "saveLocation": "保存先を選択してください",
         "uploadLocation": "アップロード先を選択してください",
         "photos": "写真",
-        "files": "ファイル"
+        "files": "ファイル",
+        "logout": "本当にログアウトしますか？",
+        "enterInterval": "新しい間隔を入力してください"
     },
     "options": {
         "searchOptions": "検索オプション",
@@ -545,7 +551,9 @@
         "sort": "並べ替え"
     },
     "toast": {
-        "loginRequired": "この操作を行うには、ログインする必要があります。"
+        "loginRequired": "この操作を行うには、ログインする必要があります。",
+        "loggedIn": "としてログイン中",
+        "loggedOut": "ログアウトが完了しました！"
     },
     "errors": {
         "$401":"401エラー",
@@ -614,6 +622,7 @@
             "enable": "2FAを有効にする"
         },
         "$2fa": {
+            "title": "2FA",
             "heading": "2FAトークンを入力してください。",
             "token": "2FAトークン",
             "badToken": "悪いトークンだ。"
@@ -670,12 +679,14 @@
             "heading": "新しいIPロケーションが確認されました。アカウントにログインできるようになりました。"
         },
         "login": {
-            "signupText": "アカウントをお持ちでないですか？登録する",
+            "signupText": "アカウントをお持ちではありませんか？",
+            "signupText2": "登録する。",
             "forgotText": "パスワードをお忘れですか？",
             "captcha": "キャプチャを解く。",
             "error": "ユーザー名またはパスワードが無効です。",
             "rateLimit": "ログインの試行回数が多すぎます。",
-            "newIP": "新しいIPロケーションが検出されました。メールをチェックしてください。"
+            "newIP": "新しいIPロケーションが検出されました。メールをチェックしてください。",
+            "button": "ログイン"
         },
         "signup": {
             "title": "会員登録",

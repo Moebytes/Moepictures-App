@@ -20,12 +20,13 @@ interface Props extends Omit<PressableProps, "children"> {
     color?: string
     activeColor?: string
     scaleFactor?: number
+    containerStyle?: StyleProp<ViewStyle>
     style?: StyleProp<ViewStyle>
     hapticType?: HapticFeedbackTypes
 }
 
 const ScalableHaptic: React.FunctionComponent<Props> = ({children, onPressIn, onPressOut, icon: Icon, 
-    size, color, activeColor, scaleFactor = 0.85, style, ...props}) => {
+    size, color, activeColor, scaleFactor = 0.85, containerStyle, style, ...props}) => {
 
     const scale = useRef(new Animated.Value(1)).current
     const colorAnim = useRef(new Animated.Value(0)).current
@@ -62,7 +63,7 @@ const ScalableHaptic: React.FunctionComponent<Props> = ({children, onPressIn, on
     }
 
     return (
-        <Pressable onPressIn={pressIn} onPressOut={pressOut} {...props} hitSlop={10}>
+        <Pressable onPressIn={pressIn} onPressOut={pressOut} {...props} hitSlop={10} style={containerStyle}>
             {({pressed}) => (
                 <Animated.View style={[{transform: [{scale}]}, style]}>
                     {Icon ? <Icon width={size} height={size} color={pressed && activeColor ? activeColor : color}/> : null}

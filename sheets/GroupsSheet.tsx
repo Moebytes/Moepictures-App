@@ -70,7 +70,7 @@ const GroupsSheet: React.FunctionComponent = () => {
     return (
         <TrueSheet
             ref={sheet}
-            detents={[0.79]}
+            detents={[0.85]}
             cornerRadius={30}
             grabber={false}
             backgroundColor={colors.background}

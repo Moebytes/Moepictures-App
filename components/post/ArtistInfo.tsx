@@ -28,7 +28,7 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
     const navigation = useNavigation()
 
     useEffect(() => {
-        if (!props.artists) return
+        if (!props.artists?.[0]) return
         let pfp = functions.link.getTagLink(props.artists[0])
         setArtistPfp(pfp)
     }, [props.artists])
@@ -94,8 +94,8 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
             <View style={styles.artistContainer}>
                 {artistPfp && <Image style={styles.artistIcon} source={{uri: artistPfp}}/>}
                 <ScalableHaptic scaleFactor={0.95} 
-                onPress={() => navigation.navigate("Tag", {name: props.artists?.[0].tag!})}>
-                    <Text style={styles.artistText}>{props.artists?.[0].tag}</Text>
+                onPress={() => navigation.navigate("Tag", {name: props.artists?.[0]?.tag!})}>
+                    <Text style={styles.artistText}>{props.artists?.[0]?.tag}</Text>
                 </ScalableHaptic>
                 {getSourceIcon()}
                 {getMirrorIcon()}

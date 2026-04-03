@@ -39,7 +39,7 @@ type Props = {
 }
 
 const PostScreen: React.FunctionComponent<Props> = ({route}) => {
-  const {session} = useSessionSelector()
+  const {session, showRelated} = useSessionSelector()
   const {theme, colors} = useThemeSelector()
   const {tablet} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
@@ -75,7 +75,8 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   
   const related = useRelatedItems({
     tag: characterTag,
-    fallback: [seriesTag, artistTag].filter(Boolean) as string[]
+    fallback: [seriesTag, artistTag].filter(Boolean) as string[],
+    post
   })
 
   const {columns} = functions.image.getImageSize(sizeType, square, tablet)

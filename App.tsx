@@ -4,11 +4,12 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {NavigationContainer} from "@react-navigation/native"
+import React, {useRef} from "react"
+import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {ActionSheetProvider} from "@expo/react-native-action-sheet"
+import {useFlagActions, useSessionSelector} from "./store"
 import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
@@ -31,6 +32,9 @@ import TermsOfServiceScreen from "./screens/info/TermsScreen"
 import PrivacyPolicyScreen from "./screens/info/PrivacyScreen"
 import ContactScreen from "./screens/info/ContactScreen"
 import CopyrightRemovalScreen from "./screens/info/CopyrightRemovalScreen"
+import LoginScreen from "./screens/settings/LoginScreen"
+import $2FAScreen from "./screens/settings/2FAScreen"
+import functions from "./functions/Functions"
 
 export type StackParamList = {
   Posts: undefined
@@ -49,6 +53,10 @@ export type StackParamList = {
   Privacy: undefined
   Contact: undefined
   Copyright: undefined
+  Login: undefined
+  SignUp: undefined
+  $2FA: undefined
+  ForgotPassword: undefined
 }
 
 declare global {
@@ -60,11 +68,35 @@ declare global {
 const Stack = createNativeStackNavigator<StackParamList>()
 
 const App: React.FunctionComponent = () => {
+    const {session} = useSessionSelector()
+    const {setSessionFlag} = useFlagActions()
     const {top} = useSafeAreaInsets()
+    const navigationRef = useRef<NavigationContainerRef<StackParamList>>(null)
+
+    const destroy2FA = async () => {
+        try {
+            await functions.http.delete("/api/2fa/delete", null, session)
+            functions.http.privateKey = ""
+            functions.http.privateKeyLock = false
+            setSessionFlag(true)
+        } catch {
+            // ignore
+        }
+    }
+
+    const onNavigationChange = () => {
+        const currentRoute = navigationRef.current?.getCurrentRoute()?.name
+        if (!session.username && session.email) {
+          if (currentRoute !== "$2FA") {
+            destroy2FA()
+          }
+        }
+
+    }
 
     return (
       <ActionSheetProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef} onStateChange={onNavigationChange}>
           <AsyncStorage/>
           <SavePrompt/>
           <Dialogs/>
@@ -86,6 +118,8 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Privacy" component={PrivacyPolicyScreen}/>
             <Stack.Screen name="Contact" component={ContactScreen}/>
             <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
+            <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="$2FA" component={$2FAScreen}/>
           </Stack.Navigator>
           <Toast type="info" visibilityTime={2000} topOffset={top+10} config={{info: ToastUI}}/>
         </NavigationContainer>

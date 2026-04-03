@@ -8,23 +8,25 @@ import React, {useEffect, useEffectEvent, useState} from "react"
 import {View, Text, Pressable} from "react-native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchSelector, useSearchActions, 
-useSearchDialogActions, useSearchDialogSelector} from "../../store"
+useSearchDialogActions, useSearchDialogSelector,
+useSessionSelector} from "../../store"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
 import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
 import SizeIcon from "../../assets/svg/size.svg"
-import {PostSearch} from "../../types/Types"
+import {PostFull} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
     tag?: string
     fallback?: string[]
-    post?: PostSearch
+    post?: PostFull
 }
 
 export const useRelatedItems = (props: Props) => {
+    const {showRelated} = useSessionSelector()
     const {scroll, pageMultiplier, ratingType} = useSearchSelector()
     const [fallbackIndex, setFallbackIndex] = React.useState(-1)
     const [activeTag, setActiveTag] = useState(props.tag)
@@ -42,12 +44,14 @@ export const useRelatedItems = (props: Props) => {
 
     let rating = props.post?.rating || (functions.post.isR18(ratingType) ? ratingType : "all")
 
+    let active = props.post ? showRelated : true
+
     const infiniteQuery = useSearchPostsInfiniteQuery(
         {query: activeTag, type: props.post?.type || "mobile", 
         rating: functions.post.isR18(rating) ? rating : "all", 
         style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
         refreshKey},
-        {skip: !scroll}
+        {skip: !active || !scroll}
     )
 
     const pageQuery = useSearchPostsPageQuery(
@@ -55,10 +59,10 @@ export const useRelatedItems = (props: Props) => {
         rating: functions.post.isR18(rating) ? rating : "all", 
         style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all",
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
-        {skip: scroll}
+        {skip: !active || scroll}
     )
 
-    const posts = scroll
+    const posts = !active ? [] : scroll
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
@@ -104,6 +108,7 @@ interface RelatedProps {
 }
 
 const Related: React.FunctionComponent<RelatedProps> = (props) => {
+    const {showRelated} = useSessionSelector()
     const {i18n, colors} = useThemeSelector()
     const {scroll, square} = useSearchSelector()
     const {setScroll, setSquare} = useSearchActions()
@@ -112,6 +117,8 @@ const Related: React.FunctionComponent<RelatedProps> = (props) => {
     const styles = createStylesheet(colors)
 
     let iconSize = 22
+
+    if (!showRelated && !props.count) return null
 
     return (
         <View style={styles.container}>

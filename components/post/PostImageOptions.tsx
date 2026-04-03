@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, {useState, useEffect} from "react"
 import {View, Text} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import Toast from "react-native-toast-message"
@@ -29,15 +29,43 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setShowSavePrompt} = useMiscDialogActions()
+    const [favorited, setFavorited] = useState(false)
+    const [favGrouped, setFavGrouped] = useState(false)
     const styles = createStylesheet(colors)
     const {showActionSheetWithOptions} = useActionSheet()
 
-    const favorite = () => {
-        Toast.show({text1: i18n.toast.loginRequired})
+    const getFavorite = async () => {
+        if (!props.post || !session.username) return
+        const favorite = await functions.http.get("/api/favorite", {postID: props.post.postID}, session)
+        setFavorited(favorite ? true : false)
+    }
+
+    const getFavgroup = async () => {
+        if (!props.post || !session.username) return
+        const favgroups = await functions.http.get("/api/favgroups", {postID: props.post.postID}, session)
+        setFavGrouped(favgroups?.length ? true : false)
+    }
+
+    useEffect(() => {
+        getFavorite()
+        getFavgroup()
+    }, [props.post, session])
+
+    const favorite = async () => {
+        if (!props.post) return
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        let value = !favorited
+        await functions.http.post("/api/favorite/update", {postID: props.post.postID, favorited: value}, session)
+        setFavorited(value)
     }
 
     const favgroup = () => {
-        Toast.show({text1: i18n.toast.loginRequired})
+        if (!props.post) return
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
     }
 
     const downloadImage = async () => {
@@ -71,7 +99,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
             <ScalableHaptic icon={StarIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favorite}>
-                <Text style={styles.text}>{i18n.post.favorite}</Text>
+                <Text style={[styles.text, favorited && {color: colors.favoriteBorder}]}>{favorited ? i18n.post.favorited : i18n.post.favorite}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favgroup}>
