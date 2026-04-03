@@ -632,7 +632,7 @@
         },
         "changeEmail": {
             "heading": "A confirmation email will be sent to the new address. Your email will only be changed if you confirm the new one.",
-            "submitHeading": "A confirmation link has been sent to the new address. Your email will only get changed once you confirm it.",
+            "submitHeading": "A confirmation link has been sent to the new address. Your email will get changed once you confirm it.",
             "error": "Bad email or captcha.",
             "alreadySent": "Email already sent, check your email."
         },
@@ -651,7 +651,7 @@
             "submitHeading": "Your username has been changed.",
             "error": "Bad username or captcha.",
             "rateLimit": "You already changed your username in the last 7 days.",
-            "changeIn": "You can change your name in "
+            "changeIn": "You can change your name again in "
         },
         "forgotPassword": {
             "title": "Forgot Password",

@@ -289,6 +289,44 @@ const ProfileScreen: React.FunctionComponent = () => {
                         />
                     </View></> : null}
                 </View>
+
+                {session.username ? 
+                <View style={styles.buttonContainer}>
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("ChangeUsername", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.user.changeUsername}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+
+                    <View style={styles.separator}/>
+
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("ChangeEmail", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.user.changeEmail}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+
+                    <View style={styles.separator}/>
+
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("ChangePassword", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.user.changePassword}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+                </View> : null}
+
                 <View style={styles.buttonContainer}>
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("Terms", undefined, {pop: true})} 

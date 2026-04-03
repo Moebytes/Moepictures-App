@@ -37,6 +37,9 @@ import SignupScreen from "./screens/settings/SignupScreen"
 import $2FAScreen from "./screens/settings/2FAScreen"
 import ForgotPasswordScreen from "./screens/settings/ForgotPasswordScreen"
 import UserSettingsScreen from "./screens/settings/UserSettingsScreen"
+import ChangeUsernameScreen from "./screens/settings/ChangeUsernameScreen"
+import ChangePasswordScreen from "./screens/settings/ChangePasswordScreen"
+import ChangeEmailScreen from "./screens/settings/ChangeEmailScreen"
 import functions from "./functions/Functions"
 
 export type StackParamList = {
@@ -61,6 +64,9 @@ export type StackParamList = {
   $2FA: undefined
   ForgotPassword: undefined
   UserSettings: undefined
+  ChangeUsername: undefined
+  ChangePassword: undefined
+  ChangeEmail: undefined
 }
 
 declare global {
@@ -127,6 +133,9 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="$2FA" component={$2FAScreen}/>
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
             <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
+            <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
+            <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
+            <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
           </Stack.Navigator>
           <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
         </NavigationContainer>

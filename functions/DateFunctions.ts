@@ -43,4 +43,32 @@ export default class DateFunctions {
     
         return parseTime(seconds, i18n.time.second)
     }
+
+    public static timeUntil = (input: string | null, i18n: typeof enLocale) => {
+        if (!input) return "?"
+        const date = new Date(input.replace(/ +/g, "T"))
+        const now = new Date().getTime()
+        const seconds = Math.floor((date.getTime() - now) / 1000)
+    
+        const parseTime = (value: number, unit: string) => {
+            return i18n.time.plural ? `${value} ${unit}${value === 1 ? "" : i18n.time.plural}` : `${value}${unit}`
+        }
+    
+        const years = seconds / 31536000
+        if (years >= 1) return parseTime(Math.floor(years), i18n.time.year)
+    
+        const months = seconds / 2592000
+        if (months >= 1) return parseTime(Math.floor(months), i18n.time.month)
+    
+        const days = seconds / 86400
+        if (days >= 1) return parseTime(Math.floor(days), i18n.time.day)
+    
+        const hours = seconds / 3600
+        if (hours >= 1) return parseTime(Math.floor(hours), i18n.time.hour)
+    
+        const minutes = seconds / 60
+        if (minutes >= 1) return parseTime(Math.floor(minutes), i18n.time.minute)
+    
+        return parseTime(seconds, i18n.time.second)
+    }
 }

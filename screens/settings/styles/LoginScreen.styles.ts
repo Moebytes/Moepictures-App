@@ -93,6 +93,19 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 22,
             color: colors.buttonColor
         },
+        headerText: {
+            fontFamily: fonts.genEiMGothicV2,
+            fontSize: 17,
+            lineHeight: 20,
+            color: colors.black
+        },
+        headerText2: {
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 17,
+            lineHeight: 20,
+            marginTop: 3,
+            color: colors.drawerTitle
+        },
         inputWrapper: {
             display: "flex",
             justifyContent: "center",
