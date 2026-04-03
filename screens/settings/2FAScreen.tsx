@@ -11,7 +11,7 @@ import {SvgXml} from "react-native-svg"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {useFlagActions, useSessionSelector, useThemeSelector} from "../../store"
+import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import LeftIcon from "../../assets/svg/left.svg"
@@ -22,10 +22,11 @@ import functions from "../../functions/Functions"
 const loginBG = require("../../assets/images/loginBG.jpg")
 
 const $2FAScreen: React.FunctionComponent = () => {
+    const {tablet} = useLayoutSelector()
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setSessionFlag} = useFlagActions()
-    const styles = createStylesheet(colors)
+    const styles = createStylesheet(colors, tablet)
     const [token, setToken] = useState("")
     const [error, setError] = useState("")
     const navigation = useNavigation()
@@ -73,7 +74,7 @@ const $2FAScreen: React.FunctionComponent = () => {
                 source={loginBG} 
                 style={styles.container}
                 imageStyle={styles.containerBG}
-                blurRadius={7}>
+                blurRadius={tablet ? 2 : 7}>
                 <LiquidGlassView effect="clear" style={[styles.box, fallback]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.pages.$2fa.title}</Text>

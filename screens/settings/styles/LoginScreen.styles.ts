@@ -8,7 +8,7 @@ import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
 import {fonts} from "../../../ui/fonts"
 
-export const createStylesheet = (colors: ThemeColors) => {
+export const createStylesheet = (colors: ThemeColors, tablet: boolean) => {
     return StyleSheet.create({
         navContainer: {
             display: "flex",
@@ -40,7 +40,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             flex: 1
         },
         containerBG: {
-            resizeMode: "cover"
+            resizeMode: "cover",
+            height: tablet ? 1300 : undefined
         },
         box: {
             display: "flex",
