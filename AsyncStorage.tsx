@@ -15,8 +15,6 @@ import functions from "./functions/Functions"
 import {Languages, PostSize, PostSort, Themes} from "./types/ParamTypes"
 import {siteURL} from "./ui/site"
 
-const favicon = require("./assets/icons/favicon.png")
-
 const AsyncStorage: React.FunctionComponent = () => {
     const {i18n, theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
     const {setTheme, setLanguage, setAppHue, setAppSaturation, setAppLightness} = useThemeActions()
@@ -24,7 +22,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {setSessionFlag} = useFlagActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags} = useCacheActions()
-    const {session, showRelated} = useSessionSelector()
+    const {session, showRelated, autosearchInterval} = useSessionSelector()
     const {setSession, setUserImg, setShowRelated, setAutosearchInterval, 
     setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
     const {scroll, square, sizeType, sortType, sortReverse} = useSearchSelector()
@@ -41,9 +39,15 @@ const AsyncStorage: React.FunctionComponent = () => {
         await fetch(siteURL) // Make sure that we obtain a CSRF token
         const cookie = await functions.http.get("/api/user/session", null, session)
         if (loaded && !session.username && cookie.username) {
-            let msg = language === "ja" ? `${functions.util.toProperCase(cookie.username)}${i18n.toast.loggedIn}` : 
-                `${i18n.toast.loggedIn}${functions.util.toProperCase(cookie.username)}`
-            Toast.show({text1: msg})
+            if (cookie.deleted) {
+                await functions.http.put("/api/user/undelete", null, cookie)
+                Toast.show({text1: i18n.banner.accountRestored})
+                setSessionFlag(true)
+            } else {
+                let msg = language === "ja" ? `${functions.util.toProperCase(cookie.username)}${i18n.toast.loggedIn}` : 
+                    `${i18n.toast.loggedIn}${functions.util.toProperCase(cookie.username)}`
+                Toast.show({text1: msg})
+            }
         }
         setSession(cookie)
     }
@@ -55,7 +59,8 @@ const AsyncStorage: React.FunctionComponent = () => {
 
     const updatePfp = () => {
         if (session.username) {
-            let img = session.image ? functions.link.getFolderLink("pfp", session.image, session.imageHash) : favicon.uri
+            let img = session.image ? functions.link.getFolderLink("pfp", session.image, session.imageHash) : 
+                `${siteURL}/favicon.png`
             setUserImg(img)
         }
     }
@@ -80,6 +85,7 @@ const AsyncStorage: React.FunctionComponent = () => {
             "language",
             "scroll",
             "showRelated",
+            "autosearchInterval",
             "square", 
             "sizeType", 
             "sortType", 
@@ -99,6 +105,7 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (saved.sortType) setSortType(saved.sortType as PostSort)
         if (saved.sortReverse) setSortReverse(saved.sortReverse === "sortReverse")
         if (saved.showRelated) setShowRelated(saved.showRelated === "true")
+        if (saved.autosearchInterval) setAutosearchInterval(Number(saved.autosearchInterval))
 
         setLoaded(true)
     }
@@ -129,11 +136,12 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (!loaded) return
         asyncStorage.setItem("theme", theme)
         asyncStorage.setItem("language", language)
-        asyncStorage.setItem("showRelated", String(showRelated))
         asyncStorage.setItem("appHue", String(appHue))
         asyncStorage.setItem("appSaturation", String(appSaturation))
         asyncStorage.setItem("appLightness", String(appLightness))
-    }, [theme, language, appHue, appSaturation, appLightness, showRelated])
+        asyncStorage.setItem("showRelated", String(showRelated))
+        asyncStorage.setItem("autosearchInterval", String(autosearchInterval))
+    }, [theme, language, appHue, appSaturation, appLightness, showRelated, autosearchInterval])
 
     useEffect(() => {
         if (!loaded) return

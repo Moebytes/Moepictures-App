@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {ScrollView, View, Text, Image, Switch, Linking, Alert, StatusBar} from "react-native"
+import {ScrollView, View, Text, Image, Switch, Linking, StatusBar} from "react-native"
+import Alert from "@blazejkustra/react-native-alert"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
@@ -87,9 +88,22 @@ const ProfileScreen: React.FunctionComponent = () => {
     }
 
     const changeShowR18 = async () => {
-        setShowR18(!showR18)
-        await functions.http.post("/api/user/r18", {r18: !showR18}, session)
-        setSessionFlag(true)
+        let newValue = !showR18
+
+        if (newValue) {
+            Alert.alert(i18n.dialogs.r18.title, i18n.dialogs.r18.header, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.enable, style: "destructive", onPress: async () => {
+                    setShowR18(true)
+                    await functions.http.post("/api/user/r18", {r18: true}, session)
+                    setSessionFlag(true)
+                }}
+            ], {cancelable: true})
+        } else {
+            setShowR18(false)
+            await functions.http.post("/api/user/r18", {r18: false}, session)
+            setSessionFlag(true)
+        }
     }
 
     const logout = async () => {
@@ -122,7 +136,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     /* Profile Picture */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 
                         {backgroundColor: pressed ? colors.profileItemPressed : colors.profileLogin}]}
-                        onPress={() => null}>
+                        onPress={() => navigation.navigate("UserSettings", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <Image source={{uri: userImg}} style={styles.pfp}/>
                             <Text style={styles.loginText}>{functions.util.toProperCase(session.username)}</Text>

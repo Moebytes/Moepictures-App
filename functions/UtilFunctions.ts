@@ -66,6 +66,22 @@ export default class UtilFunctions {
         return Number(text)
     }
 
+    public static alphaNumeric(str: string) {
+        for (let i = 0; i < str.length; i++) {
+          const code = str.charCodeAt(i)
+          if (!(code > 47 && code < 58) && // 0-9
+              !(code > 64 && code < 91) && // A-Z
+              !(code > 96 && code < 123)) { // a-z
+            return false
+          }
+        }
+        return true
+    }
+
+    public static stripLinks = (text: string) => {
+        return text.replace(/(https?:\/\/[^\s]+)/g, "").replace(/(:[^\s]+:)/g, "")
+    }
+
     public static readableFileSize = (bytes: number) => {
         const i = bytes === 0 ? 0 : Math.floor(Math.log(bytes) / Math.log(1024))
         return `${Number((bytes / Math.pow(1024, i)).toFixed(2))} ${["B", "KB", "MB", "GB", "TB"][i]}`

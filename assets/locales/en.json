@@ -247,7 +247,8 @@
         "dark": "Dark",
         "set": "Set",
         "remap": "Remap",
-        "apply": "Apply"
+        "apply": "Apply",
+        "continue": "Continue"
     },
     "history": {
         "post": "Post History",
@@ -551,8 +552,11 @@
     },
     "toast": {
         "loginRequired": "You must login to use this action.",
+        "verificationRequired": "You must verify your email to use this action.",
         "loggedIn": "Logged in as ",
-        "loggedOut": "Successfully logged out!"
+        "loggedOut": "Successfully logged out!",
+        "deletedAccount": "Your account was deleted.",
+        "deletedAccountFailure": "Deletion failed, make sure you type the correct input."
     },
     "errors": {
         "$401":"401 error",
@@ -689,13 +693,18 @@
         },
         "signup": {
             "title": "Sign Up",
-            "loginText": "Already have an account? Login.",
-            "submitHeading": "Your account has been created. You should have received a confirmation link in your email. Please verify your email and login again.",
+            "loginText": "Already have an account?",
+            "loginText2": "Login.",
+            "submitHeading": "Your account has been created. Please verify your email and login again.",
             "error": "Bad username, password, or email.",
             "rateLimit": "Too many accounts created, try again later.",
             "banned": "This IP is associated with a banned account.",
             "lengthReq": "-Passwords must contain at least 10 characters",
             "varietyReq": "-At least three of the following: lowercase letters, uppercase letters, numbers, and special symbols"
+        },
+        "userSettings": {
+            "title": "User Settings",
+            "dangerZone": "Danger Zone"
         },
         "ipBlacklist": {
             "title": "Blacklist IP",
@@ -936,7 +945,8 @@
             "header": "Are you sure that you want to delete your account? This action is irreversible. You will lose all of your favorites, comments, cuteness ratings, etc.",
             "header2": "Since Moepictures is a site focused on community contributions, we will not remove your submitted posts. The account that uploaded these posts will show up as \"deleted\".",
             "header3": "There is a 90-day grace period before your account is fully deleted. If you login again during this period, we will cancel the deletion and restore your account.",
-            "header4": "Are you sure that you want to continue?"
+            "header4": "Are you sure that you want to continue?",
+            "confirmation": "Please enter \"delete\" to confirm deletion."
         },
         "deleteAliasHistory": {
             "aliasTitle": "Delete Alias History",
@@ -1154,8 +1164,8 @@
         },
         "r18": {
             "pageTitle": "R18 Confirmation",
-            "title": "Warning: Explicit Content",
-            "header": "R18 Content is only suitable to be viewed by people over the age of 18. By continuing, you confirm that you are 18 years old or older and willing to view such content."
+            "title": "Enable R18",
+            "header": "R18 Content is only suitable for people over the age of 18. By continuing you confirm that you are 18 years old or older."
         },
         "promote": {
             "title": "Promote User"

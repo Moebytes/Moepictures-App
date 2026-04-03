@@ -56,6 +56,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!session.username) {
             return Toast.show({text1: i18n.toast.loginRequired})
         }
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
         let value = !favorited
         await functions.http.post("/api/favorite/update", {postID: props.post.postID, favorited: value}, session)
         setFavorited(value)
@@ -65,6 +68,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         if (!session.username) {
             return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
         }
     }
 

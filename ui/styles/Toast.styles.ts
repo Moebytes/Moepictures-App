@@ -14,7 +14,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-start",
-            alignItems: "center",
+            alignItems: "flex-start",
             paddingHorizontal: 10,
             paddingVertical: 15,
             borderRadius: 10,
@@ -29,12 +29,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "flex-start",
             alignItems: "center",
+            width: "90%",
             flexWrap: "wrap"
         },
         text: {
             color: colors.textColor,
             fontFamily: fonts.jkGothicM,
-            textAlign: "center",
             fontSize: 15,
             lineHeight: 19
         }

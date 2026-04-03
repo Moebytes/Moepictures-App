@@ -70,7 +70,8 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
             if ((activeRoute === "Terms" || activeRoute === "Privacy" || activeRoute === "Contact"
                 || activeRoute === "Copyright") && tab.screen === "Profile") active = true
             if ((activeRoute === "Login" || activeRoute === "SignUp" || activeRoute === "2FA"
-                || activeRoute === "ForgotPassword") && tab.screen === "Profile") active = true
+                || activeRoute === "ForgotPassword" || activeRoute === "UserSettings") 
+                && tab.screen === "Profile") active = true
 
             jsx.push(
                 <Pressable style={styles.iconContainer} key={tab.screen}

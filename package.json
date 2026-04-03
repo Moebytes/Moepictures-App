@@ -13,6 +13,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@blazejkustra/react-native-alert": "^1.0.0",
     "@callstack/liquid-glass": "^0.7.0",
     "@expo/react-native-action-sheet": "^4.1.1",
     "@lodev09/react-native-true-sheet": "^3.9.9",

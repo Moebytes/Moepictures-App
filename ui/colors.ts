@@ -45,7 +45,9 @@ export const noRotation = {
     premiumColor: "#ff22e5",
     systemColor: "#ffa923",
     modColor: "#1365f6",
-    adminColor: "#d70c67"
+    adminColor: "#d70c67",
+
+    dangerColor: "#FF2D99"
 }
 
 export const noRotationLight = {
@@ -97,6 +99,7 @@ export const LightTheme = {
     moeTextB: "#FF5099",
 	profileItem: "#ffedf3",
     profileItemPressed: "#FFA3CB",
+    profileItemPressed2: "#ff79b3",
 	profileBG: "#FFC6E3",
 	profileSeperator: "#ffc6e3",
 	profileLogin: "#ffe3f2",
@@ -129,6 +132,7 @@ export const DarkTheme = {
     moeTextB: "#FF5099",
 	profileItem: "#28111f",
     profileItemPressed: "#611B47",
+    profileItemPressed2: "#7d225c",
 	profileBG: "#1A040F",
 	profileSeperator: "#4a092a",
 	profileLogin: "#361128",

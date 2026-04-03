@@ -9,7 +9,7 @@ import {NavigationContainer, NavigationContainerRef} from "@react-navigation/nat
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {ActionSheetProvider} from "@expo/react-native-action-sheet"
-import {useFlagActions, useSessionSelector} from "./store"
+import {useFlagActions, useSessionSelector, useThemeSelector} from "./store"
 import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
@@ -33,7 +33,10 @@ import PrivacyPolicyScreen from "./screens/info/PrivacyScreen"
 import ContactScreen from "./screens/info/ContactScreen"
 import CopyrightRemovalScreen from "./screens/info/CopyrightRemovalScreen"
 import LoginScreen from "./screens/settings/LoginScreen"
+import SignupScreen from "./screens/settings/SignupScreen"
 import $2FAScreen from "./screens/settings/2FAScreen"
+import ForgotPasswordScreen from "./screens/settings/ForgotPasswordScreen"
+import UserSettingsScreen from "./screens/settings/UserSettingsScreen"
 import functions from "./functions/Functions"
 
 export type StackParamList = {
@@ -57,6 +60,7 @@ export type StackParamList = {
   SignUp: undefined
   $2FA: undefined
   ForgotPassword: undefined
+  UserSettings: undefined
 }
 
 declare global {
@@ -68,6 +72,7 @@ declare global {
 const Stack = createNativeStackNavigator<StackParamList>()
 
 const App: React.FunctionComponent = () => {
+    const {i18n} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setSessionFlag} = useFlagActions()
     const {top} = useSafeAreaInsets()
@@ -91,7 +96,6 @@ const App: React.FunctionComponent = () => {
             destroy2FA()
           }
         }
-
     }
 
     return (
@@ -119,9 +123,12 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Contact" component={ContactScreen}/>
             <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
             <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="SignUp" component={SignupScreen}/>
             <Stack.Screen name="$2FA" component={$2FAScreen}/>
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
+            <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
           </Stack.Navigator>
-          <Toast type="info" visibilityTime={2000} topOffset={top+10} config={{info: ToastUI}}/>
+          <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
         </NavigationContainer>
       </ActionSheetProvider>
     )
