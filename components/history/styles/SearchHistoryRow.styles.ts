@@ -34,7 +34,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "flex-start",
             paddingHorizontal: 6,
             paddingVertical: 7,
-            gap: 7,
+            gap: 4,
             flexShrink: 1,
             flexWrap: "wrap"
         },
@@ -44,22 +44,21 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             gap: 5
         },
-        userText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 15
-        },
         dateText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.irohamaruMikami,
-            fontSize: 12
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 13,
+            color: colors.textColor,
+            fontStyle: "italic"
+        },
+        label: {
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 13,
+            color: colors.iconColor
         },
         text: {
-            color: colors.textColor,
-            fontFamily: fonts.irohamaruMikami,
-            fontSize: 13
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 13,
+            color: colors.textColor
         }
     })
 }

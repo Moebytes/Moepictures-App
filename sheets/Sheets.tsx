@@ -9,6 +9,7 @@ import CommentsSheet from "./CommentsSheet"
 import GroupsSheet from "./GroupsSheet"
 import NotesSheet from "./NotesSheet"
 import PostsSheet from "./PostsSheet"
+import SearchHistorySheet from "./SearchHistorySheet"
 import TagsSheet from "./TagsSheet"
 
 const Sheets: React.FunctionComponent = () => {
@@ -18,6 +19,7 @@ const Sheets: React.FunctionComponent = () => {
         <GroupsSheet/>
         <NotesSheet/>
         <PostsSheet/>
+        <SearchHistorySheet/>
         <TagsSheet/>
         </>
     )

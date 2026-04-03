@@ -33,40 +33,18 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         setArtistPfp(pfp)
     }, [props.artists])
 
-    const onSourcePress = async (link?: string) => {
-        if (!props.post) return
-
-        let appURL = ""
-        let webURL = link ?? ""
-        if (webURL.includes("pixiv")) {
-            appURL = `pixiv://${webURL.split("//")[1]}`
-        } else if (webURL.includes("twitter.com") || webURL.includes("x.com")) {
-            const tweetMatch = webURL.match(/status\/(\d+)/)
-            if (tweetMatch?.[1]) {
-                const tweetID = tweetMatch[1]
-                appURL = `twitter://status?id=${tweetID}`
-            }
-        }
-        
-        if (appURL && await Linking.canOpenURL(appURL)) {
-            Linking.openURL(appURL)
-        } else {
-            Linking.openURL(webURL)
-        }
-    }
-
     const getSourceIcon = () => {
         if (!props.post) return null
         if (props.post?.source?.includes("pixiv.net")) {
             return (
-                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSourceLink(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
                 </ScalableHaptic>
             )
         } else if (props.post?.source?.includes("twitter.com") || 
             props.post?.source?.includes("x.com")) {
             return (
-                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.source)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSourceLink(props.post?.source)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
                 </ScalableHaptic>
             )
@@ -77,13 +55,13 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return null
         if (props.post?.mirrors?.pixiv) {
             return (
-                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.mirrors?.pixiv)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSourceLink(props.post?.mirrors?.pixiv)}>
                     <Image style={styles.sourceIcon} source={pixiv}/>
                 </ScalableHaptic>
             )
         } else if (props.post?.mirrors?.twitter) {
             return (
-                <ScalableHaptic scaleFactor={0.95} onPress={() => onSourcePress(props.post?.mirrors?.twitter)}>
+                <ScalableHaptic scaleFactor={0.95} onPress={() => functions.link.openSourceLink(props.post?.mirrors?.twitter)}>
                     <Image style={styles.sourceIcon} source={twitter}/>
                 </ScalableHaptic>
             )

@@ -4,6 +4,8 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+import enLocale from "../assets/locales/en.json"
+
 export default class UtilFunctions {
     public static arrayIncludes = (str: string | undefined, arr: string[]) => {
         for (let i = 0; i < arr.length; i++) {
@@ -97,5 +99,17 @@ export default class UtilFunctions {
 
     public static removeItem = <T>(array: T[], value: T) => {
         return array.filter((item) => JSON.stringify(item) !== JSON.stringify(value))
+    }
+
+    public static getSiteName = (link: string, i18n: typeof enLocale) => {
+        try {
+            if (link.includes("pximg.net")) return "Pximg"
+            if (link.includes("pbs.twimg")) return "Twimg"
+            const domain = new URL(link).hostname.replace("www.", "").split(".")?.[0] || ""
+            if (domain.toLowerCase() === "yande") return "Yandere"
+            return this.toProperCase(domain)
+        } catch {
+            return i18n.labels.unknown || "Unknown"
+        }
     }
 }

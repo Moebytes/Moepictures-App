@@ -85,4 +85,25 @@ export default class LinkFunctions {
             Linking.openURL(webURL)
         }
     }
+
+    public static openSourceLink = async (link?: string | null) => {
+        let appURL = ""
+        let webURL = link ?? ""
+
+        if (webURL.includes("pixiv")) {
+            appURL = `pixiv://${webURL.split("//")[1]}`
+        } else if (webURL.includes("twitter.com") || webURL.includes("x.com")) {
+            const tweetMatch = webURL.match(/status\/(\d+)/)
+            if (tweetMatch?.[1]) {
+                const tweetID = tweetMatch[1]
+                appURL = `twitter://status?id=${tweetID}`
+            }
+        }
+        
+        if (appURL && await Linking.canOpenURL(appURL)) {
+            Linking.openURL(appURL)
+        } else {
+            Linking.openURL(webURL)
+        }
+    }
 }

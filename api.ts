@@ -190,6 +190,33 @@ export const api = createApi({
             })
         }),
 
+        searchHistory: builder.infiniteQuery<
+            GetEndpoint<"/api/user/history">["response"], 
+            GetEndpoint<"/api/user/history">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/user/history", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        searchHistoryPage: builder.query<
+            GetEndpoint<"/api/user/history">["response"], 
+            GetEndpoint<"/api/user/history">["params"] & {refreshKey?: number}
+        >({
+            query: (params) => ({
+                url: "/api/user/history", params
+            })
+        }),
+
         getPost: builder.query<
             GetEndpoint<"/api/post">["response"], 
             GetEndpoint<"/api/post">["params"]
@@ -257,6 +284,8 @@ export const {
     useSearchTagsPageQuery,
     useSearchGroupsInfiniteQuery,
     useSearchGroupsPageQuery,
+    useSearchHistoryInfiniteQuery,
+    useSearchHistoryPageQuery,
     useGetPostQuery,
     useGetPostParentQuery,
     useGetPostChildrenQuery,

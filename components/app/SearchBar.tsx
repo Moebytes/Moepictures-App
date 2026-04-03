@@ -35,9 +35,9 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     let {setText, setFocused, setSearchTags, setSearch} = useSearchActions()
     const {searchScrollFlag} = useFlagSelector()
     const {setRandomSearchFlag, setSearchScrollFlag} = useFlagActions()
-    const {showCommentsSheet, showNotesSheet, 
+    const {showCommentsSheet, showNotesSheet, showSearchHistorySheet,
         showGroupsSheet, showTagsSheet} = useSheetSelector()
-    const {setShowCommentsSheet, setShowNotesSheet, 
+    const {setShowCommentsSheet, setShowNotesSheet, setShowSearchHistorySheet,
         setShowGroupsSheet, setShowTagsSheet} = useSheetActions()
     const styles = createStylesheet(colors)
     const inputRef = useRef<TextInput>(null)
@@ -106,6 +106,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
             setShowTagsSheet(!showTagsSheet)
         } else if (route.name === "Groups") {
             setShowGroupsSheet(!showGroupsSheet)
+        } else if (route.name === "History") {
+            setShowSearchHistorySheet(!showSearchHistorySheet)
         }
     }
 

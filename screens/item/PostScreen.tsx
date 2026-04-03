@@ -69,6 +69,16 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     setOpen((prev) => !prev)
   }
 
+  const saveHistory = async () => {
+    if (post && session.username) {
+      await functions.http.post("/api/post/view", {postID: post.postID}, session)
+    }
+  }
+
+  useEffect(() => {
+    saveHistory()
+  }, [post, session])
+
   const characterTag = tagCategories?.characters?.[0]?.tag
   const seriesTag = tagCategories?.series?.[0]?.tag
   const artistTag = tagCategories?.artists?.[0]?.tag

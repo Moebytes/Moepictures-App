@@ -15,20 +15,22 @@ const sheetSlice = createSlice({
         showCommentsSheet: false,
         showNotesSheet: false,
         showTagsSheet: false,
-        showGroupsSheet: false
+        showGroupsSheet: false,
+        showSearchHistorySheet: false
     },
     reducers: {
         setShowPostsSheet: (state, action) => {state.showPostsSheet = action.payload},
         setShowCommentsSheet: (state, action) => {state.showCommentsSheet = action.payload},
         setShowNotesSheet: (state, action) => {state.showNotesSheet = action.payload},
         setShowTagsSheet: (state, action) => {state.showTagsSheet = action.payload},
-        setShowGroupsSheet: (state, action) => {state.showGroupsSheet = action.payload}
+        setShowGroupsSheet: (state, action) => {state.showGroupsSheet = action.payload},
+        setShowSearchHistorySheet: (state, action) => {state.showSearchHistorySheet = action.payload}
     }
 })
 
 const {
     setShowPostsSheet, setShowCommentsSheet, setShowNotesSheet, 
-    setShowTagsSheet, setShowGroupsSheet
+    setShowTagsSheet, setShowGroupsSheet, setShowSearchHistorySheet
 } = sheetSlice.actions
 
 export const useSheetSelector = () => {
@@ -38,7 +40,8 @@ export const useSheetSelector = () => {
         showCommentsSheet: selector((state) => state.sheet.showCommentsSheet),
         showNotesSheet: selector((state) => state.sheet.showNotesSheet),
         showTagsSheet: selector((state) => state.sheet.showTagsSheet),
-        showGroupsSheet: selector((state) => state.sheet.showGroupsSheet)
+        showGroupsSheet: selector((state) => state.sheet.showGroupsSheet),
+        showSearchHistorySheet: selector((state) => state.sheet.showSearchHistorySheet)
     }
 }
 
@@ -49,7 +52,8 @@ export const useSheetActions = () => {
         setShowCommentsSheet: (state: boolean) => dispatch(setShowCommentsSheet(state)),
         setShowNotesSheet: (state: boolean) => dispatch(setShowNotesSheet(state)),
         setShowTagsSheet: (state: boolean) => dispatch(setShowTagsSheet(state)),
-        setShowGroupsSheet: (state: boolean) => dispatch(setShowGroupsSheet(state))
+        setShowGroupsSheet: (state: boolean) => dispatch(setShowGroupsSheet(state)),
+        setShowSearchHistorySheet: (state: boolean) => dispatch(setShowSearchHistorySheet(state))
     }
 }
 

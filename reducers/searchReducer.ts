@@ -37,7 +37,8 @@ const searchSlice = createSlice({
         noteSort: "date" as CommentSort,
         groupSort: "date" as GroupSort,
         tagSort: "posts" as TagSort,
-        tagType: "all" as TagType
+        tagType: "all" as TagType,
+        searchHistorySort: "date" as CommentSort
     },
     reducers: {
         setSearch: (state, action) => {state.search = action.payload},
@@ -64,7 +65,8 @@ const searchSlice = createSlice({
         setNoteSort: (state, action) => {state.noteSort = action.payload},
         setGroupSort: (state, action) => {state.groupSort = action.payload},
         setTagSort: (state, action) => {state.tagSort = action.payload},
-        setTagType: (state, action) => {state.tagType = action.payload}
+        setTagType: (state, action) => {state.tagType = action.payload},
+        setSearchHistorySort: (state, action) => {state.searchHistorySort = action.payload}
     }    
 })
 
@@ -73,7 +75,7 @@ const {
     setSortType, setSortReverse, setSquare, setScroll, setAutoScroll, setPageMultiplier,
     setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren,
     setText, setFocused, setSearchTags, setCommentSort, setNoteSort, setGroupSort,
-    setTagSort, setTagType
+    setTagSort, setTagType, setSearchHistorySort
 } = searchSlice.actions
 
 export const useSearchSelector = () => {
@@ -103,7 +105,8 @@ export const useSearchSelector = () => {
         noteSort: selector((state) => state.search.noteSort),
         groupSort: selector((state) => state.search.groupSort),
         tagSort: selector((state) => state.search.tagSort),
-        tagType: selector((state) => state.search.tagType)
+        tagType: selector((state) => state.search.tagType),
+        searchHistorySort: selector((state) => state.search.searchHistorySort)
     }
 }
 
@@ -134,7 +137,8 @@ export const useSearchActions = () => {
         setNoteSort: (state: CommentSort) => dispatch(setNoteSort(state)),
         setGroupSort: (state: GroupSort) => dispatch(setGroupSort(state)),
         setTagSort: (state: TagSort) => dispatch(setTagSort(state)),
-        setTagType: (state: TagType) => dispatch(setTagType(state))
+        setTagType: (state: TagType) => dispatch(setTagType(state)),
+        setSearchHistorySort: (state: CommentSort) => dispatch(setSearchHistorySort(state))
     }
 }
 

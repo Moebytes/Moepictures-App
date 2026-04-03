@@ -24,7 +24,7 @@ import TagsScreen from "./screens/search/TagsScreen"
 import TagScreen from "./screens/item/TagScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import GroupScreen from "./screens/item/GroupScreen"
-import HistoryScreen from "./screens/search/HistoryScreen"
+import SearchHistoryScreen from "./screens/history/SearchHistoryScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
 import AppColorScreen from "./screens/settings/AppColorScreen"
@@ -120,7 +120,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Tag" component={TagScreen}/>
             <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Group" component={GroupScreen}/>
-            <Stack.Screen name="History" component={HistoryScreen}/>
+            <Stack.Screen name="History" component={SearchHistoryScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>
             <Stack.Screen name="AppColor" component={AppColorScreen}/>
