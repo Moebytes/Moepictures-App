@@ -13,7 +13,6 @@ import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
-import TabBar from "../../components/app/TabBar"
 import LeftIcon from "../../assets/svg/left.svg"
 import {createStylesheet} from "./styles/LoginScreen.styles"
 import UserIcon from "../../assets/svg/user.svg"
@@ -183,7 +182,6 @@ const LoginScreen: React.FunctionComponent = () => {
                     </View>
                 </LiquidGlassView>
             </ImageBackground>
-            <TabBar relative={true}/>
         </View>
     )
 }

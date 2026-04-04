@@ -19,6 +19,7 @@ import TagsIcon from "../../assets/svg/tags.svg"
 import GroupsIcon from "../../assets/svg/groups.svg"
 import HistoryIcon from "../../assets/svg/history.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
+import clone from "fast-clone"
 
 interface Props {
     relative?: boolean
@@ -49,6 +50,27 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         }).start()
     }, [props.visible])
 
+    const openTab = (screen: keyof StackParamList) => {
+        if (screen === "Posts") {
+            const state = navigation.getState()!
+
+            const routes = clone(state.routes)
+            let lastRoute = routes[routes.length - 1]
+
+            if (routes.map((r) => r.name).includes("Post")) {
+                if (lastRoute.name !== "Post") {
+                    const route = routes.reverse().find((r) => r.name === "Post")
+                    const params = route?.params as {postID: string}
+                    return navigation.navigate("Post", {postID: params.postID}, {pop: true})
+                }
+            }
+
+            navigation.navigate("Posts", undefined as any, {pop: true})
+        } else {
+            navigation.navigate(screen, undefined as any, {pop: true})
+        }
+    }
+
     const generateTabsJSX = () => {
         let jsx = [] as React.ReactElement[]
 
@@ -75,7 +97,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
 
             jsx.push(
                 <Pressable style={styles.iconContainer} key={tab.screen}
-                    onPress={() => navigation.navigate(tab.screen, undefined as any, {pop: true})}>
+                    onPress={() => openTab(tab.screen)}>
                     <Icon width={iconSize} height={iconSize} 
                     color={colors.iconColor}/>
                     <Text style={active ? styles.activeText : styles.text}>{tab.name}</Text>

@@ -54,8 +54,7 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
         functions.navigateToPost(props.post.postID, navigation)
     }
 
-
-    const borderWidth = pressed ? 3 :0
+    const borderWidth = pressed ? 3 : 0
     const landscape = size.width > size.height
     const imageSize = landscape ?
         {width: size.width - borderWidth * 2, height: size.height} : 

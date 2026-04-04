@@ -10,11 +10,12 @@ import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-m
 import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
-import {PostFull} from "../../types/Types"
+import {PostFull, Image as VariantImage} from "../../types/Types"
 import {siteURL} from "../../ui/site"
 
 interface Props {
     post?: PostFull
+    image?: VariantImage | null
 }
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
@@ -29,11 +30,11 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
-        if (!props.post) return
-        const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+        if (!props.image) return
+        const img = functions.link.getImageLink(props.image, session.upscaledImages)
         setImg(img)
         setLoaded(false)
-    }, [props.post])
+    }, [props.image])
 
     useEffect(() => {
         const updateSize = async () => {

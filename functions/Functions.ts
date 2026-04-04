@@ -67,7 +67,7 @@ export default class Functions {
         let lastRoute = routes[routes.length - 1]
 
         if (lastRoute.name !== "Post") {
-            return navigation.navigate("Post", {postID: postID.toString()})
+            return navigation.navigate("Post", {postID: postID.toString()}, {pop: true})
         }
 
         const newRoute = {

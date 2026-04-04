@@ -7,13 +7,11 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, TextInput, ImageBackground, Animated, StatusBar} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {SvgXml} from "react-native-svg"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
-import TabBar from "../../components/app/TabBar"
 import LeftIcon from "../../assets/svg/left.svg"
 import {createStylesheet} from "./styles/LoginScreen.styles"
 import TokenIcon from "../../assets/svg/token.svg"
@@ -115,7 +113,6 @@ const $2FAScreen: React.FunctionComponent = () => {
                     </View>
                 </LiquidGlassView>
             </ImageBackground>
-            <TabBar relative={true}/>
         </View>
     )
 }

@@ -21,6 +21,7 @@ import PostImageOptions from "../../components/post/PostImageOptions"
 import PostDrawer from "../../components/post/PostDrawer"
 import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
+import Variations from "../../components/post/Variations"
 import Parent from "../../components/post/Parent"
 import Children from "../../components/post/Children"
 import Groups from "../../components/post/Groups"
@@ -33,13 +34,14 @@ import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import {createStylesheet} from "./styles/PostScreen.styles"
 import functions from "../../functions/Functions"
+import {Image} from "../../types/Types"
 
 type Props = {
   route: RouteProp<StackParamList, "Post">
 }
 
 const PostScreen: React.FunctionComponent<Props> = ({route}) => {
-  const {session, showRelated} = useSessionSelector()
+  const {session} = useSessionSelector()
   const {theme, colors} = useThemeSelector()
   const {tablet} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
@@ -48,6 +50,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const [open, setOpen] = useState(false)
   const {postID} = route.params
   const {data: post} = useGetPostQuery({postID})
+  const [image, setImage] = useState<Image | null>(null)
   const styles = createStylesheet(colors)
   const ref = useRef<FlatList>(null)
 
@@ -55,18 +58,16 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       ref.current?.scrollToOffset({offset: 0})
   }, [route.params])
 
-  useEffect(() => {
-    const updateCategories = async () => {
-      if (!post) return
-      const tags = await functions.tag.parseTags([post], session)
-      const categories = await functions.tag.tagCategories(tags, session)
-      setTagCategories(categories)
-    }
-    updateCategories()
-  }, [post])
+  const updateImage = () => {
+    if (!post) return
+    setImage(post.images[0])
+  }
 
-  const openDrawer = () => {
-    setOpen((prev) => !prev)
+  const updateCategories = async () => {
+    if (!post) return
+    const tags = await functions.tag.parseTags([post], session)
+    const categories = await functions.tag.tagCategories(tags, session)
+    setTagCategories(categories)
   }
 
   const saveHistory = async () => {
@@ -76,8 +77,18 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   }
 
   useEffect(() => {
+    updateImage()
+    updateCategories()
     saveHistory()
-  }, [post, session])
+  }, [post])
+
+  const openDrawer = () => {
+    setOpen((prev) => !prev)
+  }
+
+  const onImageChange = (img: Image) => {
+    setImage(img)
+  }
 
   const characterTag = tagCategories?.characters?.[0]?.tag
   const seriesTag = tagCategories?.series?.[0]?.tag
@@ -112,7 +123,8 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
               <>
                 <TitleBar/>
                 <SearchBar random={true}/>
-                <PostImage post={post}/>
+                <Variations post={post} onImageChange={onImageChange}/>
+                <PostImage post={post} image={image}/>
                 <PostImageOptions openDrawer={openDrawer} post={post}/>
                 <PixivTags post={post}/>
                 <ArtistInfo post={post} artists={tagCategories?.artists}/>
