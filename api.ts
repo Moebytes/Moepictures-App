@@ -23,7 +23,7 @@ const customFetch: BaseQueryFn<QueryArgs, unknown, {message: string}> = async (a
     try {
         const state = api.getState() as StoreState
         let data = await functions.http.get(args.url as any, args.params as any, state.session.session)
-        return {data}
+        return {data: data ?? null}
     } catch (error: any) {
         return {error: {message: error.message}}
     }

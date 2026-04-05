@@ -6,11 +6,12 @@
 
 import React from "react"
 import {View, Text, FlatList, ListRenderItem} from "react-native"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
 import {useGetPostChildrenQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, ChildPost} from "../../types/Types"
+import {PostFull, ChildPost, Post} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
+import functions from "../../functions/Functions"
 
 interface Props {
     post?: PostFull
@@ -18,6 +19,8 @@ interface Props {
 
 const Children: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {navigationPosts} = useCacheSelector()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
 
     const {data: posts} = useGetPostChildrenQuery(
@@ -25,8 +28,13 @@ const Children: React.FunctionComponent<Props> = (props) => {
         {skip: !Boolean(props.post?.postID)}
     )
 
+    const onPress = (post: Post) => {
+        if (!posts) return
+        setNavigationPosts(functions.post.appendIfNotExists(post, posts.map((p) => p.post)))
+    }
+
     const renderItem: ListRenderItem<ChildPost> = ({item}) => {
-        return <CarouselImage post={item.post}/>
+        return <CarouselImage post={item.post} onPress={onPress}/>
     }
 
     if (!posts?.length) return null

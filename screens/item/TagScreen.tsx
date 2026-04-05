@@ -10,7 +10,7 @@ import {UITextView as Text} from "react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, 
-useSearchSelector, useSearchActions, useFlagActions} from "../../store"
+useSearchSelector, useSearchActions, useFlagActions, useCacheActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
@@ -42,6 +42,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {scroll, sizeType, square} = useSearchSelector()
     const {setSearchTags, setSearch} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
+    const {setNavigationPosts} = useCacheActions()
     const {name} = route.params
     const {data: tag} = useGetTagQuery({tag: name})
     const styles = createStylesheet(colors)
@@ -60,6 +61,12 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     }, [route.params])
     
     const related = useRelatedItems({tag: name})
+
+    const onRelatedPress = () => {
+        if (related.posts.length) {
+            setNavigationPosts(related.posts)
+        }
+    }
 
     const {columns} = functions.image.getImageSize(sizeType, square, tablet)
 
@@ -210,7 +217,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
             ref={ref}
             key={columns}
             data={related.posts}
-            renderItem={({item}) => <GridImage post={item}/>}
+            renderItem={({item}) => <GridImage post={item} onPress={onRelatedPress}/>}
             keyExtractor={(item) => item.postID.toString()}
             numColumns={columns}
             columnWrapperStyle={columns !== 1 ? styles.row : undefined}

@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState, useRef} from "react"
+import React, {useEffect, useState, useRef, useMemo} from "react"
 import {View, StatusBar, FlatList} from "react-native"
 import {RouteProp} from "@react-navigation/native"
 import {Drawer} from "react-native-drawer-layout"
@@ -32,6 +32,7 @@ import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
+import FullscreenImage from "../../components/image/FullscreenImage"
 import {createStylesheet} from "./styles/PostScreen.styles"
 import functions from "../../functions/Functions"
 import {Image} from "../../types/Types"
@@ -43,9 +44,10 @@ type Props = {
 const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {session} = useSessionSelector()
   const {theme, colors} = useThemeSelector()
-  const {tablet} = useLayoutSelector()
+  const {tablet, statusBarVisible} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
-  const {setTagCategories} = useCacheActions()
+  const {navigationPosts} = useCacheSelector()
+  const {setTagCategories, setNavigationPosts} = useCacheActions()
   const {scroll, sizeType, square} = useSearchSelector()
   const [open, setOpen] = useState(false)
   const {postID} = route.params
@@ -100,6 +102,13 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     post
   })
 
+  const onRelatedPress = () => {
+    if (!post) return
+    if (related.posts.length) {
+      setNavigationPosts(functions.post.appendIfNotExists(post, related.posts))
+    }
+  }
+
   const {columns} = functions.image.getImageSize(sizeType, square, tablet)
 
   return (
@@ -116,8 +125,9 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
         tags={tagCategories?.tags}/>}
       swipeEdgeWidth={100}>
       <View style={{flex: 1, backgroundColor: colors.mainColor}}>
-          <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
+          <StatusBar hidden={!statusBarVisible} barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
           <SearchSuggestions/>
+          <FullscreenImage post={post} image={image}/>
           <FlatList
             ListHeaderComponent={
               <>
@@ -142,7 +152,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
             ref={ref}
             key={columns}
             data={related.posts}
-            renderItem={({item}) => <GridImage post={item}/>}
+            renderItem={({item}) => <GridImage post={item} onPress={onRelatedPress}/>}
             keyExtractor={(item) => item.postID.toString()}
             numColumns={columns}
             columnWrapperStyle={columns !== 1 ? styles.row : undefined}

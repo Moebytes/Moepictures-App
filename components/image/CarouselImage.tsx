@@ -15,6 +15,7 @@ import {Post} from "../../types/Types"
 
 interface Props {
     post: Post
+    onPress?: (post: Post) => void
 }
 
 const CarouselImage: React.FunctionComponent<Props> = (props) => {
@@ -33,7 +34,6 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         const img = functions.link.getThumbnailLink(props.post.images[0], "medium", session)
         setImg(img)
-        setLoaded(false)
     }, [props.post])
 
     useEffect(() => {
@@ -44,6 +44,7 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
             setSize(size)
             setLoaded(true)
         }
+        setLoaded(false)
         updateSize()
     }, [img, tablet])
 
@@ -52,6 +53,7 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
         if (dialogOpen) return
         if (keyboardOpen) return Keyboard.dismiss()
         functions.navigateToPost(props.post.postID, navigation)
+        props.onPress?.(props.post)
     }
 
     const borderWidth = pressed ? 3 : 0

@@ -58,7 +58,7 @@ const SizeDialog: React.FunctionComponent = () => {
                 </PressableHaptic>
             )
             if (i < sizes.length - 1) jsx.push(
-                <View style={styles.row}>
+                <View style={styles.row} key={`${size}-sep`}>
                     <View style={styles.separator}/>
                 </View>
             )

@@ -14,6 +14,7 @@ import {PostOrdered} from "../../types/Types"
 
 interface Props {
     post: PostOrdered
+    onPress?: () => void
 }
 
 const GroupImage: React.FunctionComponent<Props> = (props) => {
@@ -43,11 +44,16 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
         updateSize()
     }, [img])
 
+    const onPress = () => {
+        navigation.navigate("Post", {postID: props.post.postID})
+        props.onPress?.()
+    }
+
     if (!img) return null
 
     return (
         <Pressable style={(({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}])}
-            onPress={() => navigation.navigate("Post", {postID: props.post.postID})}>
+            onPress={onPress}>
             <View style={styles.imageContainer}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
             </View>

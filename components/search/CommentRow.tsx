@@ -18,6 +18,7 @@ const favicon = require("../../assets/icons/favicon.png")
 
 interface Props {
     comment: CommentSearch
+    onPress?: () => void
 }
 
 const CommentRow: React.FunctionComponent<Props> = (props) => {
@@ -48,6 +49,11 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
         updateSize()
     }, [img])
 
+    const onPress = () => {
+        navigation.navigate("Post", {postID: props.comment.postID})
+        props.onPress?.()
+    }
+
     if (!img) return null
 
     let pfpSize = 30
@@ -56,8 +62,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.imageContainer}
-            onPress={() => navigation.navigate("Post", {postID: props.comment.postID})}>
+            <Pressable style={styles.imageContainer} onPress={onPress}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
             </Pressable>
             <View style={styles.textContainer}>

@@ -55,8 +55,8 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
 
         for (const item of tags) {
             jsx.push(
-                <PressableHaptic onPress={() => navigation.navigate("Tag", {name: item.tag})}>
-                    <LiquidGlassView key={item.tag} interactive effect="clear" 
+                <PressableHaptic key={item.tag} onPress={() => navigation.navigate("Tag", {name: item.tag})}>
+                    <LiquidGlassView interactive effect="clear" 
                         style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
                             <Text style={styles.tagText}>{item.tag.replace(/-/g, " ")}</Text>
                     </LiquidGlassView>

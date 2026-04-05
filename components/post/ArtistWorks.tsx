@@ -6,11 +6,12 @@
 
 import React from "react"
 import {View, Text, FlatList, Image, ListRenderItem} from "react-native"
-import {useSessionSelector, useThemeSelector} from "../../store"
+import {useSessionSelector, useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
 import {useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostSearch} from "../../types/Types"
+import {PostSearch, Post} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
+import functions from "../../functions/Functions"
 
 interface Props {
     tag?: string
@@ -19,6 +20,8 @@ interface Props {
 const ArtistWorks: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {showRelated} = useSessionSelector()
+    const {navigationPosts} = useCacheSelector()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
 
     const {data: posts} = useSearchPostsPageQuery(
@@ -26,8 +29,13 @@ const ArtistWorks: React.FunctionComponent<Props> = (props) => {
         {skip: !showRelated || !Boolean(props.tag)}
     )
 
+    const onPress = (post: Post) => {
+        if (!posts) return
+        setNavigationPosts(functions.post.appendIfNotExists(post, posts))
+    }
+
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
-        return <CarouselImage post={item}/>
+        return <CarouselImage post={item} onPress={onPress}/>
     }
 
     if (!showRelated || !posts?.length) return null

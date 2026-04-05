@@ -18,6 +18,7 @@ const favicon = require("../../assets/icons/favicon.png")
 
 interface Props {
     note: NoteSearch
+    onPress?: () => void
 }
 
 const NoteRow: React.FunctionComponent<Props> = (props) => {
@@ -64,6 +65,11 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
         return lines.join("\n")
     }
 
+    const onPress = () => {
+        navigation.navigate("Post", {postID: props.note.postID})
+        props.onPress?.()
+    }
+
     if (!img) return null
 
     let pfpSize = 30
@@ -73,7 +79,7 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
              <Pressable style={styles.imageContainer}
-             onPress={() => navigation.navigate("Post", {postID: props.note.postID})}>
+             onPress={onPress}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
              </Pressable>
             <View style={styles.textContainer}>

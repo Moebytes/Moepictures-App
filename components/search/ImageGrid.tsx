@@ -4,11 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect, useEffectEvent, useRef} from "react"
+import React, {useState, useEffect, useEffectEvent, useRef, useMemo} from "react"
 import {View, Image, FlatList, ListRenderItem, RefreshControl, 
 NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
-useFlagActions, useSessionSelector, useSearchActions} from "../../store"
+useFlagActions, useSessionSelector, useSearchActions, useCacheActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
@@ -31,6 +31,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
     const {search, scroll, imageType, ratingType, styleType, showChildren, sortType, 
     sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
+    const {setNavigationPosts} = useCacheActions()
     const {setAutoScroll} = useSearchActions()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
@@ -110,8 +111,12 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     posts = filterPosts(posts)
 
+    const onImagePress = () => {
+        if (posts.length) setNavigationPosts(posts)
+    }
+
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {
-        return <GridImage post={item}/>
+        return <GridImage post={item} onPress={onImagePress}/>
     }
 
     const renderEmpty = () => {
@@ -169,7 +174,6 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         if (scroll) return
         getRandomPosts(true)
     }, [page])
-
 
     useEffect(() => {
         if (autoSearchRef.current) {

@@ -5,9 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import {View, Image, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
-import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import {PostFull, Image as VariantImage} from "../../types/Types"
@@ -22,6 +22,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
     const {setSharingActive} = useLayoutActions()
+    const {setShowFullscreenImage} = useMiscDialogActions()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
@@ -33,7 +34,6 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
         if (!props.image) return
         const img = functions.link.getImageLink(props.image, session.upscaledImages)
         setImg(img)
-        setLoaded(false)
     }, [props.image])
 
     useEffect(() => {
@@ -44,6 +44,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             setSize(size)
             setLoaded(true)
         }
+        setLoaded(false)
         updateSize()
     }, [img, tablet])
 
@@ -73,9 +74,10 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
                 {title: i18n.contextMenu.share, icon: "share"}
             ]}
             onPress={contextMenu}>
-                <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
+                <Pressable style={[styles.container, {opacity: loaded ? 1 : 0}]}
+                    onPress={() => setShowFullscreenImage(true)}>
                     {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
-                </View>
+                </Pressable>
         </ContextMenu>
     )
 }

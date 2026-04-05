@@ -7,7 +7,7 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions} from "../../store"
 import {useSearchHistoryInfiniteQuery, useSearchHistoryPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -26,6 +26,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, searchHistorySort} = useSearchSelector()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -62,13 +63,17 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
-
     const isLoading = scroll
         ? infiniteQuery.isLoading
         : pageQuery.isLoading
+
+    const onPress = () => {
+        const posts = history.map((h) => h.post)
+        if (posts.length) setNavigationPosts(posts)
+    }
             
     const renderItem: ListRenderItem<SearchHistory> = ({item}) => {
-        return <SearchHistoryRow history={item}/>
+        return <SearchHistoryRow history={item} onPress={onPress}/>
     }
 
     const renderEmpty = () => {

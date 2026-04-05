@@ -18,6 +18,7 @@ import path from "path"
 
 interface Props {
     post: PostSearch
+    onPress?: () => void
 }
 
 const GridImage: React.FunctionComponent<Props> = (props) => {
@@ -39,7 +40,6 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         const img = functions.link.getThumbnailLink(props.post.images[0], "medium", session)
         setImg(img)
-        setLoaded(false)
     }, [props.post])
 
     useEffect(() => {
@@ -54,6 +54,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
             setSize(size)
             setLoaded(true)
         }
+        setLoaded(false)
         updateSize()
     }, [img, tablet, sizeType, square])
 
@@ -62,6 +63,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         if (sharingActive) return
         if (keyboardOpen) return Keyboard.dismiss()
         functions.navigateToPost(props.post.postID, navigation)
+        props.onPress?.()
     }
 
     const contextMenu = async (event: NativeSyntheticEvent<ContextMenuOnPressNativeEvent>) => {

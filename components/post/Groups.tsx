@@ -7,11 +7,12 @@
 import React from "react"
 import {View, Text, FlatList, ListRenderItem, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector} from "../../store"
+import {useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
 import {useGetPostGroupsQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, PostOrdered} from "../../types/Types"
+import {PostFull, PostOrdered, Post} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
+import functions from "../../functions/Functions"
 
 interface Props {
     post?: PostFull
@@ -19,6 +20,8 @@ interface Props {
 
 const Groups: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {navigationPosts} = useCacheSelector()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
 
@@ -27,17 +30,22 @@ const Groups: React.FunctionComponent<Props> = (props) => {
         {skip: !Boolean(props.post?.postID)}
     )
 
-    const renderItem: ListRenderItem<PostOrdered> = ({item}) => {
-        return <CarouselImage post={item}/>
-    }
-
     if (!groups?.length) return null
 
     const generateGroupJSX = () => {
         let jsx = [] as React.ReactElement[]
+
         for (const group of groups) {
+            const onPress = (post: Post) => {
+                setNavigationPosts(functions.post.appendIfNotExists(post, group.posts))
+            }
+
+            const renderItem: ListRenderItem<PostOrdered> = ({item}) => {
+                return <CarouselImage post={item} onPress={onPress}/>
+            }
+
             jsx.push(
-                <View style={styles.container}>
+                <View style={styles.container} key={group.slug}>
                     <Pressable style={styles.headerContainer}
                         onPress={() => navigation.navigate("Group", {slug: group.slug})}>
                         <Text style={styles.headerText}>{i18n.labels.group}: {group.name}</Text>

@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {PostSearch, PostRating, PostStyle} from "../types/Types"
+import {PostSearch, PostRating, PostStyle, Post} from "../types/Types"
 import {ThemeColors} from "../ui/colors"
 
 export default class PostFunctions {
@@ -26,5 +26,15 @@ export default class PostFunctions {
 
     public static isSketch = (styleType: PostStyle) => {
         return styleType === "sketch" || styleType === "lineart"
+    }
+
+    public static appendIfNotExists = (post: Post, posts: Post[]) => {
+        const index = posts.findIndex((p) => p.postID === post.postID)
+
+        if (index === -1) {
+            return [post, ...posts]
+        } else {
+            return posts
+        }
     }
 }

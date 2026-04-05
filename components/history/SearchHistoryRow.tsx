@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable, useWindowDimensions, Linking} from "react-native"
+import {View, Image, Pressable, useWindowDimensions} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -16,6 +16,7 @@ import {SearchHistory} from "../../types/Types"
 
 interface Props {
     history: SearchHistory
+    onPress?: () => void
 }
 
 const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
@@ -43,12 +44,16 @@ const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
         updateSize()
     }, [img])
 
+    const onPress = () => {
+        navigation.navigate("Post", {postID: props.history.postID})
+        props.onPress?.()
+    }
+
     if (!img) return null
 
     return (
         <View style={styles.container}>
-             <Pressable style={styles.imageContainer}
-             onPress={() => navigation.navigate("Post", {postID: props.history.postID})}>
+             <Pressable style={styles.imageContainer} onPress={onPress}>
                 <Image style={size} source={{uri: img}} resizeMode="contain"/>
              </Pressable>
             <View style={styles.textContainer}>
