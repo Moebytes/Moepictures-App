@@ -18,7 +18,8 @@ const layoutSlice = createSlice({
         tabBarHeight: 110,
         keyboardOpen: false,
         sharingActive: false,
-        statusBarVisible: true
+        statusBarVisible: true,
+        postDrawerSwipe: true
     },
     reducers: {
         setTablet: (state, action) => {state.tablet = action.payload},
@@ -26,12 +27,14 @@ const layoutSlice = createSlice({
         setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload},
         setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload},
         setSharingActive: (state, action) => {state.sharingActive = action.payload},
-        setStatusBarVisible: (state, action) => {state.statusBarVisible = action.payload}
+        setStatusBarVisible: (state, action) => {state.statusBarVisible = action.payload},
+        setPostDrawerSwipe: (state, action) => {state.postDrawerSwipe = action.payload}
     }    
 })
 
 const {
-    setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen, setSharingActive, setStatusBarVisible
+    setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen, 
+    setSharingActive, setStatusBarVisible, setPostDrawerSwipe
 } = layoutSlice.actions
 
 const dialogOpen = createSelector(
@@ -57,6 +60,7 @@ export const useLayoutSelector = () => {
         keyboardOpen: selector((state) => state.layout.keyboardOpen),
         sharingActive: selector((state) => state.layout.sharingActive),
         statusBarVisible: selector((state) => state.layout.statusBarVisible),
+        postDrawerSwipe: selector((state) => state.layout.postDrawerSwipe),
         dialogOpen: selector(dialogOpen)
     }
 }
@@ -70,6 +74,7 @@ export const useLayoutActions = () => {
         setKeyboardOpen: (state: boolean) => dispatch(setKeyboardOpen(state)),
         setSharingActive: (state: boolean) => dispatch(setSharingActive(state)),
         setStatusBarVisible: (state: boolean) => dispatch(setStatusBarVisible(state)),
+        setPostDrawerSwipe: (state: boolean) => dispatch(setPostDrawerSwipe(state)),
         closeAllDialogs: () => dispatch(closeAllDialogs())
     }
 }

@@ -147,11 +147,11 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
 
     return (
         <Modal visible={showFullscreenImage} backdropColor="black" animationType="fade">
-                <ReactNativeZoomableView ref={zoomRef} style={styles.container} minZoom={1} maxZoom={5} 
+                <ReactNativeZoomableView ref={zoomRef} style={styles.container} minZoom={1} maxZoom={10} 
                     panEnabled={panEnabled} visualTouchFeedbackEnabled={false} onShiftingEnd={onShiftEnd}
                     onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}
                     pagingThreshold={0.1} pagingEnabled={true} pageWidth={width} onPageChange={onPageChange} 
-                    canGoNext={canGoNext} canGoPrev={canGoPrev}>
+                    canGoNext={canGoNext} canGoPrev={canGoPrev} lockMinZoomAxis={true}>
                     <Image style={styles.image} source={prevImg ? {uri: prevImg} : undefined} resizeMode="contain"/>
                     <Image style={styles.image} source={img ? {uri: img} : undefined} resizeMode="contain" onLoad={onImageLoad}/>
                     <Image style={styles.image} source={nextImg ? {uri: nextImg} : undefined} resizeMode="contain"/>

@@ -28,6 +28,7 @@ import Groups from "../../components/post/Groups"
 import ActiveFavgroup from "../../components/post/ActiveFavgroup"
 import ArtistWorks from "../../components/post/ArtistWorks"
 import BuyLink from "../../components/post/BuyLink"
+import CutenessMeter from "../../components/post/CutenessMeter"
 import Commentary from "../../components/post/Commentary"
 import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
@@ -45,7 +46,7 @@ type Props = {
 const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {session} = useSessionSelector()
   const {theme, colors} = useThemeSelector()
-  const {tablet, statusBarVisible} = useLayoutSelector()
+  const {tablet, statusBarVisible, postDrawerSwipe} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
   const {navigationPosts} = useCacheSelector()
   const {setTagCategories, setNavigationPosts} = useCacheActions()
@@ -118,6 +119,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       drawerPosition="right"
+      swipeEnabled={postDrawerSwipe}
       drawerStyle={{backgroundColor: "transparent"}}
       drawerType="front"
       overlayStyle={{backgroundColor: "transparent"}}
@@ -144,6 +146,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                   <Parent post={post}/>
                   <Children post={post}/>
                   <Groups post={post}/>
+                  <CutenessMeter post={post}/>
                   <BuyLink post={post}/>
                   <Commentary post={post}/>
                   <ArtistWorks tag={artistTag}/>
