@@ -38,11 +38,12 @@ const dialogOpen = createSelector(
     [(state: StoreState) => state.miscDialog.showPageDialog,
      (state: StoreState) => state.searchDialog.showSizeDialog,
      (state: StoreState) => state.searchDialog.showSortDialog,
-    (state: StoreState) => state.searchDialog.showPageMultiplierDialog],
-    (showPageDialog, showSizeDialog, showSortDialog, showPageMultiplierDialog) => {
+    (state: StoreState) => state.searchDialog.showPageMultiplierDialog,
+    (state: StoreState) => state.groupDialog.favgroupID],
+    (showPageDialog, showSizeDialog, showSortDialog, showPageMultiplierDialog, favgroupID) => {
         return (
-            showPageDialog || showSizeDialog || 
-            showSortDialog || showPageMultiplierDialog
+            showPageDialog || showSizeDialog || showSortDialog || 
+            showPageMultiplierDialog || favgroupID
         )
     }
 )

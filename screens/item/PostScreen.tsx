@@ -25,6 +25,7 @@ import Variations from "../../components/post/Variations"
 import Parent from "../../components/post/Parent"
 import Children from "../../components/post/Children"
 import Groups from "../../components/post/Groups"
+import ActiveFavgroup from "../../components/post/ActiveFavgroup"
 import ArtistWorks from "../../components/post/ArtistWorks"
 import BuyLink from "../../components/post/BuyLink"
 import Commentary from "../../components/post/Commentary"
@@ -139,6 +140,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                 <PixivTags post={post}/>
                 <ArtistInfo post={post} artists={tagCategories?.artists}/>
                 <View style={{gap: 10}}>
+                  <ActiveFavgroup post={post}/>
                   <Parent post={post}/>
                   <Children post={post}/>
                   <Groups post={post}/>

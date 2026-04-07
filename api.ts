@@ -270,6 +270,15 @@ export const api = createApi({
                 url: "/api/group", params
             })
         }),
+
+        getFavgroup: builder.query<
+            GetEndpoint<"/api/favgroup">["response"], 
+            GetEndpoint<"/api/favgroup">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/favgroup", params
+            })
+        }),
     })
 })
 
@@ -291,5 +300,6 @@ export const {
     useGetPostChildrenQuery,
     useGetPostGroupsQuery,
     useGetTagQuery,
-    useGetGroupQuery
+    useGetGroupQuery,
+    useGetFavgroupQuery
 } = api

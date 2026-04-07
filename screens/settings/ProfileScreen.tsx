@@ -292,6 +292,22 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                 {session.username ? 
                 <View style={styles.buttonContainer}>
+                    /* Favorite Groups */
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Favgroups", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.help.favoriteGroups.title}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+
+                </View> : null}
+
+                {session.username ? 
+                <View style={styles.buttonContainer}>
+                    /* Change Usernmae */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("ChangeUsername", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -304,6 +320,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Change Email */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("ChangeEmail", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -316,6 +333,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Change Password */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("ChangePassword", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -328,6 +346,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                 </View> : null}
 
                 <View style={styles.buttonContainer}>
+                    /* Terms of Service */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("Terms", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -341,6 +360,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Privacy Policy */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("Privacy", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -354,6 +374,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Contact */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => navigation.navigate("Contact", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
@@ -367,6 +388,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     <View style={styles.separator}/>
 
+                    /* Help */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null}
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
@@ -378,6 +400,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     </PressableHaptic>
                 </View>
                 <View style={styles.buttonContainer}>
+                    /* Visit our Website */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
                     onPress={() => Linking.openURL(siteURL)}
                     style={({pressed}) => [styles.itemContainer, 

@@ -9,6 +9,7 @@ import PageDialog from "./misc/PageDialog"
 import SizeDialog from "./search/SizeDialog"
 import SortDialog from "./search/SortDialog"
 import PageMultiplierDialog from "./search/PageMultiplierDialog"
+import FavgroupDialog from "./group/FavgroupDialog"
 
 const Dialogs: React.FunctionComponent = () => {
     return (
@@ -17,6 +18,7 @@ const Dialogs: React.FunctionComponent = () => {
         <SizeDialog/>
         <SortDialog/>
         <PageMultiplierDialog/>
+        <FavgroupDialog/>
         </>
     )
 }

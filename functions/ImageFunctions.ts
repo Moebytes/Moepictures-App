@@ -34,6 +34,24 @@ export default class ImageFunctions {
         return {width: newWidth, height: newHeight}
     }
 
+    public static normalizeHeight = async (img: ImageSourcePropType, height: number, deviceWidth: number) => {
+        const asset = Image.resolveAssetSource(img)
+        const size = await Image.getSize(asset.uri)
+
+        const scale = height / size.height
+
+        let newHeight = height
+        let newWidth = size.width * scale
+
+        if (newWidth > deviceWidth) {
+            const scale = deviceWidth / newWidth
+            newWidth = deviceWidth
+            newHeight = newHeight * scale
+        }
+
+        return {width: newWidth, height: newHeight}
+    }
+
     public static getImageSize = (sizeType: PostSize, square: boolean, tablet: boolean) => {
         if (tablet) {
             if (sizeType === "tiny") {

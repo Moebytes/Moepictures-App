@@ -78,7 +78,7 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     }, [showFullscreenImage, props.post, props.image, navigationPosts])
 
     const onClose = () => {
-        if (post) navigation.setParams({postID: post.postID})
+        if (post && props.post?.postID !== post.postID) functions.navigateToPost(post.postID, navigation)
         setShowFullscreenImage(false)
         setStatusBarVisible(true)
     }

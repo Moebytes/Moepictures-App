@@ -4,12 +4,12 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef} from "react"
+import React, {useEffect, useRef} from "react"
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {ActionSheetProvider} from "@expo/react-native-action-sheet"
-import {useFlagActions, useSessionSelector, useThemeSelector} from "./store"
+import {useActiveActions, useActiveSelector, useCacheSelector, useFlagActions, useSessionSelector, useThemeSelector} from "./store"
 import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
@@ -24,6 +24,8 @@ import TagsScreen from "./screens/search/TagsScreen"
 import TagScreen from "./screens/item/TagScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import GroupScreen from "./screens/item/GroupScreen"
+import FavgroupsScreen from "./screens/search/FavgroupsScreen"
+import FavgroupScreen from "./screens/item/FavgroupScreen"
 import SearchHistoryScreen from "./screens/history/SearchHistoryScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
@@ -44,15 +46,17 @@ import functions from "./functions/Functions"
 
 export type StackParamList = {
   Posts: undefined
+  Post: {postID: string}
   Comments: undefined
   Notes: undefined
   Tags: undefined
-  Groups: undefined
-  History: undefined
-  Profile: undefined
-  Post: {postID: string}
   Tag: {name: string}
+  Groups: undefined
   Group: {slug: string}
+  History: undefined
+  Favgroups: undefined
+  Favgroup: {slug: string}
+  Profile: undefined
   Language: undefined
   AppColor: undefined
   Terms: undefined
@@ -81,6 +85,9 @@ const App: React.FunctionComponent = () => {
     const {i18n} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setSessionFlag} = useFlagActions()
+    const {navigationPosts} = useCacheSelector()
+    const {activeFavgroup} = useActiveSelector()
+    const {setActiveFavgroup} = useActiveActions()
     const {top} = useSafeAreaInsets()
     const navigationRef = useRef<NavigationContainerRef<StackParamList>>(null)
 
@@ -104,6 +111,14 @@ const App: React.FunctionComponent = () => {
         }
     }
 
+    useEffect(() => {
+      if (activeFavgroup) {
+        const navPosts = new Set(navigationPosts.map(p => p.postID))
+        const notFound = activeFavgroup.posts.some((post) => !navPosts.has(post.postID))
+        if (notFound) setActiveFavgroup(null)
+      }
+    }, [activeFavgroup, navigationPosts])
+
     return (
       <ActionSheetProvider>
         <NavigationContainer ref={navigationRef} onStateChange={onNavigationChange}>
@@ -120,6 +135,8 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="Tag" component={TagScreen}/>
             <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Group" component={GroupScreen}/>
+            <Stack.Screen name="Favgroups" component={FavgroupsScreen}/>
+            <Stack.Screen name="Favgroup" component={FavgroupScreen}/>
             <Stack.Screen name="History" component={SearchHistoryScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>

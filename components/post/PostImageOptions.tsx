@@ -10,7 +10,8 @@ import {useActionSheet} from "@expo/react-native-action-sheet"
 import Toast from "react-native-toast-message"
 import path from "path"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {useThemeSelector, useSessionSelector, useMiscDialogActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useMiscDialogActions, useGroupDialogActions,
+useFlagSelector, useFlagActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
@@ -29,6 +30,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setShowSavePrompt} = useMiscDialogActions()
+    const {setFavgroupID} = useGroupDialogActions()
+    const {favgroupFlag} = useFlagSelector()
+    const {setFavgroupFlag} = useFlagActions()
     const [favorited, setFavorited] = useState(false)
     const [favGrouped, setFavGrouped] = useState(false)
     const styles = createStylesheet(colors)
@@ -51,6 +55,13 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         getFavgroup()
     }, [props.post, session])
 
+    useEffect(() => {
+        if (favgroupFlag) {
+            getFavgroup()
+            setFavgroupFlag(false)
+        }
+    }, [favgroupFlag])
+
     const favorite = async () => {
         if (!props.post) return
         if (!session.username) {
@@ -72,6 +83,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!session.emailVerified) {
             return Toast.show({text1: i18n.toast.verificationRequired})
         }
+        setFavgroupID(props.post.postID)
     }
 
     const downloadImage = async () => {
@@ -103,13 +115,13 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <ScalableHaptic icon={StarIcon} size={iconSize} color={colors.iconColor} 
+            <ScalableHaptic icon={StarIcon} size={iconSize} color={favorited ? colors.favoriteBorder : colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favorite}>
                 <Text style={[styles.text, favorited && {color: colors.favoriteBorder}]}>{favorited ? i18n.post.favorited : i18n.post.favorite}</Text>
             </ScalableHaptic>
-            <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={colors.iconColor} 
+            <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={favGrouped ? colors.favgroupBorder : colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favgroup}>
-                <Text style={styles.text}>{i18n.post.favgroup}</Text>
+                <Text style={[styles.text, favGrouped && {color: colors.favgroupBorder}]}>{i18n.post.favgroup}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={InfoIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>

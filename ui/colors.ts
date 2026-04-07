@@ -47,7 +47,8 @@ export const noRotation = {
     modColor: "#1365f6",
     adminColor: "#d70c67",
 
-    dangerColor: "#FF2D99"
+    dangerColor: "#FF2D99",
+    lockColor: "#f71e75"
 }
 
 export const noRotationLight = {

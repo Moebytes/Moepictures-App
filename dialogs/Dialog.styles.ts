@@ -65,6 +65,21 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             gap: 10
         },
+        startRow: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+            gap: 10
+        },
+        bottomRow: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 30
+        },
         rowContent: {
             flexDirection: "row",
             alignItems: "center",
@@ -80,6 +95,12 @@ export const createStylesheet = (colors: ThemeColors) => {
         text: {
             color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
+            fontSize: 18,
+            lineHeight: 25
+        },
+        text2: {
+            color: colors.iconColor,
+            fontFamily: fonts.honokaShinAntiqueKaku,
             fontSize: 18,
             lineHeight: 25
         },
@@ -139,6 +160,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             left: 0,
             bottom: 0,
             right: 0
-        },
+        }
     })
 }

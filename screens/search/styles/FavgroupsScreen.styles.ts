@@ -36,69 +36,57 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "center",
-            paddingVertical: 15,
-            paddingHorizontal: 20,
             backgroundColor: colors.background,
             gap: 12
         },
-        rowContainer: {
+        titleContainer: {
             display: "flex",
             flexDirection: "row",
-            justifyContent: "flex-start",
             alignItems: "center",
             width: "100%",
-            flexWrap: "wrap",
-            gap: 10
+            paddingHorizontal: 20,
+            paddingTop: 10,
+            marginBottom: 5
         },
         title: {
-            fontFamily: fonts.genEiMGothicV2,
-            fontSize: 30,
-            lineHeight: 35,
-            color: colors.borderColor
+            color: colors.iconColor,
+            textAlign: "center",
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 26,
+            lineHeight: 30
         },
-        text: {
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 16,
-            lineHeight: 19,
-            color: colors.textColor,
-            flexShrink: 1
+        itemContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            width: "100%",
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            gap: 20
         },
         headerContainer: {
             display: "flex",
             flexDirection: "row",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: 15,
-            gap: 13
+            gap: 10
         },
         headerText: {
             color: colors.headingColor,
             fontFamily: fonts.tsunagiGothicBlack,
-            fontSize: 25
+            fontSize: 25,
+            lineHeight: 29
         },
         headerTextAlt: {
-            color: colors.buttonColor,
-            fontFamily: fonts.genEiMGothicV2,
-            fontSize: 20
-        },
-        headerTextAlt2: {
             color: colors.textColor,
-            fontFamily: fonts.genEiMGothicV2,
+            fontFamily: fonts.honokaShinAntiqueKaku,
             fontSize: 20
         },
-        iconContainer: {
+        carousel: {
             display: "flex",
             flexDirection: "row",
-            gap: 10
-        },
-        row: {
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            marginBottom: 10
-        },
-        footer: {
-            marginBottom: 10
-        
+            justifyContent: "center",
+            alignItems: "center"
         }
     })
 }

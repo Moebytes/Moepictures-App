@@ -9,10 +9,12 @@ import {api} from "./api"
 import themeReducer, {useThemeSelector, useThemeActions} from "./reducers/themeReducer"
 import sessionReducer, {useSessionSelector, useSessionActions} from "./reducers/sessionReducer"
 import layoutReducer, {useLayoutSelector, useLayoutActions} from "./reducers/layoutReducer"
+import activeReducer, {useActiveSelector, useActiveActions} from "./reducers/activeReducer"
 import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheReducer"
 import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
 import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
+import groupDialogReducer, {useGroupDialogSelector, useGroupDialogActions} from "./reducers/groupDialogReducer"
 import searchDialogReducer, {useSearchDialogSelector, useSearchDialogActions} from "./reducers/searchDialogReducer"
 import sheetReducer, {useSheetSelector, useSheetActions} from "./reducers/sheetReducer"
 
@@ -22,10 +24,12 @@ const store = configureStore({
         theme: themeReducer,
         session: sessionReducer,
         layout: layoutReducer,
+        active: activeReducer,
         cache: cacheReducer,
         search: searchReducer,
         flag: flagReducer,
         miscDialog: miscDialogReducer,
+        groupDialog: groupDialogReducer,
         searchDialog: searchDialogReducer,
         sheet: sheetReducer
     },
@@ -41,10 +45,12 @@ export {
     useThemeSelector, useThemeActions,
     useSessionSelector, useSessionActions,
     useLayoutSelector, useLayoutActions,
+    useActiveSelector, useActiveActions,
     useCacheSelector, useCacheActions,
     useSearchSelector, useSearchActions,
     useFlagSelector, useFlagActions,
     useMiscDialogSelector, useMiscDialogActions,
+    useGroupDialogSelector, useGroupDialogActions,
     useSearchDialogSelector, useSearchDialogActions,
     useSheetSelector, useSheetActions
 }

@@ -40,7 +40,7 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
         const updateSize = async () => {
             if (!img) return
             const imageSize = tablet ? 400 : 200
-            let size = await functions.image.dynamicResize({uri: img}, imageSize, width)
+            let size = await functions.image.normalizeHeight({uri: img}, imageSize, width)
             setSize(size)
             setLoaded(true)
         }
