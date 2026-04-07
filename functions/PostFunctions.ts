@@ -37,4 +37,13 @@ export default class PostFunctions {
             return posts
         }
     }
+
+    public static generateSlug = (name: string) => {
+        let slug = String(name).trim().toLowerCase().replace(/\s+/g, "-").replace(/\//g, "").replace(/\\\\/g, "")
+        slug = slug.replace(/#/g, "")
+        slug = slug.replace(/\?/g, "")
+        slug = slug.replace(/&/g, "")
+        if (!slug) slug = "untitled"
+        return slug
+    }
 }

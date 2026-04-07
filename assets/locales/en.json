@@ -248,7 +248,8 @@
         "set": "Set",
         "remap": "Remap",
         "apply": "Apply",
-        "continue": "Continue"
+        "continue": "Continue",
+        "appendAll": "Append All"
     },
     "history": {
         "post": "Post History",
@@ -543,11 +544,17 @@
         "photos": "Photos",
         "files": "Files",
         "logout": "Are you sure that you want to logout?",
-        "enterInterval": "Enter a new interval"
+        "enterInterval": "Enter a new interval",
+        "enterSearchTags": "Enter the tags for this search",
+        "enterSearchName": "Enter a name for this search",
+        "enterNewName": "Enter a new name or continue",
+        "enterNewTags": "Enter new tags or continue"
     },
     "options": {
         "searchOptions": "Search Options",
         "showChildPosts": "Show Child Posts",
+        "tagFavorites": "Tag Favorites",
+        "savedSearches": "Saved Searches",
         "sort": "Sort"
     },
     "toast": {
@@ -1091,6 +1098,10 @@
         "editSaveSearch": {
             "title": "Edit Saved Search",
             "tagsReq": "Tags are required."
+        },
+        "deleteSaveSearch": {
+            "title": "Delete Saved Search",
+            "header": "Are you sure you want to delete this saved search?"
         },
         "editTag": {
             "title": "Edit Tag",
@@ -1907,7 +1918,7 @@
             },
             "maliciousActivity": {
                 "title": "Malicious Activity",
-                "line1": "Don’t attempt to gain unauthorized access to another person’s account. Don’t attempt to upload viruses, malware, or other malicious content. Don’t attempt to disrupt the operation of our servers (including DDoS attacks)."
+                "line1": "Don’t attempt to gain unauthorized access to another person’s account. Don’t attempt to upload viruses, malware, or other malicious content. Don’t attempt to disrupt the operation of our servers."
             },
             "accounts": {
                 "title": "Accounts",
@@ -1919,7 +1930,7 @@
             },
             "liability": {
                 "title": "Limitation of Liability",
-                "line1": "OUR SERVICES ARE PROVIDED “AS IS”, WITHOUT ANY EXPRESSED OR IMPLIED WARRANTY OF ANY KIND. IN NO EVENT SHALL MOEPICS BE LIABLE FOR ANY DAMAGES ARISING FROM OR IN CONNECTION TO THE USAGE OF OUR SERVICES. MOEPICS IS NOT RESPONSIBLE FOR ANY CONTENT APPEARING ON OUR SERVICES ALLEGED TO BE OFFENSIVE."
+                "line1": "OUR SERVICES ARE PROVIDED “AS IS”, WITHOUT ANY EXPRESSED OR IMPLIED WARRANTY OF ANY KIND. IN NO EVENT SHALL MOEPICS BE LIABLE FOR ANY DAMAGES ARISING FROM OR IN CONNECTION TO THE USAGE OF OUR SERVICES. MOEPICS IS NOT RESPONSIBLE FOR ANY CONTENT APPEARING ON OUR SERVICES ALLEGED TO BE OFFENSIVE OR ILLEGAL."
             },
             "changes": {
                 "title": "Changes to our Terms",

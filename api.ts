@@ -4,7 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 import {createApi, BaseQueryFn} from "@reduxjs/toolkit/query/react"
+import {useDispatch} from "react-redux"
 import functions from "./functions/Functions"
 import {StoreState} from "./store"
 import {GetEndpoint} from "./types/Types"
@@ -54,6 +56,7 @@ const getPreviousPageParam = (firstPage: any, allPages: any[],
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customFetch,
+    tagTypes: ["Favgroup"],
     endpoints: (builder) => ({
         searchPosts: builder.infiniteQuery<
             GetEndpoint<"/api/search/posts">["response"], 
@@ -277,10 +280,23 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/favgroup", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Favgroup", id: arg.name}
+            ]
         }),
     })
 })
+
+export const useInvalidateFavgroup = () => {
+  const dispatch = useDispatch()
+
+  return (slug: string) => {
+    dispatch(
+      api.util.invalidateTags([{type: "Favgroup", id: slug}])
+    )
+  }
+}
 
 export const {
     useSearchPostsInfiniteQuery,

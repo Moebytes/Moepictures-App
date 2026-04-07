@@ -9,8 +9,10 @@ import CommentsSheet from "./CommentsSheet"
 import GroupsSheet from "./GroupsSheet"
 import NotesSheet from "./NotesSheet"
 import PostsSheet from "./PostsSheet"
+import SavedSearchesSheet from "./SavedSearchesSheet"
 import SearchHistorySheet from "./SearchHistorySheet"
 import TagsSheet from "./TagsSheet"
+import TagFavoritesSheet from "./TagFavoritesSheet"
 
 const Sheets: React.FunctionComponent = () => {
     return (
@@ -19,8 +21,10 @@ const Sheets: React.FunctionComponent = () => {
         <GroupsSheet/>
         <NotesSheet/>
         <PostsSheet/>
+        <SavedSearchesSheet/>
         <SearchHistorySheet/>
         <TagsSheet/>
+        <TagFavoritesSheet/>
         </>
     )
 }

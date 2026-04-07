@@ -16,7 +16,9 @@ const sheetSlice = createSlice({
         showNotesSheet: false,
         showTagsSheet: false,
         showGroupsSheet: false,
-        showSearchHistorySheet: false
+        showSearchHistorySheet: false,
+        showTagFavoritesSheet: false,
+        showSavedSearchesSheet: false
     },
     reducers: {
         setShowPostsSheet: (state, action) => {state.showPostsSheet = action.payload},
@@ -24,13 +26,16 @@ const sheetSlice = createSlice({
         setShowNotesSheet: (state, action) => {state.showNotesSheet = action.payload},
         setShowTagsSheet: (state, action) => {state.showTagsSheet = action.payload},
         setShowGroupsSheet: (state, action) => {state.showGroupsSheet = action.payload},
-        setShowSearchHistorySheet: (state, action) => {state.showSearchHistorySheet = action.payload}
+        setShowSearchHistorySheet: (state, action) => {state.showSearchHistorySheet = action.payload},
+        setShowTagFavoritesSheet: (state, action) => {state.showTagFavoritesSheet = action.payload},
+        setShowSavedSearchesSheet: (state, action) => {state.showSavedSearchesSheet = action.payload}
     }
 })
 
 const {
     setShowPostsSheet, setShowCommentsSheet, setShowNotesSheet, 
-    setShowTagsSheet, setShowGroupsSheet, setShowSearchHistorySheet
+    setShowTagsSheet, setShowGroupsSheet, setShowSearchHistorySheet,
+    setShowTagFavoritesSheet, setShowSavedSearchesSheet
 } = sheetSlice.actions
 
 export const useSheetSelector = () => {
@@ -41,7 +46,9 @@ export const useSheetSelector = () => {
         showNotesSheet: selector((state) => state.sheet.showNotesSheet),
         showTagsSheet: selector((state) => state.sheet.showTagsSheet),
         showGroupsSheet: selector((state) => state.sheet.showGroupsSheet),
-        showSearchHistorySheet: selector((state) => state.sheet.showSearchHistorySheet)
+        showSearchHistorySheet: selector((state) => state.sheet.showSearchHistorySheet),
+        showTagFavoritesSheet: selector((state) => state.sheet.showTagFavoritesSheet),
+        showSavedSearchesSheet: selector((state) => state.sheet.showSavedSearchesSheet)
     }
 }
 
@@ -53,7 +60,9 @@ export const useSheetActions = () => {
         setShowNotesSheet: (state: boolean) => dispatch(setShowNotesSheet(state)),
         setShowTagsSheet: (state: boolean) => dispatch(setShowTagsSheet(state)),
         setShowGroupsSheet: (state: boolean) => dispatch(setShowGroupsSheet(state)),
-        setShowSearchHistorySheet: (state: boolean) => dispatch(setShowSearchHistorySheet(state))
+        setShowSearchHistorySheet: (state: boolean) => dispatch(setShowSearchHistorySheet(state)),
+        setShowTagFavoritesSheet: (state: boolean) => dispatch(setShowTagFavoritesSheet(state)),
+        setShowSavedSearchesSheet: (state: boolean) => dispatch(setShowSavedSearchesSheet(state))
     }
 }
 

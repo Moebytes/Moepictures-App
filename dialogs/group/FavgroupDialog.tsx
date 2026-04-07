@@ -7,6 +7,7 @@
 import React, {useEffect, useRef, useState} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text, TextInput} from "react-native"
+import {useInvalidateFavgroup} from "../../api"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useGroupDialogSelector, useGroupDialogActions, useSessionSelector,
@@ -31,6 +32,7 @@ const FavgroupDialog: React.FunctionComponent = () => {
     const [favgroups, setFavgroups] = useState([] as Favgroup[])
     const styles = createStylesheet(colors)
     const textRef = useRef<TextInput>(null)
+    const invalidateFavgroup = useInvalidateFavgroup()
 
     const updateFavGroups = async () => {
         if (!favgroupID) return
@@ -62,6 +64,7 @@ const FavgroupDialog: React.FunctionComponent = () => {
         if (name.trim()) {
             await functions.http.post("/api/favgroup/update", {postIDs: [favgroupID], name, isPrivate}, session)
             setFavgroupFlag(true)
+            invalidateFavgroup(functions.post.generateSlug(name))
         }
         onClose()
     }
@@ -85,6 +88,7 @@ const FavgroupDialog: React.FunctionComponent = () => {
                 await functions.http.delete("/api/favgroup/post/delete", {postID: favgroupID, name: favgroup.name}, session)
                 updateFavGroups()
                 setFavgroupFlag(true)
+                invalidateFavgroup(favgroup.slug)
             }
             jsx.push(
                 <View style={styles.startRow}>

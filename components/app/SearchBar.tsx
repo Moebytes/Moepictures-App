@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
-import {View, TextInput, Pressable, Text, ScrollView} from "react-native"
+import {View, TextInput, Pressable, Text, ScrollView, TextInputKeyPressEvent} from "react-native"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchActions, useSearchSelector, useFlagSelector,
@@ -79,7 +79,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         setText("")
     }
 
-    const handleKeyPress = (e: any) => {
+    const handleKeyPress = (e: TextInputKeyPressEvent) => {
         if (e.nativeEvent.key === "Backspace" && !text && searchTags.length) {
             setSearchTags(searchTags.slice(0, -1))
         }

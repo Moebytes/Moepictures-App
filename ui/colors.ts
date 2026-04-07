@@ -48,7 +48,10 @@ export const noRotation = {
     adminColor: "#d70c67",
 
     dangerColor: "#FF2D99",
-    lockColor: "#f71e75"
+    lockColor: "#f71e75",
+    favoriteColor: "#ff73f6",
+    favgroupColor: "#df5dff",
+    savedSearchColor: "#8d5dff"
 }
 
 export const noRotationLight = {

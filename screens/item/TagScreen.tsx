@@ -22,6 +22,7 @@ import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
+import HeartIcon from "../../assets/svg/heart.svg"
 import {createStylesheet} from "./styles/TagScreen.styles"
 import functions from "../../functions/Functions"
 
@@ -48,6 +49,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const styles = createStylesheet(colors)
     const [activePixivTag, setActivePixivTag] = useState("")
     const [activeAlias, setActiveAlias] = useState("")
+    const [favorited, setFavorited] = useState(false)
     const ref = useRef<FlatList>(null)
     const navigation = useNavigation()
 
@@ -69,6 +71,16 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     }
 
     const {columns} = functions.image.getImageSize(sizeType, square, tablet)
+
+    const getFavorite = async () => {
+        if (!session.username) return
+        const tagFavorite = await functions.http.get("/api/tagfavorite", {tag: name}, session)
+        setFavorited(tagFavorite ? true : false)
+    }
+
+    useEffect(() => {
+        getFavorite()
+    }, [session])
 
     const socialIcons = () => {
         let jsx = [] as React.ReactElement[]
@@ -170,6 +182,14 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         setSearchScrollFlag(true)
     }
 
+    const favoriteTag = async () => {
+        if (!tag) return
+        await functions.http.post("/api/tagfavorite/toggle", {tag: tag.tag}, session)
+        getFavorite()
+    }
+
+    let iconSize = 30
+
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
@@ -196,6 +216,11 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                             {functions.util.toProperCase(tag.tag.replace(/-/g, " "))}
                         </Text>
                         {socialIcons()}
+                        {session.username ? 
+                        <PressableHaptic onPress={favoriteTag}>
+                            <HeartIcon width={iconSize} height={iconSize} color={favorited ? colors.favoriteColor : colors.iconColor}/>
+                        </PressableHaptic>
+                        : null}
                     </View>
 
                     {tag.pixivTags?.length && <View style={styles.rowContainer}>

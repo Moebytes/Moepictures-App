@@ -115,13 +115,13 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <ScalableHaptic icon={StarIcon} size={iconSize} color={favorited ? colors.favoriteBorder : colors.iconColor} 
+            <ScalableHaptic icon={StarIcon} size={iconSize} color={favorited ? colors.favoriteColor : colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favorite}>
-                <Text style={[styles.text, favorited && {color: colors.favoriteBorder}]}>{favorited ? i18n.post.favorited : i18n.post.favorite}</Text>
+                <Text style={[styles.text, favorited && {color: colors.favoriteColor}]}>{favorited ? i18n.post.favorited : i18n.post.favorite}</Text>
             </ScalableHaptic>
-            <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={favGrouped ? colors.favgroupBorder : colors.iconColor} 
+            <ScalableHaptic icon={StarGroupIcon} size={iconSize} color={favGrouped ? colors.favgroupColor : colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={favgroup}>
-                <Text style={[styles.text, favGrouped && {color: colors.favgroupBorder}]}>{i18n.post.favgroup}</Text>
+                <Text style={[styles.text, favGrouped && {color: colors.favgroupColor}]}>{i18n.post.favgroup}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={InfoIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>

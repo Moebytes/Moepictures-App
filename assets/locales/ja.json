@@ -249,7 +249,8 @@
         "set": "セット",
         "remap": "再配置",
         "apply": "応募する",
-        "continue": "続ける"
+        "continue": "続ける",
+        "appendAll": "すべて追加"
     },
     "history": {
         "post": "投稿履歴",
@@ -544,11 +545,17 @@
         "photos": "写真",
         "files": "ファイル",
         "logout": "本当にログアウトしますか？",
-        "enterInterval": "新しい間隔を入力してください"
+        "enterInterval": "新しい間隔を入力してください",
+        "enterSearchTags": "この検索のタグを入力してください",
+        "enterSearchName": "この検索の名前を入力してください",
+        "enterNewName": "新しい名前を入力するか、続行してください",
+        "enterNewTags": "新しいタグを入力するか、続行してください"
     },
     "options": {
         "searchOptions": "検索オプション",
         "showChildPosts": "子投稿を表示",
+        "tagFavorites": "タグ お気に入り",
+        "savedSearches": "保存済み検索",
         "sort": "並べ替え"
     },
     "toast": {
@@ -1092,6 +1099,10 @@
         "editSaveSearch": {
             "title": "保存された検索の編集",
             "tagsReq": "タグは必須。"
+        },
+        "deleteSaveSearch": {
+            "title": "保存済み検索を削除",
+            "header": "この保存済み検索を削除してもよろしいですか？"
         },
         "editTag": {
             "title": "編集タグ",
@@ -1911,7 +1922,7 @@
             },
             "maliciousActivity": {
                 "title": "不正行為",
-                "line1": "他人のアカウントへの不正アクセスを試みてはなりません。ウイルス、マルウェア、その他の悪意のあるコンテンツをアップロードしようとしないでください。当社のサーバーの稼働を妨害しようとしないでください（DDoS攻撃を含みます）。"
+                "line1": "他人のアカウントへの不正アクセスを試みてはなりません。ウイルス、マルウェア、その他の悪意のあるコンテンツをアップロードしようとしないでください。当社のサーバーの稼働を妨害しようとしないでください。"
             },
             "accounts": {
                 "title": "アカウント",

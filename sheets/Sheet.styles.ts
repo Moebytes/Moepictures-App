@@ -13,11 +13,18 @@ export const createStylesheet = (colors: ThemeColors) => {
         container: {
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "flex-start",
             paddingHorizontal: 20,
             paddingVertical: 20,
             gap: 20
+        },
+        scrollContainer: {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            gap: 10
         },
         centerRow: {
             display: "flex",
@@ -32,6 +39,14 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "center",
             alignItems: "flex-start",
             width: "100%"
+        },
+        column: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
+            gap: 10
         },
         mainTitle: {
             fontFamily: fonts.tsunagiGothicBlack,
@@ -84,11 +99,57 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderRadius: 6,
             backgroundColor: colors.optionActive
         },
+        wideButton2: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 40,
+            paddingVertical: 7,
+            borderRadius: 6,
+            backgroundColor: colors.optionActive
+        },
         wideButtonText: {
             fontFamily: fonts.honokaShinAntiqueKaku,
             color: colors.white,
             fontSize: 16,
             lineHeight: 20
+        },
+        tag: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 7,
+            paddingVertical: 6,
+            borderRadius: 15,
+            gap: 5,
+            backgroundColor: colors.artistTagColorGlass
+        },
+        tagText: {
+            fontFamily: fonts.irohamaruMikami,
+            color: colors.white,
+            fontSize: 15,
+            lineHeight: 18,
+            textAlign: "center"
+        },
+        savedSearch: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 7,
+            paddingVertical: 6,
+            borderRadius: 8,
+            gap: 5,
+            backgroundColor: colors.savedSearchColor
+        },
+        savedSearchText: {
+            fontFamily: fonts.genEiMGothicV2,
+            color: colors.white,
+            fontSize: 15,
+            lineHeight: 18,
+            textAlign: "center"
         }
     })
 }

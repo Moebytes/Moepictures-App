@@ -41,8 +41,8 @@ const SortBar: React.FunctionComponent = () => {
     const {setImageSearchFlag} = useFlagActions()
     const {showSizeDialog, showSortDialog, showPageMultiplierDialog} = useSearchDialogSelector()
     const {setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog} = useSearchDialogActions()
-    const {showPostsSheet} = useSheetSelector()
-    const {setShowPostsSheet} = useSheetActions()
+    const {showPostsSheet, showTagFavoritesSheet, showSavedSearchesSheet} = useSheetSelector()
+    const {setShowPostsSheet, setShowTagFavoritesSheet, setShowSavedSearchesSheet} = useSheetActions()
     const {showActionSheetWithOptions} = useActionSheet()
     const spinValue = useRef(new Animated.Value(0)).current
 
@@ -81,12 +81,23 @@ const SortBar: React.FunctionComponent = () => {
     }
 
     const savedSearches = () => {
-        Toast.show({text1: i18n.toast.loginRequired})
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        setShowSavedSearchesSheet(!showSavedSearchesSheet)
     }
 
     const favoriteTags = () => {
-        Toast.show({text1: i18n.toast.loginRequired})
-
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        setShowTagFavoritesSheet(!showTagFavoritesSheet)
     }
 
     useEffect(() => {
