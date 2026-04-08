@@ -9,6 +9,7 @@ import {Platform, PermissionsAndroid} from "react-native"
 import {saveDocuments} from "@react-native-documents/picker"
 import {CameraRoll} from "@react-native-camera-roll/camera-roll"
 import {Dirs, FileSystem as fs} from "react-native-file-access"
+import ImageResizer from "@bam.tech/react-native-image-resizer"
 import functions from "./Functions"
 
 const videoExtensions = [".mp4", ".webm", ".mov", ".mkv"]
@@ -26,6 +27,25 @@ export default class FileFunctions {
         const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
 
         return result === PermissionsAndroid.RESULTS.GRANTED
+    }
+
+    public static saveRemoteImage = async (img: string) => {
+        const dir = Dirs.DocumentDir
+        const dest = `file://${dir}/${path.basename(functions.util.pruneURLParams(img))}`
+        await fs.fetch(img, {path: dest})
+        return dest
+    }
+
+    public static deleteLocation = async (dest: string) => {
+        if (await fs.exists(dest)) {
+            await fs.unlink(dest)
+        }
+    }
+
+    public static resizeLocalImage = async (img: string, width: number, height: number, deleteOriginal = true) => {
+        const result = await ImageResizer.createResizedImage(img, width, height, "PNG", 100)
+        if (deleteOriginal) this.deleteLocation(img)
+        return result.uri
     }
     
     public static saveToCameraRoll = async (img: string, filename: string) => {

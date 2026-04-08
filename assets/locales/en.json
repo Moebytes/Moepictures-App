@@ -249,7 +249,8 @@
         "remap": "Remap",
         "apply": "Apply",
         "continue": "Continue",
-        "appendAll": "Append All"
+        "appendAll": "Append All",
+        "done": "Done"
     },
     "history": {
         "post": "Post History",
@@ -563,7 +564,8 @@
         "loggedIn": "Logged in as ",
         "loggedOut": "Successfully logged out!",
         "deletedAccount": "Your account was deleted.",
-        "deletedAccountFailure": "Deletion failed, make sure you type the correct input."
+        "deletedAccountFailure": "Deletion failed, make sure you type the correct input.",
+        "changedAvatar": "Successfully changed your avatar!"
     },
     "errors": {
         "$401":"401 error",

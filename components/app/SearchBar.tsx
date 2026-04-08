@@ -14,7 +14,7 @@ import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
 import RandomIcon from "../../assets/svg/random.svg"
-import XIcon from "../../assets/svg/x.svg"
+import XIcon from "../../assets/svg/thick-x.svg"
 import functions from "../../functions/Functions"
 
 interface Props {

@@ -13,6 +13,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@bam.tech/react-native-image-resizer": "^3.0.11",
     "@blazejkustra/react-native-alert": "^1.0.0",
     "@callstack/liquid-glass": "^0.7.0",
     "@expo/react-native-action-sheet": "^4.1.1",
@@ -38,6 +39,7 @@
     "react-native-file-access": "^4.0.0",
     "react-native-gesture-handler": "^2.30.0",
     "react-native-haptic-feedback": "^2.3.4",
+    "react-native-image-crop-tools": "^1.6.4",
     "react-native-image-picker": "^8.2.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-nitro-modules": "^0.35.2",

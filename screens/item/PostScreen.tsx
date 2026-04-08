@@ -35,6 +35,7 @@ import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import FullscreenImage from "../../components/image/FullscreenImage"
+import CropImage from "../../components/image/CropImage"
 import {createStylesheet} from "./styles/PostScreen.styles"
 import functions from "../../functions/Functions"
 import {Image} from "../../types/Types"
@@ -131,6 +132,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
           <StatusBar hidden={!statusBarVisible} barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
           <SearchSuggestions/>
           <FullscreenImage post={post} image={image}/>
+          <CropImage post={post} image={image}/>
           <FlatList
             ListHeaderComponent={
               <>

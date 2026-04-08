@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {Image, ImageSourcePropType} from "react-native"
-import { PostSize } from "../types/ParamTypes"
+import {PostSize} from "../types/ParamTypes"
 
 export default class ImageFunctions {
     public static dynamicResize = async (img: ImageSourcePropType, maxSize: number, deviceWidth: number) => {

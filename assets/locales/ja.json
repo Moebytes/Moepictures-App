@@ -250,7 +250,8 @@
         "remap": "再配置",
         "apply": "応募する",
         "continue": "続ける",
-        "appendAll": "すべて追加"
+        "appendAll": "すべて追加",
+        "done": "完了"
     },
     "history": {
         "post": "投稿履歴",
@@ -563,7 +564,9 @@
         "verificationRequired": "この操作を行うには、メールアドレスの確認が必要です。",
         "loggedIn": "としてログイン中",
         "loggedOut": "ログアウトが完了しました！",
-        "deletedAccount": "アカウントが削除されました。"
+        "deletedAccount": "アカウントが削除されました。",
+        "deletedAccountFailure": "削除に失敗しました。入力が正しいか確認してください。",
+        "changedAvatar": "アバターの変更が完了しました！"
     },
     "errors": {
         "$401":"401エラー",
