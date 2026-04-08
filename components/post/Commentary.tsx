@@ -11,6 +11,7 @@ import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"
 import {PostFull} from "../../types/Types"
+import moeText from "../../moetext/MoeText"
 
 interface Props {
     post?: PostFull
@@ -34,10 +35,7 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text} selectable uiTextView 
-                    selectionColor={colors.borderColor}>
-                    {showTranslated ? props.post.englishCommentary : props.post.commentary}
-                </Text>
+                {moeText.renderCommentaryText(showTranslated ? props.post.englishCommentary : props.post.commentary, colors)}
             </View>
         </View>
     )

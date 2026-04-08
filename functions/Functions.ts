@@ -14,6 +14,7 @@ import HTTPFunctions from "./HTTPFunctions"
 import ImageFunctions from "./ImageFunctions"
 import LinkFunctions from "./LinkFunctions"
 import PostFunctions from "./PostFunctions"
+import RenderFunctions from "./RenderFunctions"
 import TagFunctions from "./TagFunctions"
 import UtilFunctions from "./UtilFunctions"
 import ValidationFunctions from "./ValidationFunctions"
@@ -36,6 +37,7 @@ export default class Functions {
     public static image = ImageFunctions
     public static link = LinkFunctions
     public static post = PostFunctions
+    public static render = RenderFunctions
     public static tag = TagFunctions
     public static util = UtilFunctions
     public static valid = ValidationFunctions

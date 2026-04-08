@@ -13,30 +13,38 @@ export const createStylesheet = (colors: ThemeColors) => {
         container: {
             display: "flex",
             flexDirection: "row",
-            alignItems: "center",
-            width: "90%",
-            alignSelf: "center",
+            alignItems: "flex-start",
+            width: "100%",
             gap: 10,
+            borderWidth: 1.5,
+            borderColor: "transparent",
             borderRadius: 13,
-            backgroundColor: colors.itemBG,
             marginBottom: 10
         },
-        imageContainer: {
+        userContainer: {
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            paddingLeft: 10,
-            paddingVertical: 10
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            gap: 10
+        },
+        userText: {
+            color: colors.iconColor,
+            textAlign: "center",
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 18
         },
         textContainer: {
             display: "flex",
             flexDirection: "column",
+            width: "100%",
+            paddingVertical: 10,
+            justifyContent: "flex-start",
             alignItems: "flex-start",
-            paddingHorizontal: 6,
-            paddingVertical: 7,
-            gap: 7,
             flexShrink: 1,
-            flexWrap: "wrap"
+            gap: 5
         },
         rowContainer: {
             display: "flex",
@@ -44,12 +52,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "flex-start",
             flexWrap: "wrap",
             gap: 5
-        },
-        userText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 15
         },
         dateText: {
             color: colors.iconColor,

@@ -47,6 +47,11 @@ export const noRotation = {
     modColor: "#1365f6",
     adminColor: "#d70c67",
 
+    blueIcon: "#628FFF",
+    optionBlueActive: "#76AAFF",
+    redIcon: "#ff3277",
+    optionReset: "#F2F0F7",
+
     dangerColor: "#FF2D99",
     lockColor: "#f71e75",
     favoriteColor: "#ff73f6",
@@ -55,23 +60,15 @@ export const noRotation = {
 }
 
 export const noRotationLight = {
-    blueIcon: "#628FFF",
-    optionBlueActive: "#76AAFF",
     optionBlueInactive: "#E7F0FF",
-    redIcon: "#ff3277",
     optionRedActive: "#e2296a",
-    optionRedInactive: "#ffc8da",
-    optionReset: "#F2F0F7"
+    optionRedInactive: "#ffc8da"
 }
 
 export const noRotationDark = {
-    blueIcon: "#628FFF",
-    optionBlueActive: "#76AAFF",
     optionBlueInactive: "#182945",
-    redIcon: "#ff3277",
     optionRedActive: "#ff377d",
-    optionRedInactive: "#451823",
-    optionReset: "#F2F0F7"
+    optionRedInactive: "#451823"
 }
 
 export const sharedColors = {
@@ -79,7 +76,8 @@ export const sharedColors = {
     toastColor: "#FF63B4",
     drawerTitle: "#ff4cc6",
     cutenessStarColor: "#FF6DAC",
-    cutenessAverageColor: "#ff6d8d"
+    cutenessAverageColor: "#ff6d8d",
+    highlightColor: "#FF16A6"
 }
 
 export const LightTheme = {

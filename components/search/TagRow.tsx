@@ -13,6 +13,7 @@ import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TagRow.styles"
 import {TagSearch} from "../../types/Types"
 import functions from "../../functions/Functions"
+import moeText from "../../moetext/MoeText"
 
 const pixiv = require("../../assets/icons/pixiv.png")
 const twitter = require("../../assets/icons/twitter.png")
@@ -82,8 +83,7 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
                 {socialIcons()}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
-                <Text style={styles.text} selectable uiTextView
-                selectionColor={colors.borderColor}>{props.tag.description}</Text>
+                {moeText.renderCommentaryText(props.tag.description, colors)}
             </ScrollView>
         </View>
     )

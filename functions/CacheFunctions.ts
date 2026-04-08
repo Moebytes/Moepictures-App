@@ -36,4 +36,15 @@ export default class CacheFunctions {
             return tagCountMap
         }
     }
+
+    public static emojisCache = async (session: Session) => {
+        const cache = await asyncStorage.getItem("emojis")
+        if (cache) {
+            return JSON.parse(cache) as {[key: string]: string}
+        } else {
+            let emojis = await functions.http.get("/api/misc/emojis", null, session)
+            asyncStorage.setItem("emojis", JSON.stringify(emojis))
+            return emojis
+        }
+    }
 }

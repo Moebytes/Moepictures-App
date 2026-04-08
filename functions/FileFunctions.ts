@@ -12,6 +12,8 @@ import {Dirs, FileSystem as fs} from "react-native-file-access"
 import ImageResizer from "@bam.tech/react-native-image-resizer"
 import functions from "./Functions"
 
+const imageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".avif"]
+const animationExtensions = [".gif", ".webp", ".apng", ".png", ".zip"]
 const videoExtensions = [".mp4", ".webm", ".mov", ".mkv"]
 const audioExtensions = [".mp3", ".wav", ".ogg", ".flac", ".aac"]
 
@@ -90,6 +92,34 @@ export default class FileFunctions {
         }
     }
 
+    public static isImage = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return functions.util.arrayIncludes(ext, imageExtensions)
+        }
+        if (file.startsWith("data:image")) {
+            return true
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return functions.util.arrayIncludes(ext, imageExtensions)
+    }
+
+    public static isAnimation = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return functions.util.arrayIncludes(ext, animationExtensions)
+        }
+        if (file.startsWith("data:image")) {
+            return true
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return functions.util.arrayIncludes(ext, animationExtensions)
+    }
+
     public static isVideo = (file?: string) => {
         if (!file) return false
         file = file.replace(/\?.*$/, "")
@@ -110,6 +140,20 @@ export default class FileFunctions {
         }
         const ext = file.startsWith(".") ? file : path.extname(file)
         return functions.util.arrayIncludes(ext, audioExtensions)
+    }
+
+    public static isGIF = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return ext === ".gif"
+        }
+        if (file?.startsWith("data:image/gif")) {
+            return true
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return ext === ".gif"
     }
 
     public static isZip = (file?: string) => {

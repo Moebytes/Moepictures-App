@@ -30,5 +30,13 @@ export const fonts = {
     pixelArial11: Platform.select({
         ios: "Pixel Arial 11",
         android: "Pixel-Arial-11"
+    }),
+    sourceCodePro: Platform.select({
+        ios: "Source Code Pro",
+        android: "Source-Code-Pro"
+    }),
+    clearSansItalic: Platform.select({
+        ios: "Clear Sans",
+        android: "Clear-Sans-Italic"
     })
 }

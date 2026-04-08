@@ -25,6 +25,7 @@ import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import {createStylesheet} from "./styles/GroupScreen.styles"
 import functions from "../../functions/Functions"
+import moeText from "../../moetext/MoeText"
 
 type Props = {
   route: RouteProp<StackParamList, "Group">
@@ -127,8 +128,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         </Text>
                     </View>
                     <View style={styles.rowContainer}>
-                        <Text style={styles.text} selectable uiTextView
-                        selectionColor={colors.borderColor}>{group.description}</Text>
+                        {moeText.renderCommentaryText(group.description, colors)}
                     </View>
                 </View>
                 <View style={styles.headerContainer}>

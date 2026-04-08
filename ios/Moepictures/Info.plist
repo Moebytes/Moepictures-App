@@ -50,6 +50,8 @@
 		<string>JK-Gothic-M.ttf</string>
 		<string>TsunagiGothic-Black.ttf</string>
 		<string>Pixel-Arial-11.ttf</string>
+		<string>Source-Code-Pro.ttf</string>
+		<string>Clear-Sans-Italic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

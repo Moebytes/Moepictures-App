@@ -25,6 +25,7 @@ import LeftIcon from "../../assets/svg/left.svg"
 import HeartIcon from "../../assets/svg/heart.svg"
 import {createStylesheet} from "./styles/TagScreen.styles"
 import functions from "../../functions/Functions"
+import moeText from "../../moetext/MoeText"
 
 const pixiv = require("../../assets/icons/pixiv.png")
 const twitter = require("../../assets/icons/twitter.png")
@@ -231,9 +232,8 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                         {aliases()}
                     </View>}
 
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.text} selectable uiTextView
-                        selectionColor={colors.borderColor}>{tag.description}</Text>
+                    <View style={styles.textContainer}>
+                        {moeText.renderCommentaryText(tag.description, colors)}
                     </View>
                 </View>}
                 <Related count={related.totalItems} pressAction={pressAction}/>

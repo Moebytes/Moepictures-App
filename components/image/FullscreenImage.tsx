@@ -32,6 +32,7 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     const [postIndex, setPostIndex] = useState(0)
     const [imageIndex, setImageIndex] = useState(0)
     const [panEnabled, setPanEnabled] = useState(true)
+    const [lock, setLock] = useState(true)
     const [zoom, setZoom] = useState(1)
     const navigation = useNavigation()
     const zoomRef = useRef<ReactNativeZoomableView>(null)
@@ -70,11 +71,15 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         if (!showFullscreenImage) return
         if (!props.post) return
+
         const postIndex = navigationPosts.findIndex((post) => String(post.postID) === String(props.post!.postID))
         setPostIndex(postIndex === -1 ? 0 : postIndex)
+
         const imageIndex = props.post.images.findIndex((image) => String(image.imageID) === String(props.image?.imageID))
         setImageIndex(imageIndex === -1 ? 0 : imageIndex)
+
         setStatusBarVisible(false)
+        setLock(false)
     }, [showFullscreenImage, props.post, props.image, navigationPosts])
 
     const onClose = () => {
@@ -89,13 +94,14 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const onShiftEnd = (event: GestureResponderEvent, gestureState: PanResponderGestureState, 
+    const onShiftEnd = (event: GestureResponderEvent | null, gestureState: PanResponderGestureState | null, 
         context: ZoomableViewEvent) => {
         if (context.zoomLevel > 1.1) return false
 
         const swipeThreshold = 150
 
-        if (context.offsetY > swipeThreshold) {
+        if (context.offsetY > swipeThreshold && !lock) {
+            setLock(true)
             onClose()
         }
         
@@ -105,6 +111,7 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     const onPageChange = (direction: "next" | "prev") => {
         // @ts-ignore
         if (zoomRef.current) zoomRef.current._ignorePagingNext = true
+        //zoomRef.current?.resetPan()
         setPanEnabled(false)
 
         if (direction === "next") {
@@ -114,12 +121,12 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
             if (!lastImage) {
                 setTimeout(() => {
                     setImageIndex((prev) => prev + 1)
-                }, 100)
+                }, 300)
             } else {
                 setTimeout(() => {
                     setPostIndex((prev) => prev + 1)  
                     setImageIndex(0) 
-                }, 100)
+                }, 300)
             }
         } else {
             const firstImage = imageIndex <= 0
@@ -127,28 +134,30 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
             if (!firstImage) {
                 setTimeout(() => {
                     setImageIndex((prev) => prev - 1)
-                }, 100)
+                }, 300)
             } else {
                 setTimeout(() => {
                     let prevImages = prevPost?.images || []
                     setPostIndex((prev) => prev - 1) 
                     setImageIndex((prevImages.length || 1) - 1)  
-                }, 100)
+                }, 300)
             }
         }
     }
 
     const onImageLoad = () => {
         zoomRef.current?.resetPan()
-        setPanEnabled(true)
         imageLockRef.current = ""
         saveHistory()
+        setTimeout(() => {
+            setPanEnabled(true)
+        }, 300)
     }
 
     return (
         <Modal visible={showFullscreenImage} backdropColor="black" animationType="fade">
                 <ReactNativeZoomableView ref={zoomRef} style={styles.container} minZoom={1} maxZoom={10} 
-                    panEnabled={panEnabled} visualTouchFeedbackEnabled={false} onShiftingEnd={onShiftEnd}
+                    panEnabled={panEnabled} visualTouchFeedbackEnabled={false} onShiftingAfter={onShiftEnd}
                     onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}
                     pagingThreshold={0.1} pagingEnabled={true} pageWidth={width} onPageChange={onPageChange} 
                     canGoNext={canGoNext} canGoPrev={canGoPrev} lockMinZoomAxis={true}>

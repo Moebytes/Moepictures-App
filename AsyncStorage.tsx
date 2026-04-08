@@ -21,7 +21,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {sessionFlag} = useFlagSelector()
     const {setSessionFlag} = useFlagActions()
     const {setTablet} = useLayoutActions()
-    const {setSortedTags} = useCacheActions()
+    const {setSortedTags, setEmojis} = useCacheActions()
     const {session, showRelated, autosearchInterval} = useSessionSelector()
     const {setSession, setUserImg, setShowRelated, setAutosearchInterval, 
     setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
@@ -52,7 +52,12 @@ const AsyncStorage: React.FunctionComponent = () => {
         setSession(cookie)
     }
 
-    const updateCache = async () => {
+    const cacheEmojis = async () => {
+        const emojis = await functions.cache.emojisCache(session)
+        setEmojis(emojis)
+    }
+
+    const cacheSortedTags = async () => {
         const sorted = await functions.cache.sortedTagCounts("all", session)
         setSortedTags(sorted)
     }
@@ -129,7 +134,8 @@ const AsyncStorage: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (!loaded) return
-        updateCache()
+        cacheEmojis()
+        cacheSortedTags()
     }, [loaded])
 
     useEffect(() => {

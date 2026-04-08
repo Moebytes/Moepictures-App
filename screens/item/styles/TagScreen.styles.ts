@@ -49,6 +49,15 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexWrap: "wrap",
             gap: 10
         },
+        textContainer: {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            width: "100%",
+            flexWrap: "wrap",
+            gap: 10
+        },
         tag: {
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 22,

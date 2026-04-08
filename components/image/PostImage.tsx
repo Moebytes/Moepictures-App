@@ -35,6 +35,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
         if (!props.image) return
         const img = functions.link.getImageLink(props.image, session.upscaledImages)
         setImg(img)
+        setLoaded(false)
     }, [props.image])
 
     useEffect(() => {
@@ -45,7 +46,6 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             setSize(size)
             setLoaded(true)
         }
-        setLoaded(false)
         updateSize()
     }, [img, tablet])
 

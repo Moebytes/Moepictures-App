@@ -30,6 +30,7 @@ import ArtistWorks from "../../components/post/ArtistWorks"
 import BuyLink from "../../components/post/BuyLink"
 import CutenessMeter from "../../components/post/CutenessMeter"
 import Commentary from "../../components/post/Commentary"
+import Comments from "../../components/post/Comments"
 import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
@@ -152,6 +153,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                   <BuyLink post={post}/>
                   <Commentary post={post}/>
                   <ArtistWorks tag={artistTag}/>
+                  <Comments post={post}/>
                   <Related/>
                 </View>
               </>

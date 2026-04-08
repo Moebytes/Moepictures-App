@@ -8,10 +8,11 @@ import React, {useState, useEffect} from "react"
 import {View, Image, useWindowDimensions, Pressable} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
-import {useSessionSelector, useThemeSelector} from "../../store"
+import {useCacheSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
 import functions from "../../functions/Functions"
+import moeText from "../../moetext/MoeText"
 import {CommentSearch} from "../../types/Types"
 
 const favicon = require("../../assets/icons/favicon.png")
@@ -24,6 +25,7 @@ interface Props {
 const CommentRow: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
+    const {emojis} = useCacheSelector()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const styles = createStylesheet(colors)
@@ -75,8 +77,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.dateText}>{functions.date.timeAgo(props.comment.postDate, i18n)}</Text>
                 </View>
                 <View style={styles.rowContainer}>
-                    <Text style={styles.text} selectable uiTextView
-                    selectionColor={colors.borderColor}>{props.comment.comment}</Text>
+                    {moeText.renderText(props.comment.comment, emojis, colors)}
                 </View>
             </View>
         </View>

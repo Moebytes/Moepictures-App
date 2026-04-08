@@ -12,7 +12,8 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "downlevelIteration": true
   },
   "exclude": [
     "node_modules"

@@ -256,6 +256,16 @@ export const api = createApi({
             })
         }),
 
+        getComments: builder.query<
+            GetEndpoint<"/api/post/comments">["response"], 
+            GetEndpoint<"/api/post/comments">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/post/comments", params
+            }),
+            keepUnusedDataFor: 0
+        }),
+
         getTag: builder.query<
             GetEndpoint<"/api/tag">["response"], 
             GetEndpoint<"/api/tag">["params"]
@@ -315,6 +325,7 @@ export const {
     useGetPostParentQuery,
     useGetPostChildrenQuery,
     useGetPostGroupsQuery,
+    useGetCommentsQuery,
     useGetTagQuery,
     useGetGroupQuery,
     useGetFavgroupQuery
