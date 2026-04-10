@@ -111,7 +111,7 @@ export default class TagFunctions {
         return colors.tagColor
     }
 
-    public static getUserColor = (user: TinyUser, colors: ThemeColors) => {
+    public static getUserColor = (user: {username: string, role: string}, colors: ThemeColors) => {
         if (user.role === "admin") return colors.adminColor
         if (user.role === "mod") return colors.modColor
         if (user.role === "system") return colors.systemColor

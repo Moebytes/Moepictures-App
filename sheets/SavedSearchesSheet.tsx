@@ -4,10 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState, useRef} from "react"
+import React, {useEffect, useRef} from "react"
 import {View, ScrollView, Text, Image, Animated, Alert} from "react-native"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
-import {LiquidGlassView} from "@callstack/liquid-glass"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSessionSelector,
 useSearchActions, useFlagActions, useSearchSelector} from "../store"
 import ScalableHaptic from "../ui/ScalableHaptic"
@@ -175,7 +174,7 @@ const SavedSearchesSheet: React.FunctionComponent = () => {
                                 )
                             }}
                         </ScalableHaptic>
-                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton2]} onPress={() => saveSearch()}>
+                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton2, {backgroundColor: colors.savedSearchColor}]} onPress={() => saveSearch()}>
                             {({colorAnim}) => {
                                 const color = colorAnim.interpolate({
                                     inputRange: [0, 1],

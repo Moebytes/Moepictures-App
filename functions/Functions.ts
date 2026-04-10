@@ -12,6 +12,7 @@ import DateFunctions from "./DateFunctions"
 import FileFunctions from "./FileFunctions"
 import HTTPFunctions from "./HTTPFunctions"
 import ImageFunctions from "./ImageFunctions"
+import JSXFunctions from "./JSXFunctions"
 import LinkFunctions from "./LinkFunctions"
 import PostFunctions from "./PostFunctions"
 import RenderFunctions from "./RenderFunctions"
@@ -35,6 +36,7 @@ export default class Functions {
     public static file = FileFunctions
     public static http = HTTPFunctions
     public static image = ImageFunctions
+    public static jsx = JSXFunctions
     public static link = LinkFunctions
     public static post = PostFunctions
     public static render = RenderFunctions

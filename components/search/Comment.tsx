@@ -7,10 +7,11 @@
 import React, {useState, useEffect} from "react"
 import {View, Image, Pressable, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
+import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useActiveActions, useCacheSelector, useSessionSelector, useThemeSelector,
-useCommentDialogActions} from "../../store"
+useCommentDialogActions, useCacheActions} from "../../store"
 import {createStylesheet} from "./styles/Comment.styles"
 import DateIcon from "../../assets/svg/date.svg"
 import QuoteIcon from "../../assets/svg/quote.svg"
@@ -35,8 +36,10 @@ const Comment: React.FunctionComponent<Props> = (props) => {
     const {setQuoteText} = useActiveActions()
     const {setEditCommentID, setEditCommentText} = useCommentDialogActions()
     const {emojis} = useCacheSelector()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const [userPfp, setUserPfp] = useState("")
+    const navigation = useNavigation()
 
     useEffect(() => {
         if (!props.comment) return
@@ -47,6 +50,13 @@ const Comment: React.FunctionComponent<Props> = (props) => {
     let pfpSize = 60
     let iconSize = 18
     let pfp = userPfp || favicon
+
+    const pfpPress = () => {
+        if (props.comment.imagePost) {
+            functions.navigateToPost(props.comment.imagePost, navigation)
+            setNavigationPosts([])
+        }
+    }
 
     const quoteComment = () => {
         const cleanComment = functions.render.parsePieces(props.comment?.comment).filter((s: string) => !s.includes(">>>")).join(" ")
@@ -117,10 +127,10 @@ const Comment: React.FunctionComponent<Props> = (props) => {
 
     return (
         <Pressable style={({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}]}>
-             <View style={styles.userContainer}>
+             <Pressable style={styles.userContainer} onPress={pfpPress}>
                 <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} source={{uri: pfp}} resizeMode="contain"/>
-                <Text style={[styles.userText, {color: functions.tag.getUserColor(props.comment, colors)}]}>{functions.util.toProperCase(props.comment.username)}</Text>
-             </View>
+                {functions.jsx.usernameJSX(props.comment, colors, {fontSize: 18}, 20)}
+             </Pressable>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>

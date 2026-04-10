@@ -32,6 +32,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            width: "100%",
             paddingHorizontal: 6,
             paddingVertical: 7,
             gap: 7,
@@ -41,15 +42,9 @@ export const createStylesheet = (colors: ThemeColors) => {
         rowContainer: {
             display: "flex",
             flexDirection: "row",
-            alignItems: "flex-start",
+            alignItems: "center",
             flexWrap: "wrap",
             gap: 5
-        },
-        userText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 15
         },
         dateText: {
             color: colors.iconColor,

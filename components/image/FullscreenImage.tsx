@@ -8,7 +8,7 @@ import React, {useState, useEffect, useRef} from "react"
 import {Modal, Image, useWindowDimensions, GestureResponderEvent, PanResponderGestureState} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
-import {useThemeSelector, useLayoutSelector, useSessionSelector, useMiscDialogSelector, 
+import {useThemeSelector, useSessionSelector, useMiscDialogSelector, 
 useMiscDialogActions, useCacheSelector, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/FullscreenImage.styles"
 import functions from "../../functions/Functions"
@@ -20,8 +20,7 @@ interface Props {
 }
 
 const FullscreenImage: React.FunctionComponent<Props> = (props) => {
-    const {i18n, colors} = useThemeSelector()
-    const {tablet} = useLayoutSelector()
+    const {colors} = useThemeSelector()
     const {showFullscreenImage} = useMiscDialogSelector()
     const {setShowFullscreenImage} = useMiscDialogActions()
     const {setStatusBarVisible} = useLayoutActions()
@@ -38,7 +37,8 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     const zoomRef = useRef<ReactNativeZoomableView>(null)
     const imageLockRef = useRef("")
 
-    const post = navigationPosts[postIndex]
+    let post = navigationPosts[postIndex]
+    if (!post) post = props.post!
     const prevPost = navigationPosts[postIndex - 1]
     const nextPost = navigationPosts[postIndex + 1]
 
@@ -83,7 +83,9 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     }, [showFullscreenImage, props.post, props.image, navigationPosts])
 
     const onClose = () => {
-        if (post && props.post?.postID !== post.postID) functions.navigateToPost(post.postID, navigation)
+        if (post && String(props.post?.postID) !== String(post.postID)) {
+            functions.navigateToPost(post.postID, navigation)
+        }
         setShowFullscreenImage(false)
         setStatusBarVisible(true)
     }

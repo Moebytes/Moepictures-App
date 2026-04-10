@@ -30,12 +30,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             paddingVertical: 10,
             gap: 10
         },
-        userText: {
-            color: colors.iconColor,
-            textAlign: "center",
-            fontFamily: fonts.honokaShinAntiqueKaku,
-            fontSize: 18
-        },
         textContainer: {
             display: "flex",
             flexDirection: "column",

@@ -135,7 +135,7 @@ const TagFavoritesSheet: React.FunctionComponent = () => {
                                 )
                             }}
                         </ScalableHaptic>
-                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton2]} onPress={() => append("all")}>
+                        <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton2, {backgroundColor: colors.favoriteColor}]} onPress={() => append("all")}>
                             {({colorAnim}) => {
                                 const color = colorAnim.interpolate({
                                     inputRange: [0, 1],
