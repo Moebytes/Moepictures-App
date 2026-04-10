@@ -52,6 +52,8 @@ export const noRotation = {
     redIcon: "#ff3277",
     optionReset: "#F2F0F7",
 
+    previewColor: "#AAABFF",
+    editColor: "#6e86ff",
     dangerColor: "#FF2D99",
     lockColor: "#f71e75",
     favoriteColor: "#ff73f6",

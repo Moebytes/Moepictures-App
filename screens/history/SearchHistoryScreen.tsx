@@ -6,8 +6,11 @@
 
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions} from "../../store"
+import PressableHaptic from "../../ui/PressableHaptic"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions,
+useSearchActions, useFlagActions} from "../../store"
 import {useSearchHistoryInfiniteQuery, useSearchHistoryPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -26,6 +29,8 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, searchHistorySort} = useSearchSelector()
+    const {setSearch: setPostsSearch, setSearchTags: setPostsSearchTags} = useSearchActions()
+    const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
@@ -36,6 +41,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
     const ref = useRef<FlatList>(null)
+    const navigation = useNavigation()
 
     useEffect(() => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
@@ -67,13 +73,17 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         ? infiniteQuery.isLoading
         : pageQuery.isLoading
 
+    const refetch = scroll 
+        ? infiniteQuery.refetch
+        : pageQuery.refetch
+
     const onPress = () => {
         const posts = history.map((h) => h.post)
         if (posts.length) setNavigationPosts(posts)
     }
             
     const renderItem: ListRenderItem<SearchHistory> = ({item}) => {
-        return <SearchHistoryRow history={item} onPress={onPress}/>
+        return <SearchHistoryRow history={item} onPress={onPress} refetch={refetch}/>
     }
 
     const renderEmpty = () => {
@@ -100,6 +110,13 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         }
     }
 
+    const pressAction = () => {
+        setPostsSearchTags([`history:${session.username}`])
+        setPostsSearch(`history:${session.username}`)
+        navigation.navigate("Posts", undefined, {pop: true})
+        setSearchScrollFlag(true)
+    }
+
     const totalItems = Number(pageQuery.data?.[0]?.historyCount ?? 0)
     const totalPages = Math.ceil(totalItems / pageSize)
 
@@ -107,11 +124,11 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         if (isLoading) return null
 
         return (
-        <View style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>{i18n.history.search}</Text>
+            <View style={styles.container}>
+                <PressableHaptic style={styles.titleContainer} onPress={pressAction}>
+                    <Text style={styles.title}>{i18n.history.search}</Text>
+                </PressableHaptic>
             </View>
-        </View>
         )
     }
 

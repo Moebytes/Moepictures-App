@@ -19,7 +19,8 @@ const layoutSlice = createSlice({
         keyboardOpen: false,
         sharingActive: false,
         statusBarVisible: true,
-        postDrawerSwipe: true
+        postDrawerSwipe: true,
+        emojiStripVisible: false
     },
     reducers: {
         setTablet: (state, action) => {state.tablet = action.payload},
@@ -28,13 +29,15 @@ const layoutSlice = createSlice({
         setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload},
         setSharingActive: (state, action) => {state.sharingActive = action.payload},
         setStatusBarVisible: (state, action) => {state.statusBarVisible = action.payload},
-        setPostDrawerSwipe: (state, action) => {state.postDrawerSwipe = action.payload}
+        setPostDrawerSwipe: (state, action) => {state.postDrawerSwipe = action.payload},
+        setEmojiStripVisible: (state, action) => {state.emojiStripVisible = action.payload}
     }    
 })
 
 const {
     setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen, 
-    setSharingActive, setStatusBarVisible, setPostDrawerSwipe
+    setSharingActive, setStatusBarVisible, setPostDrawerSwipe,
+    setEmojiStripVisible
 } = layoutSlice.actions
 
 const dialogOpen = createSelector(
@@ -61,6 +64,7 @@ export const useLayoutSelector = () => {
         sharingActive: selector((state) => state.layout.sharingActive),
         statusBarVisible: selector((state) => state.layout.statusBarVisible),
         postDrawerSwipe: selector((state) => state.layout.postDrawerSwipe),
+        emojiStripVisible: selector((state) => state.layout.emojiStripVisible),
         dialogOpen: selector(dialogOpen)
     }
 }
@@ -75,6 +79,7 @@ export const useLayoutActions = () => {
         setSharingActive: (state: boolean) => dispatch(setSharingActive(state)),
         setStatusBarVisible: (state: boolean) => dispatch(setStatusBarVisible(state)),
         setPostDrawerSwipe: (state: boolean) => dispatch(setPostDrawerSwipe(state)),
+        setEmojiStripVisible: (state: boolean) => dispatch(setEmojiStripVisible(state)),
         closeAllDialogs: () => dispatch(closeAllDialogs())
     }
 }

@@ -5,20 +5,29 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, useWindowDimensions, Pressable} from "react-native"
+import {View, Image, useWindowDimensions, Pressable, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
+import Toast from "react-native-toast-message"
 import {useNavigation} from "@react-navigation/native"
-import {useCacheSelector, useSessionSelector, useThemeSelector} from "../../store"
+import ScalableHaptic from "../../ui/ScalableHaptic"
+import {useCacheSelector, useSessionSelector, useThemeSelector, useActiveActions,
+useCommentDialogActions} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
+import QuoteIcon from "../../assets/svg/quote.svg"
+import ReportIcon from "../../assets/svg/report.svg"
+import EditIcon from "../../assets/svg/edit.svg"
+import DeleteIcon from "../../assets/svg/delete.svg"
+import {CommentSearch} from "../../types/Types"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
-import {CommentSearch} from "../../types/Types"
+import permissions from "../../structures/Permissions"
 
 const favicon = require("../../assets/icons/favicon.png")
 
 interface Props {
     comment: CommentSearch
+    refetch: () => void
     onPress?: () => void
 }
 
@@ -26,6 +35,8 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {emojis} = useCacheSelector()
+    const {setQuoteText} = useActiveActions()
+    const {setEditCommentID, setEditCommentText} = useCommentDialogActions()
     const {width} = useWindowDimensions()
     const [size, setSize] = useState({width: 0, height: 0})
     const styles = createStylesheet(colors)
@@ -56,11 +67,80 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
         props.onPress?.()
     }
 
+    const quoteComment = async () => {
+        navigation.navigate("Post", {postID: props.comment.postID})
+        await functions.timeout(2000)
+        const cleanComment = functions.render.parsePieces(props.comment?.comment).filter((s: string) => !s.includes(">>>")).join(" ")
+        setQuoteText(functions.multiTrim(`
+            >>>[${props.comment?.commentID}] ${functions.util.toProperCase(props.comment?.username)} said:
+            > ${cleanComment}
+        `))
+    }
+
+    const reportComment = () => {
+        Alert.prompt(i18n.dialogs.reportComment.title, i18n.dialogs.reportComment.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.report, style: "destructive", onPress: async (reason = "") => {
+                await functions.http.post("/api/comment/report", {commentID: props.comment.commentID, reason}, session)
+                Toast.show({text1: i18n.dialogs.reportComment.submitText})
+            }}
+        ], "plain-text", "", "default", {cancelable: true})
+    }
+
+    const editComment = () => {
+        setEditCommentText(moeText.undoLinkReplacements(props.comment.comment))
+        setEditCommentID(props.comment.commentID)
+    }
+
+    const deleteComment = () => {
+        Alert.alert(i18n.dialogs.deleteComment.title, i18n.dialogs.deleteComment.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                await functions.http.delete("/api/comment/delete", {commentID: props.comment?.commentID}, session)
+                props.refetch()
+            }}
+        ], {cancelable: true})
+    }
+
     if (!img) return null
 
     let pfpSize = 30
     let iconSize = 18
     let pfp = userPfp || favicon
+
+    const commentOptions = () => {
+        if (session.username === props.comment?.username) {
+            return (
+                <View style={styles.optionsContainer}>
+                    <ScalableHaptic style={styles.optionContainer} onPress={editComment}>
+                        <EditIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic>
+                    <ScalableHaptic style={styles.optionContainer} onPress={deleteComment}>
+                        <DeleteIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic>
+                </View>
+            )
+        } else {
+            if (session.banned) return null
+            return (
+                <View style={styles.optionsContainer}>
+                    <ScalableHaptic style={styles.optionContainer} onPress={quoteComment}>
+                        <QuoteIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic>
+                    {permissions.isMod(session) ? <>
+                    <ScalableHaptic style={styles.optionContainer} onPress={editComment}>
+                        <EditIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic>
+                    <ScalableHaptic style={styles.optionContainer} onPress={deleteComment}>
+                        <DeleteIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic> </> :
+                    <ScalableHaptic style={styles.optionContainer} onPress={reportComment}>
+                        <ReportIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </ScalableHaptic>}
+                </View>
+            )
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -80,6 +160,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
                     {moeText.renderText(props.comment.comment, emojis, colors)}
                 </View>
             </View>
+            {session.username ? commentOptions() : null}
         </View>
     )
 }

@@ -46,6 +46,10 @@ export default class Functions {
         return new Promise((resolve) => setTimeout(resolve, ms))
     }
 
+    public static multiTrim = (str: string) => {
+        return str.replace(/^\s+/gm, "").replace(/\s+$/gm, "").replace(/newline/g, " ")
+    }
+
     public static r13 = () => {
         return "cute" as PostRating
     }

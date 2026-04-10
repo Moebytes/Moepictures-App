@@ -75,4 +75,20 @@ export default class ValidationFunctions {
         if (functions.util.arrayIncludes(domain, tempMails)) return i18n.errors.email.invalid
         return null
     }
+
+    public static validateComment = (comment: string, i18n: typeof enLocale) => {
+        if (!comment) return i18n.errors.comment.empty
+        if (comment.length > 1000) return i18n.errors.comment.length
+        const pieces = functions.render.parsePieces(comment)
+        for (let i = 0; i < pieces.length; i++) {
+            const piece = pieces[i]
+            if (piece.includes(">")) {
+                const username = piece.match(/(>>>)(.*?)(?=$|>)/gm)?.[0].replace(">>>", "") ?? ""
+                const text = piece.replace(username, "").replace(/>/g, "")
+                if (!text && !username) continue
+            }
+        }
+        if (this.isProfane(comment)) return i18n.errors.comment.profane
+        return null
+    }
 }

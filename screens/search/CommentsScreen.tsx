@@ -7,7 +7,8 @@
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions,
+useFlagSelector, useFlagActions} from "../../store"
 import {useSearchCommentsInfiniteQuery, useSearchCommentsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -27,6 +28,8 @@ const CommentsScreen: React.FunctionComponent = () => {
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, ratingType, commentSort} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
+    const {commentFlag} = useFlagSelector()
+    const {setCommentFlag} = useFlagActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -73,13 +76,24 @@ const CommentsScreen: React.FunctionComponent = () => {
         ? infiniteQuery.isLoading
         : pageQuery.isLoading
 
+    const refetch = scroll 
+        ? infiniteQuery.refetch
+        : pageQuery.refetch
+    
+    useEffect(() => {
+        if (commentFlag) {
+            refetch()
+            setCommentFlag(false)
+        }
+    }, [commentFlag])
+    
     const onPress = () => {
         const posts = comments.map((h) => h.post)
         if (posts.length) setNavigationPosts(posts)
     }
 
     const renderItem: ListRenderItem<CommentSearch> = ({item}) => {
-        return <CommentRow comment={item} onPress={onPress}/>
+        return <CommentRow comment={item} onPress={onPress} refetch={refetch}/>
     }
 
     const renderEmpty = () => {

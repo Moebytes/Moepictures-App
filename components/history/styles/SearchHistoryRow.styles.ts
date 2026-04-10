@@ -35,13 +35,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             paddingHorizontal: 6,
             paddingVertical: 7,
             gap: 4,
-            flexShrink: 1,
-            flexWrap: "wrap"
+            flexShrink: 1
         },
         rowContainer: {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            flexWrap: "wrap",
             gap: 5
         },
         dateText: {
@@ -56,9 +56,25 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.iconColor
         },
         text: {
-            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontFamily: fonts.jkGothicM,
             fontSize: 13,
             color: colors.textColor
+        },
+        optionsContainer: {
+            position: "absolute",
+            top: 8,
+            right: 8,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 12,
+            paddingHorizontal: 6,
+            paddingVertical: 6
+        },
+        optionContainer: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
         }
     })
 }

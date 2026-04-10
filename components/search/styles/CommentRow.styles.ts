@@ -61,6 +61,22 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.textColor,
             fontFamily: fonts.irohamaruMikami,
             fontSize: 13
+        },
+        optionsContainer: {
+            position: "absolute",
+            top: 8,
+            right: 8,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 12,
+            paddingHorizontal: 6,
+            paddingVertical: 6
+        },
+        optionContainer: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center"
         }
     })
 }

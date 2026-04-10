@@ -13,6 +13,7 @@ import {useActiveActions, useActiveSelector, useCacheSelector, useFlagActions, u
 import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
+import EmojiStrip from "./components/tooltip/EmojiStrip"
 import Sheets from "./sheets/Sheets"
 import SavePrompt from "./ui/SavePrompt"
 import ToastUI from "./ui/Toast"
@@ -124,6 +125,7 @@ const App: React.FunctionComponent = () => {
         <NavigationContainer ref={navigationRef} onStateChange={onNavigationChange}>
           <AsyncStorage/>
           <SavePrompt/>
+          <EmojiStrip/>
           <Dialogs/>
           <Sheets/>
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>

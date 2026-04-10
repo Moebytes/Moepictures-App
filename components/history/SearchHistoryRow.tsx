@@ -5,17 +5,20 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable, useWindowDimensions} from "react-native"
+import {View, Image, Pressable, useWindowDimensions, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchHistoryRow.styles"
+import DeleteIcon from "../../assets/svg/delete.svg"
 import functions from "../../functions/Functions"
 import {SearchHistory} from "../../types/Types"
 
 interface Props {
     history: SearchHistory
+    refetch: () => void
     onPress?: () => void
 }
 
@@ -47,6 +50,28 @@ const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
     const onPress = () => {
         navigation.navigate("Post", {postID: props.history.postID})
         props.onPress?.()
+    }
+
+    const deleteHistory = () => {
+        Alert.alert(i18n.dialogs.deleteSearchHistory.title, i18n.dialogs.deleteSearchHistory.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                await functions.http.delete("/api/user/history/delete", {postID: props.history.postID}, session)
+                props.refetch()
+            }}
+        ], {cancelable: true})
+    }
+
+    let iconSize = 18
+
+    const historyOptions = () => {
+        return (
+            <View style={styles.optionsContainer}>
+                <ScalableHaptic style={styles.optionContainer} onPress={deleteHistory}>
+                    <DeleteIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                </ScalableHaptic>
+            </View>
+        )
     }
 
     if (!img) return null
@@ -90,6 +115,7 @@ const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
                     </PressableHaptic>
                 </View> : null}
             </View>
+            {historyOptions()}
         </View>
     )
 }

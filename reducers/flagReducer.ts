@@ -17,7 +17,9 @@ const flagSlice = createSlice({
         randomSearchFlag: false,
         imageSearchFlag: null as PostSearch[] | null,
         searchScrollFlag: false,
-        favgroupFlag: false
+        favgroupFlag: false,
+        commentFlag: false,
+        emojiFlag: ""
     },
     reducers: {
         setSessionFlag: (state, action) => {state.sessionFlag = action.payload},
@@ -25,13 +27,15 @@ const flagSlice = createSlice({
         setRandomSearchFlag: (state, action) => {state.randomSearchFlag = action.payload},
         setImageSearchFlag: (state, action) => {state.imageSearchFlag = action.payload},
         setSearchScrollFlag: (state, action) => {state.searchScrollFlag = action.payload},
-        setFavgroupFlag: (state, action) => {state.favgroupFlag = action.payload}
+        setFavgroupFlag: (state, action) => {state.favgroupFlag = action.payload},
+        setCommentFlag: (state, action) => {state.commentFlag = action.payload},
+        setEmojiFlag: (state, action) => {state.emojiFlag = action.payload}
     }
 })
 
 const {
     setSessionFlag, setPageFlag, setRandomSearchFlag, setImageSearchFlag, 
-    setSearchScrollFlag, setFavgroupFlag
+    setSearchScrollFlag, setFavgroupFlag, setCommentFlag, setEmojiFlag
 } = flagSlice.actions
 
 export const useFlagSelector = () => {
@@ -42,7 +46,9 @@ export const useFlagSelector = () => {
         randomSearchFlag: selector((state) => state.flag.randomSearchFlag),
         imageSearchFlag: selector((state) => state.flag.imageSearchFlag),
         searchScrollFlag: selector((state) => state.flag.searchScrollFlag),
-        favgroupFlag: selector((state) => state.flag.favgroupFlag)
+        favgroupFlag: selector((state) => state.flag.favgroupFlag),
+        commentFlag: selector((state) => state.flag.commentFlag),
+        emojiFlag: selector((state) => state.flag.emojiFlag)
     }
 }
 
@@ -54,7 +60,9 @@ export const useFlagActions = () => {
         setRandomSearchFlag: (state: boolean) => dispatch(setRandomSearchFlag(state)),
         setImageSearchFlag: (state: PostSearch[] | null) => dispatch(setImageSearchFlag(state)),
         setSearchScrollFlag: (state: boolean) => dispatch(setSearchScrollFlag(state)),
-        setFavgroupFlag: (state: boolean) => dispatch(setFavgroupFlag(state))
+        setFavgroupFlag: (state: boolean) => dispatch(setFavgroupFlag(state)),
+        setCommentFlag: (state: boolean) => dispatch(setCommentFlag(state)),
+        setEmojiFlag: (state: string) => dispatch(setEmojiFlag(state))
     }
 }
 

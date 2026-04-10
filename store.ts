@@ -14,6 +14,7 @@ import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheR
 import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
 import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
+import commentDialogReducer, {useCommentDialogSelector, useCommentDialogActions} from "./reducers/commentDialogReducer"
 import groupDialogReducer, {useGroupDialogSelector, useGroupDialogActions} from "./reducers/groupDialogReducer"
 import searchDialogReducer, {useSearchDialogSelector, useSearchDialogActions} from "./reducers/searchDialogReducer"
 import sheetReducer, {useSheetSelector, useSheetActions} from "./reducers/sheetReducer"
@@ -29,6 +30,7 @@ const store = configureStore({
         search: searchReducer,
         flag: flagReducer,
         miscDialog: miscDialogReducer,
+        commentDialog: commentDialogReducer,
         groupDialog: groupDialogReducer,
         searchDialog: searchDialogReducer,
         sheet: sheetReducer
@@ -50,6 +52,7 @@ export {
     useSearchSelector, useSearchActions,
     useFlagSelector, useFlagActions,
     useMiscDialogSelector, useMiscDialogActions,
+    useCommentDialogSelector, useCommentDialogActions,
     useGroupDialogSelector, useGroupDialogActions,
     useSearchDialogSelector, useSearchDialogActions,
     useSheetSelector, useSheetActions

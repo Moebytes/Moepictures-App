@@ -5,12 +5,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState, useMemo} from "react"
-import {View, StatusBar, FlatList, RefreshControl} from "react-native"
+import {View, StatusBar, FlatList} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
-useSearchSelector, useSearchActions, useActiveActions, useCacheActions,
-useFlagSelector} from "../../store"
+useSearchSelector, useSearchActions, useActiveActions, useCacheActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"

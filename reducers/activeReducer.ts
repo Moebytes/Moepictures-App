@@ -12,28 +12,32 @@ import {Favgroup} from "../types/Types"
 const activeSlice = createSlice({
     name: "active",
     initialState: {
-        activeFavgroup: null as Favgroup | null
+        activeFavgroup: null as Favgroup | null,
+        quoteText: ""
     },
     reducers: {
-        setActiveFavgroup: (state, action) => {state.activeFavgroup = action.payload}
+        setActiveFavgroup: (state, action) => {state.activeFavgroup = action.payload},
+        setQuoteText: (state, action) => {state.quoteText = action.payload}
     }    
 })
 
 const {
-    setActiveFavgroup
+    setActiveFavgroup, setQuoteText
 } = activeSlice.actions
 
 export const useActiveSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
-        activeFavgroup: selector((state) => state.active.activeFavgroup)
+        activeFavgroup: selector((state) => state.active.activeFavgroup),
+        quoteText: selector((state) => state.active.quoteText)
     }
 }
 
 export const useActiveActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
-        setActiveFavgroup: (state: Favgroup | null) => dispatch(setActiveFavgroup(state))
+        setActiveFavgroup: (state: Favgroup | null) => dispatch(setActiveFavgroup(state)),
+        setQuoteText: (state: string) => dispatch(setQuoteText(state))
     }
 }
 

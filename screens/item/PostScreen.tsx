@@ -153,7 +153,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                   <BuyLink post={post}/>
                   <Commentary post={post}/>
                   <ArtistWorks tag={artistTag}/>
-                  <Comments post={post}/>
+                  <Comments post={post} listRef={ref}/>
                   <Related/>
                 </View>
               </>
