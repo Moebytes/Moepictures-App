@@ -56,7 +56,7 @@ const getPreviousPageParam = (firstPage: any, allPages: any[],
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customFetch,
-    tagTypes: ["Post", "Tags", "Groups", "Group", "Favgroups", "Favgroup"],
+    tagTypes: ["Post", "Tags", "Tag", "Groups", "Group", "Favgroups", "Favgroup"],
     endpoints: (builder) => ({
         searchPosts: builder.infiniteQuery<
             GetEndpoint<"/api/search/posts">["response"], 
@@ -296,7 +296,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/tag", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Tag", id: arg.tag}
+            ]
         }),
 
         getGroup: builder.query<
@@ -359,6 +362,14 @@ export const useInvalidateTags = () => {
 
   return () => {
     dispatch(api.util.invalidateTags([{type: "Tags"}]))
+  }
+}
+
+export const useInvalidateTag = () => {
+  const dispatch = useDispatch()
+
+  return (tag: string) => {
+    dispatch(api.util.invalidateTags([{type: "Tag", id: tag}]))
   }
 }
 

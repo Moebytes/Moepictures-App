@@ -80,6 +80,27 @@ export default class UtilFunctions {
         return true
     }
 
+    public static decodeEntities = (encodedString: string) => {
+        const regex = /&(nbsp|amp|quot|lt|gt);/g
+        const translate = {
+            nbsp: " ",
+            amp : "&",
+            quot: "\"",
+            lt  : "<",
+            gt  : ">"
+        } as any
+        return encodedString.replace(regex, function(match, entity) {
+            return translate[entity]
+        }).replace(/&#(\d+);/gi, function(match, numStr) {
+            const num = parseInt(numStr, 10)
+            return String.fromCharCode(num)
+        })
+    }
+
+    public static cleanHTML = (str: string) => {
+        return this.decodeEntities(str).replace(/<\/?[a-z][^>]*>/gi, "").replace(/\r?\n|\r/g, "")
+    }
+
     public static stripLinks = (text: string) => {
         return text.replace(/(https?:\/\/[^\s]+)/g, "").replace(/(:[^\s]+:)/g, "")
     }

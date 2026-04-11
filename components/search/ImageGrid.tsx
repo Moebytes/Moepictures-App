@@ -210,7 +210,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 ref={ref}
                 key={columns}
                 style={{flex: 1}}
-                showsVerticalScrollIndicator={false}
+                
                 contentContainerStyle={{
                     backgroundColor: colors.background,
                     marginTop: headerHeight,

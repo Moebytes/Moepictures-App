@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "./Functions"
-import {TagCount, TagSearch, Tag, Session, PostFull, Post, TinyUser} from "../types/Types"
+import {TagCount, TagSearch, Tag, Session, PostFull, Post, MiniTagGroup, TagGroupCategory} from "../types/Types"
 import {ThemeColors} from "../ui/colors"
 
 export default class TagFunctions {
@@ -73,6 +73,90 @@ export default class TagFunctions {
             }
         }
         return {artists, characters, series, meta, tags}
+    }
+
+    public static tagGroupCategories = async (post: PostFull, session: Session) => {
+        let tagGroups = post.tagGroups
+        let newTagGroups = [] as {name: string, tags: TagCount[]}[]
+        if (!tagGroups?.length && !post.tags) {
+            if ("originalID" in post) {
+                let fullPost = await functions.http.get("/api/post/unverified", {postID: post.postID}, session)
+                tagGroups = fullPost?.tagGroups || []
+            } else {
+                let fullPost = await functions.http.get("/api/post", {postID: post.postID}, session)
+                tagGroups = fullPost?.tagGroups || []
+            }
+        }
+        if (!tagGroups?.length) return []
+        for (const tagGroup of tagGroups) {
+            if (!tagGroup) continue
+            const tagCounts = await functions.cache.sortedTagCounts(tagGroup.tags, session)
+            let {tags} = await this.tagCategories(tagCounts, session)
+            newTagGroups.push({name: tagGroup.name, tags})
+        }
+        return newTagGroups
+    }
+
+    public static parseTagGroups = (rawTags: string) => {
+        const tagGroups: {name: string, tags: string[]}[] = []
+        const tags: Set<string> = new Set()
+        if (!rawTags) return {tagGroups, tags: []}
+      
+        const groupRegex = /([a-zA-Z0-9_-]+)\s*\{([^}]+)\}/g
+        let match = null as RegExpExecArray | null
+      
+        while ((match = groupRegex.exec(rawTags)) !== null) {
+          const name = match[1].trim()
+          const groupTags = match[2].trim().split(/\s+/)
+          tagGroups.push({name, tags: groupTags})
+          groupTags.forEach(tag => tags.add(tag))
+        }
+      
+        const remainingTags = rawTags.replace(groupRegex, "").trim().split(/\s+/)
+        const soloTags = [] as string[]
+        remainingTags.forEach(tag => {if (tag) {tags.add(tag); soloTags.push(tag)}})
+        if (tagGroups.length && soloTags.length) tagGroups.push({name: "Tags", tags: soloTags})
+
+        return {tagGroups, tags: Array.from(tags)}
+    }
+
+    public static parseTagGroupsField = (tags: string[], tagGroups?: MiniTagGroup[] | TagGroupCategory[]) => {
+        if (!tagGroups?.length) return tags.join(" ")
+        let resultStr = ""
+        let removeTags = [] as string[]
+        for (const tagGroup of tagGroups) {
+            if (!tagGroup) continue
+            if (tagGroup.name.toLowerCase() === "tags") continue
+            let stringTags = tagGroup.tags.map((tag: string | TagCount) => typeof tag === "string" ? tag : tag.tag)
+            resultStr += `${tagGroup.name}{${stringTags.join(" ")}}\n`
+            removeTags.push(...stringTags)
+        }
+        let missingTags = tags.filter((tag) => !removeTags.includes(tag))
+        resultStr += `${missingTags.join(" ")}`
+        return resultStr
+    }
+
+    public static appendOrphanTags = (tagGroups: TagGroupCategory[], tags?: TagCount[]) => {
+        if (!tags) return tagGroups
+        let tagGroupTagsSet = new Set(tagGroups.flatMap((t) => t.tags.map((t) => t.tag)))
+        let orphanTags = tags.filter((t) => !tagGroupTagsSet.has(t.tag))
+
+        if (orphanTags.length) {
+            let tagsGroupIndex = tagGroups.findIndex((g) => g.name === "Tags")
+            if (tagsGroupIndex >= 0) {
+                const existingGroup = tagGroups[tagsGroupIndex]
+                const updatedGroup = {
+                    ...existingGroup,
+                    tags: [...existingGroup.tags, ...orphanTags]
+                }
+                const newTagGroups = [...tagGroups]
+                newTagGroups.splice(tagsGroupIndex, 1, updatedGroup)
+                return newTagGroups
+            } else {
+                return [...tagGroups, {name: "Tags", tags: orphanTags}]
+            }
+        }
+        return tagGroups
     }
 
     public static trimSpecialCharacters = (query: string) => {

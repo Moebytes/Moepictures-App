@@ -102,6 +102,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         if (session.banned) {
             return Toast.show({text1: i18n.toast.banned})
         }
+        navigation.navigate("EditGroup", {slug}, {pop: true})
     }
 
     const deleteGroup = () => {
@@ -208,8 +209,6 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
             contentContainerStyle={{backgroundColor: colors.background}}
             ListHeaderComponentStyle={{paddingBottom: 10}}
             ListFooterComponentStyle={{paddingTop: 10}}
-            
-            showsVerticalScrollIndicator={false}
 
             ListFooterComponent={!scroll ? <>
                 <PageButtons page={page} setPage={setPage} 

@@ -19,7 +19,7 @@ import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import EditIcon from "../../assets/svg/edit.svg"
 import CopyIDIcon from "../../assets/svg/copy-id.svg"
-import {PostFull, TagCount} from "../../types/Types"
+import {PostFull, TagCount, TagGroupCategory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
@@ -38,6 +38,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     const insets = useSafeAreaInsets()
     const [dimensions, setDimensions] = useState({width: 0, height: 0, size: 0})
     const [copied, setCopied] = useState(false)
+    const [tagGroupCategories, setTagGroupCategories] = useState([] as TagGroupCategory[])
     const {data: uploader} = useGetUserQuery({username: props.post?.uploader ?? ""})
     const ref = useRef<ScrollView>(null)
     const route = useRoute()
@@ -47,6 +48,12 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
       ref.current?.scrollTo({y: 0, animated: false})
     }, [route.params])
 
+    const updateGroupCategories = async () => {
+        if (!props.post) return
+        const groupCategories = await functions.tag.tagGroupCategories(props.post, session)
+        setTagGroupCategories(groupCategories)
+    }
+
     useEffect(() => {
         const updateDimensions = async () => {
             if (!props.post) return
@@ -55,6 +62,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
             setDimensions(dimensions)
         }
         updateDimensions()
+        updateGroupCategories()
     }, [props.post])
 
     const generateTagJSX = (tags?: TagCount[]) => {
@@ -86,6 +94,42 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         return [...meta, ...appearance, ...outfit, ...accessory, ...action, ...scenery, ...other.reverse()]
     }
 
+    const generateTagGroupJSX = () => {
+        let jsx = [] as React.ReactElement[]
+        let tagGroups = functions.tag.appendOrphanTags(tagGroupCategories, props.tags)
+        tagGroups = [...tagGroups].sort((a, b) => {
+            return a.name.toLowerCase() === "tags" ? 1 :
+                b.name.toLowerCase() === "tags" ? -1 : 0
+        })
+        for (const tagGroup of tagGroups) {
+            let currentTags = organizeTags(tagGroup.tags)
+            if (!currentTags.length) continue
+            jsx.push(
+                <>
+                <View style={styles.rowItem}>
+                    <Text style={styles.highlightText}>{tagGroup.name}</Text>
+                </View>
+                <View style={styles.tagContainer}>
+                    {generateTagJSX(currentTags)}
+                </View>
+                </>
+            )
+        }
+        if (props.meta?.length) {
+            jsx.push(
+                <>
+                <View style={styles.rowItem}>
+                    <Text style={styles.highlightText}>{i18n.tag.meta}</Text>
+                </View>
+                <View style={styles.tagContainer}>
+                    {generateTagJSX(organizeTags(props.meta))}
+                </View>
+                </>
+            )
+        }
+        return jsx
+    }
+
     const editPost = () => {
         if (!props.post) return
         if (!session.emailVerified) {
@@ -94,6 +138,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         if (session.banned) {
             return Toast.show({text1: i18n.toast.banned})
         }
+        navigation.navigate("EditPost", {postID: props.post.postID}, {pop: true})
     }
 
     const copyPostID = () => {
@@ -156,29 +201,30 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                         {props.post.bookmarks}</Text>
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.artist}</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.artists)}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>{i18n.tag.character}:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.character}</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.characters)}
                 </View>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>{i18n.tag.series}:</Text>
+                    <Text style={styles.highlightText}>{i18n.tag.series}</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(props.series)}
                 </View>
+                {tagGroupCategories.length ? generateTagGroupJSX() : <>
                 <View style={styles.rowItem}>
-                    <Text style={styles.highlightText}>{i18n.navbar.tags}:</Text>
+                    <Text style={styles.highlightText}>{i18n.navbar.tags}</Text>
                 </View>
                 <View style={styles.tagContainer}>
                     {generateTagJSX(organizeTags(props.tags))}
-                </View>
+                </View></>}
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
                     {uploader && functions.jsx.usernameJSX(uploader, colors, i18n, {fontSize: 18}, 22)}

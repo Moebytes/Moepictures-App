@@ -12,9 +12,16 @@ import {useThemeSelector, useCacheSelector, useSearchSelector, useSearchActions,
 useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/SearchSuggestions.styles"
 import functions from "../../functions/Functions"
-import {TagCount} from "../../types/Types"
+import {TagCount, TagType} from "../../types/Types"
 
-const SearchSuggestions: React.FunctionComponent = () => {
+interface Props {
+    active?: boolean
+    text?: string
+    type?: TagType
+    addSuggestion?: (suggestion: TagCount) => void
+}
+
+const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const {sortedTags} = useCacheSelector()
     const {text, focused, searchTags} = useSearchSelector()
@@ -42,10 +49,20 @@ const SearchSuggestions: React.FunctionComponent = () => {
     }, [])
 
     const updateSearchSuggestions = async () => {
-        const query = functions.tag.trimSpecialCharacters(text)
+        let query = props.text ? functions.tag.parseTagGroups(props.text).tags.join(" ") : text
+
+        query = functions.tag.trimSpecialCharacters(query)
         let searchString = query?.trim().toLowerCase().split(/ +/g).filter(Boolean).join("-") ?? ""
 
         let tagCounts = sortedTags
+        if (props.type && props.type !== "all") {
+            if (props.type === "tags") {
+                tagCounts = sortedTags.filter((c) => c.type === "accessory" || c.type === "action" ||
+                c.type === "appearance" || c.type === "outfit" || c.type === "scenery" || c.type === "tag")
+            } else {
+                tagCounts = sortedTags.filter((c) => c.type === props.type)
+            }
+        }
 
         let suggestions = [] as TagCount[]
         for (const tagCount of tagCounts) {
@@ -67,9 +84,10 @@ const SearchSuggestions: React.FunctionComponent = () => {
 
     useEffect(() => {
         updateSearchSuggestions()
-    }, [text])
+    }, [text, props.text])
 
     const addSuggestion = (suggestion: TagCount) => {
+        if (props.addSuggestion) return props.addSuggestion(suggestion)
         setSearchTags([...searchTags, suggestion.tag])
         setText("")
     }
@@ -78,9 +96,11 @@ const SearchSuggestions: React.FunctionComponent = () => {
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
 
+    const visible = focused || props.active
+
     return (
         <>
-        {focused && suggestions.length > 0 && (
+        {visible && suggestions.length > 0 && (
             <LiquidGlassContainerView style={[styles.suggestionAbsoluteWrapper, {bottom: keyboardHeight}]}>
                 <LiquidGlassView effect="clear" style={[styles.suggestionContainer, fallback]}>
                     <ScrollView horizontal

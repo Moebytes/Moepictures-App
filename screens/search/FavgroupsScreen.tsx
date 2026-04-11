@@ -99,7 +99,7 @@ const FavgroupsScreen: React.FunctionComponent = () => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{i18n.help.favoriteGroups.title}</Text>
                 </View>

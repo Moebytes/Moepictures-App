@@ -118,7 +118,6 @@ const GroupsScreen: React.FunctionComponent = () => {
             <FlatList
                 ref={ref}
                 style={{flex: 1}}
-                showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
                     backgroundColor: colors.background,
                     marginTop: headerHeight,

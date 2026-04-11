@@ -20,14 +20,18 @@ import SavePrompt from "./ui/SavePrompt"
 import ToastUI from "./ui/Toast"
 import PostsScreen from "./screens/search/PostsScreen"
 import PostScreen from "./screens/item/PostScreen"
+import EditPostScreen from "./screens/edit/EditPostScreen"
 import CommentsScreen from "./screens/search/CommentsScreen"
 import NotesScreen from "./screens/search/NotesScreen"
 import TagsScreen from "./screens/search/TagsScreen"
 import TagScreen from "./screens/item/TagScreen"
+import EditTagScreen from "./screens/edit/EditTagScreen"
 import GroupsScreen from "./screens/search/GroupsScreen"
 import GroupScreen from "./screens/item/GroupScreen"
+import EditGroupScreen from "./screens/edit/EditGroupScreen"
 import FavgroupsScreen from "./screens/search/FavgroupsScreen"
 import FavgroupScreen from "./screens/item/FavgroupScreen"
+import EditFavgroupScreen from "./screens/edit/EditFavgroupScreen"
 import SearchHistoryScreen from "./screens/history/SearchHistoryScreen"
 import ProfileScreen from "./screens/settings/ProfileScreen"
 import LanguageScreen from "./screens/settings/LanguageScreen"
@@ -49,15 +53,19 @@ import functions from "./functions/Functions"
 export type StackParamList = {
   Posts: undefined
   Post: {postID: string}
+  EditPost: {postID: string}
   Comments: undefined
   Notes: undefined
   Tags: undefined
   Tag: {name: string}
+  EditTag: {name: string}
   Groups: undefined
   Group: {slug: string}
+  EditGroup: {slug: string}
   History: undefined
   Favgroups: undefined
   Favgroup: {slug: string}
+  EditFavgroup: {slug: string}
   Profile: undefined
   Language: undefined
   AppColor: undefined
@@ -143,14 +151,18 @@ const App: React.FunctionComponent = () => {
           <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Posts" component={PostsScreen}/>
             <Stack.Screen name="Post" component={PostScreen}/>
+            <Stack.Screen name="EditPost" component={EditPostScreen}/>
             <Stack.Screen name="Comments" component={CommentsScreen}/>
             <Stack.Screen name="Notes" component={NotesScreen}/>
             <Stack.Screen name="Tags" component={TagsScreen}/>
             <Stack.Screen name="Tag" component={TagScreen}/>
+            <Stack.Screen name="EditTag" component={EditTagScreen}/>
             <Stack.Screen name="Groups" component={GroupsScreen}/>
             <Stack.Screen name="Group" component={GroupScreen}/>
+            <Stack.Screen name="EditGroup" component={EditGroupScreen}/>
             <Stack.Screen name="Favgroups" component={FavgroupsScreen}/>
             <Stack.Screen name="Favgroup" component={FavgroupScreen}/>
+            <Stack.Screen name="EditFavgroup" component={EditFavgroupScreen}/>
             <Stack.Screen name="History" component={SearchHistoryScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
             <Stack.Screen name="Language" component={LanguageScreen}/>

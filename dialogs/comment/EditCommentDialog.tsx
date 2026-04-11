@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef} from "react"
+import React, {useRef, useReducer} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -16,6 +16,7 @@ import MiniTextBox, {MiniTextBoxRef} from "../../ui/MiniTextBox"
 import Draggable from "../Draggable"
 
 const EditCommentDialog: React.FunctionComponent = () => {
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
     const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {editCommentID, editCommentText} = useCommentDialogSelector()
@@ -47,6 +48,11 @@ const EditCommentDialog: React.FunctionComponent = () => {
         setEmojiStripVisible(false)
     }
 
+    const togglePreview = () => {
+        textBoxRef.current?.togglePreviewMode()
+        setTimeout(() => forceUpdate(), 0)
+    }
+
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
@@ -75,7 +81,7 @@ const EditCommentDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
 
-                            <PressableHaptic onPress={() => textBoxRef.current?.togglePreviewMode()} style={({pressed}) => [
+                            <PressableHaptic onPress={togglePreview} style={({pressed}) => [
                                 styles.button, pressed && styles.buttonActive,
                                 {backgroundColor: previewMode ? colors.editColor : colors.previewColor}
                             ]}>{({pressed}) => (

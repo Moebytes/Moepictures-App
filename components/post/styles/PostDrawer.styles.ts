@@ -74,7 +74,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderRadius: 10,
             paddingHorizontal: 5,
             paddingVertical: 3,
-            backgroundColor: colors.artistTagColorGlass
+            backgroundColor: colors.iconColorGlass
         }
     })
 }

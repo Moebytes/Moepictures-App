@@ -7,6 +7,7 @@
 export const noRotation = {
     black: "#000000",
     white: "#ffffff",
+    gray: "#9d9d9d",
     
     artistTagColor: "#ff1994",
     characterTagColor: "#ff1ce6",
@@ -76,6 +77,7 @@ export const noRotationDark = {
 
 export const sharedColors = {
     buttonColorGlass: "rgba(255, 87, 157, 0.57)",
+    iconColorGlass: "rgba(255, 25, 148, 0.41)",
     toastColor: "#FF63B4",
     drawerTitle: "#ff4cc6",
     cutenessStarColor: "#FF6DAC",

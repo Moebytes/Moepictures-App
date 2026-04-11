@@ -94,7 +94,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
 
     const editFavgroup = () => {
         if (!favgroup) return
-
+        navigation.navigate("EditFavgroup", {slug}, {pop: true})
     }
 
     const deleteFavgroup = () => {
@@ -183,8 +183,6 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
             contentContainerStyle={{backgroundColor: colors.background}}
             ListHeaderComponentStyle={{paddingBottom: 10}}
             ListFooterComponentStyle={{paddingTop: 10}}
-            
-            showsVerticalScrollIndicator={false}
 
             ListFooterComponent={!scroll ? <>
                 <PageButtons page={page} setPage={setPage} 
