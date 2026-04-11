@@ -12,26 +12,30 @@ import {closeAllDialogs} from "./layoutReducer"
 const groupDialogSlice = createSlice({
     name: "groupDialog",
     initialState: {
-        favgroupID: null as string | null
+        favgroupID: null as string | null,
+        groupPostID: null as string | null
     },
     reducers: {
-        setFavgroupID: (state, action) => {state.favgroupID = action.payload}
+        setFavgroupID: (state, action) => {state.favgroupID = action.payload},
+        setGroupPostID: (state, action) => {state.groupPostID = action.payload}
     },
     extraReducers: (builder) => {
         builder.addCase(closeAllDialogs, (state) => {
             state.favgroupID = null
+            state.groupPostID = null
         })
     }
 })
 
 const {
-    setFavgroupID
+    setFavgroupID, setGroupPostID
 } = groupDialogSlice.actions
 
 export const useGroupDialogSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
-        favgroupID: selector((state) => state.groupDialog.favgroupID)
+        favgroupID: selector((state) => state.groupDialog.favgroupID),
+        groupPostID: selector((state) => state.groupDialog.groupPostID)
     }
 }
 
@@ -41,6 +45,10 @@ export const useGroupDialogActions = () => {
         setFavgroupID: (state: string | null) => {
             if (state) dispatch(closeAllDialogs())
             dispatch(setFavgroupID(state))
+        },
+        setGroupPostID: (state: string | null) => {
+            if (state) dispatch(closeAllDialogs())
+            dispatch(setGroupPostID(state))
         }
     }
 }

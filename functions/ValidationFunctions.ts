@@ -91,4 +91,9 @@ export default class ValidationFunctions {
         if (this.isProfane(comment)) return i18n.errors.comment.profane
         return null
     }
+
+    public static validateReason = (reason: string | null | undefined, i18n: typeof enLocale) => {
+        if (!reason) return i18n.errors.reason.empty
+        return null
+    }
 }

@@ -39,7 +39,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.textColor,
             fontFamily: fonts.jkGothicM,
             fontSize: 18,
-            lineHeight: 22
+            lineHeight: 20
         },
         tagContainer: {
             display: "flex",
@@ -50,18 +50,31 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         tag: {
             display: "flex",
+            flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
             paddingHorizontal: 7,
             paddingVertical: 6,
             borderRadius: 15,
+            gap: 3,
             backgroundColor: colors.artistTagColorGlass
         },
         tagText: {
             fontFamily: fonts.irohamaruMikami,
             color: "white",
+            fontSize: 15
+        },
+        tagText2: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            color: "white",
             fontSize: 15,
-            textAlign: "center"
+            lineHeight: 20
+        },
+        button: {
+            borderRadius: 10,
+            paddingHorizontal: 5,
+            paddingVertical: 3,
+            backgroundColor: colors.artistTagColorGlass
         }
     })
 }

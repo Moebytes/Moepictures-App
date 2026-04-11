@@ -16,6 +16,8 @@ import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReduc
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
 import commentDialogReducer, {useCommentDialogSelector, useCommentDialogActions} from "./reducers/commentDialogReducer"
 import groupDialogReducer, {useGroupDialogSelector, useGroupDialogActions} from "./reducers/groupDialogReducer"
+import postDialogReducer, {usePostDialogSelector, usePostDialogActions} from "./reducers/postDialogReducer"
+import tagDialogReducer, {useTagDialogSelector, useTagDialogActions} from "./reducers/tagDialogReducer"
 import searchDialogReducer, {useSearchDialogSelector, useSearchDialogActions} from "./reducers/searchDialogReducer"
 import sheetReducer, {useSheetSelector, useSheetActions} from "./reducers/sheetReducer"
 
@@ -32,6 +34,8 @@ const store = configureStore({
         miscDialog: miscDialogReducer,
         commentDialog: commentDialogReducer,
         groupDialog: groupDialogReducer,
+        postDialog: postDialogReducer,
+        tagDialog: tagDialogReducer,
         searchDialog: searchDialogReducer,
         sheet: sheetReducer
     },
@@ -54,6 +58,8 @@ export {
     useMiscDialogSelector, useMiscDialogActions,
     useCommentDialogSelector, useCommentDialogActions,
     useGroupDialogSelector, useGroupDialogActions,
+    usePostDialogSelector, usePostDialogActions,
+    useTagDialogSelector, useTagDialogActions,
     useSearchDialogSelector, useSearchDialogActions,
     useSheetSelector, useSheetActions
 }

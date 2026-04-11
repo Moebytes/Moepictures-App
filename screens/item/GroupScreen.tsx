@@ -5,8 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState, useMemo} from "react"
-import {View, StatusBar, FlatList} from "react-native"
+import {View, StatusBar, FlatList, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
+import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
 useSearchSelector, useSearchActions,
@@ -14,7 +15,7 @@ useCacheActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
-import {useGetGroupQuery} from "../../api"
+import {useGetGroupQuery, useInvalidateGroups} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GroupImage from "../../components/image/GroupImage"
@@ -23,8 +24,11 @@ import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
 import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
+import EditIcon from "../../assets/svg/edit.svg"
+import DeleteIcon from "../../assets/svg/delete.svg"
 import {createStylesheet} from "./styles/GroupScreen.styles"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 import moeText from "../../moetext/MoeText"
 
 type Props = {
@@ -46,6 +50,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const ref = useRef<FlatList>(null)
     const loadingRef = useRef(false)
     const navigation = useNavigation()
+    const invalidateGroups = useInvalidateGroups()
 
     const previousRoute = useNavigationState((state) => {
         const index = state.index
@@ -63,6 +68,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const totalPages = Math.ceil(Number(group?.postCount || 0) / pageSize)
 
     let iconSize = 22
+    let iconSize2 = 30
 
     const posts = useMemo(() => {
         if (!group?.posts) return []
@@ -85,6 +91,44 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
             setTimeout(() => {
                 loadingRef.current = false
             }, 1000)
+        }
+    }
+
+    const editGroup = () => {
+        if (!group) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+    }
+
+    const deleteGroup = () => {
+        if (!group) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+        if (permissions.isMod(session)) {
+            Alert.alert(i18n.dialogs.deleteGroup.title, i18n.dialogs.deleteGroup.header, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                    await functions.http.delete("/api/group/delete", {slug: group.slug}, session)
+                    navigation.navigate("Groups", undefined, {pop: true})
+                    invalidateGroups()
+                }}
+            ], {cancelable: true})
+        } else {
+            Alert.prompt(i18n.dialogs.deleteGroup.request, i18n.dialogs.deleteGroup.reasonHeader, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.submitRequest, style: "destructive", onPress: async (reason = "") => {
+                    await functions.http.post("/api/group/delete/request", {slug: group.slug, reason}, session)
+                    Toast.show({text1: i18n.dialogs.deleteGroup.submitText})
+                }}
+            ], "plain-text", "", "default", {cancelable: true})
         }
     }
 
@@ -123,9 +167,14 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                 {group && <>
                 <View style={styles.container}>
                     <View style={styles.rowContainer}>
-                        <Text style={styles.title}>
-                            {group.name}
-                        </Text>
+                        <Text style={styles.title}>{group.name}</Text>
+                        {session.username ? <>
+                        <ScalableHaptic onPress={editGroup}>
+                            <EditIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={deleteGroup}>
+                            <DeleteIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
+                        </ScalableHaptic></> : null}
                     </View>
                     <View style={styles.rowContainer}>
                         {moeText.renderCommentaryText(group.description, colors)}

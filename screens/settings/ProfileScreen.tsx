@@ -128,7 +128,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                         onPress={() => navigation.navigate("UserSettings", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <Image source={{uri: userImg}} style={styles.pfp}/>
-                            {functions.jsx.usernameJSX(session, colors, {fontSize: 22}, 25)}
+                            {functions.jsx.usernameJSX(session, colors, i18n, {fontSize: 22}, 25)}
                         </View>
                     </PressableHaptic> : 
                     /* Login */

@@ -5,16 +5,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState} from "react"
-import {View, Image, StatusBar, FlatList, Linking} from "react-native"
+import {View, Image, StatusBar, FlatList, Linking, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
+import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, 
-useSearchSelector, useSearchActions, useFlagActions, useCacheActions} from "../../store"
+useSearchSelector, useSearchActions, useFlagActions, useCacheActions,
+useTagDialogActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
-import {useGetTagQuery} from "../../api"
+import {useGetTagQuery, useInvalidateTags} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GridImage from "../../components/image/GridImage"
@@ -23,8 +25,12 @@ import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
 import HeartIcon from "../../assets/svg/heart.svg"
+import EditIcon from "../../assets/svg/edit.svg"
+import AliasIcon from "../../assets/svg/all.svg"
+import DeleteIcon from "../../assets/svg/delete.svg"
 import {createStylesheet} from "./styles/TagScreen.styles"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 import moeText from "../../moetext/MoeText"
 
 const pixiv = require("../../assets/icons/pixiv.png")
@@ -45,6 +51,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setSearchTags, setSearch} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
+    const {setAliasTagID} = useTagDialogActions()
     const {name} = route.params
     const {data: tag} = useGetTagQuery({tag: name})
     const styles = createStylesheet(colors)
@@ -53,6 +60,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const [favorited, setFavorited] = useState(false)
     const ref = useRef<FlatList>(null)
     const navigation = useNavigation()
+    const invalidateTags = useInvalidateTags()
 
     const previousRoute = useNavigationState((state) => {
         const index = state.index
@@ -174,6 +182,55 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         return jsx
     }
 
+    const editTag = () => {
+        if (!tag) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+    }
+
+    const aliasTag = () => {
+        if (!tag) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+        setAliasTagID(tag.tag)
+    }
+
+    const deleteTag = () => {
+        if (!tag) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+        if (permissions.isMod(session)) {
+            Alert.alert(i18n.dialogs.deleteTag.title, i18n.dialogs.deleteTag.header, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                    await functions.http.delete("/api/tag/delete", {tag: tag.tag}, session)
+                    navigation.navigate("Tags", undefined, {pop: true})
+                    invalidateTags()
+                }}
+            ], {cancelable: true})
+        } else {
+            Alert.prompt(i18n.dialogs.deleteTag.request, i18n.dialogs.deleteTag.reasonHeader, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.submitRequest, style: "destructive", onPress: async (reason = "") => {
+                    await functions.http.post("/api/tag/delete/request", {tag: tag.tag, reason}, session)
+                    Toast.show({text1: i18n.dialogs.deleteGroup.submitText})
+                }}
+            ], "plain-text", "", "default", {cancelable: true})
+        }
+    }
+
     const pressAction = () => {
         if (!tag) return
         ReactNativeHapticFeedback.trigger("impactMedium")
@@ -217,11 +274,19 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                             {functions.util.toProperCase(tag.tag.replace(/-/g, " "))}
                         </Text>
                         {socialIcons()}
-                        {session.username ? 
-                        <PressableHaptic onPress={favoriteTag}>
+                        {session.username ? <>
+                        <ScalableHaptic onPress={favoriteTag}>
                             <HeartIcon width={iconSize} height={iconSize} color={favorited ? colors.favoriteColor : colors.iconColor}/>
-                        </PressableHaptic>
-                        : null}
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={editTag}>
+                            <EditIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={aliasTag}>
+                            <AliasIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={deleteTag}>
+                            <DeleteIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                        </ScalableHaptic></> : null}
                     </View>
 
                     {tag.pixivTags?.length && <View style={styles.rowContainer}>

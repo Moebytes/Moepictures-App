@@ -4,17 +4,19 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useRef, useState} from "react"
+import React from "react"
 import {View, ScrollView, Image, StatusBar, Pressable, FlatList, ListRenderItem} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useSessionSelector, useCacheActions, useSearchSelector, useActiveActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useCacheActions, 
+useSearchSelector, useActiveActions} from "../../store"
+import {useGetFavgroupsQuery} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import LeftIcon from "../../assets/svg/left.svg"
 import {createStylesheet} from "./styles/FavgroupsScreen.styles"
-import {Favgroup, PostOrdered, Post} from "../../types/Types"
+import {PostOrdered, Post} from "../../types/Types"
 import LockIcon from "../../assets/svg/lock.svg"
 import CarouselImage from "../../components/image/CarouselImage"
 import functions from "../../functions/Functions"
@@ -27,27 +29,17 @@ const FavgroupsScreen: React.FunctionComponent = () => {
     const {setNavigationPosts} = useCacheActions()
     const {ratingType} = useSearchSelector()
     const {setActiveFavgroup} = useActiveActions()
-    const [favgroups, setFavgroups] = useState([] as Favgroup[])
-    const [loaded, setLoaded] = useState(false)
+    const {data: favgroups, isLoading} = useGetFavgroupsQuery(null)
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
-
-    const updateFavgroups = async () => {
-        const favgroups = await functions.http.get("/api/user/favgroups", null, session)
-        setFavgroups(favgroups)
-        setLoaded(true)
-    }
-
-    useEffect(() => {
-        updateFavgroups()
-    }, [session])
 
     let iconSize = 20
 
     const generateFavgroupJSX = () => {
         let jsx = [] as React.ReactElement[]
+        if (!favgroups) return jsx
 
-        if (loaded && !favgroups.length) return (
+        if (!isLoading && !favgroups.length) return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
                 <Image source={noresults} style={{width: 350, height: 350, resizeMode: "contain"}}/>
             </View>

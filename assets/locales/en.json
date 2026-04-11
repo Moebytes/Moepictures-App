@@ -274,6 +274,7 @@
         "rejected": "Rejected"
     },
     "banner": {
+        "copied": "Copied!",
         "copiedTags": "Copied Tags!",
         "copiedHash": "Copied Hash!",
         "copiedNotes": "Copied Notes!",
@@ -534,7 +535,8 @@
         "userProfile": "User Profile",
         "imageCount": "Image Count",
         "token": "Token",
-        "logout": "Logout"
+        "logout": "Logout",
+        "copyID": "Copy ID"
     },
     "contextMenu": {
         "openWebsite": "Open Website Link",
@@ -561,6 +563,7 @@
     "toast": {
         "loginRequired": "You must login to use this action.",
         "verificationRequired": "You must verify your email to use this action.",
+        "banned": "You are banned. Cannot perform this action.",
         "loggedIn": "Logged in as ",
         "loggedOut": "Successfully logged out!",
         "deletedAccount": "Your account was deleted.",

@@ -56,7 +56,7 @@ const getPreviousPageParam = (firstPage: any, allPages: any[],
 export const api = createApi({
     reducerPath: "api",
     baseQuery: customFetch,
-    tagTypes: ["Favgroup"],
+    tagTypes: ["Post", "Tags", "Groups", "Group", "Favgroups", "Favgroup"],
     endpoints: (builder) => ({
         searchPosts: builder.infiniteQuery<
             GetEndpoint<"/api/search/posts">["response"], 
@@ -154,7 +154,10 @@ export const api = createApi({
             },
             query: ({queryArg, pageParam}) => ({
                 url: "/api/search/tags", params: {...queryArg, ...pageParam}
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Tags"}
+            ]
         }),
 
         searchTagsPage: builder.query<
@@ -163,7 +166,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/search/tags", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Tags"}
+            ]
         }),
 
         searchGroups: builder.infiniteQuery<
@@ -181,7 +187,10 @@ export const api = createApi({
             },
             query: ({queryArg, pageParam}) => ({
                 url: "/api/search/groups", params: {...queryArg, ...pageParam}
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Groups"}
+            ]
         }),
 
         searchGroupsPage: builder.query<
@@ -190,7 +199,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/search/groups", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Groups"}
+            ]
         }),
 
         searchHistory: builder.infiniteQuery<
@@ -226,7 +238,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/post", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Post", id: arg.postID}
+            ]
         }),
 
         getPostParent: builder.query<
@@ -235,7 +250,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/post/parent", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Post", id: arg.postID}
+            ]
         }),
 
         getPostChildren: builder.query<
@@ -244,7 +262,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/post/children", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Post", id: arg.postID}
+            ]
         }),
 
         getPostGroups: builder.query<
@@ -253,7 +274,10 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/groups", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Post", id: arg.postID}
+            ]
         }),
 
         getComments: builder.query<
@@ -281,7 +305,22 @@ export const api = createApi({
         >({
             query: (params) => ({
                 url: "/api/group", params
-            })
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Group", id: arg.name}
+            ]
+        }),
+
+        getFavgroups: builder.query<
+            GetEndpoint<"/api/user/favgroups">["response"], 
+            GetEndpoint<"/api/user/favgroups">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/user/favgroups", params
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Favgroups"}
+            ]
         }),
 
         getFavgroup: builder.query<
@@ -295,8 +334,59 @@ export const api = createApi({
                 {type: "Favgroup", id: arg.name}
             ]
         }),
+
+        getUser: builder.query<
+            GetEndpoint<"/api/user">["response"], 
+            GetEndpoint<"/api/user">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/user", params
+            })
+        }),
     })
 })
+
+export const useInvalidatePost = () => {
+  const dispatch = useDispatch()
+
+  return (postID: string) => {
+    dispatch(api.util.invalidateTags([{type: "Post", id: postID}]))
+  }
+}
+
+export const useInvalidateTags = () => {
+  const dispatch = useDispatch()
+
+  return () => {
+    dispatch(api.util.invalidateTags([{type: "Tags"}]))
+  }
+}
+
+export const useInvalidateGroups = () => {
+  const dispatch = useDispatch()
+
+  return () => {
+    dispatch(api.util.invalidateTags([{type: "Groups"}]))
+  }
+}
+
+export const useInvalidateGroup = () => {
+  const dispatch = useDispatch()
+
+  return (slug: string) => {
+    dispatch( api.util.invalidateTags([{type: "Group", id: slug}]))
+  }
+}
+
+export const useInvalidateFavgroups = () => {
+  const dispatch = useDispatch()
+
+  return () => {
+    dispatch(
+      api.util.invalidateTags([{type: "Favgroups"}])
+    )
+  }
+}
 
 export const useInvalidateFavgroup = () => {
   const dispatch = useDispatch()
@@ -328,5 +418,7 @@ export const {
     useGetCommentsQuery,
     useGetTagQuery,
     useGetGroupQuery,
-    useGetFavgroupQuery
+    useGetFavgroupsQuery,
+    useGetFavgroupQuery,
+    useGetUserQuery
 } = api

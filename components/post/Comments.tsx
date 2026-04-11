@@ -5,8 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useRef, useEffect} from "react"
-import {View, FlatList, findNodeHandle} from "react-native"
+import {View, FlatList} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
+import Toast from "react-native-toast-message"
 import {useActiveActions, useActiveSelector, useFlagActions, 
 useFlagSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {useGetCommentsQuery} from "../../api"
@@ -51,6 +52,9 @@ const Comments: React.FunctionComponent<Props> = (props) => {
 
     const post = async (text: string) => {
         if (!props.post) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
         const badComment = functions.valid.validateComment(text, i18n)
         if (badComment) {
             textBoxRef.current?.showError(badComment)

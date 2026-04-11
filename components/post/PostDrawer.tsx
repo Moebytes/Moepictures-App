@@ -6,15 +6,21 @@
 
 import React, {useState, useEffect, useRef} from "react"
 import {View, ScrollView} from "react-native"
+import Clipboard from "@react-native-clipboard/clipboard"
 import {UITextView as Text} from "react-native-uitextview"
+import Toast from "react-native-toast-message"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector, useSessionSelector} from "../../store"
+import {useGetUserQuery} from "../../api"
 import {createStylesheet} from "./styles/PostDrawer.styles"
 import PressableHaptic from "../../ui/PressableHaptic"
-import functions from "../../functions/Functions"
+import ScalableHaptic from "../../ui/ScalableHaptic"
+import EditIcon from "../../assets/svg/edit.svg"
+import CopyIDIcon from "../../assets/svg/copy-id.svg"
 import {PostFull, TagCount} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 interface Props {
     post?: PostFull
@@ -31,6 +37,8 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const insets = useSafeAreaInsets()
     const [dimensions, setDimensions] = useState({width: 0, height: 0, size: 0})
+    const [copied, setCopied] = useState(false)
+    const {data: uploader} = useGetUserQuery({username: props.post?.uploader ?? ""})
     const ref = useRef<ScrollView>(null)
     const route = useRoute()
     const navigation = useNavigation()
@@ -78,6 +86,23 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         return [...meta, ...appearance, ...outfit, ...accessory, ...action, ...scenery, ...other.reverse()]
     }
 
+    const editPost = () => {
+        if (!props.post) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+    }
+
+    const copyPostID = () => {
+        if (!props.post || copied) return
+        Clipboard.setString(props.post.postID)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 1000)
+    }
+
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
@@ -89,7 +114,22 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         <LiquidGlassView effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
             <ScrollView ref={ref} style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
-                <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
+                <View style={styles.rowItem}>
+                    <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
+                    {session.username ? 
+                    <ScalableHaptic onPress={editPost}>
+                        <EditIcon width={30} height={30} color={colors.drawerTitle}/>
+                    </ScalableHaptic> : null}
+                </View>
+                <View style={styles.rowItem}>
+                    <PressableHaptic onPress={copyPostID}>
+                        <LiquidGlassView interactive effect="clear" 
+                            style={[styles.tag, styles.button]}>
+                            <Text style={styles.tagText2}>{copied ? i18n.banner.copied : i18n.labels.copyID}</Text>
+                            <CopyIDIcon width={25} height={25} color={colors.white}/>
+                        </LiquidGlassView>
+                    </PressableHaptic>
+                </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.title}:</Text>
                     <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
@@ -141,8 +181,9 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
-                        {functions.util.toProperCase(props.post.uploader)}</Text>
+                    {uploader && functions.jsx.usernameJSX(uploader, colors, i18n, {fontSize: 18}, 22)}
+                    {/*<Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                        {functions.util.toProperCase(props.post.uploader)}</Text>*/}
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploaded}:</Text>

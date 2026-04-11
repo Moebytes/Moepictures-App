@@ -13,10 +13,11 @@ import {ThemeColors} from "../ui/colors"
 import {fonts} from "../ui/fonts"
 import {createStylesheet} from "./styles/JSXFunctions.styles"
 import functions from "./Functions"
+import enLocale from "../assets/locales/en.json"
 
 export default class JSXFunctions {
-    public static usernameJSX = (userData: {username: string, role: string}, colors: ThemeColors,
-        textStyle?: StyleProp<TextStyle>, iconSize = 17) => {
+    public static usernameJSX = (userData: {username: string, role: string, banned: boolean | null, deleted: boolean | null}, 
+        colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17) => {
         const styles = createStylesheet(colors)
 
         const color = functions.tag.getUserColor(userData, colors)
@@ -35,7 +36,9 @@ export default class JSXFunctions {
 
         return (
             <View style={styles.container}>
-                <Text style={[styles.text, textStyle, {color}]}>{functions.util.toProperCase(userData.username)}</Text>
+                <Text style={[styles.text, textStyle, {color, textDecorationLine: userData.banned || 
+                    userData.deleted ? "line-through" : "none"}]}>
+                    {userData.deleted ? i18n.user.deleted : functions.util.toProperCase(userData.username)}</Text>
                 {Icon && <Icon width={iconSize} height={iconSize} color={color}/>}
             </View>
         )

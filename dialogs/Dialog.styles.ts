@@ -104,6 +104,18 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 18,
             lineHeight: 25
         },
+        italicText: {
+            color: colors.iconColor,
+            fontFamily: fonts.clearSansItalic,
+            fontSize: 22,
+            lineHeight: 25
+        },
+        miniText: {
+            color: colors.textColor,
+            fontFamily: fonts.genEiMGothicV2,
+            fontSize: 16,
+            lineHeight: 20
+        },
         input: {
             color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
@@ -160,6 +172,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             left: 0,
             bottom: 0,
             right: 0
+        },
+        errorText: {
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 16,
+            lineHeight: 19,
+            marginTop: -4,
+            color: colors.buttonColor
         }
     })
 }

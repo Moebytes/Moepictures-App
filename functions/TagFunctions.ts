@@ -111,7 +111,8 @@ export default class TagFunctions {
         return colors.tagColor
     }
 
-    public static getUserColor = (user: {username: string, role: string}, colors: ThemeColors) => {
+    public static getUserColor = (user: {username: string, role: string, 
+        banned: boolean | null, deleted: boolean | null}, colors: ThemeColors) => {
         if (user.role === "admin") return colors.adminColor
         if (user.role === "mod") return colors.modColor
         if (user.role === "system") return colors.systemColor
@@ -120,6 +121,8 @@ export default class TagFunctions {
         if (user.role === "premium-contributor") return colors.premiumColor
         if (user.role === "contributor") return colors.contributorColor
         if (user.role === "premium") return colors.premiumColor
+        if (user.banned) return colors.redIcon
+        if (user.deleted) return colors.deletedColor
         return colors.userColor
     }
 }

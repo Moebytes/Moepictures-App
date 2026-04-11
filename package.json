@@ -21,6 +21,7 @@
     "@openspacelabs/react-native-zoomable-view": "github:Moestash/react-native-zoomable-view",
     "@react-native-async-storage/async-storage": "^3.0.1",
     "@react-native-camera-roll/camera-roll": "^7.10.2",
+    "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native-community/blur": "^4.4.1",
     "@react-native-community/slider": "^5.1.2",
     "@react-native-documents/picker": "^12.0.1",

@@ -275,6 +275,7 @@
         "rejected": "不採用"
     },
     "banner": {
+        "copied": "コピー！",
         "copiedTags": "コピーされたタグ！",
         "copiedHash": "コピーハッシュ！",
         "copiedNotes": "コピーノート！",
@@ -535,7 +536,8 @@
         "userProfile": "ユーザープロフィール",
         "imageCount": "画像数",
         "token": "トークン",
-        "logout": "ログアウト"
+        "logout": "ログアウト",
+        "copyID": "コピーID"
     },
     "contextMenu": {
         "openExternal": "外部リンクを開く",
@@ -562,6 +564,7 @@
     "toast": {
         "loginRequired": "この操作を行うには、ログインする必要があります。",
         "verificationRequired": "この操作を行うには、メールアドレスの確認が必要です。",
+        "banned": "利用停止中です。この操作は実行できません。",
         "loggedIn": "としてログイン中",
         "loggedOut": "ログアウトが完了しました！",
         "deletedAccount": "アカウントが削除されました。",

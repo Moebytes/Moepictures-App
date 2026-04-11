@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState, useMemo} from "react"
-import {View, StatusBar, FlatList} from "react-native"
+import {View, StatusBar, FlatList, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
@@ -13,7 +13,7 @@ useSearchSelector, useSearchActions, useActiveActions, useCacheActions} from "..
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
-import {useGetFavgroupQuery} from "../../api"
+import {useGetFavgroupQuery, useInvalidateFavgroups} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GroupImage from "../../components/image/GroupImage"
@@ -23,6 +23,8 @@ import LeftIcon from "../../assets/svg/left.svg"
 import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import LockIcon from "../../assets/svg/lock.svg"
+import EditIcon from "../../assets/svg/edit.svg"
+import DeleteIcon from "../../assets/svg/delete.svg"
 import {createStylesheet} from "./styles/GroupScreen.styles"
 import functions from "../../functions/Functions"
 
@@ -46,6 +48,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const ref = useRef<FlatList>(null)
     const loadingRef = useRef(false)
     const navigation = useNavigation()
+    const invalidateFavgroups = useInvalidateFavgroups()
 
     const previousRoute = useNavigationState((state) => {
         const index = state.index
@@ -63,6 +66,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const totalPages = Math.ceil(Number(favgroup?.postCount || 0) / pageSize)
 
     let iconSize = 22
+    let iconSize2 = 30
 
     const posts = useMemo(() => {
         if (!favgroup?.posts) return []
@@ -86,6 +90,23 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                 loadingRef.current = false
             }, 1000)
         }
+    }
+
+    const editFavgroup = () => {
+        if (!favgroup) return
+
+    }
+
+    const deleteFavgroup = () => {
+        if (!favgroup) return
+        Alert.alert(i18n.dialogs.deleteFavgroup.title, i18n.dialogs.deleteFavgroup.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                await functions.http.delete("/api/favgroup/delete", {name: favgroup.name}, session)
+                navigation.navigate("Favgroups", undefined, {pop: true})
+                invalidateFavgroups()
+            }}
+        ], {cancelable: true})
     }
 
     const pressAction = () => {
@@ -126,6 +147,12 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                     <View style={styles.rowContainer}>
                         {favgroup.private ? <LockIcon width={iconSize} height={iconSize} color={colors.iconColor} style={{marginTop: 3}}/> : null}
                         <Text style={styles.title}>{favgroup.name}</Text>
+                        <ScalableHaptic onPress={editFavgroup}>
+                            <EditIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={deleteFavgroup}>
+                            <DeleteIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
+                        </ScalableHaptic>
                     </View>
                 </View>
                 <View style={styles.headerContainer}>
