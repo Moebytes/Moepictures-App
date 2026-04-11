@@ -6,6 +6,7 @@
 
 import React from "react"
 import {StyleProp, TextStyle} from "react-native"
+import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../ui/ScalableHaptic"
 import {UITextView as Text} from "react-native-uitextview"
 import {useThemeSelector} from "../store"
@@ -21,9 +22,18 @@ interface Props {
 const Link: React.FunctionComponent<Props> = ({href, children, style}) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
+
+    const handleLink = () => {
+        if (href.startsWith("moepics://")) {
+            functions.handleAppLink(href, navigation)
+        } else {
+            functions.link.openSocialLink(href)
+        }
+    }
 
     return (
-        <ScalableHaptic scaleFactor={0.97} onPress={() => functions.link.openSocialLink(href)}>
+        <ScalableHaptic scaleFactor={0.97} onPress={handleLink}>
             <Text style={[style, styles.text]} selectable uiTextView 
             selectionColor={colors.borderColor}>{children}</Text>
         </ScalableHaptic>

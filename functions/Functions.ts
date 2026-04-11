@@ -93,4 +93,18 @@ export default class Functions {
             })
         )
     }
+
+    public static handleAppLink = (url: string, navigation: Navigation) => {
+        const prefix = url.replace("moepics://", "")
+
+        if (prefix.startsWith("post/")) {
+            const postID = prefix.split("/")[1]
+            this.navigateToPost(postID, navigation)
+        }
+
+        if (prefix.startsWith("tag/")) {
+            const tag = prefix.split("/")[1]
+            navigation.navigate("Tag", {name: tag}, {pop: true})
+        }
+    }
 }

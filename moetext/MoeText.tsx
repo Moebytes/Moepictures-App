@@ -333,31 +333,34 @@ export default class MoeText {
                     items.push({text: null, jsx: <Link key={index} style={{fontWeight: "bold"}} href={link}>{name}</Link>})
                 }
             } else if (part.match(/(https?:\/\/[^\s]+)/g)) {
+                let href = part
                 let name = part
                 let tagLink = false
                 let postID = ""
                 if (name.includes(`${siteURL}/post`)) {
                     postID = name.replace(siteURL, "").match(/\d+/)?.[0] || ""
                     name = `Post #${postID}`
+                    href = part.replace(siteURL, "moepics:/")
+                }
+                if (name.includes(`${siteURL}/tag`)) {
+                    name = `${name.replace(siteURL, "").match(/(?<=\/tag\/)(.+)/)?.[0] || ""}`
+                    tagLink = true
+                    href = part.replace(siteURL, "moepics:/")
                 }
                 if (name.includes(`${siteURL}/thread`)) name = `Thread #${name.replace(siteURL, "").match(/\d+/)?.[0] || ""}`
                 if (name.includes(`${siteURL}/message`)) name = `Message #${name.replace(siteURL, "").match(/\d+/)?.[0] || ""}`
                 if (name.includes(`${siteURL}/user`)) name = `${name.replace(siteURL, "").match(/(?<=\/user\/)(.+)/)?.[0] || ""}`
-                if (name.includes(`${siteURL}/tag`)) {
-                    name = `${name.replace(siteURL, "").match(/(?<=\/tag\/)(.+)/)?.[0] || ""}`
-                    tagLink = true
-                }
-
+                
                 if (functions.util.arrayIncludes(name, ["Post"])) {
-                    items.push({text: null, jsx: <Link key={index} href={part}>{name}</Link>})
+                    items.push({text: null, jsx: <Link key={index} href={href}>{name}</Link>})
                 } else if (functions.util.arrayIncludes(name, ["Thread", "Message"]) || tagLink) {
-                    items.push({text: null, jsx: <Link key={index} href={part}>{name}</Link>})
+                    items.push({text: null, jsx: <Link key={index} href={href}>{name}</Link>})
                 } else if (functions.file.isImage(part) || functions.file.isGIF(part)) {
-                    items.push({text: null, jsx: <Image key={index} style={styles.image} source={{uri: part}}/>})
+                    items.push({text: null, jsx: <Image key={index} style={styles.image} source={{uri: href}}/>})
                 } else if (functions.file.isVideo(part)) {
-                    items.push({text: null, jsx: <Video key={index} style={styles.image} source={{uri: part}} muted controls/>})
+                    items.push({text: null, jsx: <Video key={index} style={styles.image} source={{uri: href}} muted controls/>})
                 } else {
-                    items.push({text: null, jsx: <FavivonLink key={index} href={part}>{name}</FavivonLink>})
+                    items.push({text: null, jsx: <FavivonLink key={index} href={href}>{name}</FavivonLink>})
                 }
             } else {
                 items.push({text: part, jsx: null})

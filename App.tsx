@@ -5,6 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
+import {Linking} from "react-native"
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
@@ -83,7 +84,6 @@ declare global {
 const Stack = createNativeStackNavigator<StackParamList>()
 
 const App: React.FunctionComponent = () => {
-    const {i18n} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setSessionFlag} = useFlagActions()
     const {navigationPosts} = useCacheSelector()
@@ -91,6 +91,18 @@ const App: React.FunctionComponent = () => {
     const {setActiveFavgroup} = useActiveActions()
     const {top} = useSafeAreaInsets()
     const navigationRef = useRef<NavigationContainerRef<StackParamList>>(null)
+
+    useEffect(() => {
+      const handleURL = (event: {url: string}) => 
+          functions.handleAppLink(event.url, navigationRef.current!)
+
+      Linking.getInitialURL().then((url) => url && 
+        functions.handleAppLink(url, navigationRef.current!))
+
+      const sub = Linking.addEventListener("url", handleURL)
+
+      return () => sub.remove()
+    }, [])
 
     const destroy2FA = async () => {
         try {
