@@ -19,7 +19,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         codeText: {
             fontFamily: fonts.sourceCodePro,
             fontSize: 13,
-            lineHeight: 16,
+            lineHeight: 20,
             color: colors.textColor
         },
         boldText: {
@@ -37,7 +37,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         highlightText: {
             fontFamily: fonts.jkGothicM,
             fontSize: 13,
-            lineHeight: 16,
+            lineHeight: 20,
             color: colors.highlightColor
         },
         mentionText: {

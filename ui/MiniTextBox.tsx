@@ -78,7 +78,7 @@ const MiniTextBox = forwardRef<MiniTextBoxRef, Props>((props, ref) => {
             setPreviewText(replaced)
         }
         updatePreviewText()
-    }, [previewMode])
+    }, [previewMode, props.text])
 
     useEffect(() => {
         if (emojiFlag) {

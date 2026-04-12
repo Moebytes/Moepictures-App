@@ -102,7 +102,7 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
 
         const swipeThreshold = 150
 
-        if (context.offsetY > swipeThreshold && !lock) {
+        if ((context.offsetY > swipeThreshold || context.offsetY < -swipeThreshold) && !lock) {
             setLock(true)
             onClose()
         }

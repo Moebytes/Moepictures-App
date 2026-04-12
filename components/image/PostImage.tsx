@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {Image, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import {Image, View, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import Toast from "react-native-toast-message"
 import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector, 
@@ -83,7 +83,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             if (session.banned) {
                 return Toast.show({text1: i18n.toast.banned})
             }
-            setChildPostObj(props.post)
+            setChildPostObj(props.post!)
         } else if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
             Linking.openURL(`${siteURL}/post/${props.post.postID}/${props.post.slug}`)
         } else if (event.nativeEvent.name === i18n.contextMenu.share) {
@@ -111,10 +111,11 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
                 {title: i18n.contextMenu.share, icon: "share"}
             ]}
             onPress={contextMenu}>
-                <Pressable style={[styles.container, {opacity: loaded ? 1 : 0}]}
-                    onPress={() => setShowFullscreenImage(true)}>
-                    {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
-                </Pressable>
+                <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
+                    <Pressable onPress={() => setShowFullscreenImage(true)}>
+                        {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
+                    </Pressable>
+                </View>
         </ContextMenu>
     )
 }

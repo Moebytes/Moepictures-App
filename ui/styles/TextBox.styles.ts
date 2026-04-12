@@ -52,7 +52,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.textColor,
             fontFamily: fonts.jkGothicM,
             paddingHorizontal: 5,
-            fontSize: 20
+            fontSize: 20,
+            lineHeight: 20
         },
         previewContainer: {
             display: "flex",

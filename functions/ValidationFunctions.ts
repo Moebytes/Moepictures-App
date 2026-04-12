@@ -92,6 +92,12 @@ export default class ValidationFunctions {
         return null
     }
 
+    public static validateBio = (bio: string, i18n: typeof enLocale) => {
+        if (!bio) return i18n.errors.bio.empty
+        if (this.isProfane(bio)) return i18n.errors.bio.profane
+        return null
+    }
+
     public static validateReason = (reason: string | null | undefined, i18n: typeof enLocale) => {
         if (!reason) return i18n.errors.reason.empty
         return null

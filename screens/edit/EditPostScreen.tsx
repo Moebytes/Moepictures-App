@@ -32,7 +32,7 @@ import PromoIcon from "../../assets/svg/promo.svg"
 import SketchIcon from "../../assets/svg/sketch.svg"
 import LineartIcon from "../../assets/svg/lineart.svg"
 import {createStylesheet} from "./styles/EditFavgroupScreen.styles"
-import {PostType, PostRating, PostStyle, TagType, TagCount} from "../../types/Types"
+import {PostType, PostRating, PostStyle, TagType, TagCount, TagCategories} from "../../types/Types"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
 
@@ -73,9 +73,21 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
     const [suggestionType, setSuggestionType] = useState("tags" as TagType)
     const [typingText, setTypingText] = useState("")
     const [selection, setSelection] = useState({start: 0, end: 0})
+    const [tagCategories, setTagCategories] = useState(null as TagCategories | null)
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
     const invalidatePost = useInvalidatePost()
+
+    const updateCategories = async () => {
+        if (!post) return
+        const tags = await functions.tag.parseTags([post], session)
+        const categories = await functions.tag.tagCategories(tags, session)
+        setTagCategories(categories)
+    }
+
+    useEffect(() => {
+        updateCategories()
+    }, [post])
 
     const editTags = async () => {
         if (!post) return
@@ -181,17 +193,15 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
     ]
 
     const updateTagFields = async () => {
-        if (!post) return
-        const tags = await functions.tag.parseTags([post], session)
-        const categories = await functions.tag.tagCategories(tags, session)
+        if (!post || !tagCategories) return
         setType(post.type)
         setRating(post.rating)
         setStyle(post.style)
-        setArtists(categories.artists.map((t) => t.tag).join(" "))
-        setCharacters(categories.characters.map((t) => t.tag).join(" "))
-        setSeries(categories.series.map((t) => t.tag).join(" "))
-        setMetaTags(categories.meta.map((t) => t.tag).join(" "))
-        setRawTags(functions.tag.parseTagGroupsField(categories.tags.map((t) => t.tag), post.tagGroups))
+        setArtists(tagCategories.artists.map((t) => t.tag).join(" "))
+        setCharacters(tagCategories.characters.map((t) => t.tag).join(" "))
+        setSeries(tagCategories.series.map((t) => t.tag).join(" "))
+        setMetaTags(tagCategories.meta.map((t) => t.tag).join(" "))
+        setRawTags(functions.tag.parseTagGroupsField(tagCategories.tags.map((t) => t.tag), post.tagGroups))
     }
 
     const updateSourceFields = () => {
@@ -215,7 +225,7 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
     useEffect(() => {
         updateTagFields()
         updateSourceFields()
-    }, [post, page])
+    }, [post, tagCategories, page])
 
     let hasPermission = permissions.isContributor(session)
 
@@ -539,13 +549,14 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 <View style={styles.row}>
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.bigInput, {height: 60}]}
                         selectionColor={colors.borderColor}
                         value={title}
                         onChangeText={setTitle}
                         placeholder={i18n.placeholder.enterTitle}
                         placeholderTextColor={colors.gray}
                         submitBehavior="blurAndSubmit"
+                        multiline={true}
                     />
                 </View>
                 <View style={styles.row}>
@@ -553,13 +564,14 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 <View style={styles.row}>
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.bigInput, {height: 60}]}
                         selectionColor={colors.borderColor}
                         value={englishTitle}
                         onChangeText={setEnglishTitle}
                         placeholder={i18n.placeholder.enterEnglishTitle}
                         placeholderTextColor={colors.gray}
                         submitBehavior="blurAndSubmit"
+                        multiline={true}
                     />
                 </View>
                 <View style={styles.row}>
@@ -623,13 +635,14 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 <View style={styles.row}>
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.bigInput, {height: 60}]}
                         selectionColor={colors.borderColor}
                         value={source}
                         onChangeText={setSource}
                         placeholder={i18n.placeholder.enterSource}
                         placeholderTextColor={colors.gray}
                         submitBehavior="blurAndSubmit"
+                        multiline={true}
                     />
                 </View>
                 <View style={styles.row}>
@@ -637,13 +650,14 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 <View style={styles.row}>
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.bigInput, {height: 60}]}
                         selectionColor={colors.borderColor}
                         value={userProfile}
                         onChangeText={setUserProfile}
                         placeholder={i18n.placeholder.enterUserProfile}
                         placeholderTextColor={colors.gray}
                         submitBehavior="blurAndSubmit"
+                        multiline={true}
                     />
                 </View>
                 <View style={styles.row}>

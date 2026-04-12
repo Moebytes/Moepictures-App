@@ -45,6 +45,7 @@ import SignupScreen from "./screens/settings/SignupScreen"
 import $2FAScreen from "./screens/settings/2FAScreen"
 import ForgotPasswordScreen from "./screens/settings/ForgotPasswordScreen"
 import UserSettingsScreen from "./screens/settings/UserSettingsScreen"
+import DeleteAccountScreen from "./screens/settings/DeleteAccountScreen"
 import ChangeUsernameScreen from "./screens/settings/ChangeUsernameScreen"
 import ChangePasswordScreen from "./screens/settings/ChangePasswordScreen"
 import ChangeEmailScreen from "./screens/settings/ChangeEmailScreen"
@@ -78,6 +79,7 @@ export type StackParamList = {
   $2FA: undefined
   ForgotPassword: undefined
   UserSettings: undefined
+  DeleteAccount: undefined
   ChangeUsername: undefined
   ChangePassword: undefined
   ChangeEmail: undefined
@@ -176,6 +178,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="$2FA" component={$2FAScreen}/>
             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
             <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
+            <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen}/>
             <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
             <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
             <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>

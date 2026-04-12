@@ -10,6 +10,7 @@ import SizeDialog from "./search/SizeDialog"
 import SortDialog from "./search/SortDialog"
 import PageMultiplierDialog from "./search/PageMultiplierDialog"
 import EditCommentDialog from "./comment/EditCommentDialog"
+import EditBioDialog from "./user/EditBioDialog"
 import AliasTagDialog from "./tag/AliasTagDialog"
 import ParentDialog from "./post/ParentDialog"
 import GroupDialog from "./group/GroupDialog"
@@ -23,6 +24,7 @@ const Dialogs: React.FunctionComponent = () => {
         <SortDialog/>
         <PageMultiplierDialog/>
         <EditCommentDialog/>
+        <EditBioDialog/>
         <AliasTagDialog/>
         <ParentDialog/>
         <GroupDialog/>

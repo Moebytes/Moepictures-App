@@ -4,8 +4,8 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useRef, forwardRef, useImperativeHandle, useEffect} from "react"
-import {ScrollView, View, Image, TextInput, FlatList, findNodeHandle} from "react-native"
+import React, {useState, useRef, forwardRef, useImperativeHandle, useEffect, useReducer} from "react"
+import {ScrollView, View, Image, TextInput, FlatList} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import ScalableHaptic from "./ScalableHaptic"
 import PressableHaptic from "./PressableHaptic"
@@ -37,6 +37,7 @@ interface Props {
 }
 
 const TextBox = forwardRef<TextBoxRef, Props>((props, ref) => {
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
     const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setEmojiStripVisible} = useLayoutActions()
@@ -90,7 +91,7 @@ const TextBox = forwardRef<TextBoxRef, Props>((props, ref) => {
             setPreviewText(replaced)
         }
         updatePreviewText()
-    }, [previewMode])
+    }, [previewMode, text])
 
     useEffect(() => {
         if (emojiFlag) {

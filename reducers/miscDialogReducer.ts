@@ -15,23 +15,27 @@ const miscDialogSlice = createSlice({
         showPageDialog: false,
         showSavePrompt: false,
         showFullscreenImage: false,
-        showCropImage: false
+        showCropImage: false,
+        showBioDialog: false
     },
     reducers: {
         setShowPageDialog: (state, action) => {state.showPageDialog = action.payload},
         setShowSavePrompt: (state, action) => {state.showSavePrompt = action.payload},
         setShowFullscreenImage: (state, action) => {state.showFullscreenImage = action.payload},
-        setShowCropImage: (state, action) => {state.showCropImage = action.payload}
+        setShowCropImage: (state, action) => {state.showCropImage = action.payload},
+        setShowBioDialog: (state, action) => {state.showBioDialog = action.payload}
     },
     extraReducers: (builder) => {
         builder.addCase(closeAllDialogs, (state) => {
             state.showPageDialog = false
+            state.showBioDialog = false
         })
     }
 })
 
 const {
-    setShowPageDialog, setShowSavePrompt, setShowFullscreenImage, setShowCropImage
+    setShowPageDialog, setShowSavePrompt, setShowFullscreenImage, 
+    setShowCropImage, setShowBioDialog
 } = miscDialogSlice.actions
 
 export const useMiscDialogSelector = () => {
@@ -40,7 +44,8 @@ export const useMiscDialogSelector = () => {
         showPageDialog: selector((state) => state.miscDialog.showPageDialog),
         showSavePrompt: selector((state) => state.miscDialog.showSavePrompt),
         showFullscreenImage: selector((state) => state.miscDialog.showFullscreenImage),
-        showCropImage: selector((state) => state.miscDialog.showCropImage)
+        showCropImage: selector((state) => state.miscDialog.showCropImage),
+        showBioDialog: selector((state) => state.miscDialog.showBioDialog)
     }
 }
 
@@ -53,6 +58,10 @@ export const useMiscDialogActions = () => {
         setShowPageDialog: (state: boolean) => {
             if (state) dispatch(closeAllDialogs())
             dispatch(setShowPageDialog(state))
+        },
+        setShowBioDialog: (state: boolean) => {
+            if (state) dispatch(closeAllDialogs())
+            dispatch(setShowBioDialog(state))
         }
     }
 }

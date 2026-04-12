@@ -37,7 +37,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             paddingVertical: 10,
             paddingHorizontal: 20,
             backgroundColor: colors.profileBG,
-            gap: 10,
+            gap: 20,
             flex: 1
         },
         row: {
@@ -46,6 +46,30 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "flex-start",
             alignItems: "center",
             width: "100%"
+        },
+        box: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 10
+        },
+        bioContainer: {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            backgroundColor: colors.profileLogin,
+            width: "100%",
+            borderRadius: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 10
+        },
+        labelText: {
+            color: colors.iconColor,
+            fontFamily: fonts.genEiMGothicV2,
+            fontSize: 25,
+            lineHeight: 30
         },
         dangerText: {
             color: colors.dangerColor,
@@ -69,6 +93,31 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderRadius: 12,
             height: 80,
             backgroundColor: colors.profileItemPressed
+        },
+        buttonContainer2: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            borderRadius: 16,
+            overflow: "hidden"
+        },
+        itemContainer: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingHorizontal: 15,
+            paddingVertical: 17,
+            backgroundColor: colors.profileItem,
+            width: "100%"
+        },
+        loginText: {
+            color: colors.iconColor,
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            textAlign: "center",
+            fontSize: 22,
+            lineHeight: 26
         },
         activeButtonContainer: {
             backgroundColor: colors.profileItemPressed2

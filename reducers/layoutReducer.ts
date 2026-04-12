@@ -47,14 +47,15 @@ const dialogOpen = createSelector(
     (state: StoreState) => state.searchDialog.showPageMultiplierDialog,
     (state: StoreState) => state.groupDialog.favgroupID,
     (state: StoreState) => state.groupDialog.groupPostID,
-    (state: StoreState) => state.tagDialog.aliasTagID],
+    (state: StoreState) => state.tagDialog.aliasTagID,
+    (state: StoreState) => state.miscDialog.showBioDialog],
     (showPageDialog, showSizeDialog, showSortDialog, 
      showPageMultiplierDialog, favgroupID, groupPostID,
-     aliasTagID) => {
+     aliasTagID, showBioDialog) => {
         return (
             showPageDialog || showSizeDialog || showSortDialog || 
             showPageMultiplierDialog || favgroupID || groupPostID ||
-            aliasTagID
+            aliasTagID || showBioDialog
         )
     }
 )

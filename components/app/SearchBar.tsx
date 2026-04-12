@@ -9,7 +9,8 @@ import {View, TextInput, Pressable, Text, ScrollView, TextInputKeyPressEvent} fr
 import {useRoute, useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchActions, useSearchSelector, useFlagSelector,
-useSessionSelector, useFlagActions, useSheetSelector, useSheetActions} from "../../store"
+useSessionSelector, useFlagActions, useSheetSelector, useSheetActions,
+useCacheActions} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
@@ -39,6 +40,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         showGroupsSheet, showTagsSheet} = useSheetSelector()
     const {setShowCommentsSheet, setShowNotesSheet, setShowSearchHistorySheet,
         setShowGroupsSheet, setShowTagsSheet} = useSheetActions()
+    const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const inputRef = useRef<TextInput>(null)
     const scrollRef = useRef<ScrollView>(null)
@@ -79,8 +81,8 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         setText("")
     }
 
-    const handleKeyPress = (e: TextInputKeyPressEvent) => {
-        if (e.nativeEvent.key === "Backspace" && !text && searchTags.length) {
+    const handleKeyPress = (event: TextInputKeyPressEvent) => {
+        if (event.nativeEvent.key === "Backspace" && !text && searchTags.length) {
             setSearchTags(searchTags.slice(0, -1))
         }
     }
@@ -93,6 +95,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
                 sort: "random", limit: 1}, session)
             if (!result.length) return
             
+            setNavigationPosts(result)
             functions.navigateToPost(result[0].postID, navigation)
         }
     }

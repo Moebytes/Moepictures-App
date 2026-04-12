@@ -4,47 +4,53 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef, useReducer} from "react"
+import React, {useRef, useReducer, useState, useEffect} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {View, Text} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSessionSelector, useFlagActions, 
-useCommentDialogSelector, useCommentDialogActions, useLayoutActions} from "../../store"
+useLayoutActions, useMiscDialogSelector, useMiscDialogActions} from "../../store"
 import {createStylesheet} from "../Dialog.styles"
 import functions from "../../functions/Functions"
+import moeText from "../../moetext/MoeText"
 import MiniTextBox, {MiniTextBoxRef} from "../../ui/MiniTextBox"
 import Draggable from "../Draggable"
 
-const EditCommentDialog: React.FunctionComponent = () => {
+const EditBioDialog: React.FunctionComponent = () => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
     const {i18n, colors} = useThemeSelector()
     const {session} = useSessionSelector()
-    const {editCommentID, editCommentText} = useCommentDialogSelector()
-    const {setEditCommentID, setEditCommentText} = useCommentDialogActions()
+    const {showBioDialog} = useMiscDialogSelector()
+    const {setShowBioDialog} = useMiscDialogActions()
     const {setEmojiStripVisible} = useLayoutActions()
-    const {setCommentFlag} = useFlagActions()
+    const {setSessionFlag} = useFlagActions()
+    const [text, setText] = useState("")
     const styles = createStylesheet(colors)
     const textBoxRef = useRef<MiniTextBoxRef>(null)
 
-    const onSubmit = async () => {
-        if (!editCommentID || !textBoxRef.current) return
+    useEffect(() => {
+        if (showBioDialog) setText(moeText.undoLinkReplacements(session.bio))
+    }, [showBioDialog, session])
 
-        const text = await textBoxRef.current.resolveReplacements()
-        const badComment = functions.valid.validateComment(text, i18n)
-        if (badComment) {
-            textBoxRef.current?.showError(badComment)
+    const onSubmit = async () => {
+        if (!showBioDialog || !textBoxRef.current) return
+
+        const bio = await textBoxRef.current.resolveReplacements()
+        const badBio = functions.valid.validateBio(bio, i18n)
+        if (badBio) {
+            textBoxRef.current?.showError(badBio)
             await functions.timeout(2000)
             textBoxRef.current?.clearError()
             return
         }
 
-        await functions.http.put("/api/comment/edit", {commentID: editCommentID, comment: text}, session)
-        setCommentFlag(true)
+        await functions.http.post("/api/user/changebio", {bio}, session)
+        setSessionFlag(true)
         onClose()
     }
 
     const onClose = () => {
-        setEditCommentID(null)
+        setShowBioDialog(false)
         setEmojiStripVisible(false)
     }
 
@@ -58,20 +64,20 @@ const EditCommentDialog: React.FunctionComponent = () => {
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
         : undefined
 
-    if (editCommentID) {
+    if (showBioDialog) {
         const previewMode = textBoxRef.current?.getPreviewMode()
 
         return (
             <View style={styles.overlay}>
-                <Draggable resetKey={editCommentID}>{(panHandlers) => (
+                <Draggable resetKey={showBioDialog}>{(panHandlers) => (
                     <LiquidGlassView effect="clear" style={[styles.container, {//backgroundColor: colors.mainColor, 
                         paddingHorizontal: 0}, fallback]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
-                            <Text style={styles.title}>{i18n.dialogs.editComment.title}</Text>
+                            <Text style={styles.title}>{i18n.user.editBio}</Text>
                         </View>
                         <View style={styles.row}>
-                            <MiniTextBox ref={textBoxRef} text={editCommentText} setText={setEditCommentText} opaque={true}/>
+                            <MiniTextBox ref={textBoxRef} text={text} setText={setText} opaque={true}/>
                         </View>
                         <View style={styles.bottomRow}>
                             <PressableHaptic onPress={onClose} style={({pressed}) => [
@@ -110,4 +116,4 @@ const EditCommentDialog: React.FunctionComponent = () => {
     return null
 }
 
-export default EditCommentDialog
+export default EditBioDialog
