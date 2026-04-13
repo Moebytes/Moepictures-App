@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {StyleSheet} from "react-native"
-import {ThemeColors} from "../../../ui/colors"
+import {ThemeColors} from "../../ui/colors"
 
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({

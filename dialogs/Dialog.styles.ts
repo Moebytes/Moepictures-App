@@ -179,6 +179,10 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 19,
             marginTop: -4,
             color: colors.buttonColor
-        }
+        },
+        slider: {
+            width: "85%",
+            height: 40
+        },
     })
 }

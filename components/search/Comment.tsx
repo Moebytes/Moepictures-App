@@ -128,7 +128,7 @@ const Comment: React.FunctionComponent<Props> = (props) => {
     return (
         <Pressable style={({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}]}>
              <Pressable style={styles.userContainer} onPress={pfpPress}>
-                <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} source={{uri: pfp}} resizeMode="contain"/>
+                <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} src={pfp} resizeMode="contain"/>
                 {functions.jsx.usernameJSX(props.comment, colors, i18n, {fontSize: 18}, 20)}
              </Pressable>
             <View style={styles.textContainer}>

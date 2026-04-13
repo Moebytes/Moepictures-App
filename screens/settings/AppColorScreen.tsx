@@ -63,6 +63,7 @@ const AppColorScreen: React.FunctionComponent = () => {
                             onValueChange={setAppHue}
                             minimumTrackTintColor="transparent"
                             maximumTrackTintColor="transparent"
+                            tapToSeek={true}
                         />
                     </LinearGradient>
 
@@ -81,6 +82,7 @@ const AppColorScreen: React.FunctionComponent = () => {
                             onValueChange={setAppSaturation}
                             minimumTrackTintColor="transparent"
                             maximumTrackTintColor="transparent"
+                            tapToSeek={true}
                         />
                     </LinearGradient>
 
@@ -99,6 +101,7 @@ const AppColorScreen: React.FunctionComponent = () => {
                             onValueChange={setAppLightness}
                             minimumTrackTintColor="transparent"
                             maximumTrackTintColor="transparent"
+                            tapToSeek={true}
                         />
                     </LinearGradient>
 

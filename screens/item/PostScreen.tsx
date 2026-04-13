@@ -35,8 +35,9 @@ import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
-import FullscreenImage from "../../components/image/FullscreenImage"
-import CropImage from "../../components/image/CropImage"
+import FullscreenModal from "../../modals/FullscreenModal"
+import CropModal from "../../modals/CropModal"
+import {ImageRef} from "../../components/image/FilterImage"
 import {createStylesheet} from "./styles/PostScreen.styles"
 import functions from "../../functions/Functions"
 import {Image} from "../../types/Types"
@@ -59,6 +60,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const [image, setImage] = useState<Image | null>(null)
   const styles = createStylesheet(colors)
   const ref = useRef<FlatList>(null)
+  const imageRef = useRef<ImageRef>(null)
 
   useEffect(() => {
       ref.current?.scrollToOffset({offset: 0})
@@ -132,16 +134,16 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       <View style={{flex: 1, backgroundColor: colors.mainColor}}>
           <StatusBar hidden={!statusBarVisible} barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
           <SearchSuggestions/>
-          <FullscreenImage post={post} image={image}/>
-          <CropImage post={post} image={image}/>
+          <FullscreenModal post={post} image={image}/>
+          <CropModal post={post} image={image}/>
           <FlatList
             ListHeaderComponent={
               <>
                 <TitleBar/>
                 <SearchBar random={true}/>
                 <Variations post={post} onImageChange={onImageChange}/>
-                <PostImage post={post} image={image}/>
-                <PostImageOptions openDrawer={openDrawer} post={post}/>
+                <PostImage post={post} image={image} imageRef={imageRef}/>
+                <PostImageOptions openDrawer={openDrawer} post={post} imageRef={imageRef}/>
                 <PixivTags post={post}/>
                 <ArtistInfo post={post} artists={tagCategories?.artists}/>
                 <View style={{gap: 10}}>

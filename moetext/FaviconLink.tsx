@@ -26,7 +26,7 @@ const FavivonLink: React.FunctionComponent<Props> = ({img, href, children, style
 
     return (
         <View style={styles.container}>
-            <Image style={styles.favicon} source={{uri: favicon}}/>
+            <Image style={styles.favicon} src={favicon}/>
             <Link style={style} href={href}>{children}</Link>
         </View>
     )

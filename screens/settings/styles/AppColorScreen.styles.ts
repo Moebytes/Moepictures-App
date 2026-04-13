@@ -60,7 +60,6 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderRadius: 10,
             justifyContent: "center"
         },
-
         slider: {
             position: "absolute",
             width: "100%",

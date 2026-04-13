@@ -10,21 +10,21 @@ import {Modal, View, Text} from "react-native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {CropView} from "react-native-image-crop-tools"
 import Toast from "react-native-toast-message"
-import ScalableHaptic from "../../ui/ScalableHaptic"
+import ScalableHaptic from "../ui/ScalableHaptic"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useMiscDialogSelector, 
-useMiscDialogActions, useLayoutActions, useFlagActions} from "../../store"
-import {createStylesheet} from "./styles/CropImage.styles"
-import functions from "../../functions/Functions"
-import CheckIcon from "../../assets/svg/check.svg"
-import XIcon from "../../assets/svg/x.svg"
-import {PostFull, Image as VariantImage} from "../../types/Types"
+useMiscDialogActions, useLayoutActions, useFlagActions} from "../store"
+import {createStylesheet} from "./styles/CropModal.styles"
+import functions from "../functions/Functions"
+import CheckIcon from "../assets/svg/check.svg"
+import XIcon from "../assets/svg/x.svg"
+import {PostFull, Image as VariantImage} from "../types/Types"
 
 interface Props {
     post?: PostFull
     image?: VariantImage | null
 }
 
-const CropImage: React.FunctionComponent<Props> = (props) => {
+const CropModal: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
     const {showCropImage} = useMiscDialogSelector()
@@ -80,7 +80,7 @@ const CropImage: React.FunctionComponent<Props> = (props) => {
             <View style={styles.container}>
                 <View style={[styles.headerContainer, {top: insets.top+5}]}>
                     <ScalableHaptic scaleFactor={0.95}  onPress={onClose}>
-                        <LiquidGlassView interactive effect="clear" style={styles.headerButton}>
+                        <LiquidGlassView interactive effect="clear" style={[styles.headerButton, fallback]}>
                             <XIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.cancel}</Text>
                         </LiquidGlassView>
@@ -88,7 +88,7 @@ const CropImage: React.FunctionComponent<Props> = (props) => {
                     
                     <ScalableHaptic scaleFactor={0.95} style={styles.headerButton} 
                         onPress={() => cropRef.current?.saveImage(true, 100)}>
-                        <LiquidGlassView interactive effect="clear" style={styles.headerButton}>
+                        <LiquidGlassView interactive effect="clear" style={[styles.headerButton, fallback]}>
                             <CheckIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.done}</Text>
                         </LiquidGlassView>
@@ -107,4 +107,4 @@ const CropImage: React.FunctionComponent<Props> = (props) => {
     )
 }
 
-export default CropImage
+export default CropModal

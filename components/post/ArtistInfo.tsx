@@ -70,7 +70,7 @@ const ArtistInfo: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.artistContainer}>
-                {artistPfp && <Image style={styles.artistIcon} source={{uri: artistPfp}}/>}
+                {artistPfp && <Image style={styles.artistIcon} src={artistPfp}/>}
                 <ScalableHaptic scaleFactor={0.95} 
                 onPress={() => navigation.navigate("Tag", {name: props.artists?.[0]?.tag!})}>
                     <Text style={styles.artistText}>{props.artists?.[0]?.tag}</Text>

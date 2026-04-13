@@ -38,6 +38,13 @@ export default class FileFunctions {
         return dest
     }
 
+    public static saveBase64Image = async (base64: string, filename: string) => {
+        const dir = Dirs.DocumentDir
+        const dest = `file://${dir}/${filename}`
+        await fs.writeFile(dest, base64, "base64")
+        return dest
+    }
+
     public static deleteLocation = async (dest: string) => {
         if (await fs.exists(dest)) {
             await fs.unlink(dest)
@@ -52,15 +59,17 @@ export default class FileFunctions {
     
     public static saveToCameraRoll = async (img: string, filename: string) => {
         const dir = Dirs.DocumentDir
-        const dest = `file://${dir}/${filename}`
+        let dest = `file://${dir}/${filename}`
 
         try {
-            await fs.fetch(img, {path: dest})
+            if (!img.startsWith("file://")) {
+                await fs.fetch(img, {path: dest})
+            } else {
+                dest = img
+            }
             await CameraRoll.saveAsset(dest)
         } finally {
-            if (await fs.exists(dest)) {
-                await fs.unlink(dest)
-            }
+            this.deleteLocation(dest)
         }
     }
 
@@ -80,15 +89,17 @@ export default class FileFunctions {
 
     public static saveToFiles = async (img: string, filename: string) => {
         const dir = Dirs.DocumentDir
-        const dest = `file://${dir}/${filename}`
+        let dest = `file://${dir}/${filename}`
 
         try {
-            await fs.fetch(img, {path: dest})
+            if (!img.startsWith("file://")) {
+                await fs.fetch(img, {path: dest})
+            } else {
+                dest = img
+            }
             await saveDocuments({sourceUris: [dest], copy: true, fileName: filename, mimeType: this.getMimeType(filename)})
         } finally {
-            if (await fs.exists(dest)) {
-                await fs.unlink(dest)
-            }
+            this.deleteLocation(dest)
         }
     }
 

@@ -73,7 +73,7 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.tagContainer}>
-                {props.tag.image && <Image style={styles.image} source={{uri: functions.link.getTagLink(props.tag)}}/>}
+                {props.tag.image && <Image style={styles.image} src={functions.link.getTagLink(props.tag)}/>}
                 <Pressable onPress={() => navigation.navigate("Tag", {name: props.tag.tag})}>
                     <Text style={{...styles.tag, color: functions.tag.getTagColor(props.tag, colors)}}>
                         {props.tag.tag.replace(/-/g, " ")}

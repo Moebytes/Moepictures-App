@@ -375,17 +375,31 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
         return match ? match[1] : ""
     }
 
+    const replaceAtCursor = (insert: string, text: string, setText: (text: string) => void) => {
+        const left = text.slice(0, selection.start)
+        const right = text.slice(selection.end)
+
+        const match = left.match(/([^\s\n\r]+)$/)
+        const wordStart = match ? selection.start - match[1].length : selection.start
+
+        const newText = text.slice(0, wordStart) + insert + " " + right
+        setText(newText)
+
+        const pos = wordStart + insert.length + 1
+        setSelection({start: pos, end: pos})
+    }
+
     const addSuggestion = (suggestion: TagCount) => {
         if (suggestion.type === "artist") {
-            setArtists((prev) => prev + ` ${suggestion.tag}`)
+            replaceAtCursor(suggestion.tag, artists, setArtists)
         } else if (suggestion.type === "character") {
-            setCharacters((prev) => prev + ` ${suggestion.tag}`)
+            replaceAtCursor(suggestion.tag, characters, setCharacters)
         } else if (suggestion.type === "series") {
-            setSeries((prev) => prev + ` ${suggestion.tag}`)
+            replaceAtCursor(suggestion.tag, series, setSeries)
         } else if (suggestion.type === "meta") {
-            setMetaTags((prev) => prev + ` ${suggestion.tag}`)
+            replaceAtCursor(suggestion.tag, metaTags, setMetaTags)
         } else {
-            setRawTags((prev) => prev + ` ${suggestion.tag}`)
+            replaceAtCursor(suggestion.tag, rawTags, setRawTags)
         }
     }
 

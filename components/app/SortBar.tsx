@@ -12,7 +12,9 @@ import ScalableHaptic from "../../ui/ScalableHaptic"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
 useSearchDialogActions, useSearchDialogSelector, useSessionSelector, 
-useSheetSelector, useSheetActions} from "../../store"
+useSheetSelector, useSheetActions,
+useFilterSelector,
+useFilterActions} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import {launchImageLibrary} from "react-native-image-picker"
 import {pick, types} from "@react-native-documents/picker"
@@ -43,6 +45,8 @@ const SortBar: React.FunctionComponent = () => {
     const {setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog} = useSearchDialogActions()
     const {showPostsSheet, showTagFavoritesSheet, showSavedSearchesSheet} = useSheetSelector()
     const {setShowPostsSheet, setShowTagFavoritesSheet, setShowSavedSearchesSheet} = useSheetActions()
+    const {showFilters} = useFilterSelector()
+    const {setShowFilters} = useFilterActions()
     const {showActionSheetWithOptions} = useActionSheet()
     const spinValue = useRef(new Animated.Value(0)).current
 
@@ -158,7 +162,8 @@ const SortBar: React.FunctionComponent = () => {
                     onPress={() => setScroll(!scroll)}/>
                 <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setSquare(!square)}/>
-                <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor}/>
+                <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor}
+                    onPress={() => setShowFilters(!showFilters)}/>
                 <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowSizeDialog(!showSizeDialog)}/>
                 <ScalableHaptic icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}

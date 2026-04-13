@@ -10,6 +10,7 @@ import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupThumbnail.styles"
 import functions from "../../functions/Functions"
+import FilterImage from "../image/FilterImage"
 import {GroupSearch} from "../../types/Types"
 
 interface Props {
@@ -49,7 +50,7 @@ const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
         <Pressable style={(({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}])}
             onPress={() => navigation.navigate("Group", {slug: props.group.slug})}>
             <View style={styles.imageContainer}>
-                <Image style={size} source={{uri: img}} resizeMode="contain"/>
+                <FilterImage img={img} size={size}/>
             </View>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>{props.group.name}</Text>

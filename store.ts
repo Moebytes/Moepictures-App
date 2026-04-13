@@ -13,6 +13,7 @@ import activeReducer, {useActiveSelector, useActiveActions} from "./reducers/act
 import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheReducer"
 import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
 import flagReducer, {useFlagSelector, useFlagActions} from "./reducers/flagReducer"
+import filterReducer, {useFilterSelector, useFilterActions} from "./reducers/filterReducer"
 import miscDialogReducer, {useMiscDialogSelector, useMiscDialogActions} from "./reducers/miscDialogReducer"
 import commentDialogReducer, {useCommentDialogSelector, useCommentDialogActions} from "./reducers/commentDialogReducer"
 import groupDialogReducer, {useGroupDialogSelector, useGroupDialogActions} from "./reducers/groupDialogReducer"
@@ -31,6 +32,7 @@ const store = configureStore({
         cache: cacheReducer,
         search: searchReducer,
         flag: flagReducer,
+        filter: filterReducer,
         miscDialog: miscDialogReducer,
         commentDialog: commentDialogReducer,
         groupDialog: groupDialogReducer,
@@ -55,6 +57,7 @@ export {
     useCacheSelector, useCacheActions,
     useSearchSelector, useSearchActions,
     useFlagSelector, useFlagActions,
+    useFilterSelector, useFilterActions,
     useMiscDialogSelector, useMiscDialogActions,
     useCommentDialogSelector, useCommentDialogActions,
     useGroupDialogSelector, useGroupDialogActions,

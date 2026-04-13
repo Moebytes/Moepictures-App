@@ -86,7 +86,7 @@ const EmojiStrip: React.FunctionComponent = () => {
                         <Fragment key={index}>
                             {column.map(([emoji, image]) => (
                                 <PressableHaptic key={emoji} hitSlop={10} onPress={() => setEmojiFlag(emoji)}>
-                                    <Image style={{width: size, height: size}} source={{uri: image}}/>
+                                    <Image style={{width: size, height: size}} src={image}/>
                                 </PressableHaptic>
                             ))}
                         </Fragment>))}

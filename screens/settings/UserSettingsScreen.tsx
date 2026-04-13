@@ -13,6 +13,7 @@ import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useCacheSelector, useFlagActions, useSessionSelector, useThemeSelector, useMiscDialogActions, useMiscDialogSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import LeftIcon from "../../assets/svg/left.svg"
+import RightIcon from "../../assets/svg/right.svg"
 import EditIcon from "../../assets/svg/edit.svg"
 import DangerIcon from "../../assets/svg/danger.svg"
 import {createStylesheet} from "./styles/UserSettingsScreen.styles"
@@ -91,6 +92,7 @@ const UserSettingsScreen: React.FunctionComponent = () => {
                             <DangerIcon width={iconSize} height={iconSize} color={colors.dangerColor}/>
                             <Text style={styles.loginText}>{i18n.buttons.deleteAccount}</Text>
                         </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
                 </View>
             </View>

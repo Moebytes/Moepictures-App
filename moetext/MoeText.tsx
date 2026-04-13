@@ -260,7 +260,7 @@ export default class MoeText {
         parts.forEach((part, index) => {
             if (part.match(/(:[^\s]+:)/g)) {
                 let key = part.split(":")[1]
-                items.push({text: null, jsx: <Image key={index} style={styles.emoji} source={{uri: emojis[key]}}/>})
+                items.push({text: null, jsx: <Image key={index} style={styles.emoji} src={emojis[key]}/>})
             } else {
                 items.push({text: part, jsx: null})
             }
@@ -356,7 +356,7 @@ export default class MoeText {
                 } else if (functions.util.arrayIncludes(name, ["Thread", "Message"]) || tagLink) {
                     items.push({text: null, jsx: <Link key={index} href={href}>{name}</Link>})
                 } else if (functions.file.isImage(part) || functions.file.isGIF(part)) {
-                    items.push({text: null, jsx: <Image key={index} style={styles.image} source={{uri: href}}/>})
+                    items.push({text: null, jsx: <Image key={index} style={styles.image} src={href}/>})
                 } else if (functions.file.isVideo(part)) {
                     items.push({text: null, jsx: <Video key={index} style={styles.image} source={{uri: href}} muted controls/>})
                 } else {

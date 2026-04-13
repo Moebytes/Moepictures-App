@@ -11,6 +11,7 @@ import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
+import FilterImage from "./FilterImage"
 import {Post} from "../../types/Types"
 
 interface Props {
@@ -68,7 +69,7 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={imageSize} source={{uri: img}} resizeMode="contain"/>}
+            <FilterImage img={img} size={imageSize}/>
         </PressableHaptic>
     )
 }

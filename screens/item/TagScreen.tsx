@@ -271,7 +271,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 {tag && <View style={styles.container}>
                     <View style={styles.rowContainer}>
-                        {tag.image && <Image style={styles.image} source={{uri: functions.link.getTagLink(tag)}}/>}
+                        {tag.image && <Image style={styles.image} src={functions.link.getTagLink(tag)}/>}
                         <Text style={[styles.tag, {color: functions.tag.getTagColor(tag, colors)}]}>
                             {functions.util.toProperCase(tag.tag.replace(/-/g, " "))}
                         </Text>

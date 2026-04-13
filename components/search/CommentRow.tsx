@@ -19,6 +19,7 @@ import ReportIcon from "../../assets/svg/report.svg"
 import EditIcon from "../../assets/svg/edit.svg"
 import DeleteIcon from "../../assets/svg/delete.svg"
 import {CommentSearch} from "../../types/Types"
+import FilterImage from "../image/FilterImage"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
 import permissions from "../../structures/Permissions"
@@ -145,11 +146,11 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <Pressable style={styles.imageContainer} onPress={onPress}>
-                <Image style={size} source={{uri: img}} resizeMode="contain"/>
+                <FilterImage img={img} size={size}/>
             </Pressable>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
-                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>
+                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} src={pfp} resizeMode="contain"/>
                     {functions.jsx.usernameJSX(props.comment, colors, i18n)}
                 </View>
                 <View style={styles.rowContainer}>

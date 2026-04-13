@@ -26,6 +26,10 @@ interface Props {
     visible?: boolean
 }
 
+type NoParamScreens = {
+    [K in keyof StackParamList]: StackParamList[K] extends undefined ? K : never
+}[keyof StackParamList]
+
 const TabBar: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {tablet, tabBarHeight} = useLayoutSelector()
@@ -50,7 +54,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         }).start()
     }, [props.visible])
 
-    const openTab = (screen: keyof StackParamList) => {
+    const openTab = (screen: NoParamScreens) => {
         if (screen === "Posts") {
             const state = navigation.getState()!
 
@@ -74,7 +78,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     const generateTabsJSX = () => {
         let jsx = [] as React.ReactElement[]
 
-        let tabMap: {screen: keyof StackParamList, icon: React.ComponentType<SvgProps>, name: string}[] = [
+        let tabMap: {screen: NoParamScreens, icon: React.ComponentType<SvgProps>, name: string}[] = [
             {screen: "Posts", icon: PostsIcon, name: i18n.sort.posts},
             {screen: "Comments", icon: CommentsIcon, name: i18n.navbar.comments},
             //{screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
@@ -91,8 +95,7 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
             if (activeRoute === "Group" && tab.screen === "Groups") active = true
             if ((activeRoute === "Terms" || activeRoute === "Privacy" || activeRoute === "Contact"
                 || activeRoute === "Copyright") && tab.screen === "Profile") active = true
-            if ((activeRoute === "Login" || activeRoute === "SignUp" || activeRoute === "2FA"
-                || activeRoute === "ForgotPassword" || activeRoute === "UserSettings") 
+            if ((activeRoute === "Favgroups" || activeRoute === "Favgroup") 
                 && tab.screen === "Profile") active = true
 
             jsx.push(

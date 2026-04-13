@@ -133,4 +133,17 @@ export default class UtilFunctions {
             return i18n.labels.unknown || "Unknown"
         }
     }
+
+    public static normalizeRange = (value: number, min: number, max: number) => {
+        return (value - min) / (max - min)
+    }
+
+    public static denormalizeValue = (value: number, min: number, max: number) => {
+        return value * (max - min) + min
+    }
+
+    public static remapRange = (value: number, min: number, max: number, newMin: number, newMax: number) => {
+        const normalized = this.normalizeRange(value, min, max)
+        return this.denormalizeValue(normalized, newMin, newMax)
+    }
 }

@@ -12,6 +12,7 @@ import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/CommentRow.styles"
 import DateIcon from "../../assets/svg/date.svg"
 import functions from "../../functions/Functions"
+import FilterImage from "../image/FilterImage"
 import {NoteSearch} from "../../types/Types"
 
 const favicon = require("../../assets/icons/favicon.png")
@@ -80,11 +81,11 @@ const NoteRow: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
              <Pressable style={styles.imageContainer}
              onPress={onPress}>
-                <Image style={size} source={{uri: img}} resizeMode="contain"/>
+                <FilterImage img={img} size={size}/>
              </Pressable>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
-                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} source={{uri: pfp}} resizeMode="contain"/>
+                    <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} src={pfp} resizeMode="contain"/>
                     {functions.jsx.usernameJSX({username: props.note.updater, ...props.note}, colors, i18n)}
                 </View>
                 <View style={styles.rowContainer}>

@@ -4,16 +4,18 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect} from "react"
-import {View, Pressable, Linking, Image, useWindowDimensions, Keyboard, NativeSyntheticEvent, Share} from "react-native"
+import React, {useState, useEffect, useRef} from "react"
+import {View, Pressable, Linking, useWindowDimensions, Keyboard, NativeSyntheticEvent, Share} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import {useNavigation} from "@react-navigation/native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
-import {useThemeSelector, useSessionSelector, useLayoutSelector, useSearchSelector, useMiscDialogActions, useLayoutActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useLayoutSelector, useFilterSelector,
+useSearchSelector, useMiscDialogActions, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/GridImage.styles"
 import functions from "../../functions/Functions"
 import {PostSearch} from "../../types/Types"
 import {siteURL} from "../../ui/site"
+import FilterImage, {ImageRef} from "./FilterImage"
 import path from "path"
 
 interface Props {
@@ -29,12 +31,15 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const {setShowSavePrompt} = useMiscDialogActions()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
+    const {brightness, contrast, hue, saturation, 
+        lightness, blur, sharpen, pixelate} = useFilterSelector()
     const [size, setSize] = useState({width: width / 2, height: width / 2})
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [loaded, setLoaded] = useState(false)
     const {showActionSheetWithOptions} = useActionSheet()
     const navigation = useNavigation()
+    const imageRef = useRef<ImageRef>(null)
 
     useEffect(() => {
         if (!props.post) return
@@ -72,8 +77,15 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         } else if (event.nativeEvent.name === i18n.contextMenu.saveImage) {
             if (!await functions.file.requestStoragePermission()) return
     
-            const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
-            const filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+            let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+            let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+
+            if (imageRef.current && functions.image.filtersOn({brightness, contrast, hue, 
+                saturation, lightness, blur, sharpen, pixelate})) {
+                const base64 = imageRef.current.toDataURL()
+                filename = path.basename(filename, path.extname(filename)) + ".png"
+                img = await functions.file.saveBase64Image(base64, filename)
+            }
 
             showActionSheetWithOptions({
                 title: i18n.contextMenu.saveLocation,
@@ -128,7 +140,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
                 {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-                {img && <Image style={imageSize} source={{uri: img}} resizeMode={square ? "cover" : "contain"}/>}
+                <FilterImage ref={imageRef} img={img} size={imageSize} fit={square ? "cover" : "contain"}/>
             </Pressable>
         </ContextMenu>
     )

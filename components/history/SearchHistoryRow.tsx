@@ -13,6 +13,7 @@ import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchHistoryRow.styles"
 import DeleteIcon from "../../assets/svg/delete.svg"
+import FilterImage from "../image/FilterImage"
 import functions from "../../functions/Functions"
 import {SearchHistory} from "../../types/Types"
 
@@ -79,7 +80,7 @@ const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
              <Pressable style={styles.imageContainer} onPress={onPress}>
-                <Image style={size} source={{uri: img}} resizeMode="contain"/>
+                <FilterImage img={img} size={size}/>
              </Pressable>
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>

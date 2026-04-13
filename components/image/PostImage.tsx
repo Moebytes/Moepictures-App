@@ -12,12 +12,14 @@ import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelecto
 useMiscDialogActions, useGroupDialogActions, usePostDialogActions} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
+import FilterImage, {ImageRef} from "./FilterImage"
 import {PostFull, Image as VariantImage} from "../../types/Types"
 import {siteURL} from "../../ui/site"
 
 interface Props {
     post?: PostFull
     image?: VariantImage | null
+    imageRef?: React.RefObject<ImageRef | null>
 }
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
@@ -113,7 +115,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             onPress={contextMenu}>
                 <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
                     <Pressable onPress={() => setShowFullscreenImage(true)}>
-                        {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
+                        <FilterImage ref={props.imageRef} img={img} size={size}/>
                     </Pressable>
                 </View>
         </ContextMenu>

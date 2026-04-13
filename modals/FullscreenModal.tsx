@@ -9,17 +9,18 @@ import {Modal, Image, useWindowDimensions, GestureResponderEvent, PanResponderGe
 import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
 import {useThemeSelector, useSessionSelector, useMiscDialogSelector, 
-useMiscDialogActions, useCacheSelector, useLayoutActions} from "../../store"
-import {createStylesheet} from "./styles/FullscreenImage.styles"
-import functions from "../../functions/Functions"
-import {PostFull, Image as VariantImage} from "../../types/Types"
+useMiscDialogActions, useCacheSelector, useLayoutActions} from "../store"
+import {createStylesheet} from "./styles/FullscreenModal.styles"
+import FilterImage from "../components/image/FilterImage"
+import functions from "../functions/Functions"
+import {PostFull, Image as VariantImage} from "../types/Types"
 
 interface Props {
     post?: PostFull
     image?: VariantImage | null
 }
 
-const FullscreenImage: React.FunctionComponent<Props> = (props) => {
+const FullscreenModal: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const {showFullscreenImage} = useMiscDialogSelector()
     const {setShowFullscreenImage} = useMiscDialogActions()
@@ -27,7 +28,7 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     const {navigationPosts} = useCacheSelector()
     const {session} = useSessionSelector()
     const styles = createStylesheet(colors)
-    const {width} = useWindowDimensions()
+    const {width, height} = useWindowDimensions()
     const [postIndex, setPostIndex] = useState(0)
     const [imageIndex, setImageIndex] = useState(0)
     const [panEnabled, setPanEnabled] = useState(true)
@@ -113,7 +114,6 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     const onPageChange = (direction: "next" | "prev") => {
         // @ts-ignore
         if (zoomRef.current) zoomRef.current._ignorePagingNext = true
-        //zoomRef.current?.resetPan()
         setPanEnabled(false)
 
         if (direction === "next") {
@@ -148,10 +148,10 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
     }
 
     const onImageLoad = () => {
-        zoomRef.current?.resetPan()
-        imageLockRef.current = ""
         saveHistory()
         setTimeout(() => {
+            imageLockRef.current = ""
+            zoomRef.current?.resetPan()
             setPanEnabled(true)
         }, 300)
     }
@@ -163,12 +163,12 @@ const FullscreenImage: React.FunctionComponent<Props> = (props) => {
                     onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}
                     pagingThreshold={0.1} pagingEnabled={true} pageWidth={width} onPageChange={onPageChange} 
                     canGoNext={canGoNext} canGoPrev={canGoPrev} lockMinZoomAxis={true}>
-                    <Image style={styles.image} source={prevImg ? {uri: prevImg} : undefined} resizeMode="contain"/>
-                    <Image style={styles.image} source={img ? {uri: img} : undefined} resizeMode="contain" onLoad={onImageLoad}/>
-                    <Image style={styles.image} source={nextImg ? {uri: nextImg} : undefined} resizeMode="contain"/>
+                    <FilterImage size={{width, height}} img={prevImg}/>
+                    <FilterImage size={{width, height}} img={img} onLoad={onImageLoad}/>
+                    <FilterImage size={{width, height}} img={nextImg}/>
                 </ReactNativeZoomableView>
         </Modal>
     )
 }
 
-export default FullscreenImage
+export default FullscreenModal

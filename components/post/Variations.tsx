@@ -57,7 +57,7 @@ const VariantImage: React.FunctionComponent<VariantProps> = (props) => {
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={size} source={{uri: img}} resizeMode="contain"/>}
+            {img && <Image style={size} src={img} resizeMode="contain"/>}
         </PressableHaptic>
     )
 }

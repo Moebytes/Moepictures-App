@@ -10,6 +10,7 @@ import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupImage.styles"
 import functions from "../../functions/Functions"
+import FilterImage from "./FilterImage"
 import {PostOrdered} from "../../types/Types"
 
 interface Props {
@@ -55,7 +56,7 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
         <Pressable style={(({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}])}
             onPress={onPress}>
             <View style={styles.imageContainer}>
-                <Image style={size} source={{uri: img}} resizeMode="contain"/>
+                <FilterImage img={img} size={size}/>
             </View>
         </Pressable>
     )

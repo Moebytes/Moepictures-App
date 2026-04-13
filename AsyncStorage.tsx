@@ -9,10 +9,10 @@ import {useWindowDimensions} from "react-native"
 import Toast from "react-native-toast-message"
 import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
 useSearchActions, useThemeSelector, useLayoutActions, useCacheActions,
-useFlagActions, useFlagSelector} from "./store"
+useFlagActions, useFlagSelector, useFilterSelector, useFilterActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
-import {Languages, PostSize, PostSort, Themes} from "./types/ParamTypes"
+import {Languages, PostRating, PostSize, PostSort, PostStyle, PostType, Themes} from "./types/ParamTypes"
 import {siteURL} from "./ui/site"
 
 const AsyncStorage: React.FunctionComponent = () => {
@@ -25,8 +25,14 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {session, showRelated, autosearchInterval} = useSessionSelector()
     const {setSession, setUserImg, setShowRelated, setAutosearchInterval, 
     setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
-    const {scroll, square, sizeType, sortType, sortReverse} = useSearchSelector()
-    const {setScroll, setSquare, setSizeType, setSortType, setSortReverse} = useSearchActions()
+    const {scroll, square, imageType, ratingType, styleType, 
+        showChildren, sizeType, sortType, sortReverse} = useSearchSelector()
+    const {setScroll, setSquare, setImageType, setRatingType, setStyleType, 
+        setShowChildren, setSizeType, setSortType, setSortReverse} = useSearchActions()
+    const {brightness, contrast, hue, saturation, 
+        lightness, blur, sharpen, pixelate} = useFilterSelector()
+    const {setBrightness, setContrast, setHue, setSaturation, 
+        setLightness, setBlur, setSharpen, setPixelate} = useFilterActions()
     const {width, height} = useWindowDimensions()
     const [loaded, setLoaded] = useState(false)
 
@@ -89,12 +95,24 @@ const AsyncStorage: React.FunctionComponent = () => {
             "appLightness",
             "language",
             "scroll",
+            "square",
             "showRelated",
             "autosearchInterval",
-            "square", 
-            "sizeType", 
-            "sortType", 
-            "sortReverse"
+            "imageType",
+            "ratingType",
+            "styleType",
+            "showChildren",
+            "sizeType",
+            "sortType",
+            "sortReverse",
+            "brightness",
+            "contrast",
+            "hue",
+            "saturation",
+            "lightness",
+            "blur",
+            "sharpen",
+            "pixelate"
         ]
 
         const saved = await asyncStorage.getMany(keys)
@@ -106,11 +124,23 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (saved.appLightness) setAppLightness(Number(saved.appLightness))
         if (saved.scroll) setScroll(saved.scroll === "true")
         if (saved.square) setSquare(saved.square === "true")
+        if (saved.imageType) setImageType(saved.imageType as PostType)
+        if (saved.ratingType) setRatingType(saved.ratingType as PostRating)
+        if (saved.styleType) setStyleType(saved.styleType as PostStyle)
+        if (saved.showChildren) setShowChildren(saved.showChildren  === "true")
         if (saved.sizeType) setSizeType(saved.sizeType as PostSize)
         if (saved.sortType) setSortType(saved.sortType as PostSort)
         if (saved.sortReverse) setSortReverse(saved.sortReverse === "sortReverse")
         if (saved.showRelated) setShowRelated(saved.showRelated === "true")
         if (saved.autosearchInterval) setAutosearchInterval(Number(saved.autosearchInterval))
+        if (saved.brightness) setBrightness(Number(saved.brightness))
+        if (saved.contrast) setContrast(Number(saved.contrast))
+        if (saved.hue) setHue(Number(saved.hue))
+        if (saved.saturation) setSaturation(Number(saved.saturation))
+        if (saved.lightness) setLightness(Number(saved.lightness))
+        if (saved.blur) setBlur(Number(saved.blur))
+        if (saved.sharpen) setSharpen(Number(saved.sharpen))
+        if (saved.pixelate) setPixelate(Number(saved.pixelate))
 
         setLoaded(true)
     }
@@ -153,10 +183,29 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (!loaded) return
         asyncStorage.setItem("scroll", String(scroll))
         asyncStorage.setItem("square", String(square))
+        asyncStorage.setItem("imageType", String(imageType))
+        asyncStorage.setItem("ratingType", String(ratingType))
+        asyncStorage.setItem("styleType", String(styleType))
+        asyncStorage.setItem("showChildren", String(showChildren))
         asyncStorage.setItem("sizeType", String(sizeType))
         asyncStorage.setItem("sortType", String(sortType))
         asyncStorage.setItem("sortReverse", String(sortReverse))
-    }, [scroll, square, sizeType, sortType, sortReverse])
+    }, [scroll, square, imageType, ratingType, styleType, 
+        showChildren, sizeType, sortType, sortReverse])
+
+    
+    useEffect(() => {
+        if (!loaded) return
+        asyncStorage.setItem("brightness", String(brightness))
+        asyncStorage.setItem("contrast", String(contrast))
+        asyncStorage.setItem("hue", String(hue))
+        asyncStorage.setItem("saturation", String(saturation))
+        asyncStorage.setItem("lightness", String(lightness))
+        asyncStorage.setItem("blur", String(blur))
+        asyncStorage.setItem("sharpen", String(sharpen))
+        asyncStorage.setItem("pixelate", String(pixelate))
+    }, [brightness, contrast, hue, saturation, 
+        lightness, blur, sharpen, pixelate])
 
     return null
 }

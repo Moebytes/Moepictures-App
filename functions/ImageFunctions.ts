@@ -95,4 +95,21 @@ export default class ImageFunctions {
             })
         })
     }
+
+    public static filtersOn = (filters: {brightness: number, contrast: number, hue: number, saturation: number,
+        lightness: number, blur: number, sharpen: number, pixelate: number}) => {
+        let {brightness, contrast, hue, saturation, lightness, blur, sharpen, pixelate} = filters
+        if ((brightness !== 100) ||
+            (contrast !== 100) ||
+            (hue !== 180) ||
+            (saturation !== 100) ||
+            (lightness !== 100) ||
+            (blur !== 0) ||
+            (sharpen !== 0) ||
+            (pixelate !== 1)) {
+                return true 
+            } else {
+                return false
+            }
+    }
 }

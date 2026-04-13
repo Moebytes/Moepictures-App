@@ -11,7 +11,7 @@ import Toast from "react-native-toast-message"
 import path from "path"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector, useMiscDialogActions, useGroupDialogActions,
-useFlagSelector, useFlagActions} from "../../store"
+useFlagSelector, useFlagActions, useFilterSelector, useFilterActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
@@ -19,11 +19,13 @@ import InfoIcon from "../../assets/svg/info.svg"
 import DownloadIcon from "../../assets/svg/download.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
 import functions from "../../functions/Functions"
+import {ImageRef} from "../image/FilterImage"
 import {PostFull} from "../../types/Types"
 
 interface Props {
     post?: PostFull
     openDrawer?: () => void
+    imageRef?: React.RefObject<ImageRef | null>
 }
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
@@ -33,6 +35,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {setFavgroupID} = useGroupDialogActions()
     const {favgroupFlag} = useFlagSelector()
     const {setFavgroupFlag} = useFlagActions()
+    const {showFilters, brightness, contrast, hue, saturation, 
+        lightness, blur, sharpen, pixelate} = useFilterSelector()
+    const {setShowFilters} = useFilterActions()
     const [favorited, setFavorited] = useState(false)
     const [favGrouped, setFavGrouped] = useState(false)
     const styles = createStylesheet(colors)
@@ -90,8 +95,15 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         if (!await functions.file.requestStoragePermission()) return
 
-        const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
-        const filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+        let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+        let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
+
+        if (props.imageRef?.current && functions.image.filtersOn({brightness, contrast, hue, 
+            saturation, lightness, blur, sharpen, pixelate})) {
+            const base64 = props.imageRef.current.toDataURL()
+            filename = path.basename(filename, path.extname(filename)) + ".png"
+            img = await functions.file.saveBase64Image(base64, filename)
+        }
 
         showActionSheetWithOptions({
             title: i18n.contextMenu.saveLocation,
@@ -109,6 +121,10 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
                 setShowSavePrompt(true)
             }
         })
+    }
+
+    const imageFilters = () => {
+        setShowFilters(!showFilters)
     }
 
     let iconSize = 35
@@ -132,7 +148,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
                 <Text style={styles.text}>{i18n.buttons.download}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
-                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => null}>
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={imageFilters}>
                 <Text style={styles.text}>{i18n.filters.filters}</Text>
             </ScalableHaptic>
         </View>
