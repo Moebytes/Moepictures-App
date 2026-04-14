@@ -786,7 +786,9 @@
             "lastUntil": "Your premium membership will last until"
         },
         "tag": {
-            "bannedArtist": "You may not upload artwork from this artist."
+            "bannedArtist": "You may not upload artwork from this artist.",
+            "implication": "This tag implies the following:",
+            "relatedTags": "Related tags:"
         },
         "comment": {
             "banned": "You are banned. Cannot comment."
@@ -1858,6 +1860,111 @@
             "copyrightForm": "Copyright Form",
             "emailUs": " or email us at ",
             "line2": "After verifying that you are the artist, your works will be promptly removed, and if requested we will also prevent your future works from being uploaded."
+        }
+    },
+    "mobileHelp": {
+        "help": {
+            "line1": "Moepictures is an app that hosts cute and moe anime artworks, mostly of girls. Images are cataloged with tags to make it easy to find what you may be looking for. We hope that you enjoy using our app!",
+            "line2": "Scroll to another topic to get more detailed help."
+        },
+        "search": {
+            "title": "Search",
+            "line1": "Tags on Moepictures use a dash (\"-\") as a delimeter, but searching with spaces is also supported. Here are some example searches:",
+            "specialModifiers": {
+                "header": "Some special modifiers:",
+                "items": {
+                    "-Tag 1 -Tag 2": "- Exclude Tag 1 and Tag 2.",
+                    "+Tag 1 +Tag 2": "- Include Tag 1 or Tag 2.",
+                    "+-Tag 1 +-Tag 2": "- Exclude Tag 1 or Tag 2.",
+                    "*Tag": "- Match everything with Tag."
+                }
+            },
+            "specialSearches": {
+                "header": "Some special searches:",
+                "items": {
+                    "id:id": "- Search for the post id.",
+                    "pixiv:id": "- Search for the pixiv id.",
+                    "twitter:id": "- Search for the twitter id.",
+                    "source:link": "- Search for the source.",
+                    "hash:hash": "- Search for the post hash.",
+                    "favorites:user": "- Search a user's favorites.",
+                    "favgroup:user:name": "- Search a favgroup.",
+                    "group:name": "- Search for the group.",
+                    "user:user": "- Search the user's uploads.",
+                    "history:user": "- Search your search history.",
+                    "comments:user": "- Search a user's comments.",
+                    "social:link": "- Search an artist by social link."
+                }
+            },
+            "borderColors": {
+                "header": "Post border colors mean the following:"
+            }
+        },
+        "imageSearch": {
+            "title": "Image Search",
+            "line1": "By clicking on the image icon, you can run a reverse image search using an image from your device to see if we have it.",
+            "line2": "We check if the image has a matching perceptual hash, which is usually fairly accurate and works even if the images were resized or compressed."
+        },
+        "filters": {
+            "line1": "You can apply filters to images such as brightness, contrast, hue, and saturation. We also have some other fun effects such as pixelate."
+        },
+        "favorites": {
+            "line1": "If you like an image you can add it to your favorites for quicker access later on. You can view all of your favorites by setting the sorting mode to \"favorites\"."
+        },
+        "favoriteGroups": {
+            "line1": "Favorite groups behave like a custom category of \"favorites\" - and each favorite group can have its own name and privacy setting. You can access all of your favorite groups from a tab in the Profile screen."
+        },
+        "cuteness": {
+            "line1": "The rating system on Moepictures is called cuteness. You should only rate the amount of cuteness that an image evokes. The range is from 0 (Not cute) to 500 (Pretty cute) to 1000 (Insanely cute)."
+        },
+        "moetext": {
+            "line1": "MoeText is our custom markup language used to format comments."
+        },
+        "tagGroups": {
+            "line1": "Tag groups are a custom category of tags usually used to group the tags of each respective character together. They make tags more organized and easier to read.",
+            "line2": "The syntax to create tag groups while tagging is the following:",
+            "line3": "Any tags not included in a tag group will be put into a generic \"Tags\" tag group."
+        },
+        "variations": {
+            "line1": "Variations of the same image are combined into the same post. Variations are also used for comics and image sequences to provide a better reading experience.",
+            "line2": "Variations must be created by the same artist, otherwise they are third party edits that must be related using child posts instead.",
+            "line3": "Variations share the same tags as the main post. If it is better to tag them separately, you should consider using child posts or groups instead."
+        },
+        "childPosts": {
+            "line1": "Child posts are similar posts that we want to tag or categorize differently. Most commonly they are used in images of multiple characters that have additional crops containing only one character. The main post with all characters is the parent, while the children are the crops of single characters.",
+            "line2": "We may also use child posts for wip sketches and lineart versions of the main post.",
+            "line3": "Child posts have their own tags and can be toggled to display in search. They are added to the parent post in a separate section."
+        },
+        "groups": {
+            "line1": "Groups are used for loosely related posts. Most commonly they are used for artworks of different characters that originate from the same pixiv post. They may also be used for posts part of a non-sequential series.",
+            "line2": "Groups should preferably be named Sitename PostID, eg. Pixiv 123456 with the description being the source link. Otherwise it can be a translated name of the series."
+        },
+        "aliases": {
+            "line1": "Tags can have multiple aliases that each resolve to the same tag. They are used to handle synonyms or provide short-form searches like \"miyu\". ",
+            "line2": "If we want to alias an existing tag to another existing tag, we can use the aliasing to action. Every post under the old tag will be added to the new tag and the old tag will become an alias."
+        },
+        "implications": {
+            "line1": "Implications are tags automatically added to posts when a certain tag exists. Commonly these are used to add broader tags so they aren't forgotten, eg. on every post with \"red hat\" it is implied that it should also have \"hat\"."
+        },
+        "users": {
+            "userLevels": {
+                "header": "We have various user account levels that progressively earn you more privileges.",
+                "items": {
+                    "No account": "- Can only view posts.",
+                    "User": "- Access most baseline actions.",
+                    "Premium": "- Access premium features.",
+                    "Contributor": "- Edit with no approval.",
+                    "Curator": "- Upload with no approval.",
+                    "Mod": "- Access to moderation actions.",
+                    "Admin": "- Access to everything.",
+                    "System": "- This is for our bot account."
+                }
+            },
+            "avatars": "You can only pick avatars by cropping an image on the site. Cute anime avatars only!"
+        },
+        "website": {
+            "line1": "Visit our website to access our full list of features not available in the app! This includes notes, history states, and uploading.",
+            "line2": "On the website you can also setup 2-Factor authentication for your account."
         }
     },
     "premium": {

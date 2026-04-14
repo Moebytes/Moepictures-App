@@ -58,6 +58,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const [activePixivTag, setActivePixivTag] = useState("")
     const [activeAlias, setActiveAlias] = useState("")
     const [favorited, setFavorited] = useState(false)
+    const [relatedTags, setRelatedTags] = useState([] as string[])
     const ref = useRef<FlatList>(null)
     const navigation = useNavigation()
     const invalidateTags = useInvalidateTags()
@@ -87,8 +88,14 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         setFavorited(tagFavorite ? true : false)
     }
 
+    const updateRelatedTags = async () => {
+        const related = await functions.http.get("/api/tag/related", {tag: name}, session)
+        setRelatedTags(related)
+    }
+
     useEffect(() => {
         getFavorite()
+        updateRelatedTags()
     }, [session])
 
     const socialIcons = () => {
@@ -181,6 +188,75 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
             )
         }
         return jsx
+    }
+
+    const implications = () => {
+        let jsx = [] as React.ReactElement[]
+        if (!tag) return jsx
+
+        for (let i = 0; i < (tag.implications ?? []).length; i++) {
+            let implicationTag = tag.implications[i]?.implication
+            let implication = implicationTag?.replace(/-/g, " ")
+            if (!implication) continue
+            if (i !== tag.implications.length - 1) implication += ", "
+
+            const onPress = async () => {
+                // @ts-ignore
+                navigation.push("Tag", {name: implicationTag})
+            }
+
+            jsx.push(
+                <PressableHaptic key={implicationTag} delayLongPress={200} onLongPress={() => null}
+                    onPress={onPress}>
+                    <Text style={styles.implicationTag}>{implication}</Text>
+                </PressableHaptic>
+            )
+        }
+        if (jsx.length) {
+            return (
+                <View style={[styles.rowContainer, {gap: 5}]}>
+                    <Text style={styles.italicText}>{i18n.pages.tag.implication}</Text>
+                    {jsx}
+                </View>
+            )
+
+        } else {
+            return null
+        }
+    }
+
+    const relatedTagsJSX = () => {
+        let jsx = [] as React.ReactElement[]
+        if (!tag) return jsx
+
+        for (let i = 0; i < relatedTags.length; i++) {
+            let relatedTag = relatedTags[i].replace(/-/g, " ")
+            if (!relatedTag) continue
+            if (i !== relatedTags.length - 1) relatedTag += ", "
+
+            const onPress = async () => {
+                // @ts-ignore
+                navigation.push("Tag", {name: relatedTags[i]})
+            }
+
+            jsx.push(
+                <PressableHaptic key={relatedTags[i]} delayLongPress={200} onLongPress={() => null}
+                    onPress={onPress}>
+                    <Text style={styles.implicationTag}>{relatedTag}</Text>
+                </PressableHaptic>
+            )
+        }
+        if (jsx.length) {
+            return (
+                <View style={[styles.rowContainer, {gap: 5}]}>
+                    <Text style={styles.italicText}>{i18n.pages.tag.relatedTags}</Text>
+                    {jsx}
+                </View>
+            )
+
+        } else {
+            return null
+        }
     }
 
     const editTag = () => {
@@ -299,9 +375,13 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                         {aliases()}
                     </View>}
 
+
                     <View style={styles.textContainer}>
                         {moeText.renderCommentaryText(tag.description, colors)}
                     </View>
+
+                    {tag.implications?.length && implications()}
+                    {relatedTags?.length && relatedTagsJSX()}
                 </View>}
                 <Related count={related.totalItems} pressAction={pressAction}/>
                 </>

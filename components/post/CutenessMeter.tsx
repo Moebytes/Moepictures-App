@@ -9,7 +9,7 @@ import {View, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {UITextView as Text} from "react-native-uitextview"
 import StarRating from "react-native-star-rating-widget"
-import {useLayoutActions, useSessionSelector, useThemeSelector} from "../../store"
+import {useLayoutActions, useMiscDialogSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CutenessMeter.styles"
 import DeleteStarIcon from "../../assets/svg/deletestar.svg"
 import {PostFull} from "../../types/Types"
@@ -24,6 +24,7 @@ let cutenessTimer = null as any
 const CutenessMeter: React.FunctionComponent<Props> = (props) => {
     const {session} = useSessionSelector()
     const {i18n, colors} = useThemeSelector()
+    const {showFullscreenImage} = useMiscDialogSelector()
     const {setPostDrawerSwipe} = useLayoutActions()
     const [cuteness, setCuteness] = useState(0)
     const [averageCuteness, setAverageCuteness] = useState(props.post?.cuteness || 0)
@@ -68,6 +69,11 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
         }, 500)
     }, [cuteness, session])
 
+    const changeCuteness = (rating: number) => {
+        if (showFullscreenImage) return
+        setCuteness(rating)
+    }
+
     const ratingStart = () => {
         navigation.setOptions({gestureEnabled: false})
         setPostDrawerSwipe(false)
@@ -93,7 +99,7 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
             <View style={styles.starContainer}>
                 <StarRating 
                     rating={isAverage ? Number(averageCuteness) : cuteness}
-                    onChange={setCuteness} 
+                    onChange={changeCuteness} 
                     color={isAverage ? colors.cutenessAverageColor : colors.cutenessStarColor}
                     fullFraction={true}
                     multiplier={200}

@@ -70,6 +70,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 16,
             color: colors.textColor
         },
+        italicText: {
+            fontFamily: fonts.clearSansItalic,
+            fontSize: 14,
+            lineHeight: 20,
+            color: colors.textColor
+        },
         image: {
             height: 60,
             width: 60
@@ -127,6 +133,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.background
         },
         aliasTagActive: {
+            color: colors.iconColor
+        },
+        implicationTag: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 16,
+            lineHeight: 20,
             color: colors.iconColor
         },
         row: {

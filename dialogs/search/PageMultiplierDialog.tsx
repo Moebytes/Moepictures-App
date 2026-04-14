@@ -71,7 +71,7 @@ const PageMultiplierDialog: React.FunctionComponent = () => {
 
     if (showPageMultiplierDialog) {
         return (
-            <Modal transparent visible={showPageMultiplierDialog} animationType="fade">
+            <Modal transparent visible={showPageMultiplierDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowPageMultiplierDialog(false)}>
                     <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
                         {generateOptions()}

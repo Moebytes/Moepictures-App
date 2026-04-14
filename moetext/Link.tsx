@@ -34,7 +34,7 @@ const Link: React.FunctionComponent<Props> = ({href, children, style}) => {
 
     return (
         <ScalableHaptic scaleFactor={0.97} onPress={handleLink}>
-            <Text style={[style, styles.text]} selectable uiTextView 
+            <Text style={[styles.text, style]} selectable uiTextView 
             selectionColor={colors.borderColor}>{children}</Text>
         </ScalableHaptic>
     )

@@ -49,6 +49,7 @@ import DeleteAccountScreen from "./screens/settings/DeleteAccountScreen"
 import ChangeUsernameScreen from "./screens/settings/ChangeUsernameScreen"
 import ChangePasswordScreen from "./screens/settings/ChangePasswordScreen"
 import ChangeEmailScreen from "./screens/settings/ChangeEmailScreen"
+import HelpScreen from "./screens/info/HelpScreen"
 import functions from "./functions/Functions"
 
 export type StackParamList = {
@@ -83,6 +84,7 @@ export type StackParamList = {
   ChangeUsername: undefined
   ChangePassword: undefined
   ChangeEmail: undefined
+  Help: undefined
 }
 
 declare global {
@@ -182,6 +184,7 @@ const App: React.FunctionComponent = () => {
             <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
             <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
             <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
+            <Stack.Screen name="Help" component={HelpScreen}/>
           </Stack.Navigator>
           <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
         </NavigationContainer>

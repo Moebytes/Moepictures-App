@@ -72,7 +72,7 @@ const SizeDialog: React.FunctionComponent = () => {
 
     if (showSizeDialog) {
         return (
-            <Modal transparent visible={showSizeDialog} animationType="fade">
+            <Modal transparent visible={showSizeDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowSizeDialog(false)}>
                     <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
                         {generateOptions()}

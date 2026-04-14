@@ -9,7 +9,7 @@ import {View, ScrollView, Image, StatusBar, Pressable, FlatList, ListRenderItem}
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector, useCacheActions, 
-useSearchSelector, useActiveActions} from "../../store"
+useSearchSelector, useActiveActions, useLayoutSelector} from "../../store"
 import {useGetFavgroupsQuery} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
 import TitleBar from "../../components/app/TitleBar"
@@ -26,6 +26,7 @@ const noresults = require("../../assets/images/noresults.png")
 const FavgroupsScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {i18n, theme, colors} = useThemeSelector()
+    const {tabBarHeight} = useLayoutSelector()
     const {setNavigationPosts} = useCacheActions()
     const {ratingType} = useSearchSelector()
     const {setActiveFavgroup} = useActiveActions()
@@ -99,12 +100,12 @@ const FavgroupsScreen: React.FunctionComponent = () => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView contentContainerStyle={styles.container}>
+            <ScrollView contentContainerStyle={[styles.container, {paddingBottom: tabBarHeight}]}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{i18n.help.favoriteGroups.title}</Text>
                 </View>
                 {generateFavgroupJSX()}
-            <TabBar relative={true}/>
+            <TabBar relative={false}/>
             </ScrollView>
         </View>
     )

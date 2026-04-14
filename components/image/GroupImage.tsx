@@ -38,7 +38,7 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const imageSize = tablet ? 450 : 200
+            const imageSize = tablet ? 350 : 200
             const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
         }

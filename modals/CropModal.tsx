@@ -76,7 +76,7 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
     let iconSize = 20
 
     return (
-        <Modal visible={showCropImage} backdropColor="black" animationType="fade">
+        <Modal visible={showCropImage} backdropColor="black" animationType="fade" supportedOrientations={["portrait", "landscape"]}>
             <View style={styles.container}>
                 <View style={[styles.headerContainer, {top: insets.top+5}]}>
                     <ScalableHaptic scaleFactor={0.95}  onPress={onClose}>

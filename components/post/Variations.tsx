@@ -9,6 +9,7 @@ import {View, Image, FlatList, ListRenderItem, useWindowDimensions} from "react-
 import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/Variations.styles"
 import {PostFull, Image as PostImage} from "../../types/Types"
+import FilterImage from "../image/FilterImage"
 import PressableHaptic from "../../ui/PressableHaptic"
 import functions from "../../functions/Functions"
 
@@ -57,7 +58,7 @@ const VariantImage: React.FunctionComponent<VariantProps> = (props) => {
 
             {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-            {img && <Image style={size} src={img} resizeMode="contain"/>}
+            <FilterImage img={img} size={size}/>
         </PressableHaptic>
     )
 }

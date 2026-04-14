@@ -5,9 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useMemo, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
-import {Canvas, Image, useImage, useCanvasRef, CanvasRef, ColorMatrix, RuntimeShader, Skia, Blur, Fit} from "@shopify/react-native-skia";
+import {Canvas, Image, useImage, useCanvasRef, ColorMatrix, 
+    RuntimeShader, Skia, Blur, Fit} from "@shopify/react-native-skia"
 import {useFilterSelector} from "../../store"
-import functions from "../../functions/Functions";
+import functions from "../../functions/Functions"
 
 export interface ImageRef {
     toDataURL: () => string
@@ -20,7 +21,7 @@ interface Props {
     onLoad?: () => void
 }
 
-const sharpenShader = `
+const sharpenShader = /*glsl*/`
     uniform shader image;
     uniform float strength;
 
@@ -49,7 +50,7 @@ const sharpenShader = `
     }
 `
 
-const pixelateShader = `
+const pixelateShader = /*glsl*/`
     uniform shader image;
     uniform float pixelSize;
     

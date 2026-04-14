@@ -379,6 +379,7 @@ const ProfileScreen: React.FunctionComponent = () => {
 
                     /* Help */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null}
+                    onPress={() => navigation.navigate("Help", undefined, {pop: true})} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>

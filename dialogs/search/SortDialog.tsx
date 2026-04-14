@@ -95,7 +95,7 @@ const SortDialog: React.FunctionComponent = () => {
 
     if (showSortDialog) {
         return (
-            <Modal transparent visible={showSortDialog} animationType="fade">
+            <Modal transparent visible={showSortDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowSortDialog(false)}>
                 <LiquidGlassView effect="clear" style={[styles.scrollerContainer, fallback]}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 450}} 
