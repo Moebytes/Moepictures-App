@@ -11,7 +11,7 @@ import {ThemeColors} from "../ui/colors"
 export default class TagFunctions {
     public static parseTags = async (posts: PostFull[], session: Session, isBanner?: boolean) => {
         if (!posts.length) return []
-        let taggedPosts = posts.filter((p) => p.hasOwnProperty("tags")) as PostFull[] 
+        let taggedPosts = posts.filter((p) => p.hasOwnProperty("tags")) as PostFull[]
         if (!taggedPosts.length) {
             taggedPosts = await functions.http.get("/api/posts", 
             {postIDs: posts.map((p: Post) => p.postID).slice(0, 20)}, session)

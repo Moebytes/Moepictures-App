@@ -93,7 +93,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
 
     const downloadImage = async () => {
         if (!props.post) return
-        if (!await functions.file.requestStoragePermission()) return
+        if (!await functions.file.requestWritePermission()) return
 
         let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
         let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))

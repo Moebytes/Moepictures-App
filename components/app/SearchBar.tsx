@@ -66,7 +66,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
 
     const addItem = () => {
         if (!text.trim()) return
-        setSearchTags([...searchTags, text.trim()])
+        setSearchTags([...searchTags, text.trim().toLowerCase()])
         setText("")
     }
 
@@ -75,7 +75,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     }
 
     const commitItem = () => {
-        let tags = [...searchTags, text.trim()].filter(Boolean)
+        let tags = [...searchTags, text.trim().toLowerCase()].filter(Boolean)
         setSearchTags(tags)
         setSearch(tags.join(" "))
         setText("")

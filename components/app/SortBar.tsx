@@ -50,7 +50,7 @@ const SortBar: React.FunctionComponent = () => {
     const {showActionSheetWithOptions} = useActionSheet()
     const spinValue = useRef(new Animated.Value(0)).current
 
-    const imageSearch = () => {
+    const imageSearch = async () => {
         showActionSheetWithOptions({
             title: i18n.contextMenu.uploadLocation,
             options: [i18n.contextMenu.photos, i18n.contextMenu.files, i18n.buttons.cancel],
@@ -63,8 +63,7 @@ const SortBar: React.FunctionComponent = () => {
                 const result = await launchImageLibrary({mediaType: "photo"})
                 if (result.assets?.[0]?.uri) {
                     const uri = result.assets[0].uri
-                    const buffer = await fetch(uri).then((r) => r.arrayBuffer())
-                    const bytes = new Uint8Array(buffer)
+                    const bytes = await functions.file.readBytes(uri)
                     const similar = await functions.http.post("/api/search/similar", 
                         {bytes: Object.values(bytes), useMD5: false}, session)
                     setImageSearchFlag(similar)
@@ -74,8 +73,7 @@ const SortBar: React.FunctionComponent = () => {
                 const result = await pick({mode: "open", type: [types.images]})
                 if (result?.[0]?.uri) {
                     const uri = result[0].uri
-                    const buffer = await fetch(uri).then((r) => r.arrayBuffer())
-                    const bytes = new Uint8Array(buffer)
+                    const bytes = await functions.file.readBytes(uri)
                     const similar = await functions.http.post("/api/search/similar", 
                         {bytes: Object.values(bytes), useMD5: false}, session)
                     setImageSearchFlag(similar)

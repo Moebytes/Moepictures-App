@@ -6,7 +6,7 @@
 
 import React, {useRef, useReducer, useState, useEffect} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {View, Text} from "react-native"
+import {View, Text, Keyboard} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSessionSelector, useFlagActions, 
 useLayoutActions, useMiscDialogSelector, useMiscDialogActions} from "../../store"
@@ -52,6 +52,7 @@ const EditBioDialog: React.FunctionComponent = () => {
     const onClose = () => {
         setShowBioDialog(false)
         setEmojiStripVisible(false)
+        Keyboard.dismiss()
     }
 
     const togglePreview = () => {

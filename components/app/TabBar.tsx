@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useRef, useEffect} from "react"
-import {Text, Pressable, Animated, LayoutChangeEvent} from "react-native"
+import {Text, Pressable, Animated, LayoutChangeEvent, Platform} from "react-native"
 import {useNavigation, useNavigationState} from "@react-navigation/native"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {StackParamList} from "../../App"
@@ -112,9 +112,11 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     }
 
     const onLayout = (event: LayoutChangeEvent) => {
-        const height = event.nativeEvent.layout.height
+        let offset = Platform.OS === "android" ? 175 : 0
+        const height = event.nativeEvent.layout.height + offset
         if (tabBarHeight !== height) setTabBarHeight(height)
     }
+
 
     return (
         <Animated.View onLayout={onLayout} style={{...styles.container, 

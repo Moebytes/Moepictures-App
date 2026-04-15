@@ -106,15 +106,15 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     return (
         <ContextMenu disableShadow borderRadius={0} previewBackgroundColor="transparent"
             actions={[
-                {title: i18n.sidebar.setAvatar, icon: "set-avatar"},
-                {title: i18n.sidebar.addGroup, icon: "add-group"},
+                {title: i18n.sidebar.setAvatar, icon: "setavatar"},
+                {title: i18n.sidebar.addGroup, icon: "addgroup"},
                 {title: i18n.sidebar.addParent, icon: "parent"},
                 {title: i18n.contextMenu.openWebsite, icon: "link"},
                 {title: i18n.contextMenu.share, icon: "share"}
             ]}
             onPress={contextMenu}>
                 <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
-                    <Pressable onPress={() => setShowFullscreenImage(true)}>
+                    <Pressable onLongPress={() => null} onPress={() => setShowFullscreenImage(true)}>
                         <FilterImage ref={props.imageRef} img={img} size={size}/>
                     </Pressable>
                 </View>

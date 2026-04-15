@@ -60,8 +60,7 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
     const onCrop = async (data: {uri: string, width: number, height: number}) => {
         if (!props.post) return
         const resized = await functions.file.resizeLocalImage(data.uri, 300, 300)
-        const buffer = await fetch(resized).then((r) => r.arrayBuffer())
-        const bytes = new Uint8Array(buffer)
+        const bytes = await functions.file.readBytes(resized)
         onClose()
         await functions.http.post("/api/user/pfp", {postID: props.post.postID, bytes: Object.values(bytes)}, session)
         functions.file.deleteLocation(resized)

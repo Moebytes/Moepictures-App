@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState} from "react"
-import {View, ScrollView, Text, Image, StatusBar, useWindowDimensions} from "react-native"
+import {View, ScrollView, Text, Image, StatusBar, useWindowDimensions, Platform} from "react-native"
 import {TabView, SceneMap, TabBar as DefaultTabBar, SceneRendererProps, NavigationState} from "react-native-tab-view"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -1091,6 +1091,8 @@ const HelpScreen: React.FunctionComponent = () => {
             )
     }
 
+    let offset = Platform.OS === "android" ? 270 : 0
+
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
@@ -1107,7 +1109,7 @@ const HelpScreen: React.FunctionComponent = () => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}
-                contentContainerStyle={[styles.scrollContainer, {height: routes[index].height, paddingBottom: tabBarHeight}]}>
+                contentContainerStyle={[styles.scrollContainer, {height: routes[index].height + offset, paddingBottom: tabBarHeight - offset}]}>
                 <TabView
                     navigationState={{index, routes}}
                     onIndexChange={setIndex}

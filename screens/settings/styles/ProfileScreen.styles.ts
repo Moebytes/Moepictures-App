@@ -28,7 +28,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.honokaShinAntiqueKaku,
             textAlign: "center",
             fontSize: 22,
-            lineHeight: 26
+            lineHeight: 30
         },
         buttonContainer: {
             display: "flex",

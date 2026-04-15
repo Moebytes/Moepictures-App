@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {Fragment, useState, useEffect, useRef} from "react"
-import {Image, ScrollView, Keyboard, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
+import {Image, ScrollView, Keyboard, NativeSyntheticEvent, NativeScrollEvent, Platform} from "react-native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useCacheSelector, useLayoutSelector, useFlagActions} from "../../store"
@@ -23,7 +23,8 @@ const EmojiStrip: React.FunctionComponent = () => {
 
     useEffect(() => {
         const keyboardDidShow = Keyboard.addListener("keyboardDidShow", (event) => {
-            setKeyboardHeight(event.endCoordinates.height)
+            let offset = Platform.OS === "android" ? 40 : 0
+            setKeyboardHeight(event.endCoordinates.height + offset)
         })
 
         const keyboardDidHide = Keyboard.addListener("keyboardDidHide", () => {

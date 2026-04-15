@@ -88,6 +88,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         textInput: {
             display: "flex",
             flexDirection: "row",
+            justifyContent: "flex-start",
             alignItems: "center",
             width: "96%",
             height: 40,
@@ -96,12 +97,15 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderColor: colors.gray,
             color: colors.textColor,
             fontFamily: fonts.honokaShinAntiqueKaku,
+            textAlignVertical: "top",
             fontSize: 20,
+            lineHeight: 20,
             paddingHorizontal: 10
         },
         bigInput: {
             display: "flex",
             flexDirection: "row",
+            justifyContent: "flex-start",
             alignItems: "center",
             width: "96%",
             height: 170,
@@ -110,7 +114,9 @@ export const createStylesheet = (colors: ThemeColors) => {
             borderColor: colors.gray,
             color: colors.textColor,
             fontFamily: fonts.honokaShinAntiqueKaku,
+            textAlignVertical: "top",
             fontSize: 17,
+            lineHeight: 17,
             paddingHorizontal: 10
         },
         wideButton: {

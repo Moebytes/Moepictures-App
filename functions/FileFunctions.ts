@@ -18,7 +18,7 @@ const videoExtensions = [".mp4", ".webm", ".mov", ".mkv"]
 const audioExtensions = [".mp3", ".wav", ".ogg", ".flac", ".aac"]
 
 export default class FileFunctions {
-    public static requestStoragePermission = async () => {
+    public static requestWritePermission = async () => {
         if (Platform.OS !== "android") return true
 
         if (Platform.Version >= 33) return true
@@ -43,6 +43,11 @@ export default class FileFunctions {
         const dest = `file://${dir}/${filename}`
         await fs.writeFile(dest, base64, "base64")
         return dest
+    }
+
+    public static readBytes = async (dest: string) => {
+        const base64 = await fs.readFile(dest, "base64")
+        return Uint8Array.from(Buffer.from(base64, "base64"))
     }
 
     public static deleteLocation = async (dest: string) => {

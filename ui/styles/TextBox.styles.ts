@@ -52,6 +52,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.textColor,
             fontFamily: fonts.jkGothicM,
             paddingHorizontal: 5,
+            textAlignVertical: "top",
             fontSize: 20,
             lineHeight: 20
         },

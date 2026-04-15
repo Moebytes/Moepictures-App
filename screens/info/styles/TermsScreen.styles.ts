@@ -95,7 +95,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         textAltBold: {
             fontFamily: fonts.tsunagiGothicBlack,
             fontSize: 18,
-            lineHeight: 22,
+            lineHeight: 28,
             color: colors.iconColor
         },
         bulletRow: {

@@ -6,7 +6,7 @@
 
 import React, {useRef, useReducer} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {View, Text} from "react-native"
+import {View, Text, Keyboard} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSessionSelector, useFlagActions, 
 useCommentDialogSelector, useCommentDialogActions, useLayoutActions} from "../../store"
@@ -46,6 +46,7 @@ const EditCommentDialog: React.FunctionComponent = () => {
     const onClose = () => {
         setEditCommentID(null)
         setEmojiStripVisible(false)
+        Keyboard.dismiss()
     }
 
     const togglePreview = () => {

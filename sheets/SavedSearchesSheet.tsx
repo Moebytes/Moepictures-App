@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
-import {View, ScrollView, Text, Image, Animated, Alert} from "react-native"
+import {View, ScrollView, Text, Image, Animated} from "react-native"
+import Alert from "@blazejkustra/react-native-alert"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSessionSelector,
 useSearchActions, useFlagActions, useSearchSelector} from "../store"

@@ -84,11 +84,13 @@ export const createStylesheet = (colors: ThemeColors) => {
         headerTextAlt2: {
             color: colors.textColor,
             fontFamily: fonts.genEiMGothicV2,
-            fontSize: 20
+            fontSize: 20,
+            lineHeight: 20,
         },
         iconContainer: {
             display: "flex",
             flexDirection: "row",
+            height: 22,
             gap: 10
         },
         row: {

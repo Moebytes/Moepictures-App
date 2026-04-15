@@ -51,7 +51,6 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {theme, colors} = useThemeSelector()
   const {tablet, statusBarVisible, postDrawerSwipe} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
-  const {navigationPosts} = useCacheSelector()
   const {setTagCategories, setNavigationPosts} = useCacheActions()
   const {scroll, sizeType, square} = useSearchSelector()
   const [open, setOpen] = useState(false)

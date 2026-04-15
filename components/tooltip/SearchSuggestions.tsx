@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {Text, ScrollView, Keyboard} from "react-native"
+import {Text, ScrollView, Keyboard, Platform} from "react-native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useCacheSelector, useSearchSelector, useSearchActions,
@@ -33,7 +33,8 @@ const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         const keyboardDidShow = Keyboard.addListener("keyboardDidShow", (event) => {
-            setKeyboardHeight(event.endCoordinates.height)
+            let offset = Platform.OS === "android" ? 40 : 0
+            setKeyboardHeight(event.endCoordinates.height + offset)
             setKeyboardOpen(true)
         })
 

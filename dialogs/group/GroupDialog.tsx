@@ -6,7 +6,7 @@
 
 import React, {useEffect, useRef, useState, useReducer} from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {View, Text, TextInput} from "react-native"
+import {View, Text, TextInput, Keyboard} from "react-native"
 import Toast from "react-native-toast-message"
 import {useInvalidatePost, useInvalidateGroup, useInvalidateGroups} from "../../api"
 import asyncStorage from "@react-native-async-storage/async-storage"
@@ -97,6 +97,7 @@ const GroupDialog: React.FunctionComponent = () => {
     const onClose = () => {
         setGroupPostID(null)
         setReason("")
+        Keyboard.dismiss()
     }
 
     const fallback = !isLiquidGlassSupported
@@ -150,7 +151,7 @@ const GroupDialog: React.FunctionComponent = () => {
                             <Text style={styles.title}>{i18n.sidebar.addGroup}</Text> :
                             <Text style={styles.title}>{removalItems.length ? i18n.dialogs.group.requestRemove : i18n.dialogs.group.requestAdd}</Text>}
                         </View>
-                        <View style={[styles.row, {width: "90%"}]}>
+                        <View style={[styles.row, {width: 300}]}>
                             <Text style={styles.miniText}>{removalItems.length ? i18n.dialogs.group.removeHeader : i18n.dialogs.group.header}</Text>
                         </View>
                         {!removalItems.length ? <View style={styles.startRow}>

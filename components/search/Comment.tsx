@@ -22,8 +22,7 @@ import {UserComment} from "../../types/Types"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
 import permissions from "../../structures/Permissions"
-
-const favicon = require("../../assets/icons/favicon.png")
+import {siteURL} from "../../ui/site"
 
 interface Props {
     comment: UserComment
@@ -49,7 +48,7 @@ const Comment: React.FunctionComponent<Props> = (props) => {
 
     let pfpSize = 60
     let iconSize = 18
-    let pfp = userPfp || favicon
+    let pfp = userPfp || `${siteURL}/favicon.png`
 
     const pfpPress = () => {
         if (props.comment.imagePost) {

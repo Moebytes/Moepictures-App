@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {ScrollView, View, Text, Image, Switch, Linking, StatusBar} from "react-native"
+import {ScrollView, View, Text, Image, Switch, Linking, StatusBar, Platform} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useNavigation} from "@react-navigation/native"
@@ -111,6 +111,8 @@ const ProfileScreen: React.FunctionComponent = () => {
     let iconSize = 21
     let pressDelay = 100
 
+    let offset = Platform.OS === "android" ? 175 : 0
+
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
@@ -118,7 +120,7 @@ const ProfileScreen: React.FunctionComponent = () => {
             <ScrollView showsVerticalScrollIndicator={false} 
                 contentContainerStyle={{
                     ...styles.container,
-                    paddingBottom: tabBarHeight + 20
+                    paddingBottom: tabBarHeight + 20 - offset
                 }}>
                 <View style={styles.buttonContainer}>
                     {session.username ? 

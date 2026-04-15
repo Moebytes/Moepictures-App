@@ -75,7 +75,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         if (event.nativeEvent.name === i18n.contextMenu.openWebsite) {
             Linking.openURL(`${siteURL}/post/${props.post.postID}/${props.post.slug}`)
         } else if (event.nativeEvent.name === i18n.contextMenu.saveImage) {
-            if (!await functions.file.requestStoragePermission()) return
+            if (!await functions.file.requestWritePermission()) return
     
             let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
             let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
@@ -136,7 +136,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
             onPress={contextMenu}>
             <Pressable style={[styles.container, size,
                 {marginVertical, borderColor, opacity: loaded ? 1 : 0, borderWidth: loaded ? borderWidth : 0}]} 
-                onPress={onPress}>
+                onLongPress={() => null} onPress={onPress}>
 
                 {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 

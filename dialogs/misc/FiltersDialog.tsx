@@ -6,7 +6,7 @@
 
 import React from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {Modal, View, Text, Pressable} from "react-native"
+import {View, Text, Keyboard} from "react-native"
 import Slider from "@react-native-community/slider"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useFilterSelector, useFilterActions} from "../../store"
@@ -32,6 +32,7 @@ const FiltersDialog: React.FunctionComponent = () => {
 
     const onClose = () => {
         setShowFilters(false)
+        Keyboard.dismiss()
     }
 
     const fallback = !isLiquidGlassSupported
@@ -60,6 +61,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setBrightness}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -74,6 +76,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setContrast}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -88,6 +91,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setHue}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -102,6 +106,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setSaturation}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -116,6 +121,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setLightness}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -130,6 +136,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setBlur}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -144,6 +151,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setSharpen}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>
@@ -158,6 +166,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                                 onValueChange={setPixelate}
                                 minimumTrackTintColor={colors.iconColorGlass}
                                 maximumTrackTintColor="transparent"
+                                thumbTintColor="white"
                                 tapToSeek={true}
                             />
                         </View>

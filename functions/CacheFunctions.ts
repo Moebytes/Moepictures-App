@@ -4,11 +4,30 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import asyncStorage from "@react-native-async-storage/async-storage"
+import {Dirs, FileSystem as fs} from "react-native-file-access"
 import functions from "./Functions"
 import {TagCount, Session} from "../types/Types"
 
 export default class CacheFunctions {
+    public static readCache = async <T>(key: string) => {
+        const path = `${Dirs.CacheDir}/${key}.json`
+
+        const exists = await fs.exists(path)
+        if (!exists) return null
+
+        try {
+            const data = await fs.readFile(path, "utf8")
+            return JSON.parse(data) as T
+        } catch {
+            return null
+        }
+    }
+
+    public static writeCache = async (key: string, value: any) =>{
+        const path = `${Dirs.CacheDir}/${key}.json`
+        await fs.writeFile(path, JSON.stringify(value), "utf8")
+    }
+
     public static sortedTagCounts = async (tagsInput: string[] | "all", session: Session) => {
         if (!tagsInput.length) return []
         let tags = tagsInput === "all" ? [] : tagsInput
@@ -24,26 +43,26 @@ export default class CacheFunctions {
 
     public static tagCountsCache = async (session: Session) => {
         let tagCountMap = {} as {[key: string]: TagCount}
-        const cache = await asyncStorage.getItem("tagCounts")
+        const cache = await this.readCache<{[key: string]: TagCount}>("tagCounts")
         if (cache) {
-            return JSON.parse(cache) as {[key: string]: TagCount}
+            return cache
         } else {
             let tagCounts = await functions.http.get("/api/tag/counts", {tags: []}, session)
             for (const tagCount of tagCounts) {
                 tagCountMap[tagCount.tag] = tagCount
             }
-            asyncStorage.setItem("tagCounts", JSON.stringify(tagCountMap))
+            this.writeCache("tagCounts", tagCountMap)
             return tagCountMap
         }
     }
 
     public static emojisCache = async (session: Session) => {
-        const cache = await asyncStorage.getItem("emojis")
+        const cache = await this.readCache<{[key: string]: string}>("emojis")
         if (cache) {
-            return JSON.parse(cache) as {[key: string]: string}
+            return cache
         } else {
             let emojis = await functions.http.get("/api/misc/emojis", null, session)
-            asyncStorage.setItem("emojis", JSON.stringify(emojis))
+            this.writeCache("emojis", emojis)
             return emojis
         }
     }

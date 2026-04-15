@@ -23,8 +23,7 @@ import FilterImage from "../image/FilterImage"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
 import permissions from "../../structures/Permissions"
-
-const favicon = require("../../assets/icons/favicon.png")
+import {siteURL} from "../../ui/site"
 
 interface Props {
     comment: CommentSearch
@@ -107,7 +106,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
 
     let pfpSize = 30
     let iconSize = 18
-    let pfp = userPfp || favicon
+    let pfp = userPfp || `${siteURL}/favicon.png`
 
     const commentOptions = () => {
         if (session.username === props.comment?.username) {

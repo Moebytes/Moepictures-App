@@ -41,10 +41,10 @@ const AnimatedHeaderWrapper: React.FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         Animated.timing(translateY, {
-        toValue: props.visible ? 0 : -headerHeight,
-        duration: props.duration ?? 300,
-        useNativeDriver: true
-        }).start()
+            toValue: props.visible ? 0 : -headerHeight,
+            duration: props.duration ?? 300,
+            useNativeDriver: true
+            }).start()
     }, [props.visible, headerHeight, props.duration])
 
     return (
