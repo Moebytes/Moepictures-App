@@ -5,14 +5,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Text, FlatList} from "react-native"
+import {View, Text, FlatList, ScrollView} from "react-native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import TriangleIcon from "../../assets/svg/back-to-top.svg"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/BackToTop.styles"
 
 interface Props {
-    ref: React.RefObject<FlatList | null>
+    ref: React.RefObject<FlatList | ScrollView | null>
 }
 
 const BackToTop: React.FunctionComponent<Props> = (props) => {
@@ -20,7 +20,11 @@ const BackToTop: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
 
     const onPress = () => {
-        props.ref.current?.scrollToOffset({offset: 0, animated: true})
+        if (props.ref.current instanceof FlatList) {
+            props.ref.current?.scrollToOffset({offset: 0, animated: true})
+        } else {
+            props.ref.current?.scrollTo({y: 0, animated: true})
+        }
     }
 
     let iconSize = 20

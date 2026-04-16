@@ -69,6 +69,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "flex-start",
             alignItems: "center",
             paddingHorizontal: 15,
+            backgroundColor: colors.background,
             gap: 13
         },
         headerText: {

@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState} from "react"
-import {View, Image, StatusBar, FlatList, Linking, Alert} from "react-native"
+import {View, Image, StatusBar, FlatList, Linking} from "react-native"
+import Alert from "@blazejkustra/react-native-alert"
 import {UITextView as Text} from "react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import Toast from "react-native-toast-message"

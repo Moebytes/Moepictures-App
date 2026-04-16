@@ -5,8 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, useWindowDimensions, Pressable} from "react-native"
-import {useNavigation} from "@react-navigation/native"
+import {View, useWindowDimensions, Pressable} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupImage.styles"
 import functions from "../../functions/Functions"
@@ -15,7 +14,7 @@ import {PostOrdered} from "../../types/Types"
 
 interface Props {
     post: PostOrdered
-    onPress?: () => void
+    onPress?: (post: PostOrdered) => void
 }
 
 const GroupImage: React.FunctionComponent<Props> = (props) => {
@@ -26,7 +25,6 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
-    const navigation = useNavigation()
 
     useEffect(() => {
         if (!props.post) return
@@ -44,17 +42,11 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
         }
         updateSize()
     }, [img])
-
-    const onPress = () => {
-        navigation.navigate("Post", {postID: props.post.postID})
-        props.onPress?.()
-    }
-
     if (!img) return null
 
     return (
         <Pressable style={(({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}])}
-            onPress={onPress}>
+            onPress={() => props.onPress?.(props.post)}>
             <View style={styles.imageContainer}>
                 <FilterImage img={img} size={size}/>
             </View>

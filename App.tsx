@@ -9,7 +9,6 @@ import {Linking} from "react-native"
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
-import {ActionSheetProvider} from "@expo/react-native-action-sheet"
 import {useActiveActions, useActiveSelector, useCacheSelector, useFlagActions, useSessionSelector, useThemeSelector} from "./store"
 import Toast from "react-native-toast-message"
 import AsyncStorage from "./AsyncStorage"
@@ -145,50 +144,48 @@ const App: React.FunctionComponent = () => {
     }, [activeFavgroup, navigationPosts])
 
     return (
-      <ActionSheetProvider>
-        <NavigationContainer ref={navigationRef} onStateChange={onNavigationChange}>
-          <AsyncStorage/>
-          <SavePrompt/>
-          <EmojiStrip/>
-          <Dialogs/>
-          <Sheets/>
-          <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Posts" component={PostsScreen}/>
-            <Stack.Screen name="Post" component={PostScreen}/>
-            <Stack.Screen name="EditPost" component={EditPostScreen}/>
-            <Stack.Screen name="Comments" component={CommentsScreen}/>
-            <Stack.Screen name="Notes" component={NotesScreen}/>
-            <Stack.Screen name="Tags" component={TagsScreen}/>
-            <Stack.Screen name="Tag" component={TagScreen}/>
-            <Stack.Screen name="EditTag" component={EditTagScreen}/>
-            <Stack.Screen name="Groups" component={GroupsScreen}/>
-            <Stack.Screen name="Group" component={GroupScreen}/>
-            <Stack.Screen name="EditGroup" component={EditGroupScreen}/>
-            <Stack.Screen name="Favgroups" component={FavgroupsScreen}/>
-            <Stack.Screen name="Favgroup" component={FavgroupScreen}/>
-            <Stack.Screen name="EditFavgroup" component={EditFavgroupScreen}/>
-            <Stack.Screen name="History" component={SearchHistoryScreen}/>
-            <Stack.Screen name="Profile" component={ProfileScreen}/>
-            <Stack.Screen name="Language" component={LanguageScreen}/>
-            <Stack.Screen name="AppColor" component={AppColorScreen}/>
-            <Stack.Screen name="Terms" component={TermsOfServiceScreen}/>
-            <Stack.Screen name="Privacy" component={PrivacyPolicyScreen}/>
-            <Stack.Screen name="Contact" component={ContactScreen}/>
-            <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
-            <Stack.Screen name="Login" component={LoginScreen}/>
-            <Stack.Screen name="SignUp" component={SignupScreen}/>
-            <Stack.Screen name="$2FA" component={$2FAScreen}/>
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
-            <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
-            <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen}/>
-            <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
-            <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
-            <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
-            <Stack.Screen name="Help" component={HelpScreen}/>
-          </Stack.Navigator>
-          <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
-        </NavigationContainer>
-      </ActionSheetProvider>
+      <NavigationContainer ref={navigationRef} onStateChange={onNavigationChange}>
+        <AsyncStorage/>
+        <SavePrompt/>
+        <EmojiStrip/>
+        <Dialogs/>
+        <Sheets/>
+        <Stack.Navigator initialRouteName="Posts" screenOptions={{headerShown: false}}>
+          <Stack.Screen name="Posts" component={PostsScreen}/>
+          <Stack.Screen name="Post" component={PostScreen}/>
+          <Stack.Screen name="EditPost" component={EditPostScreen}/>
+          <Stack.Screen name="Comments" component={CommentsScreen}/>
+          <Stack.Screen name="Notes" component={NotesScreen}/>
+          <Stack.Screen name="Tags" component={TagsScreen}/>
+          <Stack.Screen name="Tag" component={TagScreen}/>
+          <Stack.Screen name="EditTag" component={EditTagScreen}/>
+          <Stack.Screen name="Groups" component={GroupsScreen}/>
+          <Stack.Screen name="Group" component={GroupScreen}/>
+          <Stack.Screen name="EditGroup" component={EditGroupScreen}/>
+          <Stack.Screen name="Favgroups" component={FavgroupsScreen}/>
+          <Stack.Screen name="Favgroup" component={FavgroupScreen}/>
+          <Stack.Screen name="EditFavgroup" component={EditFavgroupScreen}/>
+          <Stack.Screen name="History" component={SearchHistoryScreen}/>
+          <Stack.Screen name="Profile" component={ProfileScreen}/>
+          <Stack.Screen name="Language" component={LanguageScreen}/>
+          <Stack.Screen name="AppColor" component={AppColorScreen}/>
+          <Stack.Screen name="Terms" component={TermsOfServiceScreen}/>
+          <Stack.Screen name="Privacy" component={PrivacyPolicyScreen}/>
+          <Stack.Screen name="Contact" component={ContactScreen}/>
+          <Stack.Screen name="Copyright" component={CopyrightRemovalScreen}/>
+          <Stack.Screen name="Login" component={LoginScreen}/>
+          <Stack.Screen name="SignUp" component={SignupScreen}/>
+          <Stack.Screen name="$2FA" component={$2FAScreen}/>
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}/>
+          <Stack.Screen name="UserSettings" component={UserSettingsScreen}/>
+          <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen}/>
+          <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
+          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
+          <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
+          <Stack.Screen name="Help" component={HelpScreen}/>
+        </Stack.Navigator>
+        <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
+      </NavigationContainer>
     )
 }
 

@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable, Alert} from "react-native"
+import {View, Image, Pressable} from "react-native"
+import Alert from "@blazejkustra/react-native-alert"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"

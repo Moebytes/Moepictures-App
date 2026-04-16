@@ -6,6 +6,8 @@
 
 import {AppRegistry, LogBox} from "react-native"
 import {SafeAreaProvider} from "react-native-safe-area-context"
+import {ActionSheetProvider} from "@expo/react-native-action-sheet"
+import {GestureHandlerRootView} from "react-native-gesture-handler"
 import {Provider} from "react-redux"
 import {name} from "./app.json"
 import {Buffer} from "buffer"
@@ -19,7 +21,11 @@ LogBox.ignoreAllLogs()
 const Root = () => (
   <Provider store={store}>
     <SafeAreaProvider>
+    <ActionSheetProvider>
+    <GestureHandlerRootView>
       <App/>
+    </GestureHandlerRootView>
+    </ActionSheetProvider>
     </SafeAreaProvider>
   </Provider>
 )
