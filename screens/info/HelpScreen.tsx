@@ -508,7 +508,7 @@ const MoeTextTab: React.FunctionComponent = () => {
     return (
         <View style={[styles.container, {height: "100%"}]}>
             <View style={styles.row}>
-                <Text style={styles.title}>{i18n.help.commenting.moetext.title}</Text>
+                <Text style={styles.title}>{i18n.help.moetext.title}</Text>
             </View>
             <View style={styles.row}>
                 <Text style={styles.text}>
@@ -517,115 +517,115 @@ const MoeTextTab: React.FunctionComponent = () => {
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>{i18n.help.commenting.moetext.quotes.title}</Text>
+                    <Text style={styles.text}>{i18n.help.moetext.quotes.title}</Text>
                     <Text style={styles.textAlt}>
-                        {i18n.help.commenting.moetext.quotes.line1}
+                        {i18n.help.moetext.quotes.line1}
                     </Text>
                     <Text style={styles.textAlt}>
-                        {i18n.help.commenting.moetext.quotes.line2}
+                        {i18n.help.moetext.quotes.line2}
                     </Text>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.highlight.title}
+                            {i18n.help.moetext.highlight.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.highlight.line1}
+                            {i18n.help.moetext.highlight.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.bold.title}
+                            {i18n.help.moetext.bold.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.bold.line1}
+                            {i18n.help.moetext.bold.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.italic.title}
+                            {i18n.help.moetext.italic.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.italic.line1}
+                            {i18n.help.moetext.italic.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.underline.title}
+                            {i18n.help.moetext.underline.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.underline.line1}
+                            {i18n.help.moetext.underline.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.strikethrough.title}
+                            {i18n.help.moetext.strikethrough.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.strikethrough.line1}
+                            {i18n.help.moetext.strikethrough.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.spoiler.title}
+                            {i18n.help.moetext.spoiler.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.spoiler.line1}
+                            {i18n.help.moetext.spoiler.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.link.title}
+                            {i18n.help.moetext.link.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.link.line1}
+                            {i18n.help.moetext.link.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.dropdown.title}
+                            {i18n.help.moetext.dropdown.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.dropdown.line1}
+                            {i18n.help.moetext.dropdown.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.color.title}
+                            {i18n.help.moetext.color.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.color.line1}
+                            {i18n.help.moetext.color.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.code.title}
+                            {i18n.help.moetext.code.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.code.line1}
+                            {i18n.help.moetext.code.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.emojis.title}
+                            {i18n.help.moetext.emojis.title}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.emojis.line1}
+                            {i18n.help.moetext.emojis.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.links.postTitle}
+                            {i18n.help.moetext.links.postTitle}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.links.postLine}
+                            {i18n.help.moetext.links.postLine}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
                         <Text style={styles.text}>
-                            {i18n.help.commenting.moetext.links.tagTitle}
+                            {i18n.help.moetext.links.tagTitle}
                         </Text>
                         <Text style={styles.textAlt}>
-                            {i18n.help.commenting.moetext.links.tagLine}
+                            {i18n.help.moetext.links.tagLine}
                         </Text>
                     </View>
                 </View>
@@ -1066,7 +1066,7 @@ const HelpScreen: React.FunctionComponent = () => {
         {key: "favorites", title: i18n.sort.favorites, height: tablet ? 1350 : 1100},
         {key: "favoriteGroups", title: i18n.help.favoriteGroups.title, height: tablet ? 1100 : 950},
         {key: "cuteness", title: i18n.sort.cuteness, height: tablet ? 950 : 850},
-        {key: "moeText", title: i18n.help.commenting.moetext.title, height: tablet ? 1050 : 960},
+        {key: "moeText", title: i18n.help.moetext.title, height: tablet ? 1050 : 960},
         {key: "tagGroups", title: i18n.labels.tagGroups, height: tablet ? 1300 : 1150},
         {key: "variations", title: i18n.sort.variations, height: tablet ? 1400 : 1320},
         {key: "childPosts", title: i18n.post.childPosts, height: tablet ? 1500 : 1450},

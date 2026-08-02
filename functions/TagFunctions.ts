@@ -200,9 +200,7 @@ export default class TagFunctions {
         if (user.role === "admin") return colors.adminColor
         if (user.role === "mod") return colors.modColor
         if (user.role === "system") return colors.systemColor
-        if (user.role === "premium-curator") return colors.premiumColor
         if (user.role === "curator") return colors.curatorColor
-        if (user.role === "premium-contributor") return colors.premiumColor
         if (user.role === "contributor") return colors.contributorColor
         if (user.role === "premium") return colors.premiumColor
         if (user.banned) return colors.redIcon

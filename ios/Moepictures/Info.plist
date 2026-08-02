@@ -22,6 +22,17 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.moebytes.moepictures</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>moepics</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -41,7 +52,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need permission to save images to the camera roll</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need permission to upload images for the reverse image search</string>
+	<string>We need permission to upload images for the reverse image search.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GenEi-M-Gothic-v2.ttf</string>
@@ -59,9 +70,9 @@
 	<array>
 		<string>arm64</string>
 	</array>
-	<key>UIStatusBarHidden</key>
-	<false/>
 	<key>UIRequiresFullScreen</key>
+	<false/>
+	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
@@ -76,16 +87,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>com.moebytes.moepictures</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>moepics</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>

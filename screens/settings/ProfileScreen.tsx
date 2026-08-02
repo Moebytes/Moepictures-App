@@ -20,6 +20,7 @@ import PrivacyIcon from "../../assets/svg/privacy.svg"
 import ContactIcon from "../../assets/svg/mail.svg"
 import HelpIcon from "../../assets/svg/help.svg"
 import RightIcon from "../../assets/svg/right.svg"
+import StarIcon from "../../assets/svg/premium-star.svg"
 import LinkIcon from "../../assets/svg/link.svg"
 import LogoutIcon from "../../assets/svg/logout.svg"
 import MoebytesLogo from "../../assets/svg/moebytes.svg"
@@ -82,9 +83,13 @@ const ProfileScreen: React.FunctionComponent = () => {
     }
 
     const changeUpscaledImages = async () => {
-        setUpscaledImages(!upscaledImages)
-        await functions.http.post("/api/user/upscaledimages", null, session)
-        setSessionFlag(true)
+        if (!permissions.isPremium(session)) {
+            Toast.show({text1: i18n.toast.premiumRequired})
+        } else {
+            setUpscaledImages(!upscaledImages)
+            await functions.http.post("/api/user/upscaledimages", null, session)
+            setSessionFlag(true)
+        }
     }
 
     const changeShowR18 = async () => {
@@ -93,6 +98,14 @@ const ProfileScreen: React.FunctionComponent = () => {
         setShowR18(newValue)
         await functions.http.post("/api/user/r18", {r18: newValue}, session)
         setSessionFlag(true)
+    }
+
+    const changeUsername = async () => {
+        if (!permissions.isPremium(session)) {
+            Toast.show({text1: i18n.toast.premiumRequired})
+        } else {
+            navigation.navigate("ChangeUsername", undefined, {pop: true})
+        }
     }
 
     const logout = async () => {
@@ -143,6 +156,18 @@ const ProfileScreen: React.FunctionComponent = () => {
                         </View>
                     </PressableHaptic>}
                 </View>
+                {session.username ? <View style={styles.buttonContainer}>
+                    /* Premium */
+                    <PressableHaptic style={({pressed}) => [styles.itemContainer, 
+                        {backgroundColor: pressed ? colors.profilePremiumPressed : colors.profilePremium}]}
+                        onPress={() => navigation.navigate("Premium", undefined, {pop: true})}>
+                        <View style={styles.iconContainer}>
+                            <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor}/>
+                            <Text style={styles.premiumText}>{i18n.premium.premium.title}</Text>
+                        </View>
+                            <RightIcon width={iconSize} height={iconSize} color={colors.premiumColor}/>
+                    </PressableHaptic>
+                </View> : null}
                 {session.username ? <View style={styles.buttonContainer}>
                     /* Logout */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 
@@ -300,7 +325,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                 <View style={styles.buttonContainer}>
                     /* Change Usernmae */
                     <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => navigation.navigate("ChangeUsername", undefined, {pop: true})} 
+                    onPress={() => changeUsername()} 
                     style={({pressed}) => [styles.itemContainer, 
                     {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
                         <View style={styles.iconContainer}>

@@ -15,7 +15,8 @@
         "contact": "Contact",
         "mail": "Mail",
         "modQueue": "Mod Queue",
-        "profile": "Profile"
+        "profile": "Profile",
+        "mobile": "Mobile"
     },
     "sidebar": {
         "copyTags": "Copy Tags",
@@ -54,6 +55,7 @@
         "result": "result.",
         "results": "results.",
         "loginRequired": "Login required.",
+        "emailVerificationRequired": "You need to verify your email.",
         "accountDeleted": "Account Deleted.",
         "$401": "401 error.",
         "$403": "403 error.",
@@ -564,6 +566,7 @@
     "toast": {
         "loginRequired": "You must login to use this action.",
         "verificationRequired": "You must verify your email to use this action.",
+        "premiumRequired": "You must have a premium account to use this feature.",
         "banned": "You are banned. Cannot perform this action.",
         "loggedIn": "Logged in as ",
         "loggedOut": "Successfully logged out!",
@@ -1226,7 +1229,8 @@
             "header": "R18 Content is only suitable for people over the age of 18. By continuing you confirm that you are 18 years old or older."
         },
         "promote": {
-            "title": "Promote User"
+            "title": "Promote User",
+            "no2fa": "Can't promote this user, 2fa is disabled."
         },
         "reportComment": {
             "title": "Report Comment",
@@ -1749,6 +1753,76 @@
             "title": "Tooltips",
             "line1": "Posts and tags have their own tooltips when you hover over them. If you don't like the tooltips, you may disable them in your account settings if you register for an account. You may also toggle the displaying of the tag banner and the related posts section in the post page. The site will be a bit faster with these disabled."
         },
+        "moetext": {
+            "title": "MoeText",
+            "header": "MoeText is our markup language to format comments/replies, inspired somewhat by markdown.",
+            "quotes": {
+                "title": "Quoting:",
+                "line1": ">>>[id] User said:",
+                "line2": "> Comment"
+            },
+            "emojis": {
+                "title": "Emojis:",
+                "line1": ":emojiName:"
+            },
+            "highlight": {
+                "title": "Highlight:",
+                "line1": "==Highlighted text=="
+            },
+            "bold": {
+                "title": "Bold:",
+                "line1": "**Bolded text**"
+            },
+            "italic": {
+                "title": "Italic:",
+                "line1": "//Italicized text//"
+            },
+            "underline": {
+                "title": "Underline:",
+                "line1": "__Underlined text__"
+            },
+            "strikethrough": {
+                "title": "Strikethrough:",
+                "line1": "~~Strikethrough text~~"
+            },
+            "spoiler": {
+                "title": "Spoiler:",
+                "line1": "||Spoiler text||"
+            },
+            "link": {
+                "title": "Link:",
+                "line1": "[Name](link)"
+            },
+            "dropdown": {
+                "title": "Dropdown:",
+                "line1": "<<Header text||Dropdown text||>>"
+            },
+            "color": {
+                "title": "Hex Color:",
+                "line1": "#hexcolor{Colored text}"
+            },
+            "code": {
+                "title": "Code:",
+                "line1": "```Code block```"
+            },
+            "mention": {
+                "title": "User Mention:",
+                "line1": "@username"
+            },
+            "links": {
+                "postTitle": "Post Link:",
+                "postLine": "Post #id",
+                "threadTitle": "Thread Link:",
+                "threadLine": "Thread #id",
+                "messageTitle": "Message Link:",
+                "messageLine": "Message #id",
+                "tagTitle": "Tag Link:",
+                "tagLine": "[[tag]]"
+            },
+            "images": {
+                "header": "Posted image and video links are automatically displayed."
+            }
+        },
         "commenting": {
             "title": "Commenting",
             "rules": {
@@ -1758,76 +1832,6 @@
                 "rule3": "⇾ No foul language (if you somehow bypassed the filter).",
                 "rule4": "⇾ No unnecessary rudeness or impoliteness, please be kind.",
                 "rule5": "⇾ No otherwise distasteful/inappropriate comments."
-            },
-            "moetext": {
-                "title": "MoeText",
-                "header": "MoeText is our markup language to format comments/replies, inspired somewhat by markdown.",
-                "quotes": {
-                    "title": "Quoting:",
-                    "line1": ">>>[id] User said:",
-                    "line2": "> Comment"
-                },
-                "emojis": {
-                    "title": "Emojis:",
-                    "line1": ":emojiName:"
-                },
-                "highlight": {
-                    "title": "Highlight:",
-                    "line1": "==Highlighted text=="
-                },
-                "bold": {
-                    "title": "Bold:",
-                    "line1": "**Bolded text**"
-                },
-                "italic": {
-                    "title": "Italic:",
-                    "line1": "//Italicized text//"
-                },
-                "underline": {
-                    "title": "Underline:",
-                    "line1": "__Underlined text__"
-                },
-                "strikethrough": {
-                    "title": "Strikethrough:",
-                    "line1": "~~Strikethrough text~~"
-                },
-                "spoiler": {
-                    "title": "Spoiler:",
-                    "line1": "||Spoiler text||"
-                },
-                "link": {
-                    "title": "Link:",
-                    "line1": "[Name](link)"
-                },
-                "dropdown": {
-                    "title": "Dropdown:",
-                    "line1": "<<Header text||Dropdown text||>>"
-                },
-                "color": {
-                    "title": "Hex Color:",
-                    "line1": "#hexcolor{Colored text}"
-                },
-                "code": {
-                    "title": "Code:",
-                    "line1": "```Code block```"
-                },
-                "mention": {
-                    "title": "User Mention:",
-                    "line1": "@username"
-                },
-                "links": {
-                    "postTitle": "Post Link:",
-                    "postLine": "Post #id",
-                    "threadTitle": "Thread Link:",
-                    "threadLine": "Thread #id",
-                    "messageTitle": "Message Link:",
-                    "messageLine": "Message #id",
-                    "tagTitle": "Tag Link:",
-                    "tagLine": "[[tag]]"
-                },
-                "images": {
-                    "header": "Posted image and video links are automatically displayed."
-                }
             }
         },
         "bans": {
@@ -1852,7 +1856,7 @@
         },
         "accountDeletion": {
             "title": "Account Deletion",
-            "line1": "Since Moepictures is heavily focused on user contributions, when you delete your account we won't remove your public contributions like submitted posts and edits. The account that uploaded them will be anonymized and show up as \"deleted\". The rest of your account data will be deleted."
+            "line1": "You may delete your account in your profile settings. Since Moepictures is heavily focused on user contributions, when you delete your account we won't remove your public contributions like submitted posts and edits. The account that uploaded them will be anonymized and show up as \"deleted\". The rest of your account data will be deleted."
         },
         "copyrightRemoval": {
             "line1": "If your work is up on Moepictures then it means that we love your work and we always make sure to source posts back to you.",
@@ -1972,49 +1976,60 @@
         "premium": {
             "title": "Premium Upgrade",
             "line1": "You can purchase an account upgrade to unlock more features. Thank you for supporting us!",
-            "line2": "Your contribution allows us to stay up online for the foreseeable future. We will use it to pay our hosting and storage costs.",
-            "line3": "All of the premium features are listed on the left."
+            "line2": "All of the premium features are listed on the left."
         },
         "upscaledImages": {
-            "header": "View images upscaled to a much higher resolution. Upscaled images have much sharper details and often fixes any blurriness. We currently use the Real-CUGAN 4x upscaler."
+            "header": "View images upscaled to a higher resolution. Upscaled images have sharper details and often fix any blurriness."
+        },
+        "searchHistory": {
+            "header": "View the history of posts you have viewed in the past. This is great if you saw a post you liked but forgot to favorite it."
+        },
+        "favoriteGroups": {
+            "header": "Collect posts into personal favorite groups and edit the privacy level of each. Greatly improves your collection experience."
         },
         "autoSearch": {
             "title": "Autosearch",
             "header": "Use the autosearch, which automatically searches your current tags in a loop. You can configure the time interval between searches."
         },
-        "searchHistory": {
-            "header": "View the history of all posts you have viewed in the past. This is great if you saw a post you really liked but forgot to favorite it."
-        },
-        "unlimitedTages": {
-            "title": "Unlimited Tags",
-            "header": "Regular accounts can only search for 3 tags. Premium accounts have this restriction removed and you may search an unlimited number of tags."
-        },
         "bookmarkSort": {
             "title": "Bookmark Sort",
-            "header": "Unlocks the sorting by amount of pixiv bookmarks. This makes it easy to find the posts that attracted the most popularity."
+            "header": "Unlocks the sorting by amount of pixiv bookmarks. This makes it easy to find posts that attracted the most popularity."
         },
         "animatedAvatar": {
             "title": "Animated Avatar",
-            "header": "Premium users can render animated avatars out of animation posts. Regular users are only able to use a static frame."
+            "header": "You can render an animated avatar out of animation posts."
         },
         "changeUsername": {
-            "header": "Premium users unlock the ability to change their username. You may change your name as many times as you wish."
+            "header": "Change your username once every 7 days so you can choose a name that you are happier with."
+        }
+    },
+    "mobilePremium": {
+        "premium": {
+            "line1": "Improve your experience on Moepictures by upgrading your account! Enjoy the following features:",
+            "purchase": "Purchase Premium",
+            "restore": "Restore Purchase",
+            "yearly": "Yearly",
+            "yearlyPrice": "$19.99 / year",
+            "monthly": "Monthly",
+            "monthlyPrice": "$1.99 / month"
         },
-        "noAds": {
-            "title": "No Ads",
-            "header": "Advertisements will get removed for premium users which will make the site more aesthetically pleasing. Thank you!"
+        "upscaledImages": {
+            "header": "View the upscaled versions of posts, often restoring sharp details and clarity."
         },
-        "purchase": {
-            "title": "Purchase",
-            "line1": "If you would like to purchase a premium upgrade you can do so here via Coinbase.",
-            "line2": "Currently the price is $15 USD/yr. Your upgrade will last for one year from the date of purchase. To extend your term, you may purchase it multiple times. ",
-            "createA": "Create a ",
-            "line3": " account if you don't already have one. You can buy crypto (eg. bitcoin) with paypal or card through them and then use it to purchase.",
-            "payWithCrypto": "Pay with Crypto"
+        "searchHistory": {
+            "header": "Your search history is now tracked, and you can return to posts you visited but forgot to favorite!"
         },
-        "refundPolicy": {
-            "title": "Refund Policy",
-            "header": "You can contact us within 48 hours of making your purchase if you weren’t satisfied. You will receive a refund minus any processing fees. Contact us at moepictures.moe@gmail.com."
+        "favoriteGroups": {
+            "header": "Organize posts into custom personal groups and edit the privacy level of each!"
+        },
+        "autoSearch": {
+            "header": "Unlock the auto search to automatically run your search again after an interval."
+        },
+        "bookmarkSort": {
+            "header": "Sort results by bookmarks/likes, usually bringing the best quality art to the front."
+        },
+        "changeUsername": {
+            "header": "You are able to change your username once every 7 days!"
         }
     },
     "terms": {
@@ -2129,5 +2144,11 @@
                 "line1": "We may make changes to our privacy policy at any point, indicated by the \"last updated\" date. Changes to our privacy policy are effective immediately on publication."
             }
         }
+    },
+    "mobileApp": {
+        "title": "Mobile App",
+        "line1": "Download our mobile app for a better experience on phones and tablets!",
+        "line2": "*Note, not all site features are available on mobile.",
+        "download": "Currently you can only install it on android. Get it here!"
     }
 }

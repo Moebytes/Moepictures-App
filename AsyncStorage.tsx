@@ -12,6 +12,7 @@ useSearchActions, useThemeSelector, useLayoutActions, useCacheActions,
 useFlagActions, useFlagSelector, useFilterSelector, useFilterActions} from "./store"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
+import permissions from "./structures/Permissions"
 import {Languages, PostRating, PostSize, PostSort, PostStyle, PostType, Themes} from "./types/ParamTypes"
 import {siteURL} from "./ui/site"
 
@@ -54,6 +55,9 @@ const AsyncStorage: React.FunctionComponent = () => {
                     `${i18n.toast.loggedIn}${functions.util.toProperCase(cookie.username)}`
                 Toast.show({text1: msg})
             }
+        }
+        if (cookie.username && !permissions.isPremium(cookie)) {
+            await functions.http.post("/api/user/upscaledimages", {reset: true}, cookie)
         }
         setSession(cookie)
     }

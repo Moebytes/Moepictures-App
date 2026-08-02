@@ -33,6 +33,7 @@ import SortIcon from "../../assets/svg/sort.svg"
 import SortReverseIcon from "../../assets/svg/sort-reverse.svg"
 import AutoScrollIcon from "../../assets/svg/autoscroll.svg"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 
 const SortBar: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
@@ -122,6 +123,13 @@ const SortBar: React.FunctionComponent = () => {
         return () => animation?.stop()
     }, [autoSearch])
 
+    const toggleAutoSearch = () => {
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
+        setAutoSearch(!autoSearch)
+    }
+
     const spin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["0deg", "360deg"]
@@ -140,7 +148,7 @@ const SortBar: React.FunctionComponent = () => {
                     onPress={() => imageSearch()}/>
                 <Animated.View style={{transform: [{rotate: spin}]}}>
                     <ScalableHaptic icon={AutoSearchIcon} size={iconSize} color={autoSearch ? colors.iconActive : colors.iconColor}
-                        onPress={() => setAutoSearch(!autoSearch)}/>
+                        onPress={() => toggleAutoSearch()}/>
                 </Animated.View>
                 <ScalableHaptic icon={OptionsIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowPostsSheet(!showPostsSheet)}/>

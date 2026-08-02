@@ -20,9 +20,11 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/SearchHistoryScreen.styles"
 import {SearchHistory} from "../../types/Types"
+import permissions from "../../structures/Permissions"
 
 const noresults = require("../../assets/images/noresults.png")
 const login = require("../../assets/images/login.png")
+const premiumrequired = require("../../assets/images/premiumrequired.png")
 
 const SearchHistoryScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
@@ -51,13 +53,13 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
 
     const infiniteQuery = useSearchHistoryInfiniteQuery(
         {query: search, sort: searchHistorySort, refreshKey},
-        {skip: !scroll}
+        {skip: !scroll || !permissions.isPremium(session)}
     )
 
     const pageQuery = useSearchHistoryPageQuery(
         {query: search, sort: searchHistorySort,
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
-        {skip: scroll}
+        {skip: scroll || !permissions.isPremium(session)}
     )
 
     useEffect(() => {
@@ -93,6 +95,14 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
             return (
                 <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
                     <Image source={login} style={{width: 350, height: 350, resizeMode: "contain"}}/>
+                </View>
+            )
+        }
+
+        if (!permissions.isPremium(session)) {
+            return (
+                <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
+                    <Image source={premiumrequired} style={{width: 350, height: 350, resizeMode: "contain"}}/>
                 </View>
             )
         }

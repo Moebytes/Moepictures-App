@@ -40,6 +40,7 @@ import CropModal from "../../modals/CropModal"
 import {ImageRef} from "../../components/image/FilterImage"
 import {createStylesheet} from "./styles/PostScreen.styles"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 import {Image} from "../../types/Types"
 
 type Props = {
@@ -78,7 +79,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   }
 
   const saveHistory = async () => {
-    if (post && session.username) {
+    if (post && session.username && permissions.isPremium(session)) {
       await functions.http.post("/api/post/view", {postID: post.postID}, session)
     }
   }

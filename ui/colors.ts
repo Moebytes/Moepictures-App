@@ -43,7 +43,7 @@ export const noRotation = {
     userColor: "#4b48ff",
     contributorColor: "#b948ff",
     curatorColor: "#fc279f",
-    premiumColor: "#ff22e5",
+    premiumColor: "#ff5fec",
     systemColor: "#ffa923",
     modColor: "#1365f6",
     adminColor: "#d70c67",
@@ -60,19 +60,26 @@ export const noRotation = {
     favoriteColor: "#ff73f6",
     favgroupColor: "#df5dff",
     savedSearchColor: "#8d5dff",
-    deletedColor: "#b21740"
+    deletedColor: "#b21740",
+
+    glassColor: "rgba(255, 255, 255, 0.34)",
+    premiumGlassColor: "rgba(255, 173, 248, 0.43)"
 }
 
 export const noRotationLight = {
     optionBlueInactive: "#E7F0FF",
     optionRedActive: "#e2296a",
-    optionRedInactive: "#ffc8da"
+    optionRedInactive: "#ffc8da",
+	profilePremium: "#fde2ff",
+    profilePremiumPressed: "#ffc7ff"
 }
 
 export const noRotationDark = {
     optionBlueInactive: "#182945",
     optionRedActive: "#ff377d",
-    optionRedInactive: "#451823"
+    optionRedInactive: "#451823",
+	profilePremium: "#2f1136",
+    profilePremiumPressed: "#511b61"
 }
 
 export const sharedColors = {

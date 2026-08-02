@@ -30,6 +30,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 22,
             lineHeight: 30
         },
+        premiumText: {
+            color: colors.premiumColor,
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            textAlign: "center",
+            fontSize: 22,
+            lineHeight: 30
+        },
         buttonContainer: {
             display: "flex",
             alignItems: "center",

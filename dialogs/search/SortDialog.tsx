@@ -6,6 +6,7 @@
 
 import React from "react"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import Toast from "react-native-toast-message"
 import {View, Text, Modal, Pressable, ScrollView} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
@@ -26,6 +27,9 @@ const SortDialog: React.FunctionComponent = () => {
     const styles = createStylesheet(colors)
 
     const click = (sort: PostSort) => {
+        if (sort === "bookmarks" && !permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
         setSortType(sort)
         setShowSortDialog(false)
     }

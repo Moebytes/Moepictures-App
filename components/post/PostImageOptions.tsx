@@ -19,6 +19,7 @@ import InfoIcon from "../../assets/svg/info.svg"
 import DownloadIcon from "../../assets/svg/download.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 import {ImageRef} from "../image/FilterImage"
 import {PostFull} from "../../types/Types"
 
@@ -87,6 +88,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         }
         if (!session.emailVerified) {
             return Toast.show({text1: i18n.toast.verificationRequired})
+        }
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
         }
         setFavgroupID(props.post.postID)
     }

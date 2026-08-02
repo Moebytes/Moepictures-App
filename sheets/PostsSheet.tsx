@@ -103,11 +103,15 @@ const PostsSheet: React.FunctionComponent = () => {
     const generateRatingButtons = () => {
         let ratings = [
             {name: i18n.tag.all, icon: AllIcon, value: "all"},
-            {name: i18n.sortbar.rating.cute, icon: CuteIcon, value: "cute"},
-            {name: i18n.sortbar.rating.sexy, icon: SexyIcon, value: "sexy"},
-            {name: i18n.sortbar.rating.erotic, icon: EroticIcon, value: "erotic"}
-        ] as any
+            {name: i18n.sortbar.rating.cute, icon: CuteIcon, value: "cute"}
+        ] as any[]
 
+        if (session.username) {
+            ratings.push(
+                {name: i18n.sortbar.rating.sexy, icon: SexyIcon, value: "sexy"},
+                {name: i18n.sortbar.rating.erotic, icon: EroticIcon, value: "erotic"}
+            )
+        }
 
         let redRatings = [
             {name: i18n.sortbar.rating.allL, icon: AllIcon, value: "all+l"},

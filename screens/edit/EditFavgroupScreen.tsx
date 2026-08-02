@@ -20,6 +20,7 @@ import RadioButtonIcon from "../../assets/svg/radiobutton.svg"
 import RadioButtonCheckedIcon from "../../assets/svg/radiobutton-checked.svg"
 import {createStylesheet} from "./styles/EditFavgroupScreen.styles"
 import functions from "../../functions/Functions"
+import permissions from "../../structures/Permissions"
 
 type Props = {
   route: RouteProp<StackParamList, "EditFavgroup">
@@ -53,6 +54,9 @@ const EditFavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     }
 
     const remap = async () => {
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
         try {
             const postIDs = items.trim().split(/\s+/g)
             await functions.http.put("/api/favgroup/remap", {name: name, postIDs}, session)

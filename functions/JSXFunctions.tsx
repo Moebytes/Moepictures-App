@@ -16,8 +16,8 @@ import functions from "./Functions"
 import enLocale from "../assets/locales/en.json"
 
 export default class JSXFunctions {
-    public static usernameJSX = (userData: {username: string, role: string, banned: boolean | null, deleted: boolean | null}, 
-        colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17) => {
+    public static usernameJSX = (userData: {username: string, role: string, premium: boolean | null, banned: boolean | null, 
+        deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17) => {
         const styles = createStylesheet(colors)
 
         const color = functions.tag.getUserColor(userData, colors)
@@ -25,14 +25,15 @@ export default class JSXFunctions {
             "admin": CrownIcon,
             "mod": CrownIcon,
             "system": CrownIcon,
-            "premium-curator": CuratorStarIcon,
             "curator": CuratorStarIcon,
-            "premium-contributor": ContributorPencilIcon,
-            "contributor": ContributorPencilIcon,
-            "premium": PremiumStarIcon
+            "contributor": ContributorPencilIcon
         } as {[key: string]: React.FunctionComponent<{width: number, height: number, color: string}>}
 
         let Icon = iconMap[userData.role] || null
+
+        if (userData.role === "user" && userData.premium) {
+            Icon = PremiumStarIcon
+        }
 
         return (
             <View style={styles.container}>
