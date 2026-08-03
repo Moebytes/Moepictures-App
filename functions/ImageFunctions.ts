@@ -6,6 +6,7 @@
 
 import {Image, ImageSourcePropType} from "react-native"
 import {PostSize} from "../types/ParamTypes"
+import functions from "./Functions"
 
 export default class ImageFunctions {
     public static dynamicResize = async (img: ImageSourcePropType, maxSize: number, deviceWidth: number) => {
@@ -100,7 +101,7 @@ export default class ImageFunctions {
         return new Promise<{width: number, height: number, size: number}>(async (resolve) => {
             Image.getSize(image, async (width: number, height: number) => {
                 try {
-                    const r = await fetch(image).then((r) => r.blob())
+                    const r = await functions.http.fetch(image).then((r) => r.blob())
                     const size = r.size
                     resolve({width, height, size})
                 } catch {

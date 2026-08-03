@@ -15,6 +15,19 @@ export default class HTTPFunctions {
     public static privateKeyLock = false
     public static publicKey = ""
     public static publicKeyLock = false
+    public static sessionCookie = ""
+
+    public static updateSessionCookie = async (response: Response) => {
+        if (!this.sessionCookie) {
+            const savedCookie = await asyncStorage.getItem("cookie")
+            if (savedCookie) this.sessionCookie = savedCookie
+        }
+        const cookieHeader = response.headers.get("set-cookie")
+        if (cookieHeader) {
+            this.sessionCookie = cookieHeader
+            await asyncStorage.setItem("cookie", cookieHeader)
+        }
+    }
 
     public static updateClientKeys = async (session: Session) => {
         if (this.privateKey) return this.privateKey
@@ -66,14 +79,20 @@ export default class HTTPFunctions {
         }
     }
 
+    public static fetch = async (url: string) => {
+        const headers = {"cookie": this.sessionCookie}
+        return window.fetch(url, {headers, credentials: "include"})
+    }
+
     public static get = async <T extends string>(endpoint: T, params: GetEndpoint<T>["params"], session: Session) => {
         const privateKey = await this.updateClientKeys(session)
         const publicKey = await this.updateServerKey(session)
-        const headers = {"x-csrf-token": session.csrfToken}
+        const headers = {"x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
 
         try {
             let parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
-            let response = await fetch(parsedURL, {headers, credentials: "include"})
+            let response = await window.fetch(parsedURL, {headers, credentials: "include"})
+            this.updateSessionCookie(response)
 
             if (response.status === 404) throw new Error("404")
             if (response.status === 403) throw new Error("403")
@@ -94,10 +113,11 @@ export default class HTTPFunctions {
     }
 
     public static post = async <T extends string>(endpoint: T, data: PostEndpoint<T>["params"], session: Session) => {
-        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken}
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
         try {
             let body = data ? JSON.stringify(data) : null
-            let response = await fetch(siteURL + endpoint, {method: "POST", headers, credentials: "include", body})
+            let response = await window.fetch(siteURL + endpoint, {method: "POST", headers, credentials: "include", body})
+            this.updateSessionCookie(response)
             let text = await response.text()
             if (!response.ok) throw new Error(text)
             try {
@@ -110,10 +130,11 @@ export default class HTTPFunctions {
     }
 
     public static put = async <T extends string>(endpoint: T, data: PutEndpoint<T>["params"], session: Session) => {
-        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken}
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
         try {
             let body = data ? JSON.stringify(data) : null
-            let response = await fetch(siteURL + endpoint, {method: "PUT", headers, credentials: "include", body})
+            let response = await window.fetch(siteURL + endpoint, {method: "PUT", headers, credentials: "include", body})
+            this.updateSessionCookie(response)
             let text = await response.text()
             if (!response.ok) throw new Error(text)
             try {
@@ -126,10 +147,11 @@ export default class HTTPFunctions {
     }
 
     public static delete = async <T extends string>(endpoint: T, params: DeleteEndpoint<T>["params"], session: Session) => {
-        const headers = {"x-csrf-token": session.csrfToken}
+        const headers = {"x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
         try {
             const parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
-            let response = await fetch(parsedURL, {method: "DELETE", headers, credentials: "include"})
+            let response = await window.fetch(parsedURL, {method: "DELETE", headers, credentials: "include"})
+            this.updateSessionCookie(response)
             let text = await response.text()
             if (!response.ok) throw new Error(text)
             try {
