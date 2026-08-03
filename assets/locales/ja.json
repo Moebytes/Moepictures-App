@@ -575,7 +575,9 @@
         "deletedAccountFailure": "削除に失敗しました。入力が正しいか確認してください。",
         "changedAvatar": "アバターの変更が完了しました！",
         "editRequest": "編集リクエストが正常に送信されました。",
-        "error": "申し訳ありませんが、このリクエストで問題が発生しました。"
+        "error": "申し訳ありませんが、このリクエストで問題が発生しました。",
+        "paymentError": "申し訳ございませんが、お支払いの処理中にエラーが発生しました。",
+        "premiumUpgrade": "アカウントがプレミアムにアップグレードされました！"
     },
     "placeholder": {
         "enterFavgroupName": "お気に入りグループの名前を入力してください...",
@@ -2012,12 +2014,14 @@
     "mobilePremium": {
         "premium": {
             "line1": "アカウントをアップグレードして、Moepicturesでの体験をさらに充実させましょう！以下の機能をお楽しみください：",
+            "alreadyPremium": "あなたはすでにプレミアム会員です！機能の概要は以下の通りです：",
             "purchase": "プレミアムを購入する",
             "restore": "購入履歴を復元する",
+            "manage": "購入の管理",
             "yearly": "年次",
-            "yearlyPrice": "年間19.99ドル",
+            "yearlyPrice": "/ 年間",
             "monthly": "月次",
-            "monthlyPrice": "月額1.99ドル"
+            "monthlyPrice": "/ 月額"
         },
         "upscaledImages": {
             "header": "投稿画像を高解像度版で表示すると、多くの場合、細部がくっきりと鮮明に復元されます。"

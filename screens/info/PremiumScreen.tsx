@@ -4,11 +4,13 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState} from "react"
-import {View, ScrollView, ImageBackground, Animated, StatusBar} from "react-native"
+import React, {useEffect, useState} from "react"
+import {View, ScrollView, ImageBackground, Animated, StatusBar, Platform} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {useIAP, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer} from "react-native-iap"
+import Toast from "react-native-toast-message"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
@@ -24,27 +26,93 @@ import ChangeUsernameIcon from "../../assets/svg/changeusername.svg"
 import RadioButtonIcon from "../../assets/svg/radiobutton.svg"
 import RadioButtonCheckedIcon from "../../assets/svg/radiobutton-checked.svg"
 import {createStylesheet} from "./styles/PremiumScreen.styles"
+import functions from "../../functions/Functions"
 
 const premiumBG = require("../../assets/images/premiumBG.jpg")
 
 const PremiumScreen: React.FunctionComponent = () => {
     const {tablet} = useLayoutSelector()
-    const {i18n, language, theme, colors} = useThemeSelector()
+    const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {setSessionFlag} = useFlagActions()
     const styles = createStylesheet(colors, tablet)
+    const [yearlySubscription, setYearlySubscription] = useState<ProductSubscription | SubscriptionOffer | null>(null)
+    const [monthlySubscription, setMonthlySubscription] = useState<ProductSubscription | SubscriptionOffer | null>(null)
     const [activePlan, setActivePlan] = useState("yearly")
     const navigation = useNavigation()
 
-    const yearlyPlan = activePlan === "yearly"
-    const monthlyPlan = activePlan === "monthly"
+    const {connected, subscriptions, fetchProducts, requestPurchase, restorePurchases} = useIAP({
+        onPurchaseSuccess: async (purchase) => {
+            const validPurchase = await functions.http.post("/api/premium/verify-purchase", {
+                platform: Platform.OS,
+                purchaseToken: purchase.purchaseToken!
+            }, session)
+
+            if (validPurchase) {
+                await finishTransaction({purchase, isConsumable: false})
+                setSessionFlag(true)
+            } else {
+                Toast.show({text1: i18n.toast.paymentError})
+            }
+        },
+        onPurchaseError: (error) => {
+            if (error.code === ErrorCode.UserCancelled) return
+            Toast.show({text1: i18n.toast.paymentError})
+        }
+    })
+
+    useEffect(() => {
+        if (!connected) return
+        fetchProducts({skus: Platform.OS === "ios" ? [
+            "com.moebytes.moepictures.premium.yearly",
+            "com.moebytes.moepictures.premium.monthly"
+        ] : [
+            "com.moebytes.moepictures.premium"
+        ], type: "subs"})
+    }, [connected])
+
+    useEffect(() => {
+        for (const subscription of subscriptions) {
+            if (Platform.OS === "ios") {
+                if (subscription.id === "com.moebytes.moepictures.premium.yearly") {
+                    setYearlySubscription(subscription)
+                } else if (subscription.id === "com.moebytes.moepictures.premium.monthly") {
+                    setMonthlySubscription(subscription)
+                }
+            } else {
+                if (subscription.id === "com.moebytes.moepictures.premium") {
+                    const yearlyOffer = subscription.subscriptionOffers?.find((s) => s.id === "premium-yearly")
+                    const monthlyOffer = subscription.subscriptionOffers?.find((s) => s.id === "premium-monthly")
+                    if (yearlyOffer) setYearlySubscription(yearlyOffer)
+                    if (monthlyOffer) setMonthlySubscription(monthlyOffer)
+                }
+            }
+        }
+    }, [subscriptions])
 
     const purchase = async () => {
+        if (activePlan === "yearly") {
+            await requestPurchase({request: {
+                apple: {sku: "com.moebytes.moepictures.premium.yearly", appAccountToken: session.accountToken},
+                google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
+                        sku: "com.moebytes.moepictures.premium", 
+                        offerToken: (yearlySubscription as SubscriptionOffer).offerTokenAndroid!
+                    }], obfuscatedAccountId: session.accountToken}
+            }, type: "subs"})
 
+        } else if (activePlan === "monthly") {
+            await requestPurchase({request: {
+                apple: {sku: "com.moebytes.moepictures.premium.monthly", appAccountToken: session.accountToken},
+                google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
+                        sku: "com.moebytes.moepictures.premium", 
+                        offerToken: (monthlySubscription as SubscriptionOffer).offerTokenAndroid!
+                    }], obfuscatedAccountId: session.accountToken}
+            }, type: "subs"})
+        }
     }
 
     const restore = async () => {
-
+        await restorePurchases()
     }
 
     const fallback = !isLiquidGlassSupported
@@ -53,8 +121,12 @@ const PremiumScreen: React.FunctionComponent = () => {
 
     let iconSize = 35
 
+
+    let offset = Platform.OS === "android" ? 40 : 0
+
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1, backgroundColor: colors.mainColor}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1, backgroundColor: colors.mainColor}}
+            contentContainerStyle={{paddingBottom: offset}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <TitleBar/>
             <View style={styles.navContainer}>
@@ -78,7 +150,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                         <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor} style={{marginTop: "-5"}}/>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>{i18n.mobilePremium.premium.line1}</Text>
+                        <Text style={styles.text}>{session.premium ? i18n.mobilePremium.premium.alreadyPremium : 
+                            i18n.mobilePremium.premium.line1}</Text>
                     </View>
 
                     <View style={styles.itemBox}>
@@ -136,30 +209,30 @@ const PremiumScreen: React.FunctionComponent = () => {
                         </View>
                     </View>
 
-                    <PressableHaptic style={[styles.selectionBox, yearlyPlan && {borderColor: colors.premiumColor}]}
+                    <PressableHaptic style={[styles.selectionBox, activePlan === "yearly" && {borderColor: colors.premiumColor}]}
                         onPress={() => setActivePlan("yearly")}>
                         <View style={styles.selectionBoxContainer}>
                             <Text style={styles.selectionBoxTitle}>{i18n.mobilePremium.premium.yearly}</Text>
                             <View style={styles.selectionBoxPriceLabel}>
-                                <Text style={styles.selectionBoxPrice}>{i18n.mobilePremium.premium.yearlyPrice}</Text>
+                                <Text style={styles.selectionBoxPrice}>{yearlySubscription?.displayPrice ?? "$29.99"} {i18n.mobilePremium.premium.yearlyPrice}</Text>
                             </View>
                         </View>
                         <View style={styles.selectionBoxContainer}>
-                            {yearlyPlan ? 
+                            {activePlan === "yearly" ? 
                             <RadioButtonCheckedIcon width={iconSize} height={iconSize} color={colors.premiumColor}/> :
                             <RadioButtonIcon width={iconSize} height={iconSize} color={colors.black}/>}
                         </View>
                     </PressableHaptic>
-                    <PressableHaptic style={[styles.selectionBox, monthlyPlan && {borderColor: colors.premiumColor}]}
+                    <PressableHaptic style={[styles.selectionBox, activePlan === "monthly" && {borderColor: colors.premiumColor}]}
                         onPress={() => setActivePlan("monthly")}>
                         <View style={styles.selectionBoxContainer}>
                             <Text style={styles.selectionBoxTitle}>{i18n.mobilePremium.premium.monthly}</Text>
                             <View style={styles.selectionBoxPriceLabel}>
-                                <Text style={styles.selectionBoxPrice}>{i18n.mobilePremium.premium.monthlyPrice}</Text>
+                                <Text style={styles.selectionBoxPrice}>{monthlySubscription?.displayPrice ?? "$2.99"} {i18n.mobilePremium.premium.monthlyPrice}</Text>
                             </View>
                         </View>
                         <View style={styles.selectionBoxContainer}>
-                            {monthlyPlan ? 
+                            {activePlan === "monthly" ? 
                             <RadioButtonCheckedIcon width={iconSize} height={iconSize} color={colors.premiumColor}/> :
                             <RadioButtonIcon width={iconSize} height={iconSize} color={colors.black}/>}
                         </View>
@@ -175,7 +248,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             })
                             return (
                                 <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                    {i18n.mobilePremium.premium.purchase}
+                                    {session.premium ? i18n.mobilePremium.premium.manage : 
+                                        i18n.mobilePremium.premium.purchase}
                                 </Animated.Text>
                             )
                         }}

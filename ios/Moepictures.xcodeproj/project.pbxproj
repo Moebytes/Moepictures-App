@@ -12,12 +12,14 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8357084C2F86F6590032EC4C /* Clear-Sans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8357084B2F86F6590032EC4C /* Clear-Sans-Italic.ttf */; };
+		837D8B28301EF88500D002CE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 837D8B27301EF88500D002CE /* StoreKit.framework */; };
 		837EA3672F68E3AA0025B6F9 /* Pixel-Arial-11.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 837EA3662F68E3AA0025B6F9 /* Pixel-Arial-11.ttf */; };
 		83A0AABA2F8677F30054C659 /* Source-Code-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83A0AAB92F8677F30054C659 /* Source-Code-Pro.ttf */; };
 		83C384422F3DA85500CA89BD /* GenEi-M-Gothic-v2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83C384402F3DA85500CA89BD /* GenEi-M-Gothic-v2.ttf */; };
 		83C384432F3DA85500CA89BD /* irohamaru-mikami.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83C384412F3DA85500CA89BD /* irohamaru-mikami.ttf */; };
 		83CB9F982F3B101B007912AE /* JK-Gothic-M.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */; };
 		83CB9F992F3B101B007912AE /* TsunagiGothic-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */; };
+		83DBB83B301FD1B900B5B7B0 /* Moepictures.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 83DBB83A301FD1B900B5B7B0 /* Moepictures.storekit */; };
 		83F8630B2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83F8630A2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf */; };
 		AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
@@ -33,12 +35,15 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Moepictures/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Moepictures/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8357084B2F86F6590032EC4C /* Clear-Sans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Clear-Sans-Italic.ttf"; sourceTree = "<group>"; };
+		837D8B26301EF85700D002CE /* Moepictures.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Moepictures.entitlements; path = Moepictures/Moepictures.entitlements; sourceTree = "<group>"; };
+		837D8B27301EF88500D002CE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		837EA3662F68E3AA0025B6F9 /* Pixel-Arial-11.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pixel-Arial-11.ttf"; sourceTree = "<group>"; };
 		83A0AAB92F8677F30054C659 /* Source-Code-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Source-Code-Pro.ttf"; sourceTree = "<group>"; };
 		83C384402F3DA85500CA89BD /* GenEi-M-Gothic-v2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenEi-M-Gothic-v2.ttf"; sourceTree = "<group>"; };
 		83C384412F3DA85500CA89BD /* irohamaru-mikami.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "irohamaru-mikami.ttf"; sourceTree = "<group>"; };
 		83CB9F952F3B101B007912AE /* JK-Gothic-M.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JK-Gothic-M.ttf"; sourceTree = "<group>"; };
 		83CB9F962F3B101B007912AE /* TsunagiGothic-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TsunagiGothic-Black.ttf"; sourceTree = "<group>"; };
+		83DBB83A301FD1B900B5B7B0 /* Moepictures.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = Moepictures.storekit; path = Moepictures/Moepictures.storekit; sourceTree = "<group>"; };
 		83F8630A2F3D6957004E3C83 /* Honoka-Shin-Antique-Kaku.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Honoka-Shin-Antique-Kaku.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -49,6 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-Moepictures.a in Frameworks */,
+				837D8B28301EF88500D002CE /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,8 +64,10 @@
 		13B07FAE1A68108700A75B9A /* Moepictures */ = {
 			isa = PBXGroup;
 			children = (
+				837D8B26301EF85700D002CE /* Moepictures.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
+				83DBB83A301FD1B900B5B7B0 /* Moepictures.storekit */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
@@ -71,6 +79,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				837D8B27301EF88500D002CE /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-Moepictures.a */,
 			);
@@ -202,6 +211,7 @@
 				AFCAD2F538DE0B083A514E1F /* PrivacyInfo.xcprivacy in Resources */,
 				83C384422F3DA85500CA89BD /* GenEi-M-Gothic-v2.ttf in Resources */,
 				83C384432F3DA85500CA89BD /* irohamaru-mikami.ttf in Resources */,
+				83DBB83B301FD1B900B5B7B0 /* Moepictures.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,9 +242,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -271,9 +285,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Moepictures/Pods-Moepictures-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -301,6 +319,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Moepictures/Moepictures.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -316,7 +335,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -325,7 +344,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.moebytes.moepictures;
 				PRODUCT_NAME = Moepictures;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = IOSDevelopment;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = IOSMoepictures;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -343,6 +362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Moepictures/Moepictures.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -357,7 +377,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -366,7 +386,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.moebytes.moepictures;
 				PRODUCT_NAME = Moepictures;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = IOSDevelopment;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = IOSMoepictures;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;

@@ -16,6 +16,14 @@ export default class DateFunctions {
         return `${month}-${day}-${year}`
     }
 
+    public static compactDate = (inputDate: Date | string | null) => {
+        const date = new Date(inputDate || "")
+        let year = date.getFullYear()
+        let month = (1 + date.getMonth()).toString()
+        let day = date.getDate().toString()
+        return `${month}/${day}/${year}`
+    }
+
     public static prettyDate = (inputDate: Date | string | null, i18n: typeof enLocale, noDay?: boolean) => {
         const monthNames = [
             i18n.time.january, i18n.time.february, i18n.time.march,

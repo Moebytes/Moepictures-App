@@ -18,7 +18,7 @@ export default class HTTPFunctions {
 
     public static updateClientKeys = async (session: Session) => {
         if (this.privateKey) return this.privateKey
-        if (this.privateKeyLock) await functions.timeout(1000 + Math.random() * 1000)
+        if (this.privateKeyLock) await functions.timeout(2000 + Math.random() * 2000)
         if (!this.privateKey) {
             this.privateKeyLock = true
             const savedPublicKey = await asyncStorage.getItem("publicKey") as string
@@ -39,7 +39,7 @@ export default class HTTPFunctions {
 
     public static updateServerKey = async (session: Session) => {
         if (this.publicKey) return this.publicKey
-        if (this.publicKeyLock) await functions.timeout(1000 + Math.random() * 1000)
+        if (this.publicKeyLock) await functions.timeout(2000 + Math.random() * 2000)
         if (!this.publicKey) {
             this.publicKeyLock = true
             const response = await functions.http.post("/api/server-key", null, session)

@@ -156,6 +156,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                         </View>
                     </PressableHaptic>}
                 </View>
+
                 {session.username ? <View style={styles.buttonContainer}>
                     /* Premium */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 
@@ -163,11 +164,14 @@ const ProfileScreen: React.FunctionComponent = () => {
                         onPress={() => navigation.navigate("Premium", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor}/>
-                            <Text style={styles.premiumText}>{i18n.premium.premium.title}</Text>
+                            <Text style={styles.premiumText}>{session.premium ? 
+                                `${i18n.user.premiumUntil} ${functions.date.compactDate(session.premiumExpiration!)}` : 
+                                `${i18n.premium.premium.title}`}</Text>
                         </View>
                             <RightIcon width={iconSize} height={iconSize} color={colors.premiumColor}/>
                     </PressableHaptic>
                 </View> : null}
+
                 {session.username ? <View style={styles.buttonContainer}>
                     /* Logout */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 

@@ -41,7 +41,7 @@ export const createStylesheet = (colors: ThemeColors, tablet: boolean) => {
         },
         containerBG: {
             resizeMode: "cover",
-            height: tablet ? 1300 : undefined
+            height: tablet ? 3500 : undefined
         },
         box: {
             display: "flex",
