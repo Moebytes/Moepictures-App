@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState} from "react"
-import {View, Image, StatusBar, FlatList, Linking} from "react-native"
+import {View, Image, StatusBar, FlatList, Linking, useWindowDimensions} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
 import {UITextView as Text} from "react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
@@ -53,6 +53,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
     const {setAliasTagID} = useTagDialogActions()
+    const {width} = useWindowDimensions()
     const {name} = route.params
     const {data: tag} = useGetTagQuery({tag: name})
     const styles = createStylesheet(colors)
@@ -81,7 +82,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const {columns} = functions.image.getImageSize(sizeType, square, tablet)
+    const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
 
     const getFavorite = async () => {
         if (!session.username) return

@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState, useRef, useMemo} from "react"
-import {View, StatusBar, FlatList} from "react-native"
+import {View, StatusBar, FlatList, useWindowDimensions} from "react-native"
 import {RouteProp} from "@react-navigation/native"
 import {Drawer} from "react-native-drawer-layout"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, 
@@ -55,6 +55,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {setTagCategories, setNavigationPosts} = useCacheActions()
   const {scroll, sizeType, square} = useSearchSelector()
   const [open, setOpen] = useState(false)
+  const {width} = useWindowDimensions()
   const {postID} = route.params
   const {data: post} = useGetPostQuery({postID})
   const [image, setImage] = useState<Image | null>(null)
@@ -115,7 +116,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     }
   }
 
-  const {columns} = functions.image.getImageSize(sizeType, square, tablet)
+  const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
 
   return (
     <Drawer

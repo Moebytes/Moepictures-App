@@ -4,9 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect, useEffectEvent, useRef, useMemo} from "react"
+import React, {useState, useEffect, useEffectEvent, useRef} from "react"
 import {View, Image, FlatList, ListRenderItem, RefreshControl, 
-NativeSyntheticEvent, NativeScrollEvent} from "react-native"
+NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
 useFlagActions, useSessionSelector, useSearchActions, useCacheActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
@@ -35,6 +35,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {setAutoScroll} = useSearchActions()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
+    const {width} = useWindowDimensions()
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
     const [randomPosts, setRandomPosts] = useState<PostSearch[]>([])
@@ -77,7 +78,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const pageSize = 15 * pageMultiplier
 
     const sort = functions.valid.parseSort(sortType, sortReverse)
-    const {columns} = functions.image.getImageSize(sizeType, square, tablet)
+    const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
 
     const reverseSearch = imageSearchFlag !== null
     const randomSearch = randomPosts.length > 0

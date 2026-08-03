@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {Image, ImageSourcePropType} from "react-native"
+import {Image, ImageSourcePropType, Dimensions} from "react-native"
 import {PostSize} from "../types/ParamTypes"
 import functions from "./Functions"
 
@@ -69,18 +69,19 @@ export default class ImageFunctions {
         return {width: newWidth, height: newHeight}
     }
 
-    public static getImageSize = (sizeType: PostSize, square: boolean, tablet: boolean) => {
+    public static getImageSize = (sizeType: PostSize, square: boolean, tablet: boolean, width: number) => {
+        let portrait = width <= 1000
         if (tablet) {
             if (sizeType === "tiny") {
-                return {imageSize: 240, columns: 5}
+                return {imageSize: portrait ? 150 : 240, columns: 5}
             } else if (sizeType === "small") {
-                return {imageSize: 300, columns: 4}
+                return {imageSize: portrait ? 200 : 300, columns: 4}
             } else if (sizeType === "medium") {
-                return {imageSize: 400, columns: 3}
+                return {imageSize: portrait ? 270 : 400, columns: 3}
             } else if (sizeType === "large") {
-                return {imageSize: 600, columns: 2}
+                return {imageSize: portrait ? 400 : 600, columns: 2}
             } else {
-                return {imageSize: 800, columns: 1}
+                return {imageSize: portrait ? 700 : 800, columns: 1}
             }
         } else {
             if (sizeType === "tiny") {

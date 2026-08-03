@@ -50,7 +50,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const {imageSize} = functions.image.getImageSize(sizeType, square, tablet)
+            const {imageSize} = functions.image.getImageSize(sizeType, square, tablet, width)
             let size = await functions.image.dynamicResize({uri: img}, imageSize, width)
 
             if (square) {
@@ -61,7 +61,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         }
         setLoaded(false)
         updateSize()
-    }, [img, tablet, sizeType, square])
+    }, [img, tablet, sizeType, square, width])
 
     const onPress = () => {
         if (dialogOpen) return

@@ -29,9 +29,16 @@ export default class HTTPFunctions {
         }
     }
 
+    public static refreshKeys = async () => {
+        await asyncStorage.removeItem("publicKey")
+        await asyncStorage.removeItem("privateKey")
+        this.publicKey = ""
+        this.privateKey = ""
+    }
+
     public static updateClientKeys = async (session: Session) => {
         if (this.privateKey) return this.privateKey
-        if (this.privateKeyLock) await functions.timeout(2000 + Math.random() * 2000)
+        if (this.privateKeyLock) await functions.timeout(1000 + Math.random() * 1000)
         if (!this.privateKey) {
             this.privateKeyLock = true
             const savedPublicKey = await asyncStorage.getItem("publicKey") as string
@@ -52,7 +59,7 @@ export default class HTTPFunctions {
 
     public static updateServerKey = async (session: Session) => {
         if (this.publicKey) return this.publicKey
-        if (this.publicKeyLock) await functions.timeout(2000 + Math.random() * 2000)
+        if (this.publicKeyLock) await functions.timeout(1000 + Math.random() * 1000)
         if (!this.publicKey) {
             this.publicKeyLock = true
             const response = await functions.http.post("/api/server-key", null, session)
@@ -108,6 +115,7 @@ export default class HTTPFunctions {
             } catch {}
             return decrypted as GetEndpoint<T>["response"]
         } catch (err: any) {
+            if (err.message.includes("No public key")) this.refreshKeys()
             return Promise.reject(err)
         }
     }

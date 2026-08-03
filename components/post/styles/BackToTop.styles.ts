@@ -17,7 +17,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             backgroundColor: colors.mainColor,
             paddingHorizontal: 25,
-            paddingVertical: 5,
+            paddingVertical: 6,
             width: "100%"
         },
         iconContainer: {
