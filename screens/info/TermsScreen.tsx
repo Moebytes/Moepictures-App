@@ -219,6 +219,16 @@ const TermsOfServiceScreen: React.FunctionComponent = () => {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.heading}>
+                            {i18n.terms.tos.premiumSubscriptions.title}
+                        </Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.text}>
+                            {i18n.terms.tos.premiumSubscriptions.line1}
+                        </Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.heading}>
                             {i18n.terms.tos.accountTermination.title}
                         </Text>
                     </View>

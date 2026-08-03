@@ -80,6 +80,16 @@ const PrivacyPolicyScreen: React.FunctionComponent = () => {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.heading}>
+                            {i18n.terms.privacy.subscriptionRelated.title}
+                        </Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.text}>
+                            {i18n.terms.privacy.subscriptionRelated.line1}
+                        </Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.heading}>
                             {i18n.terms.privacy.informationUse.title}
                         </Text>
                     </View>
