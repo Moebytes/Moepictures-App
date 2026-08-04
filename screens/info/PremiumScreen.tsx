@@ -50,6 +50,7 @@ const PremiumScreen: React.FunctionComponent = () => {
 
             if (validPurchase) {
                 await finishTransaction({purchase, isConsumable: false})
+                Toast.show({text1: i18n.toast.premiumUpgrade})
                 setSessionFlag(true)
             } else {
                 Toast.show({text1: i18n.toast.paymentError})

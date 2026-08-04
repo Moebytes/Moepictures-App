@@ -49,7 +49,7 @@ const HelpTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -87,7 +87,7 @@ const SearchTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -333,7 +333,7 @@ const ImageSearchTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -371,7 +371,7 @@ const FiltersTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -404,7 +404,7 @@ const FavoritesTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -437,7 +437,7 @@ const FavoriteGroupsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -470,7 +470,7 @@ const CutenessTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -503,7 +503,7 @@ const MoeTextTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -651,7 +651,7 @@ const TagGroupsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -699,7 +699,7 @@ const VariationsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -742,7 +742,7 @@ const ChildPostsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -785,7 +785,7 @@ const GroupsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -823,7 +823,7 @@ const AliasesTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -866,7 +866,7 @@ const ImplicationsTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -899,7 +899,7 @@ const UsersTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
@@ -1002,7 +1002,7 @@ const WebsiteTab: React.FunctionComponent = () => {
             setSize(size)
         }
         updateSize()
-    }, [])
+    }, [tablet])
 
     return (
         <View style={[styles.container, {height: "100%"}]}>
