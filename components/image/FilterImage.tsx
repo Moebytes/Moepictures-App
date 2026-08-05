@@ -4,10 +4,12 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useMemo, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
-import {Canvas, Image, useImage, useCanvasRef, ColorMatrix, 
+import React, {useMemo, useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
+import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkData,
     RuntimeShader, Skia, Blur, Fit} from "@shopify/react-native-skia"
-import {useFilterSelector} from "../../store"
+import {Platform} from "react-native"
+import {useRoute} from "@react-navigation/native"
+import {useFilterSelector, useThemeSelector} from "../../store"
 import functions from "../../functions/Functions"
 
 export interface ImageRef {
@@ -65,10 +67,13 @@ const sharpenEffect = Skia.RuntimeEffect.Make(sharpenShader)!
 const pixelateEffect = Skia.RuntimeEffect.Make(pixelateShader)!
 
 const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
+    const {colors} = useThemeSelector()
     const {brightness, contrast, hue, saturation, 
         lightness, blur, sharpen, pixelate} = useFilterSelector()
+    const [imgData, setImgData] = useState<SkData | null>(null)
     let {width, height} = props.size ?? {width: 1, height: 1}
     const canvasRef = useCanvasRef()
+    const route = useRoute()
 
     useImperativeHandle(ref, () => ({
         toDataURL: () => {
@@ -78,7 +83,17 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
         }
     }))
 
-    const image = useImage(props.img)
+    useEffect(() => {
+        const loadImage = async () => {
+            if (!props.img) return
+            const buffer = await functions.http.fetch(props.img).then((r) => r.arrayBuffer())
+            const data = Skia.Data.fromBytes(new Uint8Array(buffer))
+            setImgData(data)
+        }
+        loadImage()
+    }, [props.img])
+
+    const image = imgData ? Skia.Image.MakeImageFromEncoded(imgData) : null
     const hasLoaded = useRef(false)
 
     useEffect(() => {
@@ -170,8 +185,11 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
         ]
     }, [lightness])
 
+    let opaque = route.name === "Post" && Platform.OS === "android"
+
     return (
-        <Canvas style={props.size} ref={canvasRef}>
+        <Canvas opaque={opaque} androidWarmup={opaque} style={props.size} ref={canvasRef}>
+            {opaque && <Fill color={colors.background}/>}
             <Image image={image} x={0} y={0} width={width} height={height} fit={props.fit}>
                 <ColorMatrix matrix={brightnessMatrix}/>
                 <ColorMatrix matrix={contrastMatrix}/>

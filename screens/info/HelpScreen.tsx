@@ -44,7 +44,7 @@ const HelpTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(helpImg, targetWidth, width)
             setSize(size)
         }
@@ -82,7 +82,7 @@ const SearchTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(searchImg, targetWidth, width)
             setSize(size)
         }
@@ -328,7 +328,7 @@ const ImageSearchTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(imageSearchImg, targetWidth, width)
             setSize(size)
         }
@@ -366,7 +366,7 @@ const FiltersTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(filtersImg, targetWidth, width)
             setSize(size)
         }
@@ -399,7 +399,7 @@ const FavoritesTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(favoritesImg, targetWidth, width)
             setSize(size)
         }
@@ -432,7 +432,7 @@ const FavoriteGroupsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(favoriteGroupsImg, targetWidth, width)
             setSize(size)
         }
@@ -465,7 +465,7 @@ const CutenessTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(cutenessImg, targetWidth, width)
             setSize(size)
         }
@@ -498,7 +498,7 @@ const MoeTextTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(moetextImg, targetWidth, width)
             setSize(size)
         }
@@ -646,7 +646,7 @@ const TagGroupsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(tagGroupsImg, targetWidth, width)
             setSize(size)
         }
@@ -694,7 +694,7 @@ const VariationsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(variationsImg, targetWidth, width)
             setSize(size)
         }
@@ -737,7 +737,7 @@ const ChildPostsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(childPostsImg, targetWidth, width)
             setSize(size)
         }
@@ -780,7 +780,7 @@ const GroupsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(groupsImg, targetWidth, width)
             setSize(size)
         }
@@ -818,7 +818,7 @@ const AliasesTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(aliasesImg, targetWidth, width)
             setSize(size)
         }
@@ -861,7 +861,7 @@ const ImplicationsTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(implicationsImg, targetWidth, width)
             setSize(size)
         }
@@ -894,7 +894,7 @@ const UsersTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(usersImg, targetWidth, width)
             setSize(size)
         }
@@ -997,7 +997,7 @@ const WebsiteTab: React.FunctionComponent = () => {
 
     useEffect(() => {
         const updateSize = async () => {
-            let targetWidth = tablet ? width - 700 : width - 50
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
             const size = await functions.image.normalizeWidth(websiteImg, targetWidth, width)
             setSize(size)
         }

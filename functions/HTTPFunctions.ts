@@ -26,8 +26,9 @@ export default class HTTPFunctions {
         }
         const cookieHeader = response.headers.get("set-cookie")
         if (cookieHeader) {
-            this.sessionCookie = cookieHeader
-            await asyncStorage.setItem("cookie", cookieHeader)
+            const sessionCookie = cookieHeader.split(";")[0]
+            this.sessionCookie = sessionCookie
+            await asyncStorage.setItem("cookie", sessionCookie)
         }
     }
 
