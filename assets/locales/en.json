@@ -576,7 +576,8 @@
         "editRequest": "Successfully submitted your edit request.",
         "error": "Sorry, something went wrong with this request.",
         "paymentError": "Sorry, there was an error processing your payment.",
-        "premiumUpgrade": "Your account was successfully upgraded to premium!"
+        "premiumUpgrade": "Your account was successfully upgraded to premium!",
+        "premiumRestored": "Your premium subscription has been restored!"
     },
     "placeholder": {
         "enterFavgroupName": "Enter favgroup name...",

@@ -9,7 +9,7 @@ import {View, ScrollView, ImageBackground, Animated, StatusBar, Platform} from "
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {useIAP, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer} from "react-native-iap"
+import {useIAP, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer, Purchase} from "react-native-iap"
 import Toast from "react-native-toast-message"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
@@ -41,20 +41,25 @@ const PremiumScreen: React.FunctionComponent = () => {
     const [activePlan, setActivePlan] = useState("yearly")
     const navigation = useNavigation()
 
-    const {connected, subscriptions, fetchProducts, requestPurchase, restorePurchases} = useIAP({
-        onPurchaseSuccess: async (purchase) => {
-            const validPurchase = await functions.http.post("/api/premium/verify-purchase", {
-                platform: Platform.OS,
-                purchaseToken: purchase.purchaseToken!
-            }, session)
+    const validatePurchase = async (purchase: Purchase, restore?: boolean) => {
+        const validPurchase = await functions.http.post("/api/premium/verify-purchase", {
+            platform: Platform.OS,
+            purchaseToken: purchase.purchaseToken!
+        }, session)
 
-            if (validPurchase) {
-                await finishTransaction({purchase, isConsumable: false})
-                Toast.show({text1: i18n.toast.premiumUpgrade})
-                setSessionFlag(true)
-            } else {
-                Toast.show({text1: i18n.toast.paymentError})
-            }
+        if (validPurchase) {
+            await finishTransaction({purchase, isConsumable: false})
+            Toast.show({text1: restore ? i18n.toast.premiumRestored : i18n.toast.premiumUpgrade})
+            setSessionFlag(true)
+        } else {
+            Toast.show({text1: i18n.toast.paymentError})
+        }
+    }
+
+    const {connected, subscriptions, fetchProducts, requestPurchase, 
+        availablePurchases, getAvailablePurchases, restorePurchases} = useIAP({
+        onPurchaseSuccess: async (purchase) => {
+            await validatePurchase(purchase)
         },
         onPurchaseError: (error) => {
             if (error.code === ErrorCode.UserCancelled) return
@@ -114,7 +119,14 @@ const PremiumScreen: React.FunctionComponent = () => {
 
     const restore = async () => {
         await restorePurchases()
+        await getAvailablePurchases()
     }
+
+    useEffect(() => {
+        for (const purchase of availablePurchases) {
+            validatePurchase(purchase, true)
+        }
+    }, [availablePurchases, finishTransaction])
 
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
