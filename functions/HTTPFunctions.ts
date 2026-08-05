@@ -7,6 +7,7 @@
 import functions from "./Functions"
 import asyncStorage from "@react-native-async-storage/async-storage"
 import decryption from "../structures/Decryption"
+import {Platform} from "react-native"
 import {GetEndpoint, PostEndpoint, PutEndpoint, DeleteEndpoint, Session} from "../types/Types"
 import {siteURL} from "../ui/site"
 
@@ -18,6 +19,7 @@ export default class HTTPFunctions {
     public static sessionCookie = ""
 
     public static updateSessionCookie = async (response: Response) => {
+        if (Platform.OS === "ios") return
         if (!this.sessionCookie) {
             const savedCookie = await asyncStorage.getItem("cookie")
             if (savedCookie) this.sessionCookie = savedCookie
@@ -87,14 +89,16 @@ export default class HTTPFunctions {
     }
 
     public static fetch = async (url: string) => {
-        const headers = {"cookie": this.sessionCookie}
+        const headers = {} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
         return window.fetch(url, {headers, credentials: "include"})
     }
 
     public static get = async <T extends string>(endpoint: T, params: GetEndpoint<T>["params"], session: Session) => {
         const privateKey = await this.updateClientKeys(session)
         const publicKey = await this.updateServerKey(session)
-        const headers = {"x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
+        const headers = {"x-csrf-token": session.csrfToken} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
 
         try {
             let parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
@@ -121,7 +125,8 @@ export default class HTTPFunctions {
     }
 
     public static post = async <T extends string>(endpoint: T, data: PostEndpoint<T>["params"], session: Session) => {
-        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
         try {
             let body = data ? JSON.stringify(data) : null
             let response = await window.fetch(siteURL + endpoint, {method: "POST", headers, credentials: "include", body})
@@ -138,7 +143,8 @@ export default class HTTPFunctions {
     }
 
     public static put = async <T extends string>(endpoint: T, data: PutEndpoint<T>["params"], session: Session) => {
-        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
         try {
             let body = data ? JSON.stringify(data) : null
             let response = await window.fetch(siteURL + endpoint, {method: "PUT", headers, credentials: "include", body})
@@ -155,7 +161,8 @@ export default class HTTPFunctions {
     }
 
     public static delete = async <T extends string>(endpoint: T, params: DeleteEndpoint<T>["params"], session: Session) => {
-        const headers = {"x-csrf-token": session.csrfToken, "cookie": this.sessionCookie}
+        const headers = {"x-csrf-token": session.csrfToken} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
         try {
             const parsedURL = functions.util.parseURLParams(siteURL + endpoint, params)
             let response = await window.fetch(parsedURL, {method: "DELETE", headers, credentials: "include"})
