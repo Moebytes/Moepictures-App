@@ -4,12 +4,12 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {View, ScrollView, ImageBackground, Animated, StatusBar, Platform} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {useIAP, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer, Purchase} from "react-native-iap"
+import {useIAP, getAvailablePurchases, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer, Purchase} from "react-native-iap"
 import Toast from "react-native-toast-message"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
@@ -40,8 +40,9 @@ const PremiumScreen: React.FunctionComponent = () => {
     const [monthlySubscription, setMonthlySubscription] = useState<ProductSubscription | SubscriptionOffer | null>(null)
     const [activePlan, setActivePlan] = useState("yearly")
     const navigation = useNavigation()
+    const purchaseRef = useRef(false)
 
-    const validatePurchase = async (purchase: Purchase, restore?: boolean) => {
+    const validatePurchase = async (purchase: Purchase) => {
         const validPurchase = await functions.http.post("/api/premium/verify-purchase", {
             platform: Platform.OS,
             purchaseToken: purchase.purchaseToken!
@@ -49,17 +50,21 @@ const PremiumScreen: React.FunctionComponent = () => {
 
         if (validPurchase) {
             await finishTransaction({purchase, isConsumable: false})
-            Toast.show({text1: restore ? i18n.toast.premiumRestored : i18n.toast.premiumUpgrade})
+            if (purchaseRef.current) Toast.show({text1: i18n.toast.premiumUpgrade})
             setSessionFlag(true)
         } else {
             Toast.show({text1: i18n.toast.paymentError})
         }
+        return validPurchase
     }
 
-    const {connected, subscriptions, fetchProducts, requestPurchase, 
-        availablePurchases, getAvailablePurchases, restorePurchases} = useIAP({
+    const {connected, subscriptions, fetchProducts, requestPurchase, restorePurchases} = useIAP({
         onPurchaseSuccess: async (purchase) => {
-            await validatePurchase(purchase)
+            try {
+                await validatePurchase(purchase)
+            } finally {
+                purchaseRef.current = false
+            }
         },
         onPurchaseError: (error) => {
             if (error.code === ErrorCode.UserCancelled) return
@@ -97,36 +102,42 @@ const PremiumScreen: React.FunctionComponent = () => {
     }, [subscriptions])
 
     const purchase = async () => {
-        if (activePlan === "yearly") {
-            await requestPurchase({request: {
-                apple: {sku: "com.moebytes.moepictures.premium.yearly", appAccountToken: session.accountToken},
-                google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
-                        sku: "com.moebytes.moepictures.premium", 
-                        offerToken: (yearlySubscription as SubscriptionOffer).offerTokenAndroid!
-                    }], obfuscatedAccountId: session.accountToken}
-            }, type: "subs"})
+        purchaseRef.current = true
 
-        } else if (activePlan === "monthly") {
-            await requestPurchase({request: {
-                apple: {sku: "com.moebytes.moepictures.premium.monthly", appAccountToken: session.accountToken},
-                google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
-                        sku: "com.moebytes.moepictures.premium", 
-                        offerToken: (monthlySubscription as SubscriptionOffer).offerTokenAndroid!
-                    }], obfuscatedAccountId: session.accountToken}
-            }, type: "subs"})
+        try {
+            if (activePlan === "yearly") {
+                await requestPurchase({request: {
+                    apple: {sku: "com.moebytes.moepictures.premium.yearly", appAccountToken: session.accountToken},
+                    google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
+                            sku: "com.moebytes.moepictures.premium", 
+                            offerToken: (yearlySubscription as SubscriptionOffer).offerTokenAndroid!
+                        }], obfuscatedAccountId: session.accountToken}
+                }, type: "subs"})
+
+            } else if (activePlan === "monthly") {
+                await requestPurchase({request: {
+                    apple: {sku: "com.moebytes.moepictures.premium.monthly", appAccountToken: session.accountToken},
+                    google: {skus: ["com.moebytes.moepictures.premium"], subscriptionOffers: [{
+                            sku: "com.moebytes.moepictures.premium", 
+                            offerToken: (monthlySubscription as SubscriptionOffer).offerTokenAndroid!
+                        }], obfuscatedAccountId: session.accountToken}
+                }, type: "subs"})
+            }
+        } catch {
+            purchaseRef.current = false
         }
     }
 
     const restore = async () => {
         await restorePurchases()
-        await getAvailablePurchases()
-    }
-
-    useEffect(() => {
-        for (const purchase of availablePurchases) {
-            validatePurchase(purchase, true)
+        const purchases = await getAvailablePurchases()
+        let restored = false
+        for (const purchase of purchases) {
+            let success = await validatePurchase(purchase)
+            if (success) restored = true
         }
-    }, [availablePurchases, finishTransaction])
+        if (restored) Toast.show({text1: i18n.toast.premiumRestored})
+    }
 
     const fallback = !isLiquidGlassSupported
         ? {backgroundColor: "rgba(255,255,255,0.2)"}
