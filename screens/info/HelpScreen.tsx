@@ -26,6 +26,7 @@ const favoritesImg = require("../../assets/images/favorites.jpg")
 const favoriteGroupsImg = require("../../assets/images/favorite-groups.jpg")
 const cutenessImg = require("../../assets/images/cuteness.jpg")
 const moetextImg = require("../../assets/images/moetext.jpg")
+const tagsImg = require("../../assets/images/tags.jpg")
 const tagGroupsImg = require("../../assets/images/tag-groups.jpg")
 const variationsImg = require("../../assets/images/variations.jpg")
 const childPostsImg = require("../../assets/images/child-posts.jpg")
@@ -637,6 +638,128 @@ const MoeTextTab: React.FunctionComponent = () => {
     )
 }
 
+const TagsTab: React.FunctionComponent = () => {
+    const {i18n, colors} = useThemeSelector()
+    const {tablet} = useLayoutSelector()
+    const styles = createStylesheet(colors)
+    const {width} = useWindowDimensions()
+    const [size, setSize] = useState({width: 0, height: 0})
+
+    useEffect(() => {
+        const updateSize = async () => {
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
+            const size = await functions.image.normalizeWidth(tagsImg, targetWidth, width)
+            setSize(size)
+        }
+        updateSize()
+    }, [tablet])
+
+    return (
+        <View style={[styles.container, {height: "100%"}]}>
+            <View style={styles.row}>
+                <Text style={styles.title}>{i18n.navbar.tags}</Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.text}>
+                    {i18n.mobileHelp.tags.line1}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.text}>
+                    {i18n.mobileHelp.tags.tagCategories.header}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.artistTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[0]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[0]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.characterTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[1]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[1]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.seriesTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[2]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[2]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.metaTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[3]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[3]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.appearanceTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[4]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[4]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.outfitTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[5]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[5]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.accessoryTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[6]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[6]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.actionTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[7]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[7]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.sceneryTagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[8]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[8]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={[styles.text, {color: colors.tagColor}]}>
+                            {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[9]}
+                        </Text>
+                        <Text style={styles.text}>
+                            {Object.values(i18n.mobileHelp.tags.tagCategories.items)[9]}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.centerRow}>
+                <Image style={size} source={tagsImg} resizeMode="contain"/>
+            </View>
+        </View>
+    )
+}
+
 const TagGroupsTab: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
@@ -1048,6 +1171,7 @@ const HelpScreen: React.FunctionComponent = () => {
         favoriteGroups: FavoriteGroupsTab,
         cuteness: CutenessTab,
         moeText: MoeTextTab,
+        tags: TagsTab,
         tagGroups: TagGroupsTab,
         variations: VariationsTab,
         childPosts: ChildPostsTab,
@@ -1067,6 +1191,7 @@ const HelpScreen: React.FunctionComponent = () => {
         {key: "favoriteGroups", title: i18n.help.favoriteGroups.title, height: tablet ? 1100 : 950},
         {key: "cuteness", title: i18n.sort.cuteness, height: tablet ? 950 : 850},
         {key: "moeText", title: i18n.help.moetext.title, height: tablet ? 1050 : 960},
+        {key: "tags", title: i18n.navbar.tags, height: tablet ? 1300 : 1150},
         {key: "tagGroups", title: i18n.labels.tagGroups, height: tablet ? 1300 : 1150},
         {key: "variations", title: i18n.sort.variations, height: tablet ? 1400 : 1320},
         {key: "childPosts", title: i18n.post.childPosts, height: tablet ? 1500 : 1450},

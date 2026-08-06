@@ -295,6 +295,14 @@ const PremiumScreen: React.FunctionComponent = () => {
                         }}
                         </ScalableHaptic>
                     </View>
+
+                    <View style={styles.row}>
+                        <View style={[styles.itemBoxRow, {borderRadius: 13, backgroundColor: "rgba(255, 199, 227, 0.30)"}]}>
+                        <Text style={styles.text}>
+                            {i18n.mobilePremium.premium.renewal}
+                        </Text>
+                        </View>
+                    </View>
                 </LiquidGlassView>
             </ImageBackground>
         </ScrollView>
