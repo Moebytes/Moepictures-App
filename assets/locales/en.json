@@ -2099,7 +2099,9 @@
             },
             "premiumSubscriptions": {
                 "title": "Premium Subscriptions",
-                "line1": "You may purchase a subscription to unlock additional features on our services. Subscriptions are managed by a third-party platform (Apple App Store or Google Play Store) and we do not handle payments directly. Your subscription will auto-renew unless you cancel before the renewal date. Uninstalling our app does not cancel your subscription, you are responsible for canceling in the platform's settings. We reserve the right to update subscription pricing and features or discontinue availability at any point; pricing changes will only take affect on the next renewal. Multiple people cannot share an account to use the same subscription. You could lose access to premium features without a refund if you violate our terms."
+                "line1": "You may purchase a subscription to unlock additional features on our services. Subscriptions are managed by a third-party platform (Apple App Store or Google Play Store) and we do not handle payments directly.",
+                "line2": "Your subscription will auto-renew unless you cancel before the renewal date. Uninstalling our app will not cancel your subscription, you are responsible for canceling in the platform's settings. We reserve the right to update subscription pricing and features or discontinue availability at any time. Pricing changes will only take affect on the next renewal and you will be notified in advanced.",
+                "line3": "Multiple people cannot share an account to use the same subscription. You could lose access to premium features without a refund if you violate our terms."
             },
             "accountTermination": {
                 "title": "Account Termination",
