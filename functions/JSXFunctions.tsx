@@ -4,20 +4,20 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {View, Text, StyleProp, TextStyle} from "react-native"
+import {View, Text, StyleProp, TextStyle, ViewStyle} from "react-native"
 import CrownIcon from "../assets/svg/crown.svg"
 import CuratorStarIcon from "../assets/svg/curator-star.svg"
 import ContributorPencilIcon from "../assets/svg/pencil.svg"
 import PremiumStarIcon from "../assets/svg/premium-star.svg"
 import {ThemeColors} from "../ui/colors"
-import {fonts} from "../ui/fonts"
 import {createStylesheet} from "./styles/JSXFunctions.styles"
 import functions from "./Functions"
 import enLocale from "../assets/locales/en.json"
 
 export default class JSXFunctions {
     public static usernameJSX = (userData: {username: string, role: string, premium: boolean | null, banned: boolean | null, 
-        deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17) => {
+        deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17,
+        rowStyle?: StyleProp<ViewStyle>, editText?: string, date?: string) => {
         const styles = createStylesheet(colors)
 
         const color = functions.tag.getUserColor(userData, colors)
@@ -35,11 +35,13 @@ export default class JSXFunctions {
             Icon = PremiumStarIcon
         }
 
+        let timeString = editText && date ? `${editText} ${functions.date.timeAgo(date, i18n)} ${i18n.time.by} `  : ""
+
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, rowStyle]}>
                 <Text style={[styles.text, textStyle, {color, textDecorationLine: userData.banned || 
                     userData.deleted ? "line-through" : "none"}]}>
-                    {userData.deleted ? i18n.user.deleted : functions.util.toProperCase(userData.username)}</Text>
+                    {timeString}{userData.deleted ? i18n.user.deleted : functions.util.toProperCase(userData.username)}</Text>
                 {Icon && <Icon width={iconSize} height={iconSize} color={color}/>}
             </View>
         )

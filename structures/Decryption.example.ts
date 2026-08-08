@@ -30,8 +30,8 @@ export default class Decryption {
         try {
             let decrypted = Decryption.decrypt(buffer, privateKey, serverPublicKey, session)
             if (!decrypted.byteLength) decrypted = Buffer.from(buffer)
-            const blob = new Blob([new Uint8Array(decrypted)])
-            return URL.createObjectURL(blob)
+            const base64 = functions.byte.arrayBufferToBase64(decrypted.buffer)
+            return base64
         } catch {
             return link
         }

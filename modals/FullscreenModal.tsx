@@ -13,11 +13,11 @@ useMiscDialogActions, useCacheSelector, useLayoutActions} from "../store"
 import {createStylesheet} from "./styles/FullscreenModal.styles"
 import FilterImage from "../components/image/FilterImage"
 import functions from "../functions/Functions"
-import {PostFull, Image as VariantImage} from "../types/Types"
+import {PostFull, PostHistory, Image as VariantImage} from "../types/Types"
 
 interface Props {
-    post?: PostFull
-    image?: VariantImage | null
+    post?: PostFull | PostHistory
+    image?: VariantImage | string | null
 }
 
 const FullscreenModal: React.FunctionComponent<Props> = (props) => {
@@ -34,6 +34,9 @@ const FullscreenModal: React.FunctionComponent<Props> = (props) => {
     const [panEnabled, setPanEnabled] = useState(true)
     const [lock, setLock] = useState(true)
     const [zoom, setZoom] = useState(1)
+    const [img, setImg] = useState("")
+    const [prevImg, setPrevImg] = useState("")
+    const [nextImg, setNextImg] = useState("")
     const navigation = useNavigation()
     const zoomRef = useRef<ReactNativeZoomableView>(null)
     const imageLockRef = useRef("")
@@ -53,12 +56,23 @@ const FullscreenModal: React.FunctionComponent<Props> = (props) => {
         post?.images[imageIndex + 1]
         : nextPost?.images[0]
 
-    let img = image ? functions.link.getImageLink(image, session.upscaledImages) : ""
-    const prevImg = prevImage ? functions.link.getImageLink(prevImage, session.upscaledImages) : ""
-    const nextImg = nextImage ? functions.link.getImageLink(nextImage, session.upscaledImages) : ""
+    useEffect(() => {
+        const updateImages = async () => {
+            if (!props.post) return
+            let img = await functions.link.resolveImage(image, session, session.upscaledImages)
+            const prevImg = await functions.link.resolveImage(prevImage, session, session.upscaledImages)
+            const nextImg = await functions.link.resolveImage(nextImage, session, session.upscaledImages)
+            setImg(img)
+            setPrevImg(prevImg)
+            setNextImg(nextImg)
+        }
+        updateImages()
+    }, [image, prevImage, nextImage])
+
+    let currentImg = img
 
     if (imageLockRef.current) {
-        img = imageLockRef.current
+        currentImg = imageLockRef.current
     }
 
     const canGoNext = zoom <= 1.1 &&
@@ -76,7 +90,14 @@ const FullscreenModal: React.FunctionComponent<Props> = (props) => {
         const postIndex = navigationPosts.findIndex((post) => String(post.postID) === String(props.post!.postID))
         setPostIndex(postIndex === -1 ? 0 : postIndex)
 
-        const imageIndex = props.post.images.findIndex((image) => String(image.imageID) === String(props.image?.imageID))
+        let imageIndex = -1
+
+        if ("historyID" in props.post) {
+            imageIndex = props.post.images.findIndex((image) => image === props.image)
+        } else {
+            imageIndex = props.post.images.findIndex((image) => String(image.imageID) === String((props.image as VariantImage)?.imageID))
+        }
+        
         setImageIndex(imageIndex === -1 ? 0 : imageIndex)
 
         setStatusBarVisible(false)
@@ -164,7 +185,7 @@ const FullscreenModal: React.FunctionComponent<Props> = (props) => {
                     pagingThreshold={0.1} pagingEnabled={true} pageWidth={width} onPageChange={onPageChange} 
                     canGoNext={canGoNext} canGoPrev={canGoPrev} lockMinZoomAxis={true}>
                     <Image style={styles.image} source={prevImg ? {uri: prevImg} : undefined} resizeMode="contain"/>
-                    <Image style={styles.image} source={img ? {uri: img} : undefined} resizeMode="contain" onLoad={onImageLoad}/>
+                    <Image style={styles.image} source={currentImg ? {uri: currentImg} : undefined} resizeMode="contain" onLoad={onImageLoad}/>
                     <Image style={styles.image} source={nextImg ? {uri: nextImg} : undefined} resizeMode="contain"/>
                 </ReactNativeZoomableView>
         </Modal>

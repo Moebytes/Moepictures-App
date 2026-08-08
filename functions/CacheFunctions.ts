@@ -9,6 +9,22 @@ import functions from "./Functions"
 import {TagCount, Session} from "../types/Types"
 
 export default class CacheFunctions {
+    public static cachedThumbs = new Map<string, string>()
+    public static cachedImages = new Map<string, string>()
+    public static cachedResponses = new Map<string, {data: any, expires: number}>()
+    public static cacheDuration = 1000
+    public static cacheExpiryTime = 15 * 60 * 1000
+    public static cacheExpiry = Date.now() + this.cacheExpiryTime
+    
+    public static getImageCache = (cacheKey: string) => {
+        if (Date.now() > this.cacheExpiry) {
+            this.cachedImages.clear()
+            this.cacheExpiry = Date.now() + this.cacheExpiryTime
+            return ""
+        }
+        return this.cachedImages.get(cacheKey) || ""
+    }
+
     public static readCache = async <T>(key: string) => {
         const path = `${Dirs.CacheDir}/${key}.json`
 

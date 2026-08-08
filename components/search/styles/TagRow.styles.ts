@@ -26,6 +26,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         tagContainer: {
             display: "flex",
             flexDirection: "row",
+            justifyContent: "flex-start",
             alignItems: "center",
             flexWrap: "wrap",
             maxWidth: 100,
@@ -58,6 +59,22 @@ export const createStylesheet = (colors: ThemeColors) => {
         icon: {
             height: 20,
             width: 20
+        },
+        impliesContainer: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            flexBasis: "100%"
+        },
+        impliesHeader: {
+            color: colors.iconColor,
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 13
+        },
+        impliesTag: {
+            color: colors.textColor,
+            fontFamily: fonts.honokaShinAntiqueKaku,
+            fontSize: 13
         },
     })
 }

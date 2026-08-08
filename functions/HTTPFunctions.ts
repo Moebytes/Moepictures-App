@@ -89,10 +89,19 @@ export default class HTTPFunctions {
         }
     }
 
-    public static fetch = async (url: string) => {
-        const headers = {} as {[key: string]: string}
+    public static fetch = async (url: string, headers?: {[key: string]: string}) => {
+        if (!headers) headers = {} as {[key: string]: string}
         if (this.sessionCookie) headers["cookie"] = this.sessionCookie
         return window.fetch(url, {headers, credentials: "include"})
+    }
+
+    public static getBuffer = async (link: string, headers?: {[key: string]: string}) => {
+        try {
+            let buffer = await this.fetch(link, headers).then((r) => r.arrayBuffer())
+            return buffer
+        } catch {
+            return new ArrayBuffer(0)
+        }
     }
 
     public static get = async <T extends string>(endpoint: T, params: GetEndpoint<T>["params"], session: Session) => {
@@ -132,6 +141,23 @@ export default class HTTPFunctions {
             let body = data ? JSON.stringify(data) : null
             let response = await window.fetch(siteURL + endpoint, {method: "POST", headers, credentials: "include", body})
             this.updateSessionCookie(response)
+            let text = await response.text()
+            if (!response.ok) throw new Error(text)
+            try {
+                text = JSON.parse(text)
+            } catch {}
+            return text as PostEndpoint<T>["response"]
+        } catch (err: any) {
+            return Promise.reject(err)
+        }
+    }
+
+    public static postForm = async <T extends string>(endpoint: T, data: PostEndpoint<T>["params"], session: Session) => {
+        const headers = {"Content-Type": "application/json", "x-csrf-token": session.csrfToken} as {[key: string]: string}
+        if (this.sessionCookie) headers["cookie"] = this.sessionCookie
+        try {
+            let body = data as FormData
+            let response = await fetch(endpoint, {method: "POST", headers, credentials: "include", body})
             let text = await response.text()
             if (!response.ok) throw new Error(text)
             try {

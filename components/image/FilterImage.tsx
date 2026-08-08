@@ -10,6 +10,7 @@ import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkData,
 import {Platform} from "react-native"
 import {useRoute} from "@react-navigation/native"
 import {useFilterSelector, useThemeSelector} from "../../store"
+import {PostFull, PostHistory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 export interface ImageRef {
@@ -21,6 +22,7 @@ interface Props {
     img?: string
     fit?: Fit
     onLoad?: () => void
+    post?: PostFull | PostHistory
 }
 
 const sharpenShader = /*glsl*/`
@@ -90,10 +92,15 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
             const data = Skia.Data.fromBytes(new Uint8Array(buffer))
             setImgData(data)
         }
+        setImgData(null)
         loadImage()
     }, [props.img])
 
-    const image = imgData ? Skia.Image.MakeImageFromEncoded(imgData) : null
+    const image = useMemo(() => {
+        if (!imgData) return null
+        return Skia.Image.MakeImageFromEncoded(imgData)
+    }, [imgData])
+
     const hasLoaded = useRef(false)
 
     useEffect(() => {

@@ -232,9 +232,90 @@ export const api = createApi({
             })
         }),
 
+        postHistory: builder.infiniteQuery<
+            GetEndpoint<"/api/post/history">["response"], 
+            GetEndpoint<"/api/post/history">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/post/history", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        postHistoryPage: builder.query<
+            GetEndpoint<"/api/post/history">["response"], 
+            GetEndpoint<"/api/post/history">["params"] & {refreshKey?: number}
+        >({
+            query: (params) => ({
+                url: "/api/post/history", params
+            })
+        }),
+
+        tagHistory: builder.infiniteQuery<
+            GetEndpoint<"/api/tag/history">["response"], 
+            GetEndpoint<"/api/tag/history">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/tag/history", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        tagHistoryPage: builder.query<
+            GetEndpoint<"/api/tag/history">["response"], 
+            GetEndpoint<"/api/tag/history">["params"] & {refreshKey?: number}
+        >({
+            query: (params) => ({
+                url: "/api/tag/history", params
+            })
+        }),
+
+        groupHistory: builder.infiniteQuery<
+            GetEndpoint<"/api/group/history">["response"], 
+            GetEndpoint<"/api/group/history">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/group/history", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        groupHistoryPage: builder.query<
+            GetEndpoint<"/api/group/history">["response"], 
+            GetEndpoint<"/api/group/history">["params"] & {refreshKey?: number}
+        >({
+            query: (params) => ({
+                url: "/api/group/history", params
+            })
+        }),
+
         getPost: builder.query<
             GetEndpoint<"/api/post">["response"], 
-            GetEndpoint<"/api/post">["params"]
+            GetEndpoint<"/api/post">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/post", params
@@ -280,6 +361,18 @@ export const api = createApi({
             ]
         }),
 
+        getPostHistory: builder.query<
+            GetEndpoint<"/api/post/history">["response"], 
+            GetEndpoint<"/api/post/history">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/post/history", params
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Post", id: arg?.postID}
+            ]
+        }),
+
         getComments: builder.query<
             GetEndpoint<"/api/post/comments">["response"], 
             GetEndpoint<"/api/post/comments">["params"]
@@ -292,7 +385,7 @@ export const api = createApi({
 
         getTag: builder.query<
             GetEndpoint<"/api/tag">["response"], 
-            GetEndpoint<"/api/tag">["params"]
+            GetEndpoint<"/api/tag">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/tag", params
@@ -302,15 +395,39 @@ export const api = createApi({
             ]
         }),
 
+        getTagHistory: builder.query<
+            GetEndpoint<"/api/tag/history">["response"], 
+            GetEndpoint<"/api/tag/history">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/tag/history", params
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Tag", id: arg?.tag}
+            ]
+        }),
+
         getGroup: builder.query<
             GetEndpoint<"/api/group">["response"], 
-            GetEndpoint<"/api/group">["params"]
+            GetEndpoint<"/api/group">["params"] & {refreshKey?: number}
         >({
             query: (params) => ({
                 url: "/api/group", params
             }),
             providesTags: (result, error, arg) => [
                 {type: "Group", id: arg.name}
+            ]
+        }),
+
+        getGroupHistory: builder.query<
+            GetEndpoint<"/api/group/history">["response"], 
+            GetEndpoint<"/api/group/history">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/group/history", params
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Group", id: arg?.slug}
             ]
         }),
 
@@ -422,13 +539,22 @@ export const {
     useSearchGroupsPageQuery,
     useSearchHistoryInfiniteQuery,
     useSearchHistoryPageQuery,
+    usePostHistoryInfiniteQuery,
+    usePostHistoryPageQuery,
+    useTagHistoryInfiniteQuery,
+    useTagHistoryPageQuery,
+    useGroupHistoryInfiniteQuery,
+    useGroupHistoryPageQuery,
     useGetPostQuery,
     useGetPostParentQuery,
     useGetPostChildrenQuery,
     useGetPostGroupsQuery,
+    useGetPostHistoryQuery,
     useGetCommentsQuery,
     useGetTagQuery,
+    useGetTagHistoryQuery,
     useGetGroupQuery,
+    useGetGroupHistoryQuery,
     useGetFavgroupsQuery,
     useGetFavgroupQuery,
     useGetUserQuery

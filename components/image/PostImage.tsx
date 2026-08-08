@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {Image, View, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import {View, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import Toast from "react-native-toast-message"
 import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector, 
@@ -13,13 +13,14 @@ useMiscDialogActions, useGroupDialogActions, usePostDialogActions} from "../../s
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import FilterImage, {ImageRef} from "./FilterImage"
-import {PostFull, Image as VariantImage} from "../../types/Types"
+import {PostFull, PostHistory, Image as VariantImage} from "../../types/Types"
 import {siteURL} from "../../ui/site"
 
 interface Props {
-    post?: PostFull
-    image?: VariantImage | null
+    post?: PostFull | PostHistory
+    image?: VariantImage | string | null
     imageRef?: React.RefObject<ImageRef | null>
+    refreshKey?: string
 }
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
@@ -37,10 +38,14 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
-        if (!props.image) return
-        const img = functions.link.getImageLink(props.image, session.upscaledImages)
-        setImg(img)
+        const updateImage = async () => {
+            if (!props.image) return
+            const img = await functions.link.resolveImage(props.image, session, session.upscaledImages)
+            setImg(img)
+        }
+        setImg("")
         setLoaded(false)
+        updateImage()
     }, [props.image])
 
     useEffect(() => {
@@ -115,7 +120,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             onPress={contextMenu}>
                 <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
                     <Pressable onLongPress={() => null} onPress={() => setShowFullscreenImage(true)}>
-                        <FilterImage ref={props.imageRef} img={img} size={size}/>
+                        <FilterImage ref={props.imageRef} img={img} size={size} post={props.post}/>
                     </Pressable>
                 </View>
         </ContextMenu>

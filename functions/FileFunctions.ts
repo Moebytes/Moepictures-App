@@ -182,4 +182,50 @@ export default class FileFunctions {
         const ext = file.startsWith(".") ? file : path.extname(file)
         return ext === ".zip"
     }
+
+    public static isWebP = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return ext === ".webp"
+        }
+        if (file?.startsWith("data:image/webp")) {
+            return true
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return ext === ".webp"
+    }
+
+    public static isPNG = (file?: string) => {
+        if (!file) return false
+        file = file.replace(/\?.*$/, "")
+        if (file?.startsWith("blob:")) {
+            const ext = file.split("#")?.[1] || ""
+            return ext === ".png" || ext === ".apng"
+        }
+        if (file?.startsWith("data:image/png")) {
+            return true
+        }
+        const ext = file.startsWith(".") ? file : path.extname(file)
+        return ext === ".png" || ext === ".apng"
+    }
+
+    public static isAnimatedWebp = (buffer: ArrayBuffer) => {
+        let str = ""
+        const byteArray = new Uint8Array(Buffer.from(buffer))
+        for (let i = 0; i < byteArray.length; i++) {
+            str += String.fromCharCode(byteArray[i])
+        }
+        return str.indexOf("ANMF") !== -1
+    }
+
+    public static isAnimatedPng = (buffer: ArrayBuffer) => {
+        let str = ""
+        const byteArray = new Uint8Array(Buffer.from(buffer))
+        for (let i = 0; i < byteArray.length; i++) {
+            str += String.fromCharCode(byteArray[i])
+        }
+        return str.indexOf("acTL") !== -1
+    }
 }

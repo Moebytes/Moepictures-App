@@ -10,11 +10,11 @@ import {UITextView as Text} from "react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 import moeText from "../../moetext/MoeText"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const Commentary: React.FunctionComponent<Props> = (props) => {

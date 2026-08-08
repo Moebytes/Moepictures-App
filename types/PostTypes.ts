@@ -63,7 +63,7 @@ export interface Post {
     updatedDate: string
     title: string
     englishTitle: string
-    slug: string
+    slug: string | null
     artist: string
     posted: string
     source: string
@@ -78,8 +78,8 @@ export interface Post {
     sourceImageCount: number | null
     approver: string
     approveDate: string
-    hasOriginal: boolean
-    hasUpscaled: boolean
+    hasOriginal: boolean | null
+    hasUpscaled: boolean | null
     hidden: boolean | null
     locked: boolean | null
     private: boolean | null
@@ -170,6 +170,7 @@ export interface PostHistoryParams {
     username?: string
     query?: string
     offset?: number
+    limit?: number
 }
 
 export interface PostCompressParams {

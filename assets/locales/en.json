@@ -211,6 +211,7 @@
         "quote": "Quote",
         "report": "Report",
         "revert": "Revert",
+        "current": "Current",
         "back": "Back",
         "validate": "Validate",
         "cancel": "Cancel",
@@ -1989,7 +1990,7 @@
             "avatars": "You can only pick avatars by cropping an image on the site. Cute anime avatars only!"
         },
         "website": {
-            "line1": "Visit our website to access our full list of features not available in the app! This includes notes, history states, and uploading.",
+            "line1": "Visit our website to access our full list of features not available in the app! This includes notes, non-image posts, and uploading.",
             "line2": "On the website you can also setup 2-Factor authentication for your account."
         }
     },

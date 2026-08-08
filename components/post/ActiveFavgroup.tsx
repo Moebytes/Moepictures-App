@@ -9,12 +9,12 @@ import {View, Text, FlatList, ListRenderItem, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useCacheActions, useActiveSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, PostOrdered, Post} from "../../types/Types"
+import {PostFull, PostOrdered, Post, PostHistory} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const ActiveFavgroup: React.FunctionComponent<Props> = (props) => {

@@ -20,7 +20,6 @@ interface Props {
 const ArtistWorks: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {showRelated} = useSessionSelector()
-    const {navigationPosts} = useCacheSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
 

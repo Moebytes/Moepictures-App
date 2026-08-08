@@ -4,8 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {Image, ImageSourcePropType, Dimensions} from "react-native"
+import {Image, ImageSourcePropType} from "react-native"
 import {PostSize} from "../types/ParamTypes"
+import ImageResizer from "@bam.tech/react-native-image-resizer"
 import functions from "./Functions"
 
 export default class ImageFunctions {
@@ -98,6 +99,39 @@ export default class ImageFunctions {
         }
     }
 
+    public static dimensions = async (link: string) => {
+        let dimensions = await this.imageDimensions(link)
+        return {...dimensions, duration: 0}
+    }
+
+    public static thumbnail = async (link: string) => {
+        let thumbnail = ""
+        let thumbnailExt = "png"
+        const bytes = await functions.http.getBuffer(link)
+        const result = functions.byte.bufferFileType(bytes)?.[0] || {}
+        thumbnailExt = result.typename || "jpg"
+        thumbnail = link
+        thumbnail = await functions.image.resize(thumbnail, thumbnailExt)
+        return {thumbnail, thumbnailExt}
+    }
+
+    public static resize = async (image: string, ext = "png", size = 750) => {
+        const dimensions = await Image.getSize(image)
+        const scale = Math.min(size / dimensions.width, size / dimensions.height)
+
+        const width = Math.round(dimensions.width * scale)
+        const height = Math.round(dimensions.height * scale)
+
+        const uri = await functions.file.saveRemoteImage(image)
+        const resized = await functions.file.resizeLocalImage(uri, width, height)
+        const bytes = await functions.file.readBytes(resized)
+        const base64 = functions.byte.arrayBufferToBase64(bytes.buffer)
+
+        functions.file.deleteLocation(resized)
+
+        return base64
+    }
+
     public static imageDimensions = async (image: string) => {
         return new Promise<{width: number, height: number, size: number}>(async (resolve) => {
             Image.getSize(image, async (width: number, height: number) => {
@@ -113,6 +147,7 @@ export default class ImageFunctions {
             })
         })
     }
+    
 
     public static filtersOn = (filters: {brightness: number, contrast: number, hue: number, saturation: number,
         lightness: number, blur: number, sharpen: number, pixelate: number}) => {

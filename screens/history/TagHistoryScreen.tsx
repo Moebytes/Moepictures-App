@@ -6,34 +6,32 @@
 
 import React, {useState, useRef, useEffect} from "react"
 import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
-import {useNavigation} from "@react-navigation/native"
+import {RouteProp} from "@react-navigation/native"
+import {StackParamList} from "../../App"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import PressableHaptic from "../../ui/PressableHaptic"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions,
-useSearchActions, useFlagActions} from "../../store"
-import {useSearchHistoryInfiniteQuery, useSearchHistoryPageQuery} from "../../api"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
+import {useTagHistoryInfiniteQuery, useTagHistoryPageQuery, useGetTagQuery, useGetUserQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
-import SearchHistoryRow from "../../components/history/SearchHistoryRow"
+import TagHistoryRow from "../../components/history/TagHistoryRow"
 import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/HistoryScreen.styles"
-import {SearchHistory} from "../../types/Types"
-import permissions from "../../structures/Permissions"
+import {TagHistory, PostSearch} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
-const login = require("../../assets/images/login.png")
-const premiumrequired = require("../../assets/images/premiumrequired.png")
 
-const SearchHistoryScreen: React.FunctionComponent = () => {
+type Props = {
+  route: RouteProp<StackParamList, "TagHistory">
+}
+
+const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, searchHistorySort} = useSearchSelector()
-    const {setSearch: setPostsSearch, setSearchTags: setPostsSearchTags} = useSearchActions()
-    const {setSearchScrollFlag} = useFlagActions()
-    const {setNavigationPosts} = useCacheActions()
+    const {scroll} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -42,24 +40,37 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const {name} = route.params
+    const {data: tag} = useGetTagQuery({tag: name}, {skip: !name})
+    const {data: user} = useGetUserQuery({username: tag?.creator!}, {skip: !name})
+    const [oldestPost, setOldestPost] = useState<PostSearch | null>(null)
     const ref = useRef<FlatList>(null)
-    const navigation = useNavigation()
 
     useEffect(() => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
+    useEffect(() => {
+        const updateOldestPost = async () => {
+            if (!tag) return
+            const oldestPost = await functions.http.get("/api/search/posts", {query: tag.tag, 
+                type: "all", rating: "all", style: "all", sort: "reverse date", limit: 1}, session)
+            setOldestPost(oldestPost[0])
+        }
+        updateOldestPost()
+    }, [tag])
+
     const pageSize = 15
 
-    const infiniteQuery = useSearchHistoryInfiniteQuery(
-        {query: search, sort: searchHistorySort, refreshKey},
-        {skip: !scroll || !permissions.isPremium(session)}
+    const infiniteQuery = useTagHistoryInfiniteQuery(
+        {tag: name, query: search, refreshKey},
+        {skip: !scroll}
     )
 
-    const pageQuery = useSearchHistoryPageQuery(
-        {query: search, sort: searchHistorySort,
+    const pageQuery = useTagHistoryPageQuery(
+        {tag: name, query: search, 
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
-        {skip: scroll || !permissions.isPremium(session)}
+        {skip: scroll}
     )
 
     useEffect(() => {
@@ -67,7 +78,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         setPage(1)
     }, [session])
 
-    const history = scroll
+    let history = scroll
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
 
@@ -78,34 +89,26 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const refetch = scroll 
         ? infiniteQuery.refetch
         : pageQuery.refetch
-
-    const onPress = () => {
-        const posts = history.map((h) => h.post)
-        if (posts.length) setNavigationPosts(posts)
-    }
             
-    const renderItem: ListRenderItem<SearchHistory> = ({item}) => {
-        return <SearchHistoryRow history={item} onPress={onPress} refetch={refetch}/>
+    if (name && !history.length && tag && user) {
+        const historyObject = {...tag} as unknown as TagHistory
+        historyObject.date = tag.createDate ?? oldestPost?.uploadDate!
+        historyObject.user = {...user}
+        historyObject.key = tag.tag
+        historyObject.aliases = tag.aliases.map((alias) => alias?.alias || "")
+        historyObject.implications = tag.implications.map((implication) => implication?.implication || "")
+        historyObject.historyCount = "1"
+        history = [historyObject]
+    }
+
+    const renderItem: ListRenderItem<TagHistory> = ({item, index}) => {
+        const previousHistory = history[index + 1] ?? null
+
+        return <TagHistoryRow history={item} currentHistory={history[0]} previousHistory={previousHistory} index={index} refetch={refetch}/>
     }
 
     const renderEmpty = () => {
         if (isLoading) return null
-
-        if (!session.username) {
-            return (
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
-                    <Image source={login} style={{width: 350, height: 350, resizeMode: "contain"}}/>
-                </View>
-            )
-        }
-
-        if (!permissions.isPremium(session)) {
-            return (
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
-                    <Image source={premiumrequired} style={{width: 350, height: 350, resizeMode: "contain"}}/>
-                </View>
-            )
-        }
 
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
@@ -120,13 +123,6 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         }
     }
 
-    const pressAction = () => {
-        setPostsSearchTags([`history:${session.username}`])
-        setPostsSearch(`history:${session.username}`)
-        navigation.navigate("Posts", undefined, {pop: true})
-        setSearchScrollFlag(true)
-    }
-
     const totalItems = Number(pageQuery.data?.[0]?.historyCount ?? 0)
     const totalPages = Math.ceil(totalItems / pageSize)
 
@@ -135,9 +131,9 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
 
         return (
             <View style={styles.container}>
-                <PressableHaptic style={styles.titleContainer} onPress={pressAction}>
-                    <Text style={styles.title}>{i18n.history.search}</Text>
-                </PressableHaptic>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{i18n.history.tag}</Text>
+                </View>
             </View>
         )
     }
@@ -159,7 +155,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
                 }}
                 data={history} 
                 renderItem={renderItem}
-                keyExtractor={(item) => item.historyID.toString()}
+                keyExtractor={(item, index) => index.toString()}
                 numColumns={1}
 
                 refreshControl={
@@ -189,4 +185,4 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     )
 }
 
-export default SearchHistoryScreen
+export default TagHistoryScreen

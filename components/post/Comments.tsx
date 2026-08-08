@@ -12,13 +12,13 @@ import {useActiveActions, useActiveSelector, useFlagActions,
 useFlagSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {useGetCommentsQuery} from "../../api"
 import {createStylesheet} from "./styles/Comments.styles"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 import TextBox, {TextBoxRef} from "../../ui/TextBox"
 import Comment from "../search/Comment"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
     listRef: React.RefObject<FlatList | null>
 }
 

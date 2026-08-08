@@ -5,13 +5,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable, useWindowDimensions, Alert} from "react-native"
+import {View, Pressable, useWindowDimensions, Alert} from "react-native"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
-import {createStylesheet} from "./styles/SearchHistoryRow.styles"
+import {createStylesheet} from "./styles/HistoryRow.styles"
 import DeleteIcon from "../../assets/svg/delete.svg"
 import FilterImage from "../image/FilterImage"
 import functions from "../../functions/Functions"
@@ -100,6 +100,11 @@ const SearchHistoryRow: React.FunctionComponent<Props> = (props) => {
                     <Text style={styles.label}>{i18n.sort.posted}:</Text>
                     <Text style={styles.text} selectable uiTextView
                     selectionColor={colors.borderColor}>{props.history.post.posted ? functions.date.formatDate(new Date(props.history.post.posted)) : i18n.labels.unknown}</Text>
+                </View>
+                <View style={styles.rowContainer}>
+                    <Text style={styles.label}>{i18n.tag.artist}:</Text>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{props.history.post.artist ? props.history.post.artist : i18n.labels.unknown}</Text>
                 </View>
                 <View style={styles.rowContainer}>
                     <Text style={styles.label}>{i18n.labels.source}:</Text>

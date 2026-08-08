@@ -8,7 +8,7 @@ import {createSlice} from "@reduxjs/toolkit"
 import {createSelector} from "reselect"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
-import {TagCount, TagCategories, PostSearch, PostOrdered, Post} from "../types/Types"
+import {TagCount, TagCategories, PostSearch, PostOrdered, Post, PostHistory} from "../types/Types"
 
 const cacheSlice = createSlice({
     name: "cache",
@@ -16,7 +16,7 @@ const cacheSlice = createSlice({
         emojis: {} as {[key: string]: string},
         sortedTags: [] as TagCount[],
         tagCategories: null as TagCategories | null,
-        navigationPosts: [] as PostSearch[] | PostOrdered[] | Post[]
+        navigationPosts: [] as PostSearch[] | PostOrdered[] | Post[] | PostHistory[]
     },
     reducers: {
         setEmojis: (state, action) => {state.emojis = action.payload},
@@ -52,7 +52,7 @@ export const useCacheActions = () => {
         setEmojis: (state: {[key: string]: string}) => dispatch(setEmojis(state)),
         setSortedTags: (state: TagCount[] | null) => dispatch(setSortedTags(state)),
         setTagCategories: (state: TagCategories | null) => dispatch(setTagCategories(state)),
-        setNavigationPosts: (state: PostSearch[] | PostOrdered[] | Post[]) => dispatch(setNavigationPosts(state))
+        setNavigationPosts: (state: PostSearch[] | PostOrdered[] | Post[] | PostHistory[]) => dispatch(setNavigationPosts(state))
     }
 }
 

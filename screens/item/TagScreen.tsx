@@ -17,7 +17,7 @@ useTagDialogActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
-import {useGetTagQuery, useInvalidateTags} from "../../api"
+import {useGetTagQuery, useGetTagHistoryQuery, useInvalidateTag, useInvalidateTags} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GridImage from "../../components/image/GridImage"
@@ -26,10 +26,13 @@ import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
 import HeartIcon from "../../assets/svg/heart.svg"
+import HistoryIcon from "../../assets/svg/history.svg"
 import EditIcon from "../../assets/svg/edit.svg"
 import AliasIcon from "../../assets/svg/all.svg"
 import DeleteIcon from "../../assets/svg/delete.svg"
 import {createStylesheet} from "./styles/TagScreen.styles"
+import RevertIcon from "../../assets/svg/backspace.svg"
+import CurrentIcon from "../../assets/svg/current.svg"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
 import moeText from "../../moetext/MoeText"
@@ -54,8 +57,10 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setNavigationPosts} = useCacheActions()
     const {setAliasTagID} = useTagDialogActions()
     const {width} = useWindowDimensions()
-    const {name} = route.params
-    const {data: tag} = useGetTagQuery({tag: name})
+    const {name, historyID} = route.params
+    const [refreshKey, setRefreshKey] = useState(0)
+    const {data: currentTag} = useGetTagQuery({tag: name, refreshKey})
+    const {data: historyTags} = useGetTagHistoryQuery({tag: name, historyID}, {skip: !historyID})
     const styles = createStylesheet(colors)
     const [activePixivTag, setActivePixivTag] = useState("")
     const [activeAlias, setActiveAlias] = useState("")
@@ -63,7 +68,11 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const [relatedTags, setRelatedTags] = useState([] as string[])
     const ref = useRef<FlatList>(null)
     const navigation = useNavigation()
+    const invalidateTag = useInvalidateTag()
     const invalidateTags = useInvalidateTags()
+
+    const historyTag = historyID && historyTags?.length ? historyTags[0] : null
+    let tag = historyTag ?? currentTag
 
     const previousRoute = useNavigationState((state) => {
         const index = state.index
@@ -171,7 +180,8 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
         for (const alias of tag.aliases ?? []) {
             if (!alias) continue
-            let aliasTag = alias.alias
+            let aliasTag = typeof alias === "string" ? alias : alias.alias
+            let aliasStr = aliasTag?.replace(/-/g, " ")
             const isActive = activeAlias === aliasTag
 
             const onPress = async () => {
@@ -185,7 +195,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                 <PressableHaptic key={aliasTag} delayLongPress={200} onLongPress={() => null}
                     onPressIn={() => setActiveAlias(aliasTag)} onPress={onPress} onPressOut={() => setActiveAlias("")}
                     style={[styles.aliasTagContainer, isActive && styles.aliasTagContainerActive]}>
-                    <Text style={[styles.aliasTag, isActive && styles.aliasTagActive]}>{aliasTag}</Text>
+                    <Text style={[styles.aliasTag, isActive && styles.aliasTagActive]}>{aliasStr}</Text>
                 </PressableHaptic>
             )
         }
@@ -197,10 +207,11 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         if (!tag) return jsx
 
         for (let i = 0; i < (tag.implications ?? []).length; i++) {
-            let implicationTag = tag.implications[i]?.implication
-            let implication = implicationTag?.replace(/-/g, " ")
-            if (!implication) continue
-            if (i !== tag.implications.length - 1) implication += ", "
+            const implication = tag.implications[i]
+            let implicationTag = typeof implication === "string" ? implication : implication?.implication
+            let implicationStr = implicationTag?.replace(/-/g, " ")
+            if (!implicationStr) continue
+            if (i !== tag.implications.length - 1) implicationStr += ", "
 
             const onPress = async () => {
                 // @ts-ignore
@@ -210,7 +221,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
             jsx.push(
                 <PressableHaptic key={implicationTag} delayLongPress={200} onLongPress={() => null}
                     onPress={onPress}>
-                    <Text style={styles.implicationTag}>{implication}</Text>
+                    <Text style={styles.implicationTag}>{implicationStr}</Text>
                 </PressableHaptic>
             )
         }
@@ -259,6 +270,11 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         } else {
             return null
         }
+    }
+
+    const tagHistory = () => {
+        if (!tag) return
+        navigation.navigate("TagHistory", {name}, {pop: true})
     }
 
     const editTag = () => {
@@ -326,6 +342,67 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         getFavorite()
     }
 
+    const revertHistory = async () => {
+        if (!historyTag) return
+        Alert.alert(i18n.dialogs.revertTagHistory.title, i18n.dialogs.revertGroupHistory.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                let image = null as number[] | ["delete"] | null
+                if (!historyTag.image) {
+                    image = ["delete"]
+                } else {
+                    const imageLink = functions.link.getTagLink(historyTag)
+                    const arrayBuffer = await fetch(imageLink).then((r) => r.arrayBuffer())
+                    const bytes = new Uint8Array(arrayBuffer)
+                    image = Object.values(bytes)
+                }
+                await functions.http.put("/api/tag/edit", {tag: historyTag.tag, key: historyTag.key, description: historyTag.description, image,
+                aliases: historyTag.aliases, implications: historyTag.implications, pixivTags: historyTag.pixivTags, social: historyTag.social,
+                twitter: historyTag.twitter, website: historyTag.website, fandom: historyTag.fandom, wikipedia: historyTag.wikipedia, 
+                type: historyTag.type, featuredPost: historyTag.featuredPost?.postID, r18: historyTag.r18 ?? false}, session)
+                currentHistory(historyTag.key)
+            }}
+        ], {cancelable: true})
+    }
+
+    const currentHistory = async (key?: string) => {
+        invalidateTag(name)
+        navigation.navigate("Tag", {name: key ? key : name}, {pop: true})
+        setRefreshKey((prev) => prev + 1)
+    }
+
+    const historyBarJSX = () => {
+        if (!historyID) return null
+        return (
+            <View style={styles.historyContainer}>
+                <Text style={styles.historyText}>{`[${i18n.sidebar.history}: ${historyID}]`}</Text>
+
+                {permissions.isContributor(session) ?
+                <PressableHaptic onPress={revertHistory} style={({pressed}) => [
+                    styles.historyButton, pressed && styles.historyButtonActive
+                ]}>{({pressed}) => (
+                    <>
+                    <RevertIcon width={17} height={17} color={pressed ? colors.white : colors.black}/>
+                    <Text style={[styles.historyButtonText, 
+                        pressed && styles.historyButtonTextActive]}>{i18n.buttons.revert}</Text>
+                    </>
+                )}
+                </PressableHaptic> : null}
+
+                <PressableHaptic onPress={() => currentHistory()} style={({pressed}) => [
+                    styles.historyButton, pressed && styles.historyButtonActive
+                ]}>{({pressed}) => (
+                    <>
+                    <CurrentIcon width={17} height={17} color={pressed ? colors.white : colors.black}/>
+                    <Text style={[styles.historyButtonText, 
+                        pressed && styles.historyButtonTextActive]}>{i18n.buttons.current}</Text>
+                    </>
+                )}
+                </PressableHaptic>
+            </View>
+        )
+    }
+
     let iconSize = 30
 
     return (
@@ -347,7 +424,9 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                     )}
                     </PressableHaptic>
                 </View>
-                {tag && <View style={styles.container}>
+                {tag && <>
+                <View style={styles.container}>
+                    {historyBarJSX()}
                     <View style={styles.rowContainer}>
                         {tag.image && <Image style={styles.image} src={functions.link.getTagLink(tag)}/>}
                         <Text style={[styles.tag, {color: functions.tag.getTagColor(tag, colors)}]}>
@@ -357,6 +436,9 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                         {session.username ? <>
                         <ScalableHaptic onPress={favoriteTag}>
                             <HeartIcon width={iconSize} height={iconSize} color={favorited ? colors.favoriteColor : colors.iconColor}/>
+                        </ScalableHaptic>
+                        <ScalableHaptic onPress={tagHistory}>
+                            <HistoryIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                         </ScalableHaptic>
                         <ScalableHaptic onPress={editTag}>
                             <EditIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
@@ -384,7 +466,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
                     {tag.implications?.length && implications()}
                     {relatedTags?.length && relatedTagsJSX()}
-                </View>}
+                </View></>}
                 <Related count={related.totalItems} pressAction={pressAction}/>
                 </>
             }

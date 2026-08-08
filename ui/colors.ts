@@ -53,6 +53,8 @@ export const noRotation = {
     redIcon: "#ff3277",
     optionReset: "#F2F0F7",
 
+    historyColor: "#ed1287",
+    historyColorGlass: "rgba(237, 18, 135, 0.7)",
     previewColor: "#AAABFF",
     editColor: "#6e86ff",
     dangerColor: "#FF2D99",
@@ -63,7 +65,10 @@ export const noRotation = {
     deletedColor: "#b21740",
 
     glassColor: "rgba(255, 255, 255, 0.34)",
-    premiumGlassColor: "rgba(255, 173, 248, 0.43)"
+    premiumGlassColor: "rgba(255, 173, 248, 0.43)",
+
+    tagAdd: "#2297ff",
+    tagRemove: "#ff0c7e"
 }
 
 export const noRotationLight = {

@@ -9,11 +9,11 @@ import {View, Text, FlatList, ListRenderItem} from "react-native"
 import {useThemeSelector} from "../../store"
 import {useGetPostParentQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, ChildPost} from "../../types/Types"
+import {PostFull, ChildPost, PostHistory} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const Parent: React.FunctionComponent<Props> = (props) => {

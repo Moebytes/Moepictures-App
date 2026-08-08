@@ -26,7 +26,7 @@ interface Props {
 }
 
 const TagRow: React.FunctionComponent<Props> = (props) => {
-    const {colors} = useThemeSelector()
+    const {i18n, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
 
@@ -70,6 +70,22 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
         return jsx
     }
 
+    const generateAliasesJSX = () => {
+        let jsx = [] as React.ReactElement[] 
+        for (let i = 0; i < props.tag.aliases.length; i++) {
+            jsx.push(<Text style={styles.impliesTag}>{props.tag.aliases[i]?.alias.replace(/-/g, " ")}</Text>)
+        }
+        return jsx
+    }
+
+    const generateImplicationsJSX = () => {
+        let jsx = [] as React.ReactElement[]  
+        for (let i = 0; i < props.tag.implications.length; i++) {
+            jsx.push(<Text style={styles.impliesTag}>{props.tag.implications[i]?.implication.replace(/-/g, " ")}</Text>)
+        }
+        return jsx
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.tagContainer}>
@@ -81,6 +97,16 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
                 </Pressable>
                 <Text style={styles.count}>{props.tag.postCount}</Text>
                 {socialIcons()}
+                {props.tag.aliases?.[0] ?
+                <View style={styles.impliesContainer}>
+                    <Text style={styles.impliesHeader}>{i18n.sort.aliases}:</Text>
+                    {generateAliasesJSX()}
+                </View> : null}
+                {props.tag.implications?.[0] ?
+                <View style={styles.impliesContainer}>
+                    <Text style={styles.impliesHeader}>{i18n.labels.implies}:</Text>
+                    {generateImplicationsJSX()}
+                </View> : null}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
                 {moeText.renderCommentaryText(props.tag.description, colors)}

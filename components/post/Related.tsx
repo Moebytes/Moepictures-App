@@ -16,13 +16,13 @@ import PagesIcon from "../../assets/svg/pages.svg"
 import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
 import SizeIcon from "../../assets/svg/size.svg"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
     tag?: string
     fallback?: string[]
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 export const useRelatedItems = (props: Props) => {

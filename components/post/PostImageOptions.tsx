@@ -21,10 +21,10 @@ import FiltersIcon from "../../assets/svg/filters.svg"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
 import {ImageRef} from "../image/FilterImage"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
     openDrawer?: () => void
     imageRef?: React.RefObject<ImageRef | null>
 }
@@ -99,7 +99,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         if (!await functions.file.requestWritePermission()) return
 
-        let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+        let img = await functions.link.resolveImage(props.post.images[0], session, session.upscaledImages)
         let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
 
         if (props.imageRef?.current && functions.image.filtersOn({brightness, contrast, hue, 

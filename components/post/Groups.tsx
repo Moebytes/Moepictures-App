@@ -10,17 +10,16 @@ import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
 import {useGetPostGroupsQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, PostOrdered, Post} from "../../types/Types"
+import {PostFull, PostOrdered, Post, PostHistory} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const Groups: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
-    const {navigationPosts} = useCacheSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()

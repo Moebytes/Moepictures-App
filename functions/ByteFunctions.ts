@@ -5,6 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import fileType from "magic-bytes.js"
+import {ImageChunk, Session, UploadImage} from "../types/Types"
+import functions from "./Functions"
 
 export default class ByteFunctions {
     public static bufferFileType = (buffer: Uint8Array | ArrayBuffer | Buffer | number[]) => {
@@ -24,5 +26,54 @@ export default class ByteFunctions {
             reader.onloadend = () => resolve(reader.result as string)
             reader.readAsDataURL(blob)
         })
+    }
+
+    public static arrayBufferToBase64 = (arrayBuffer: ArrayBuffer) => {
+        let mime = this.bufferFileType(Buffer.from(arrayBuffer))[0]?.mime || "image/png"
+        return `data:${mime};base64,${Buffer.from(arrayBuffer).toString("base64")}`
+    }
+
+    public static chunkImages = (images: UploadImage[], upscaledImages: UploadImage[]) => {
+        const chunkSize = 50 * 1024 * 1024
+
+        const chunkBytes = (images: UploadImage[]) => {
+            let chunks = [] as ImageChunk[]
+
+            for (let i = 0; i < images.length; i++) {
+                let fileID = Math.random().toString(36).slice(2) + Date.now().toString(36)
+                let img = images[i]
+                let bytes = img.bytes
+
+                for (let start = 0, i = 0; start < bytes.length; start += chunkSize, i++) {
+                    let chunk = {...img} as ImageChunk
+                    chunk.fileID = fileID
+                    chunk.index = i + 1
+                    chunk.bytes = bytes.slice(start, start + chunkSize)
+                    chunks.push(chunk)
+                }
+            }
+
+            return chunks
+        }
+
+        let imageChunks = chunkBytes(images)
+        let upscaledChunks = chunkBytes(upscaledImages)
+
+        return {imageChunks, upscaledChunks}
+    }
+
+    public static uploadChunks = async (originalChunks: ImageChunk[], upscaledChunks: ImageChunk[], 
+        session: Session) => {
+        const sendChunks = async (chunks: ImageChunk[]) => {
+            for (const chunk of chunks) {
+                const form = new FormData()
+                form.append("bytes", new Blob([new Uint8Array(chunk.bytes!)]))
+                delete chunk.bytes
+                form.append("metadata", JSON.stringify({...chunk}))
+                await functions.http.postForm("/api/post/image-chunk", form, session)
+            }
+        }
+        await sendChunks(originalChunks)
+        await sendChunks(upscaledChunks)
     }
 }

@@ -10,11 +10,11 @@ import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistInfo.styles"
-import {PostFull, TagCount} from "../../types/Types"
+import {PostFull, PostHistory, TagCount} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
     artists?: TagCount[]
 }
 

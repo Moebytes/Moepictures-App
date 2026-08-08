@@ -12,11 +12,11 @@ import StarRating from "react-native-star-rating-widget"
 import {useLayoutActions, useMiscDialogSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CutenessMeter.styles"
 import DeleteStarIcon from "../../assets/svg/deletestar.svg"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 let cutenessTimer = null as any
@@ -27,7 +27,7 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
     const {showFullscreenImage} = useMiscDialogSelector()
     const {setPostDrawerSwipe} = useLayoutActions()
     const [cuteness, setCuteness] = useState(0)
-    const [averageCuteness, setAverageCuteness] = useState(props.post?.cuteness || 0)
+    const [averageCuteness, setAverageCuteness] = useState((props.post as PostFull)?.cuteness || 0)
     const [isAverage, setIsAverage] = useState(false)
     const [loaded, setLoaded] = useState(false)
     const styles = createStylesheet(colors)
@@ -36,7 +36,12 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
     const getCuteness = async () => {
         if (!props.post) return
         const cuteness = await functions.http.get("/api/cuteness", {postID: props.post.postID}, session)
-        if (props.post.cuteness) setAverageCuteness(props.post.cuteness)
+        if ("cuteness" in props.post) {
+            setAverageCuteness(props.post.cuteness)
+        } else {
+            const post = await functions.http.get("/api/post", {postID: props.post.postID}, session)
+            if (post) setAverageCuteness(post.cuteness)
+        }
         if (cuteness?.cuteness) {
             setCuteness(Number(cuteness.cuteness))
             setIsAverage(false)

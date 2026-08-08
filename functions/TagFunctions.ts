@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "./Functions"
-import {TagCount, TagSearch, Tag, Session, PostFull, Post, MiniTagGroup, TagGroupCategory} from "../types/Types"
+import {TagCount, TagSearch, Tag, UploadTag, TagHistory, Session, PostFull, Post, MiniTagGroup, TagGroupCategory, PostHistory} from "../types/Types"
 import {ThemeColors} from "../ui/colors"
 
 export default class TagFunctions {
@@ -14,7 +14,7 @@ export default class TagFunctions {
         let taggedPosts = posts.filter((p) => p.hasOwnProperty("tags")) as PostFull[]
         if (!taggedPosts.length) {
             taggedPosts = await functions.http.get("/api/posts", 
-            {postIDs: posts.map((p: Post) => p.postID).slice(0, 20)}, session)
+            {postIDs: posts.map((p) => p.postID).slice(0, 20)}, session)
         }
         let uniqueTags = new Set<string>()
         for (let i = 0; i < taggedPosts.length; i++) {
@@ -75,7 +75,7 @@ export default class TagFunctions {
         return {artists, characters, series, meta, tags}
     }
 
-    public static tagGroupCategories = async (post: PostFull, session: Session) => {
+    public static tagGroupCategories = async (post: PostFull | PostHistory, session: Session) => {
         let tagGroups = post.tagGroups
         let newTagGroups = [] as {name: string, tags: TagCount[]}[]
         if (!tagGroups?.length && !post.tags) {
@@ -169,6 +169,10 @@ export default class TagFunctions {
         }).join(" ") || ""
     }
 
+    public static tagObject = (tags: string[]) => {
+        return tags.map((tag) => ({tag})) as UploadTag[]
+    }
+
     public static getGlassColor = (tag: TagCount, colors: ThemeColors) => {
         if (tag.type === "artist") return colors.artistTagColorGlass
         if (tag.type === "character") return colors.characterTagColorGlass
@@ -182,7 +186,7 @@ export default class TagFunctions {
         return colors.tagColorGlass
     }
 
-    public static getTagColor = (tag: TagSearch | Tag, colors: ThemeColors) => {
+    public static getTagColor = (tag: TagSearch | Tag | TagHistory, colors: ThemeColors) => {
         if (tag.type === "artist") return colors.artistTagColor
         if (tag.type === "character") return colors.characterTagColor
         if (tag.type === "series") return colors.seriesTagColor

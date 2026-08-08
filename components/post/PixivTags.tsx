@@ -9,10 +9,10 @@ import {View, Text, Pressable, Linking} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/PixivTags.styles"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const PixivTags: React.FunctionComponent<Props> = (props) => {

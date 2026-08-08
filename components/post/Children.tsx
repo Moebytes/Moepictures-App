@@ -9,17 +9,16 @@ import {View, Text, FlatList, ListRenderItem} from "react-native"
 import {useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
 import {useGetPostChildrenQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
-import {PostFull, ChildPost, Post} from "../../types/Types"
+import {PostFull, ChildPost, Post, PostHistory} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const Children: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
-    const {navigationPosts} = useCacheSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
 

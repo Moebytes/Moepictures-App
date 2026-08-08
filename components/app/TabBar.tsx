@@ -17,7 +17,7 @@ import CommentsIcon from "../../assets/svg/comments.svg"
 import NotesIcon from "../../assets/svg/notes.svg"
 import TagsIcon from "../../assets/svg/tags.svg"
 import GroupsIcon from "../../assets/svg/groups.svg"
-import HistoryIcon from "../../assets/svg/history.svg"
+import HistoryIcon from "../../assets/svg/history-thin.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
 import clone from "fast-clone"
 

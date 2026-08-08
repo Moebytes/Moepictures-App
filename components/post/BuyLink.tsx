@@ -10,10 +10,10 @@ import {UITextView as Text} from "react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import BuyLinkIcon from "../../assets/svg/buy-link.svg"
-import {PostFull} from "../../types/Types"
+import {PostFull, PostHistory} from "../../types/Types"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
 }
 
 const BuyLink: React.FunctionComponent<Props> = (props) => {

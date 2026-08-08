@@ -17,11 +17,11 @@ import {createStylesheet} from "./styles/CropModal.styles"
 import functions from "../functions/Functions"
 import CheckIcon from "../assets/svg/check.svg"
 import XIcon from "../assets/svg/x.svg"
-import {PostFull, Image as VariantImage} from "../types/Types"
+import {PostFull, PostHistory, Image as VariantImage} from "../types/Types"
 
 interface Props {
-    post?: PostFull
-    image?: VariantImage | null
+    post?: PostFull | PostHistory
+    image?: VariantImage | string | null
 }
 
 const CropModal: React.FunctionComponent<Props> = (props) => {
@@ -39,7 +39,7 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
 
     const downloadImage = async () => {
         if (!props.image) return
-        const imgLink = functions.link.getImageLink(props.image, session.upscaledImages)
+        const imgLink = await functions.link.resolveImage(props.image, session, session.upscaledImages)
         const uri = await functions.file.saveRemoteImage(imgLink)
         setImg(uri)
     }

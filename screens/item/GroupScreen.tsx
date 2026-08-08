@@ -18,7 +18,7 @@ useCacheActions} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
-import {useGetGroupQuery, useInvalidateGroup, useInvalidateGroups} from "../../api"
+import {useGetGroupQuery, useGetGroupHistoryQuery, useInvalidateGroup, useInvalidateGroups} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GroupImage from "../../components/image/GroupImage"
@@ -30,10 +30,13 @@ import ScrollIcon from "../../assets/svg/scroll.svg"
 import ReorderIcon from "../../assets/svg/reorder.svg"
 import CancelIcon from "../../assets/svg/cancel.svg"
 import AcceptIcon from "../../assets/svg/accept.svg"
+import HistoryIcon from "../../assets/svg/history.svg"
 import EditIcon from "../../assets/svg/edit.svg"
 import DeleteIcon from "../../assets/svg/delete.svg"
 import {createStylesheet} from "./styles/GroupScreen.styles"
 import {PostOrdered} from "../../types/Types"
+import RevertIcon from "../../assets/svg/backspace.svg"
+import CurrentIcon from "../../assets/svg/current.svg"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
 import moeText from "../../moetext/MoeText"
@@ -50,19 +53,25 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setScroll, setSearch, setSearchTags} = useSearchActions()
     const {setNavigationPosts} = useCacheActions()
     const {setSearchScrollFlag} = useFlagActions()
-    const {slug} = route.params
-    const {data: group} = useGetGroupQuery({name: slug})
+    const {slug, historyID} = route.params
+    const [refreshKey, setRefreshKey] = useState(0)
+    const {data: currentGroup} = useGetGroupQuery({name: slug, refreshKey})
+    const {data: historyGroups} = useGetGroupHistoryQuery({slug, historyID}, {skip: !historyID})
     const [page, setPage] = useState(1)
     const [deleteMode, setDeleteMode] = useState(false)
     const [reorderState, setReorderState] = useState(false)
     const styles = createStylesheet(colors)
     const ref = useAnimatedRef<ScrollView>()
     const [sortKey, setSortKey] = useState(0)
+    const [groupPosts, setGroupPosts] = useState([] as PostOrdered[])
     const [orderedPosts, setOrderedPosts] = useState([] as PostOrdered[])
     const loadingRef = useRef(false)
     const navigation = useNavigation()
     const invalidateGroup = useInvalidateGroup()
     const invalidateGroups = useInvalidateGroups()
+
+    const historyGroup = historyID && historyGroups?.length ? historyGroups[0] : null
+    let group = historyGroup ?? currentGroup
 
     const previousRoute = useNavigationState((state) => {
         const index = state.index
@@ -74,24 +83,47 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         ref.current?.scrollTo({y: 0})
     }, [route.params, scroll])
 
+
+    useEffect(() => {
+        const updatePosts = async () => {
+            if (!group) return
+            let groupPosts = [] as PostOrdered[]
+            for (let i = 0; i < group.posts.length; i++) {
+                const post = group.posts[i]
+                if ("images" in post) {
+                    groupPosts.push(post)
+                } else {
+                    const fullPost = await functions.http.get("/api/post", {postID: post.postID}, session)
+                    if (!fullPost) continue
+                    groupPosts.push({...fullPost, order: post.order})
+                }
+            }
+            setGroupPosts(groupPosts)
+        }
+        updatePosts()
+    }, [group])
+
     const pageSize = 15
 
-    const totalPages = Math.ceil(Number(group?.postCount || 0) / pageSize)
+    let postCount = group && "postCount" in group ? 
+        group?.postCount || 0 : group?.posts.length
+
+    const totalPages = Math.ceil(Number(postCount) / pageSize)
 
     let iconSize = 22
     let iconSize2 = 30
 
     const posts = useMemo(() => {
-        if (!group?.posts) return []
+        if (!groupPosts?.length) return []
 
         if (scroll) {
-            return group.posts.slice(0, page * pageSize)
+            return groupPosts.slice(0, page * pageSize)
         }
 
         const start = (page - 1) * pageSize
         const end = start + pageSize
-        return group.posts.slice(start, end)
-    }, [group?.posts, page, pageSize, scroll])
+        return groupPosts.slice(start, end)
+    }, [groupPosts, page, pageSize, scroll])
     
     const loadMore = () => {
         if (loadingRef.current) return
@@ -122,7 +154,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         const newList = params.order(posts)
         const baseOffset = scroll ? 0 : (page - 1) * pageSize
 
-        const updated = [...group.posts]
+        const updated = [...groupPosts]
         updated.splice(baseOffset, newList.length, ...newList)
 
         setOrderedPosts(updated)
@@ -147,6 +179,11 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         } else {
             setReorderState(true)
         }
+    }
+
+    const groupHistory = () => {
+        if (!group) return
+        navigation.navigate("GroupHistory", {slug}, {pop: true})
     }
 
     const editGroup = () => {
@@ -223,7 +260,57 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         if (reorderState) return
 
         navigation.navigate("Post", {postID: post.postID})
-        if (group.posts.length) setNavigationPosts(group.posts)
+        if (group.posts.length) setNavigationPosts(groupPosts)
+    }
+
+    const revertHistory = async () => {
+        if (!historyGroup) return
+        Alert.alert(i18n.dialogs.revertGroupHistory.title, i18n.dialogs.revertGroupHistory.header, [
+            {text: i18n.buttons.cancel, style: "cancel"},
+            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+                await functions.http.put("/api/group/reorder", {slug, posts: historyGroup.posts}, session)
+                await functions.http.put("/api/group/edit", {slug, name: historyGroup.name, description: historyGroup.description}, session)
+                currentHistory(functions.post.generateSlug(historyGroup.name))
+            }}
+        ], {cancelable: true})
+    }
+
+    const currentHistory = async (key?: string) => {
+        invalidateGroup(slug)
+        navigation.navigate("Group", {slug: key ? key : slug}, {pop: true})
+        setRefreshKey((prev) => prev + 1)
+    }
+
+    const historyBarJSX = () => {
+        if (!historyID) return null
+        return (
+            <View style={styles.historyContainer}>
+                <Text style={styles.historyText}>{`[${i18n.sidebar.history}: ${historyID}]`}</Text>
+
+                {permissions.isContributor(session) ?
+                <PressableHaptic onPress={revertHistory} style={({pressed}) => [
+                    styles.historyButton, pressed && styles.historyButtonActive
+                ]}>{({pressed}) => (
+                    <>
+                    <RevertIcon width={17} height={17} color={pressed ? colors.white : colors.black}/>
+                    <Text style={[styles.historyButtonText, 
+                        pressed && styles.historyButtonTextActive]}>{i18n.buttons.revert}</Text>
+                    </>
+                )}
+                </PressableHaptic> : null}
+
+                <PressableHaptic onPress={() => currentHistory()} style={({pressed}) => [
+                    styles.historyButton, pressed && styles.historyButtonActive
+                ]}>{({pressed}) => (
+                    <>
+                    <CurrentIcon width={17} height={17} color={pressed ? colors.white : colors.black}/>
+                    <Text style={[styles.historyButtonText, 
+                        pressed && styles.historyButtonTextActive]}>{i18n.buttons.current}</Text>
+                    </>
+                )}
+                </PressableHaptic>
+            </View>
+        )
     }
 
     return (
@@ -246,8 +333,12 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                 </View>
                 {group && <>
                 <View style={styles.container}>
+                    {historyBarJSX()}
                     <View style={styles.rowContainer}>
                         <Text style={styles.title}>{group.name}</Text>
+                        <ScalableHaptic onPress={groupHistory}>
+                            <HistoryIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
+                        </ScalableHaptic>
                         {session.username ? <>
                         <ScalableHaptic onPress={changeReorderState}>
                             <ReorderIcon width={iconSize2} height={iconSize2} color={reorderState ? colors.favoriteColor : colors.iconColor}/>
@@ -273,7 +364,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                     <PressableHaptic onPress={pressAction}>
                         <Text style={styles.headerText}>{i18n.sort.posts}</Text>
                     </PressableHaptic>
-                    <Text style={styles.headerTextAlt}>{group.postCount}</Text>
+                    <Text style={styles.headerTextAlt}>{postCount}</Text>
                     <ScalableHaptic scaleFactor={0.95} icon={scroll ? ScrollIcon : PagesIcon} 
                         size={iconSize} color={colors.iconColor} style={styles.iconContainer}
                         onPress={() => setScroll(!scroll)}>

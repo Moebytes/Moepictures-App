@@ -8,14 +8,14 @@ import React, {useEffect, useState} from "react"
 import {View, Image, FlatList, ListRenderItem, useWindowDimensions} from "react-native"
 import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
 import {createStylesheet} from "./styles/Variations.styles"
-import {PostFull, Image as PostImage} from "../../types/Types"
+import {PostFull, PostHistory, Image as PostImage} from "../../types/Types"
 import FilterImage from "../image/FilterImage"
 import PressableHaptic from "../../ui/PressableHaptic"
 import functions from "../../functions/Functions"
 
 interface VariantProps {
-    image: PostImage
-    onImageChange: (img: PostImage) => void
+    image: PostImage | string
+    onImageChange: (img: PostImage | string) => void
 }
 
 const VariantImage: React.FunctionComponent<VariantProps> = (props) => {
@@ -30,8 +30,16 @@ const VariantImage: React.FunctionComponent<VariantProps> = (props) => {
     const [pressed, setPressed] = useState(false)
 
     useEffect(() => {
-        const img = functions.link.getThumbnailLink(props.image, "medium", session)
-        setImg(img)
+        const updateImage = async () => {
+            if (typeof props.image === "string") {
+                const img = await functions.link.resolveThumbnail(props.image, "medium", session)
+                setImg(img)
+            } else {
+                const img = functions.link.getThumbnailLink(props.image, "medium", session)
+                setImg(img)
+            }
+        }
+        updateImage()
         setLoaded(false)
     }, [props.image])
 
@@ -64,15 +72,15 @@ const VariantImage: React.FunctionComponent<VariantProps> = (props) => {
 }
 
 interface Props {
-    post?: PostFull
-    onImageChange: (img: PostImage) => void
+    post?: PostFull | PostHistory
+    onImageChange: (img: PostImage | string) => void
 }
 
 const Variations: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
-    const renderItem: ListRenderItem<PostImage> = ({item}) => {
+    const renderItem: ListRenderItem<PostImage | string> = ({item}) => {
         return <VariantImage image={item} onImageChange={props.onImageChange}/>
     }
 
@@ -84,7 +92,7 @@ const Variations: React.FunctionComponent<Props> = (props) => {
             <FlatList 
                 horizontal
                 data={props.post.images}
-                keyExtractor={(item) => item.imageID.toString()}
+                keyExtractor={(item, index) => index.toString()}
                 showsHorizontalScrollIndicator={false}
                 renderItem={renderItem}
                 contentContainerStyle={styles.carousel}

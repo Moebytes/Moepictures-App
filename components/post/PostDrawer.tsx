@@ -18,12 +18,13 @@ import {createStylesheet} from "./styles/PostDrawer.styles"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import EditIcon from "../../assets/svg/edit.svg"
+import HistoryIcon from "../../assets/svg/history.svg"
 import CopyIDIcon from "../../assets/svg/copy-id.svg"
-import {PostFull, TagCount, TagGroupCategory} from "../../types/Types"
+import {PostFull, PostHistory, TagCount, TagGroupCategory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 interface Props {
-    post?: PostFull
+    post?: PostFull | PostHistory
     artists?: TagCount[] 
     characters?: TagCount[]  
     series?: TagCount[]
@@ -57,7 +58,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateDimensions = async () => {
             if (!props.post) return
-            const img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+            const img = await functions.link.resolveImage(props.post.images[0], session, session.upscaledImages)
             const dimensions = await functions.image.imageDimensions(img)
             setDimensions(dimensions)
         }
@@ -141,6 +142,11 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         navigation.navigate("EditPost", {postID: props.post.postID}, {pop: true})
     }
 
+    const postHistory = () => {
+        if (!props.post) return
+        navigation.navigate("PostHistory", {postID: props.post.postID}, {pop: true})
+    }
+
     const copyPostID = () => {
         if (!props.post || copied) return
         Clipboard.setString(props.post.postID)
@@ -161,10 +167,14 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
                 <View style={styles.rowItem}>
                     <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
-                    {session.username ? 
+                    {session.username ? <>
                     <ScalableHaptic onPress={editPost}>
                         <EditIcon width={30} height={30} color={colors.drawerTitle}/>
-                    </ScalableHaptic> : null}
+                    </ScalableHaptic> 
+                    <ScalableHaptic onPress={postHistory}>
+                        <HistoryIcon width={30} height={30} color={colors.drawerTitle}/>
+                    </ScalableHaptic> 
+                    </> : null}
                 </View>
                 <View style={styles.rowItem}>
                     <PressableHaptic onPress={copyPostID}>
@@ -257,12 +267,12 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.favorites}:</Text>
                     <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
-                        {props.post.favoriteCount}</Text>
+                        {(props.post as PostFull).favoriteCount ?? 0}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.cuteness}:</Text>
                     <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
-                        {props.post.cuteness}</Text>
+                        {(props.post as PostFull).cuteness ?? 0}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.resolution}:</Text>
