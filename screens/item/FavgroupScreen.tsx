@@ -41,7 +41,7 @@ type Props = {
 const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const {session} = useSessionSelector()
     const {i18n, theme, colors} = useThemeSelector()
-    const {scroll} = useSearchSelector()
+    const {scroll, ratingType} = useSearchSelector()
     const {setScroll, setSearch, setSearchTags} = useSearchActions()
     const {setNavigationPosts} = useCacheActions()
     const {setSearchScrollFlag} = useFlagActions()
@@ -72,7 +72,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     let iconSize = 22
     let iconSize2 = 30
 
-    const posts = useMemo(() => {
+    let posts = useMemo(() => {
         if (!favgroup?.posts) return []
 
         if (scroll) {
@@ -84,6 +84,8 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
         return favgroup.posts.slice(start, end)
     }, [favgroup?.posts, page, pageSize, scroll])
     
+    posts = functions.post.filterPosts(posts, ratingType, session)
+
     const loadMore = () => {
         if (loadingRef.current) return
         if (scroll && page < totalPages) {

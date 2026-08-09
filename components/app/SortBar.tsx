@@ -90,6 +90,9 @@ const SortBar: React.FunctionComponent = () => {
         if (!session.emailVerified) {
             return Toast.show({text1: i18n.toast.verificationRequired})
         }
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
         setShowSavedSearchesSheet(!showSavedSearchesSheet)
     }
 
@@ -133,6 +136,26 @@ const SortBar: React.FunctionComponent = () => {
         setAutoSearch(!autoSearch)
     }
 
+    const toggleAutoScroll = () => {
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
+        setAutoScroll(!autoScroll)
+    }
+
+    const imageFilters = () => {
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
+        setShowFilters(!showFilters)
+    }
+
     const spin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["0deg", "360deg"]
@@ -163,7 +186,7 @@ const SortBar: React.FunctionComponent = () => {
             <View style={styles.iconContainer}>
                 {scroll ? 
                 <ScalableHaptic icon={AutoScrollIcon} size={iconSize-3} color={autoScroll ? colors.iconActive : colors.iconColor}
-                    onPress={() => setAutoScroll(!autoScroll)} style={{marginRight: -5}}/> :
+                    onPress={() => toggleAutoScroll()} style={{marginRight: -5}}/> :
                 <ScalableHaptic onPress={() => setShowPageMultiplierDialog(!showPageMultiplierDialog)}>
                     <Text style={styles.textButton}>{pageMultiplier}x</Text>
                 </ScalableHaptic>}
@@ -172,7 +195,7 @@ const SortBar: React.FunctionComponent = () => {
                 <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setSquare(!square)}/>
                 <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor}
-                    onPress={() => setShowFilters(!showFilters)}/>
+                    onPress={() => imageFilters()}/>
                 <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowSizeDialog(!showSizeDialog)}/>
                 <ScalableHaptic icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}

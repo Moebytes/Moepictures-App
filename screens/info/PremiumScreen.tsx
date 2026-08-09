@@ -18,9 +18,12 @@ import TitleBar from "../../components/app/TitleBar"
 import LeftIcon from "../../assets/svg/left.svg"
 import StarIcon from "../../assets/svg/premium-star.svg"
 import UpscaledImagesIcon from "../../assets/svg/waifu2x.svg"
+import ImageFiltersIcon from "../../assets/svg/filters.svg"
 import SearchHistoryIcon from "../../assets/svg/searchhistory.svg"
 import FavoriteGroupsIcon from "../../assets/svg/stargroup.svg"
+import SavedSearchesIcon from "../../assets/svg/savedsearch.svg"
 import AutoSearchIcon from "../../assets/svg/autosearch2.svg"
+import AutoScrollIcon from "../../assets/svg/autoscroll2.svg"
 import BookmarkSortIcon from "../../assets/svg/bookmarksort.svg"
 import ChangeUsernameIcon from "../../assets/svg/changeusername.svg"
 import RadioButtonIcon from "../../assets/svg/radiobutton.svg"
@@ -179,15 +182,6 @@ const PremiumScreen: React.FunctionComponent = () => {
                     </View>
 
                     <View style={styles.itemBox}>
-                        <View style={[styles.itemBoxRow, {backgroundColor: "rgba(191, 221, 255, 0.50)"}]}>
-                            <Text style={[styles.itemBoxTitle, {color: "#2F91FF"}]}>{i18n.user.upscaledImages}</Text>
-                            <UpscaledImagesIcon width={iconSize} height={iconSize} color={"#2F91FF"}/>
-                        </View>
-                        <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.upscaledImages.header}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.itemBox}>
                         <View style={[styles.itemBoxRow, {backgroundColor: "rgba(255, 199, 227, 0.50)"}]}>
                             <Text style={[styles.itemBoxTitle, {color: "#FF2792"}]}>{i18n.history.search}</Text>
                             <SearchHistoryIcon width={iconSize} height={iconSize} color={"#FF2792"}/>
@@ -206,12 +200,48 @@ const PremiumScreen: React.FunctionComponent = () => {
                         </View>
                     </View>
                     <View style={styles.itemBox}>
+                        <View style={[styles.itemBoxRow, {backgroundColor: "rgba(230, 186, 255, 0.5)"}]}>
+                            <Text style={[styles.itemBoxTitle, {color: "#8352FF"}]}>{i18n.options.savedSearches}</Text>
+                            <SavedSearchesIcon width={iconSize} height={iconSize} color={"#8352FF"}/>
+                        </View>
+                        <View style={styles.itemBoxRow}>
+                            <Text style={styles.text}>{i18n.mobilePremium.savedSearches.header}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.itemBox}>
+                        <View style={[styles.itemBoxRow, {backgroundColor: "rgba(191, 221, 255, 0.50)"}]}>
+                            <Text style={[styles.itemBoxTitle, {color: "#2F91FF"}]}>{i18n.user.upscaledImages}</Text>
+                            <UpscaledImagesIcon width={iconSize} height={iconSize} color={"#2F91FF"}/>
+                        </View>
+                        <View style={styles.itemBoxRow}>
+                            <Text style={styles.text}>{i18n.mobilePremium.upscaledImages.header}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.itemBox}>
+                        <View style={[styles.itemBoxRow, {backgroundColor: "rgba(191, 207, 255, 0.5)"}]}>
+                            <Text style={[styles.itemBoxTitle, {color: "#304FFF"}]}>{i18n.mobilePremium.imageFilters.title}</Text>
+                            <ImageFiltersIcon width={iconSize} height={iconSize} color={"#304FFF"}/>
+                        </View>
+                        <View style={styles.itemBoxRow}>
+                            <Text style={styles.text}>{i18n.mobilePremium.imageFilters.header}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.itemBox}>
                         <View style={[styles.itemBoxRow, {backgroundColor: "rgba(208, 196, 255, 0.50)"}]}>
                             <Text style={[styles.itemBoxTitle, {color: "#5B2FFF"}]}>{i18n.premium.autoSearch.title}</Text>
                             <AutoSearchIcon width={40} height={40} color={"#5B2FFF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
                             <Text style={styles.text}>{i18n.mobilePremium.autoSearch.header}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.itemBox}>
+                        <View style={[styles.itemBoxRow, {backgroundColor: "rgba(255, 186, 235, 0.5)"}]}>
+                            <Text style={[styles.itemBoxTitle, {color: "#FF38B3"}]}>{i18n.mobilePremium.autoScroll.title}</Text>
+                            <AutoScrollIcon width={iconSize} height={iconSize} color={"#FF38B3"}/>
+                        </View>
+                        <View style={styles.itemBoxRow}>
+                            <Text style={styles.text}>{i18n.mobilePremium.autoScroll.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>

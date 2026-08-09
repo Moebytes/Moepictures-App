@@ -7,7 +7,7 @@
 import React from "react"
 import {View, Text, FlatList, ListRenderItem, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useCacheActions, useActiveSelector} from "../../store"
+import {useThemeSelector, useCacheActions, useActiveSelector, useSessionSelector, useSearchSelector} from "../../store"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
 import {PostFull, PostOrdered, Post, PostHistory} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
@@ -20,6 +20,8 @@ interface Props {
 const ActiveFavgroup: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {setNavigationPosts} = useCacheActions()
+    const {ratingType} = useSearchSelector()
+    const {session} = useSessionSelector()
     const {activeFavgroup} = useActiveSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
@@ -34,6 +36,8 @@ const ActiveFavgroup: React.FunctionComponent<Props> = (props) => {
         return <CarouselImage post={item} onPress={onPress}/>
     }
 
+    let posts = functions.post.filterPosts(activeFavgroup.posts, ratingType, session)
+
     return (
         <>
         <View style={styles.container} key={activeFavgroup.slug}>
@@ -44,7 +48,7 @@ const ActiveFavgroup: React.FunctionComponent<Props> = (props) => {
 
             <FlatList 
                 horizontal
-                data={activeFavgroup.posts}
+                data={posts}
                 keyExtractor={(item) => item.postID.toString()}
                 showsHorizontalScrollIndicator={false}
                 renderItem={renderItem}

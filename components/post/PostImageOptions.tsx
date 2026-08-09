@@ -128,6 +128,12 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     }
 
     const imageFilters = () => {
+        if (!session.username) {
+            return Toast.show({text1: i18n.toast.loginRequired})
+        }
+        if (!permissions.isPremium(session)) {
+            return Toast.show({text1: i18n.toast.premiumRequired})
+        }
         setShowFilters(!showFilters)
     }
 

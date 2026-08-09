@@ -27,6 +27,7 @@ interface Props {
 
 export const useRelatedItems = (props: Props) => {
     const {showRelated} = useSessionSelector()
+    const {session} = useSessionSelector()
     const {scroll, pageMultiplier, ratingType} = useSearchSelector()
     const [fallbackIndex, setFallbackIndex] = React.useState(-1)
     const [activeTag, setActiveTag] = useState(props.tag)
@@ -62,9 +63,11 @@ export const useRelatedItems = (props: Props) => {
         {skip: !active || scroll}
     )
 
-    const posts = !active ? [] : scroll
+    let posts = !active ? [] : scroll
         ? (infiniteQuery.data?.pages.flat() ?? [])
         : (pageQuery.data ?? [])
+
+    posts = functions.post.filterPosts(posts, ratingType, session)
 
     useEffect(() => {
         if (props.fallback && fallbackIndex >= 0 && fallbackIndex < props.fallback.length) {

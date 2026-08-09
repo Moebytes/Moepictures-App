@@ -24,7 +24,7 @@ const ArtistWorks: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
 
     const {data: posts} = useSearchPostsPageQuery(
-        {query: props.tag, type: "image", rating: "all", style: "all", sort: "posted", limit: 1000},
+        {query: props.tag, type: "mobile", rating: "all", style: "all", sort: "posted", limit: 1000},
         {skip: !showRelated || !Boolean(props.tag)}
     )
 

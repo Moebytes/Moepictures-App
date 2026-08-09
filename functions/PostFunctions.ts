@@ -147,4 +147,15 @@ export default class PostFunctions {
             }
             return linkMap
         }
+
+        public static filterPost = <T extends Post>(post: T, ratingType: PostRating, session: Session) => {
+            if (post.type !== "image" && post.type !== "comic") return false
+            if (!session.username) if (post.rating !== functions.r13()) return false
+            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(post.rating)) return false
+            return true
+        }
+
+        public static filterPosts = <T extends Post>(posts: T[], ratingType: PostRating, session: Session) => {
+            return posts.filter((p) => this.filterPost(p, ratingType, session))
+        }
 }

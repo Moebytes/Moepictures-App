@@ -57,20 +57,11 @@ const CommentsScreen: React.FunctionComponent = () => {
         {skip: scroll}
     )
 
-    const filterComments = (comments: CommentSearch[]) => {
-        let filtered = [] as CommentSearch[]
-        for (const comment of comments) {
-            if (comment.post.type !== "image" && comment.post.type !== "comic") continue
-            if (!session.username) if (comment.post.rating !== functions.r13()) continue
-            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(comment.post.rating)) continue
-            filtered.push(comment)
-        }
-        return filtered
-    }
+    let comments = scroll
+        ? (infiniteQuery.data?.pages.flat() ?? [])
+        : (pageQuery.data ?? [])
 
-    const comments = scroll
-        ? filterComments((infiniteQuery.data?.pages.flat() ?? []))
-        : filterComments((pageQuery.data ?? []))
+    comments = comments.filter((c) => functions.post.filterPost(c.post, ratingType, session))
 
     const isLoading = scroll
         ? infiniteQuery.isLoading

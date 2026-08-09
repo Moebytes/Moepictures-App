@@ -7,7 +7,7 @@
 import React from "react"
 import {View, Text, FlatList, ListRenderItem, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
+import {useThemeSelector, useSearchSelector, useCacheActions, useSessionSelector} from "../../store"
 import {useGetPostGroupsQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
 import {PostFull, PostOrdered, Post, PostHistory} from "../../types/Types"
@@ -20,6 +20,8 @@ interface Props {
 
 const Groups: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {ratingType} = useSearchSelector()
+    const {session} = useSessionSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
@@ -43,6 +45,8 @@ const Groups: React.FunctionComponent<Props> = (props) => {
                 return <CarouselImage post={item} onPress={onPress}/>
             }
 
+            let posts = functions.post.filterPosts(group.posts, ratingType, session)
+
             jsx.push(
                 <View style={styles.container} key={group.slug}>
                     <Pressable style={styles.headerContainer}
@@ -52,7 +56,7 @@ const Groups: React.FunctionComponent<Props> = (props) => {
 
                     <FlatList 
                         horizontal
-                        data={group.posts}
+                        data={posts}
                         keyExtractor={(item) => item.postID.toString()}
                         showsHorizontalScrollIndicator={false}
                         renderItem={renderItem}

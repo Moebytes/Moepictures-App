@@ -54,21 +54,11 @@ const NotesScreen: React.FunctionComponent = () => {
         {skip: scroll}
     )
 
-    const filterNotes = (notes: NoteSearch[]) => {
-        let filtered = [] as NoteSearch[]
-        for (const note of notes) {
-            if (note.post.type !== "image" && note.post.type !== "comic") continue
-            if (!session.username) if (note.post.rating !== functions.r13()) continue
-            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(note.post.rating)) continue
-            filtered.push(note)
-        }
-        return filtered
-    }
+    let notes = scroll
+        ? (infiniteQuery.data?.pages.flat() ?? [])
+        : (pageQuery.data ?? [])
 
-    const notes = scroll
-        ? filterNotes((infiniteQuery.data?.pages.flat() ?? []))
-        : filterNotes((pageQuery.data ?? []))
-
+    notes = notes.filter((c) => functions.post.filterPost(c.post, ratingType, session))
 
     const isLoading = scroll
         ? infiniteQuery.isLoading

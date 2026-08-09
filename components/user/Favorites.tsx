@@ -8,7 +8,8 @@ import React, {useState} from "react"
 import {View, Text, FlatList, ListRenderItem} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useCacheActions, useSearchSelector, 
-useSearchActions, useFlagActions} from "../../store"
+useSearchActions, useFlagActions,
+useSessionSelector} from "../../store"
 import {useGetFavoritesInfiniteQuery} from "../../api"
 import {createStylesheet} from "./styles/Uploads.styles"
 import {PostSearch, Post} from "../../types/Types"
@@ -22,6 +23,7 @@ interface Props {
 
 const Favorites: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {session} = useSessionSelector()
     const {setNavigationPosts} = useCacheActions()
     const {setSearch, setSearchTags} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
@@ -35,7 +37,8 @@ const Favorites: React.FunctionComponent<Props> = (props) => {
         rating: functions.post.isR18(ratingType) ? ratingType : "all"}
     )
 
-    const posts = infiniteQuery.data?.pages.flat() ?? []
+    let posts = infiniteQuery.data?.pages.flat() ?? []
+    posts = functions.post.filterPosts(posts, ratingType, session)
 
     const titlePress = () => {
         setSearchTags([`favorites:${props.username}`])

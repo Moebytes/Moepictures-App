@@ -91,7 +91,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         if (route.name === "Posts") {
             setRandomSearchFlag(true)
         } else if (route.name === "Post") {
-            const result = await functions.http.get("/api/search/posts", {query: search, type: "image", 
+            const result = await functions.http.get("/api/search/posts", {query: search, type: "mobile", 
                 sort: "random", limit: 1}, session)
             if (!result.length) return
             

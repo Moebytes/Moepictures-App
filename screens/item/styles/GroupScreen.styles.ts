@@ -106,6 +106,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            width: "100%",
             padding: 10,
             gap: 10
         },

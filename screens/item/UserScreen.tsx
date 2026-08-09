@@ -47,7 +47,8 @@ const UserScreen: React.FunctionComponent<Props> = ({route}) => {
     }, [route.params])
 
     const bioText = () => {
-        let fragment = moeText.renderText(session.bio, emojis, colors)[0] as React.ReactElement<React.FragmentProps>
+        if (!user?.bio) return
+        let fragment = moeText.renderText(user.bio, emojis, colors)[0] as React.ReactElement<React.FragmentProps>
         const rendered = fragment.props.children as React.ReactElement[]
         return rendered.map((element: any, index: number) => {
             if (element.type === Text) {

@@ -61,6 +61,8 @@ const FavgroupsScreen: React.FunctionComponent = () => {
                 return <CarouselImage post={item} onPress={onPress}/>
             }
 
+            let posts = functions.post.filterPosts(favgroup.posts, ratingType, session)
+
             jsx.push(
                 <View style={styles.itemContainer} key={favgroup.slug}>
                     <Pressable style={styles.headerContainer}
@@ -72,7 +74,7 @@ const FavgroupsScreen: React.FunctionComponent = () => {
 
                     <FlatList 
                         horizontal
-                        data={favgroup.posts}
+                        data={posts}
                         keyExtractor={(item) => item.postID.toString()}
                         showsHorizontalScrollIndicator={false}
                         renderItem={renderItem}

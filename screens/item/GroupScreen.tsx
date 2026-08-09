@@ -48,8 +48,7 @@ type Props = {
 const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const {session} = useSessionSelector()
     const {i18n, theme, colors} = useThemeSelector()
-    const {tablet} = useLayoutSelector()
-    const {scroll, sizeType, square} = useSearchSelector()
+    const {scroll, ratingType} = useSearchSelector()
     const {setScroll, setSearch, setSearchTags} = useSearchActions()
     const {setNavigationPosts} = useCacheActions()
     const {setSearchScrollFlag} = useFlagActions()
@@ -108,7 +107,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     let iconSize = 22
     let iconSize2 = 30
 
-    const posts = useMemo(() => {
+    let posts = useMemo(() => {
         if (!groupPosts?.length) return []
 
         if (scroll) {
@@ -119,6 +118,8 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         const end = start + pageSize
         return groupPosts.slice(start, end)
     }, [groupPosts, page, pageSize, scroll])
+    
+    posts = functions.post.filterPosts(posts, ratingType, session)
     
     const loadMore = () => {
         if (loadingRef.current) return

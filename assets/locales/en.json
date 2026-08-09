@@ -2046,17 +2046,28 @@
             "monthlyPrice": "/ month",
             "renewal": "Subscriptions automatically renew until canceled. Manage your subscription in your phone's settings. Benefits will last until the end of your subscription period."
         },
-        "upscaledImages": {
-            "header": "View the upscaled versions of posts, often restoring sharp details and clarity."
-        },
         "searchHistory": {
             "header": "Your search history is now tracked, and you can return to posts you visited but forgot to favorite!"
         },
         "favoriteGroups": {
             "header": "Organize posts into custom personal groups and edit the privacy level of each!"
         },
+        "savedSearches": {
+            "header": "Save custom search queries containing any number of tags for quick access!"
+        },
+        "upscaledImages": {
+            "header": "View the upscaled versions of posts, often restoring sharp details and clarity."
+        },
+        "imageFilters": {
+            "title": "Image Filters",
+            "header": "Adjust images to your liking with filters like brightness/contrast and apply cool effects such as pixelate."
+        },
         "autoSearch": {
             "header": "Unlock the auto search to automatically run your search again after an interval."
+        },
+        "autoScroll": {
+            "title": "Auto Scroll",
+            "header": "Use the auto scroll to automatically scroll down in infinite scroll mode."
         },
         "bookmarkSort": {
             "header": "Sort results by bookmarks/likes, usually bringing the best quality art to the front."

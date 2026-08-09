@@ -7,16 +7,19 @@
 import React, {useState} from "react"
 import {View, Text} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useFlagActions, useSearchSelector} from "../../store"
+import {useThemeSelector, useFlagActions, useSearchSelector, useSessionSelector} from "../../store"
 import {useGetUserCommentsInfiniteQuery, useGetUserCommentsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/UserComments.styles"
 import ScalableHaptic from "../../ui/ScalableHaptic"
+import functions from "../../functions/Functions"
 
 interface Props {
     username: string
 }
 
 export const useUserCommentItems = (props: Props) => {
+    const {ratingType} = useSearchSelector()
+    const {session} = useSessionSelector()
     const {scroll, pageMultiplier} = useSearchSelector()
     const [page, setPage] = useState(1)
 
@@ -31,9 +34,11 @@ export const useUserCommentItems = (props: Props) => {
         offset: (page - 1) * pageSize, limit: pageSize}
     )
 
-    const comments = scroll ? 
+    let comments = scroll ? 
         (infiniteQuery.data?.pages.flat() ?? []) :
         (pageQuery.data ?? [])
+
+    comments = comments.filter((c) => functions.post.filterPost(c.post, ratingType, session))
 
     const loadMore = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {

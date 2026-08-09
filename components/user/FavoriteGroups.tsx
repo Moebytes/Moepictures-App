@@ -7,7 +7,7 @@
 import React from "react"
 import {View, Text, FlatList, ListRenderItem} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {useThemeSelector, useCacheActions} from "../../store"
+import {useThemeSelector, useCacheActions, useSearchSelector, useSessionSelector} from "../../store"
 import {useGetFavoriteGroupsQuery} from "../../api"
 import {createStylesheet} from "./styles/Uploads.styles"
 import {PostOrdered, Post} from "../../types/Types"
@@ -21,6 +21,8 @@ interface Props {
 
 const FavoriteGroups: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
+    const {ratingType} = useSearchSelector()
+    const {session} = useSessionSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
@@ -46,6 +48,7 @@ const FavoriteGroups: React.FunctionComponent<Props> = (props) => {
             }
 
             const totalItems = favgroup?.posts.length ?? 0
+            let posts = functions.post.filterPosts(favgroup.posts, ratingType, session)
 
             jsx.push(
                 <View style={styles.container}>
@@ -58,7 +61,7 @@ const FavoriteGroups: React.FunctionComponent<Props> = (props) => {
 
                     <FlatList 
                         horizontal
-                        data={favgroup.posts}
+                        data={posts}
                         keyExtractor={(item) => item.postID.toString()}
                         showsHorizontalScrollIndicator={false}
                         renderItem={renderItem}
