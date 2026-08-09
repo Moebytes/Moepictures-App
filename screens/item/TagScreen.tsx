@@ -74,11 +74,6 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const historyTag = historyID && historyTags?.length ? historyTags[0] : null
     let tag = historyTag ?? currentTag
 
-    const previousRoute = useNavigationState((state) => {
-        const index = state.index
-        return index > 0 ? state.routes[index - 1] : null
-    })
-
     useEffect(() => {
         ref.current?.scrollToOffset({offset: 0})
     }, [route.params])
@@ -418,7 +413,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                         <>
                         <LeftIcon width={24} height={24} color={colors.iconColor}/>
                         <Text style={[styles.navText, pressed && {color: colors.iconColor}]}>
-                            {previousRoute?.name === "Post" ? i18n.buttons.post : i18n.navbar.tags}
+                            {i18n.tag.tag}
                         </Text>
                         </>
                     )}

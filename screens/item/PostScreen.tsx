@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState, useRef, useMemo} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {View, StatusBar, FlatList, useWindowDimensions, Text, Alert} from "react-native"
 import {RouteProp, useNavigation} from "@react-navigation/native"
 import {Drawer} from "react-native-drawer-layout"

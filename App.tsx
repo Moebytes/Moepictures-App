@@ -53,6 +53,7 @@ import ChangePasswordScreen from "./screens/settings/ChangePasswordScreen"
 import ChangeEmailScreen from "./screens/settings/ChangeEmailScreen"
 import HelpScreen from "./screens/info/HelpScreen"
 import PremiumScreen from "./screens/info/PremiumScreen"
+import UserScreen from "./screens/item/UserScreen"
 import functions from "./functions/Functions"
 
 export type StackParamList = {
@@ -72,7 +73,7 @@ export type StackParamList = {
   GroupHistory: {slug: string}
   History: undefined
   Favgroups: undefined
-  Favgroup: {slug: string}
+  Favgroup: {slug: string, username?: string}
   EditFavgroup: {slug: string}
   Profile: undefined
   Language: undefined
@@ -92,6 +93,7 @@ export type StackParamList = {
   ChangeEmail: undefined
   Help: undefined
   Premium: undefined
+  User: {username: string}
 }
 
 declare global {
@@ -195,6 +197,7 @@ const App: React.FunctionComponent = () => {
           <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
           <Stack.Screen name="Help" component={HelpScreen}/>
           <Stack.Screen name="Premium" component={PremiumScreen}/>
+          <Stack.Screen name="User" component={UserScreen}/>
         </Stack.Navigator>
         <Toast type="info" visibilityTime={2500} topOffset={top+10} config={{info: ToastUI}}/>
       </NavigationContainer>

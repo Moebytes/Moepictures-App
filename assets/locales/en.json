@@ -183,6 +183,7 @@
         "old": "Old",
         "readAll": "Read All",
         "unreadAll": "Unread All",
+        "deleteUnread": "Delete Unread",
         "hideSystem": "Hide System",
         "deleteAll": "Delete All",
         "post": "Post",
@@ -1296,6 +1297,9 @@
             "title": "Soft Delete Message",
             "header": "Do you want to soft delete this message? (It will appear again if any other recipient replies)."
         },
+        "deleteUnread": {
+            "header": "Do you want to delete unread messages? (Intended to read them and mark as unread again)."
+        },
         "takedownPost": {
             "title": "Takedown Post",
             "restoreTitle": "Restore Post",
@@ -2023,6 +2027,10 @@
         },
         "changeUsername": {
             "header": "Change your username once every 7 days so you can choose a name that you are happier with."
+        },
+        "purchase": {
+            "title": "Purchase",
+            "line1": "Please purchase a subscription on our mobile app (available on the Apple App Store or Google Play Store), we are not currently handling payments on the web at this time. A mobile subscription will also reflect on the web since it is tied to your account and not to a single device."
         }
     },
     "mobilePremium": {

@@ -28,8 +28,8 @@ const CommentsScreen: React.FunctionComponent = () => {
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, ratingType, commentSort} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
-    const {commentFlag} = useFlagSelector()
-    const {setCommentFlag} = useFlagActions()
+    const {commentFlag, commentSearchFlag} = useFlagSelector()
+    const {setCommentFlag, setCommentSearchFlag} = useFlagActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -86,6 +86,15 @@ const CommentsScreen: React.FunctionComponent = () => {
             setCommentFlag(false)
         }
     }, [commentFlag])
+
+    useEffect(() => {
+        if (commentSearchFlag) {
+            setPage(1)
+            setSearchTags([commentSearchFlag])
+            setSearch(commentSearchFlag)
+            setCommentSearchFlag(null)
+        }
+    }, [commentSearchFlag])
     
     const onPress = () => {
         const posts = comments.map((h) => h.post)

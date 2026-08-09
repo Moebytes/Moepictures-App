@@ -238,8 +238,6 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
                     {uploader && functions.jsx.usernameJSX(uploader, colors, i18n, {fontSize: 18}, 22)}
-                    {/*<Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
-                        {functions.util.toProperCase(props.post.uploader)}</Text>*/}
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploaded}:</Text>

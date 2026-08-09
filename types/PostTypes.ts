@@ -63,7 +63,7 @@ export interface Post {
     updatedDate: string
     title: string
     englishTitle: string
-    slug: string | null
+    slug: string
     artist: string
     posted: string
     source: string
@@ -78,8 +78,8 @@ export interface Post {
     sourceImageCount: number | null
     approver: string
     approveDate: string
-    hasOriginal: boolean | null
-    hasUpscaled: boolean | null
+    hasOriginal: boolean
+    hasUpscaled: boolean
     hidden: boolean | null
     locked: boolean | null
     private: boolean | null

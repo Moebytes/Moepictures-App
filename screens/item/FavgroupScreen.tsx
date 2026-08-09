@@ -46,11 +46,11 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setNavigationPosts} = useCacheActions()
     const {setSearchScrollFlag} = useFlagActions()
     const {setActiveFavgroup} = useActiveActions()
-    const {slug} = route.params
+    const {slug, username} = route.params
     const [page, setPage] = useState(1)
     const [deleteMode, setDeleteMode] = useState(false)
     const [reorderState, setReorderState] = useState(false)
-    const {data: favgroup} = useGetFavgroupQuery({username: session.username, name: slug})
+    const {data: favgroup} = useGetFavgroupQuery({username: username ?? session.username, name: slug})
     const styles = createStylesheet(colors)
     const ref = useAnimatedRef<ScrollView>()
     const [sortKey, setSortKey] = useState(0)
@@ -59,11 +59,6 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const navigation = useNavigation()
     const invalidateFavgroup = useInvalidateFavgroup()
     const invalidateFavgroups = useInvalidateFavgroups()
-
-    const previousRoute = useNavigationState((state) => {
-        const index = state.index
-        return index > 0 ? state.routes[index - 1] : null
-    })
 
     useEffect(() => {
         setPage(1)
@@ -164,8 +159,8 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
 
     const pressAction = () => {
         if (!favgroup) return
-        setSearchTags([`favgroup:${session.username}:${favgroup.slug}`])
-        setSearch(`favgroup:${session.username}:${favgroup.slug}`)
+        setSearchTags([`favgroup:${favgroup.username}:${favgroup.slug}`])
+        setSearch(`favgroup:${favgroup.username}:${favgroup.slug}`)
         navigation.navigate("Posts", undefined, {pop: true})
         setSearchScrollFlag(true)
     }
@@ -197,7 +192,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         <>
                         <LeftIcon width={24} height={24} color={colors.iconColor}/>
                         <Text style={[styles.navText, pressed && {color: colors.iconColor}]}>
-                            {previousRoute?.name === "Post" ? i18n.buttons.post : i18n.labels.favoriteGroup}
+                            {i18n.labels.favoriteGroup}
                         </Text>
                         </>
                     )}
@@ -208,6 +203,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                     <View style={styles.rowContainer}>
                         {favgroup.private ? <LockIcon width={iconSize} height={iconSize} color={colors.iconColor} style={{marginTop: 3}}/> : null}
                         <Text style={styles.title}>{favgroup.name}</Text>
+                        {favgroup.username === session.username ? <>
                         <ScalableHaptic onPress={changeReorderState}>
                             <ReorderIcon width={iconSize2} height={iconSize2} color={reorderState ? colors.favoriteColor : colors.iconColor}/>
                         </ScalableHaptic>
@@ -222,7 +218,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         </ScalableHaptic>
                         <ScalableHaptic onPress={deleteFavgroup}>
                             <DeleteIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
-                        </ScalableHaptic>
+                        </ScalableHaptic></> : null}
                     </View>
                 </View>
                 <View style={styles.headerContainer}>

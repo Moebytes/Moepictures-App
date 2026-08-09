@@ -463,6 +463,91 @@ export const api = createApi({
                 url: "/api/user", params
             })
         }),
+
+        getUploads: builder.infiniteQuery<
+            GetEndpoint<"/api/user/uploads">["response"], 
+            GetEndpoint<"/api/user/uploads">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/user/uploads", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+
+        getFavorites: builder.infiniteQuery<
+            GetEndpoint<"/api/user/favorites">["response"], 
+            GetEndpoint<"/api/user/favorites">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/user/favorites", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        getFavoriteTags: builder.query<
+            GetEndpoint<"/api/tagfavorites">["response"], 
+            GetEndpoint<"/api/tagfavorites">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/tagfavorites", params
+            })
+        }),
+
+        getFavoriteGroups: builder.query<
+            GetEndpoint<"/api/user/favgroups">["response"], 
+            GetEndpoint<"/api/user/favgroups">["params"]
+        >({
+            query: (params) => ({
+                url: "/api/user/favgroups", params
+            }),
+            providesTags: (result, error, arg) => [
+                {type: "Favgroups"}
+            ]
+        }),
+
+        getUserComments: builder.infiniteQuery<
+            GetEndpoint<"/api/user/comments">["response"], 
+            GetEndpoint<"/api/user/comments">["params"] & {refreshKey?: number},
+            PageParams
+        >({
+            infiniteQueryOptions: {
+                initialPageParam: {
+                    offset: 0,
+                    limit: 15
+                },
+                getNextPageParam,
+                getPreviousPageParam
+            },
+            query: ({queryArg, pageParam}) => ({
+                url: "/api/user/comments", params: {...queryArg, ...pageParam}
+            })
+        }),
+
+        getUserCommentsPage: builder.query<
+            GetEndpoint<"/api/user/comments">["response"], 
+            GetEndpoint<"/api/user/comments">["params"] & {refreshKey?: number}
+        >({
+            query: (params) => ({
+                url: "/api/user/comments", params
+            })
+        }),
     })
 })
 
@@ -557,5 +642,11 @@ export const {
     useGetGroupHistoryQuery,
     useGetFavgroupsQuery,
     useGetFavgroupQuery,
-    useGetUserQuery
+    useGetUserQuery,
+    useGetUploadsInfiniteQuery,
+    useGetFavoritesInfiniteQuery,
+    useGetFavoriteTagsQuery,
+    useGetFavoriteGroupsQuery,
+    useGetUserCommentsInfiniteQuery,
+    useGetUserCommentsPageQuery
 } = api

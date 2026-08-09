@@ -107,7 +107,7 @@ const LoginScreen: React.FunctionComponent = () => {
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.text}>{i18n.pages.login.signupText}</Text>
-                        <ScalableHaptic scaleFactor={0.95} onPress={() => navigation.navigate("SignUp")}>
+                        <ScalableHaptic scaleFactor={0.95} onPress={() => navigation.navigate("SignUp", undefined, {pop: true})}>
                             <Text style={styles.text2}>{i18n.pages.login.signupText2}</Text>
                         </ScalableHaptic>
                     </View>

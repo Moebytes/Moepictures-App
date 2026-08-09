@@ -73,11 +73,6 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const historyGroup = historyID && historyGroups?.length ? historyGroups[0] : null
     let group = historyGroup ?? currentGroup
 
-    const previousRoute = useNavigationState((state) => {
-        const index = state.index
-        return index > 0 ? state.routes[index - 1] : null
-    })
-
     useEffect(() => {
         setPage(1)
         ref.current?.scrollTo({y: 0})
@@ -325,7 +320,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         <>
                         <LeftIcon width={24} height={24} color={colors.iconColor}/>
                         <Text style={[styles.navText, pressed && {color: colors.iconColor}]}>
-                            {previousRoute?.name === "Post" ? i18n.buttons.post : i18n.sort.groups}
+                            {i18n.labels.group}
                         </Text>
                         </>
                     )}
@@ -336,10 +331,10 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                     {historyBarJSX()}
                     <View style={styles.rowContainer}>
                         <Text style={styles.title}>{group.name}</Text>
+                        {session.username ? <>
                         <ScalableHaptic onPress={groupHistory}>
                             <HistoryIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
                         </ScalableHaptic>
-                        {session.username ? <>
                         <ScalableHaptic onPress={changeReorderState}>
                             <ReorderIcon width={iconSize2} height={iconSize2} color={reorderState ? colors.favoriteColor : colors.iconColor}/>
                         </ScalableHaptic>

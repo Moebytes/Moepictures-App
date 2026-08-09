@@ -5,6 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {View, Text, StyleProp, TextStyle, ViewStyle} from "react-native"
+import {HapticFeedbackTypes} from "react-native-haptic-feedback"
+import {useNavigation} from "@react-navigation/native"
+import ScalableHaptic from "../ui/ScalableHaptic"
 import CrownIcon from "../assets/svg/crown.svg"
 import CuratorStarIcon from "../assets/svg/curator-star.svg"
 import ContributorPencilIcon from "../assets/svg/pencil.svg"
@@ -17,8 +20,9 @@ import enLocale from "../assets/locales/en.json"
 export default class JSXFunctions {
     public static usernameJSX = (userData: {username: string, role: string, premium: boolean | null, banned: boolean | null, 
         deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17,
-        rowStyle?: StyleProp<ViewStyle>, editText?: string, date?: string) => {
+        rowStyle?: StyleProp<ViewStyle>, editText?: string, date?: string, pressable = true) => {
         const styles = createStylesheet(colors)
+        const navigation = useNavigation()
 
         const color = functions.tag.getUserColor(userData, colors)
         let iconMap = {
@@ -37,13 +41,28 @@ export default class JSXFunctions {
 
         let timeString = editText && date ? `${editText} ${functions.date.timeAgo(date, i18n)} ${i18n.time.by} `  : ""
 
+        let userJSX = () => (
+            <>
+            <Text style={[styles.text, textStyle, {color, textDecorationLine: userData.banned || 
+                userData.deleted ? "line-through" : "none"}]}>
+                {timeString}{userData.deleted ? i18n.user.deleted : functions.util.toProperCase(userData.username)}</Text>
+            {Icon && <Icon width={iconSize} height={iconSize} color={color}/>}
+            </>
+        )
+
+        if (!pressable) {
+            return (
+                <View style={[styles.container, rowStyle]} >
+                    {userJSX()}
+                </View>
+            )
+        }
+
         return (
-            <View style={[styles.container, rowStyle]}>
-                <Text style={[styles.text, textStyle, {color, textDecorationLine: userData.banned || 
-                    userData.deleted ? "line-through" : "none"}]}>
-                    {timeString}{userData.deleted ? i18n.user.deleted : functions.util.toProperCase(userData.username)}</Text>
-                {Icon && <Icon width={iconSize} height={iconSize} color={color}/>}
-            </View>
+            <ScalableHaptic style={[styles.container, rowStyle]} scaleFactor={0.97}
+                onPress={() => navigation.navigate("User", {username: userData.username}, {pop: true})}>
+                    {userJSX()}
+            </ScalableHaptic>
         )
     }
 }

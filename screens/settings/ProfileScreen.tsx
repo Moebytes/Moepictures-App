@@ -143,7 +143,8 @@ const ProfileScreen: React.FunctionComponent = () => {
                         onPress={() => navigation.navigate("UserSettings", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <Image src={userImg} style={styles.pfp}/>
-                            {functions.jsx.usernameJSX(session, colors, i18n, {fontSize: 22}, 25)}
+                            {functions.jsx.usernameJSX(session, colors, i18n, {fontSize: 22}, 25,
+                                undefined, undefined, undefined, false)}
                         </View>
                     </PressableHaptic> : 
                     /* Login */
@@ -294,7 +295,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                         />
                     </View></> : null}
 
-                    {permissions.isAdmin(session) ? <>
+                    {permissions.isOwner(session) ? <>
                     <View style={styles.separator}/>
 
                     /* Show R18 */

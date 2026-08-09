@@ -19,6 +19,7 @@ const flagSlice = createSlice({
         searchScrollFlag: false,
         favgroupFlag: false,
         commentFlag: false,
+        commentSearchFlag: null as string | null,
         emojiFlag: ""
     },
     reducers: {
@@ -29,13 +30,15 @@ const flagSlice = createSlice({
         setSearchScrollFlag: (state, action) => {state.searchScrollFlag = action.payload},
         setFavgroupFlag: (state, action) => {state.favgroupFlag = action.payload},
         setCommentFlag: (state, action) => {state.commentFlag = action.payload},
+        setCommentSearchFlag: (state, action) => {state.commentSearchFlag = action.payload},
         setEmojiFlag: (state, action) => {state.emojiFlag = action.payload}
     }
 })
 
 const {
     setSessionFlag, setPageFlag, setRandomSearchFlag, setImageSearchFlag, 
-    setSearchScrollFlag, setFavgroupFlag, setCommentFlag, setEmojiFlag
+    setSearchScrollFlag, setFavgroupFlag, setCommentFlag, setEmojiFlag,
+    setCommentSearchFlag
 } = flagSlice.actions
 
 export const useFlagSelector = () => {
@@ -48,6 +51,7 @@ export const useFlagSelector = () => {
         searchScrollFlag: selector((state) => state.flag.searchScrollFlag),
         favgroupFlag: selector((state) => state.flag.favgroupFlag),
         commentFlag: selector((state) => state.flag.commentFlag),
+        commentSearchFlag: selector((state) => state.flag.commentSearchFlag),
         emojiFlag: selector((state) => state.flag.emojiFlag)
     }
 }
@@ -62,6 +66,7 @@ export const useFlagActions = () => {
         setSearchScrollFlag: (state: boolean) => dispatch(setSearchScrollFlag(state)),
         setFavgroupFlag: (state: boolean) => dispatch(setFavgroupFlag(state)),
         setCommentFlag: (state: boolean) => dispatch(setCommentFlag(state)),
+        setCommentSearchFlag: (state: string | null) => dispatch(setCommentSearchFlag(state)),
         setEmojiFlag: (state: string) => dispatch(setEmojiFlag(state))
     }
 }

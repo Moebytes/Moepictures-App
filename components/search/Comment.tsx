@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable} from "react-native"
+import {View, Image, Pressable, useWindowDimensions} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
 import {UITextView as Text} from "react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
@@ -20,6 +20,7 @@ import ReportIcon from "../../assets/svg/report.svg"
 import EditIcon from "../../assets/svg/edit.svg"
 import DeleteIcon from "../../assets/svg/delete.svg"
 import {UserComment} from "../../types/Types"
+import FilterImage from "../image/FilterImage"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
 import permissions from "../../structures/Permissions"
@@ -28,6 +29,8 @@ import {siteURL} from "../../ui/site"
 interface Props {
     comment: UserComment
     refetch: () => void
+    image?: boolean
+    padding?: number
 }
 
 const Comment: React.FunctionComponent<Props> = (props) => {
@@ -35,21 +38,47 @@ const Comment: React.FunctionComponent<Props> = (props) => {
     const {session} = useSessionSelector()
     const {setQuoteText} = useActiveActions()
     const {setEditCommentID, setEditCommentText} = useCommentDialogActions()
+    const {width} = useWindowDimensions()
     const {emojis} = useCacheSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
+    const [size, setSize] = useState({width: 0, height: 0})
+    const [img, setImg] = useState("")
     const [userPfp, setUserPfp] = useState("")
     const navigation = useNavigation()
+
+    const updateImage = async () => {
+        if (!props.image) return
+        const post = await functions.http.get("/api/post", {postID: props.comment.postID}, session)
+        if (!post) return
+        const thumb = functions.link.getThumbnailLink(post.images[0], "medium", session)
+        setImg(thumb)
+    }
+
+    useEffect(() => {
+        const updateSize = async () => {
+            if (!img) return
+            const size = await functions.image.dynamicResize({uri: img}, 120, width)
+            setSize(size)
+        }
+        updateSize()
+    }, [img])
 
     useEffect(() => {
         if (!props.comment) return
         const pfp = functions.link.getFolderLink("pfp", props.comment.image, props.comment.imageHash)
         setUserPfp(pfp)
+        setImg("")
+        updateImage()
     }, [props.comment])
 
     let pfpSize = 60
     let iconSize = 18
     let pfp = userPfp || `${siteURL}/favicon.png`
+
+    const imgPress = () => {
+        navigation.navigate("Post", {postID: props.comment.postID})
+    }
 
     const pfpPress = () => {
         if (props.comment.imagePost) {
@@ -126,11 +155,15 @@ const Comment: React.FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <Pressable style={({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor}]}>
-             <Pressable style={styles.userContainer} onPress={pfpPress}>
+        <Pressable style={({pressed}) => [styles.container, pressed && {borderColor: colors.borderColor},
+            Boolean(props.padding) && {marginHorizontal: props.padding}]}>
+            {props.image ? <Pressable style={styles.imageContainer} onPress={imgPress}>
+                <FilterImage img={img} size={size}/>
+            </Pressable> : null}
+             {!props.image ? <Pressable style={styles.userContainer} onPress={pfpPress}>
                 <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} src={pfp} resizeMode="contain"/>
                 {functions.jsx.usernameJSX(props.comment, colors, i18n, {fontSize: 18}, 20)}
-             </Pressable>
+             </Pressable> : null}
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>

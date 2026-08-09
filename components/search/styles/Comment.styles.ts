@@ -14,18 +14,26 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "flex-start",
-            width: "100%",
             gap: 10,
             borderWidth: 1.5,
             borderColor: "transparent",
             borderRadius: 13,
             marginBottom: 10
         },
+        imageContainer: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+            paddingLeft: 10,
+            paddingVertical: 10
+        },
         userContainer: {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            alignSelf: "center",
             paddingHorizontal: 10,
             paddingVertical: 10,
             gap: 10
