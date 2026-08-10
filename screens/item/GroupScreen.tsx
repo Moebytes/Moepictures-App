@@ -9,7 +9,7 @@ import {View, StatusBar, Animated, ScrollView, NativeSyntheticEvent, NativeScrol
 import Alert from "@blazejkustra/react-native-alert"
 import {useAnimatedRef} from "react-native-reanimated"
 import Sortable, {SortableFlexDragEndParams} from "react-native-sortables"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
@@ -263,7 +263,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         if (!historyGroup) return
         Alert.alert(i18n.dialogs.revertGroupHistory.title, i18n.dialogs.revertGroupHistory.header, [
             {text: i18n.buttons.cancel, style: "cancel"},
-            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+            {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
                 await functions.http.put("/api/group/reorder", {slug, posts: historyGroup.posts}, session)
                 await functions.http.put("/api/group/edit", {slug, name: historyGroup.name, description: historyGroup.description}, session)
                 currentHistory(functions.post.generateSlug(historyGroup.name))

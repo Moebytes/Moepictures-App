@@ -8,7 +8,7 @@ import React, {useEffect, useRef, useState, useMemo} from "react"
 import {View, StatusBar, Alert, Animated, ScrollView, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useAnimatedRef} from "react-native-reanimated"
 import Sortable, {SortableFlexDragEndParams} from "react-native-sortables"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
 useSearchSelector, useSearchActions, useActiveActions, useCacheActions} from "../../store"

@@ -6,7 +6,7 @@
 
 import React, {useEffect, useState, useRef} from "react"
 import {View, ScrollView, ImageBackground, Animated, StatusBar, Platform} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import {useIAP, getAvailablePurchases, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer, Purchase} from "react-native-iap"

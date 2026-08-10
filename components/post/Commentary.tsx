@@ -6,7 +6,7 @@
 
 import React, {useState} from "react"
 import {View, Pressable} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"

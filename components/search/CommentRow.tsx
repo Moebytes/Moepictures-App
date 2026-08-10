@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Image, useWindowDimensions, Pressable} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"

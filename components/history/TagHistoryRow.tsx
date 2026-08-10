@@ -6,8 +6,9 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Pressable, useWindowDimensions, Image, Alert} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
+import {useInvalidateTag} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
@@ -42,6 +43,7 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
     const [img, setImg] = useState("")
     const navigation = useNavigation()
     let hasChanges = functions.compare.hasHistoryChanges(props.history)
+    const invalidateTag = useInvalidateTag()
 
     useEffect(() => {
         const updateImage = async () => {
@@ -73,7 +75,7 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
     const revertHistory = () => {
         Alert.alert(i18n.dialogs.revertTagHistory.title, i18n.dialogs.revertGroupHistory.header, [
             {text: i18n.buttons.cancel, style: "cancel"},
-            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+            {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
                 if (props.history.historyID === props.currentHistory.historyID) return
                 let image = null as number[] | ["delete"] | null
                 if (!props.history.image) {
@@ -89,6 +91,9 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
                 social: props.history.social, twitter: props.history.twitter, website: props.history.website, fandom: props.history.fandom, 
                 wikipedia: props.history.wikipedia, type: props.history.type, r18: props.history.r18 ?? false, 
                 featuredPost: props.history.featuredPost?.postID}, session)
+
+                navigation.navigate("TagHistory", {name: props.history.key}, {pop: true})
+                invalidateTag(props.history.tag)
                 props.refetch()
             }}
         ], {cancelable: true})

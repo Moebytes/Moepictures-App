@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, StatusBar} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Alert from "@blazejkustra/react-native-alert"
 import Toast from "react-native-toast-message"
 import {useNavigation} from "@react-navigation/native"

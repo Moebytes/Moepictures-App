@@ -19,17 +19,20 @@ export default class HTTPFunctions {
     public static sessionCookie = ""
 
     public static updateSessionCookie = async (response: Response) => {
-        if (Platform.OS === "ios") return
+        let sessionCookie = ""
+        const cookieHeader = response.headers.get("set-cookie")
+        if (cookieHeader) sessionCookie = cookieHeader.split(";")[0]
+        if (Platform.OS === "ios") return sessionCookie
+
         if (!this.sessionCookie) {
             const savedCookie = await asyncStorage.getItem("cookie")
             if (savedCookie) this.sessionCookie = savedCookie
         }
-        const cookieHeader = response.headers.get("set-cookie")
-        if (cookieHeader) {
-            const sessionCookie = cookieHeader.split(";")[0]
+        if (sessionCookie) {
             this.sessionCookie = sessionCookie
             await asyncStorage.setItem("cookie", sessionCookie)
         }
+        return sessionCookie
     }
 
     public static refreshKeys = async () => {

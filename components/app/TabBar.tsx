@@ -94,9 +94,12 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
             if (activeRoute === "Tag" && tab.screen === "Tags") active = true
             if (activeRoute === "Group" && tab.screen === "Groups") active = true
             if ((activeRoute === "Terms" || activeRoute === "Privacy" || activeRoute === "Contact"
-                || activeRoute === "Copyright" || activeRoute === "Help" || 
-                activeRoute === "Favgroups" || activeRoute === "Favgroup")
+                || activeRoute === "Copyright" || activeRoute === "Help" || activeRoute === "User"
+                || activeRoute === "Favgroups" || activeRoute === "Favgroup")
                 && tab.screen === "Profile") active = true
+            if ((activeRoute === "PostHistory" || activeRoute === "TagHistory"
+                || activeRoute === "GroupHistory")
+                && tab.screen === "History") active = true
 
             jsx.push(
                 <Pressable style={styles.iconContainer} key={tab.screen}

@@ -52,11 +52,15 @@ export default class LinkFunctions {
             return this.postThumbnailCache.get(cacheKey)!
         }
 
+        let image = partialPost.images[index]
+
+        if (typeof image === "string") {
+            if (image.startsWith("history/post")) return `${siteURL}/${image}`
+            if (new URL(image).searchParams.has("hash")) return image
+        }
         let post = await functions.http.get("/api/post", {postID: partialPost.postID}, session)
         if (!post) return ""
-        let image = post.images[index]
-        if (typeof image === "string" && new URL(image).searchParams.has("hash")) return image
-        const thumb = this.getThumbnailLink(image, sizeType, session)
+        const thumb = this.getThumbnailLink(post.images[index], sizeType, session)
 
         this.postThumbnailCache.set(cacheKey, thumb)
         return thumb
@@ -137,11 +141,16 @@ export default class LinkFunctions {
             return this.postImageCache.get(cacheKey)!
         }
 
+        let image = partialPost.images[index]
+        if (upscaled && partialPost.upscaledImages?.length) image = partialPost.upscaledImages[index]
+
+        if (typeof image === "string") {
+            if (image.startsWith("history/post")) return `${siteURL}/${image}`
+            if (new URL(image).searchParams.has("hash")) return image
+        }
         let post = await functions.http.get("/api/post", {postID: partialPost.postID}, session)
         if (!post) return ""
-        let image = post.images[index]
-        if (typeof image === "string" && new URL(image).searchParams.has("hash")) return image
-        const img = this.getImageLink(image, upscaled)
+        const img = this.getImageLink(post.images[index], upscaled)
 
         this.postImageCache.set(cacheKey, img)
         return img
@@ -149,6 +158,7 @@ export default class LinkFunctions {
 
     public static resolveImage = async (image: Image | string, session: Session, upscaled?: boolean) => {
         if (typeof image === "string") {
+            if (image.startsWith("history/post")) return `${siteURL}/${image}`
             if (new URL(image).searchParams.has("hash")) return image
             const [postID, order, filename] = path.basename(image).split("-")
 
@@ -164,6 +174,7 @@ export default class LinkFunctions {
 
     public static resolveThumbnail = async (image: Image | string, sizeType: string, session: Session) => {
         if (typeof image === "string") {
+            if (image.startsWith("history/post")) return `${siteURL}/${image}`
             if (new URL(image).searchParams.has("hash")) return image
             const [postID, order, filename] = path.basename(image).split("-")
 

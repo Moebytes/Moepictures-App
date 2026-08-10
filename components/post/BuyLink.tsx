@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import BuyLinkIcon from "../../assets/svg/buy-link.svg"

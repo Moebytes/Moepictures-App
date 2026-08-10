@@ -155,7 +155,7 @@ const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
                 }}
                 data={history} 
                 renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item, index) => item.historyID?.toString() || index.toString()}
                 numColumns={1}
 
                 refreshControl={

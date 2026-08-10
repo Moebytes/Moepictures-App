@@ -6,7 +6,7 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Pressable, useWindowDimensions, Alert} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"

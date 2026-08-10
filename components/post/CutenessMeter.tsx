@@ -7,7 +7,7 @@
 import React, {useState, useEffect} from "react"
 import {View, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import StarRating from "react-native-star-rating-widget"
 import {useLayoutActions, useMiscDialogSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CutenessMeter.styles"

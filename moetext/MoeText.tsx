@@ -6,7 +6,7 @@
 
 import functions from "../functions/Functions"
 import {View, Image, Pressable} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Video from "react-native-video"
 import {createStylesheet} from "./styles/MoeText.styles"
 import {Session} from "../types/Types"

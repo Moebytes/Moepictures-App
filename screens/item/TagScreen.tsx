@@ -7,7 +7,7 @@
 import React, {useEffect, useRef, useState} from "react"
 import {View, Image, StatusBar, FlatList, Linking, useWindowDimensions} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
@@ -35,6 +35,7 @@ import RevertIcon from "../../assets/svg/backspace.svg"
 import CurrentIcon from "../../assets/svg/current.svg"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
+import {TagHistory} from "../../types/Types"
 import moeText from "../../moetext/MoeText"
 
 const pixiv = require("../../assets/icons/pixiv.png")
@@ -341,7 +342,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         if (!historyTag) return
         Alert.alert(i18n.dialogs.revertTagHistory.title, i18n.dialogs.revertGroupHistory.header, [
             {text: i18n.buttons.cancel, style: "cancel"},
-            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+            {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
                 let image = null as number[] | ["delete"] | null
                 if (!historyTag.image) {
                     image = ["delete"]
@@ -400,6 +401,12 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
     let iconSize = 30
 
+    const getTagName = () => {
+        if (!tag) return
+        if (historyID && (tag as TagHistory).key) return functions.util.toProperCase((tag as TagHistory).key.replaceAll("-", " "))
+        return functions.util.toProperCase(tag.tag.replace(/-/g, " "))
+    }
+
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
@@ -425,7 +432,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                     <View style={styles.rowContainer}>
                         {tag.image && <Image style={styles.image} src={functions.link.getTagLink(tag)}/>}
                         <Text style={[styles.tag, {color: functions.tag.getTagColor(tag, colors)}]}>
-                            {functions.util.toProperCase(tag.tag.replace(/-/g, " "))}
+                            {getTagName()}
                         </Text>
                         {socialIcons()}
                         {session.username ? <>

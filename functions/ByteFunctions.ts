@@ -5,8 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import fileType from "magic-bytes.js"
+import ReactNativeBlobUtil from "react-native-blob-util"
 import {ImageChunk, Session, UploadImage} from "../types/Types"
 import functions from "./Functions"
+import {siteURL} from "../ui/site"
 
 export default class ByteFunctions {
     public static bufferFileType = (buffer: Uint8Array | ArrayBuffer | Buffer | number[]) => {
@@ -65,12 +67,34 @@ export default class ByteFunctions {
     public static uploadChunks = async (originalChunks: ImageChunk[], upscaledChunks: ImageChunk[], 
         session: Session) => {
         const sendChunks = async (chunks: ImageChunk[]) => {
+            const response = await functions.http.fetch(siteURL)
+            const cookie = await functions.http.updateSessionCookie(response)
+
             for (const chunk of chunks) {
-                const form = new FormData()
-                form.append("bytes", new Blob([new Uint8Array(chunk.bytes!)]))
-                delete chunk.bytes
-                form.append("metadata", JSON.stringify({...chunk}))
-                await functions.http.postForm("/api/post/image-chunk", form, session)
+                const {bytes, ...metadata} = chunk
+
+                const path = `${ReactNativeBlobUtil.fs.dirs.CacheDir}/${chunk.fileID}-${chunk.index}.bin`
+
+                try {
+                    const base64 = Buffer.from(bytes!).toString("base64")
+                    await ReactNativeBlobUtil.fs.writeFile(path, base64, "base64")
+
+                    let headers = {"Content-Type": "multipart/form-data", 
+                        "x-csrf-token": session.csrfToken, "cookie": cookie}
+
+                    await ReactNativeBlobUtil.fetch("POST", `${siteURL}/api/post/image-chunk`, 
+                        headers, [
+                            {name: "bytes", 
+                            filename: "chunk.bin", 
+                            type: "application/octet-stream", 
+                            data: ReactNativeBlobUtil.wrap(path)},
+
+                            {name: "metadata", data: JSON.stringify(metadata)}
+                    ])
+
+                } finally {
+                    await ReactNativeBlobUtil.fs.unlink(path).catch(() => null)
+                }
             }
         }
         await sendChunks(originalChunks)

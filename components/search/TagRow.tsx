@@ -6,7 +6,7 @@
 
 import React from "react"
 import {View, ScrollView, Image, Pressable} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector} from "../../store"

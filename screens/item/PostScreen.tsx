@@ -147,7 +147,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
 
       Alert.alert(i18n.dialogs.revertPostHistory.title, i18n.dialogs.revertGroupHistory.header, [
           {text: i18n.buttons.cancel, style: "cancel"},
-          {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+          {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
               const imgChanged = await functions.compare.imagesChanged(historyPost, currentPost, session)
               const tagsChanged = functions.compare.tagsChanged(historyPost, currentPost)
               const srcChanged = functions.compare.sourceChanged(historyPost, currentPost)

@@ -6,7 +6,7 @@
 
 import React, {useState, useRef, forwardRef, useImperativeHandle, useEffect, useReducer} from "react"
 import {ScrollView, View, Image, TextInput, FlatList} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import ScalableHaptic from "./ScalableHaptic"
 import PressableHaptic from "./PressableHaptic"
 import {useCacheSelector, useFlagActions, useFlagSelector, useLayoutActions, useSessionSelector, useThemeSelector} from "../store"

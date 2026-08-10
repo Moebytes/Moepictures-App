@@ -6,7 +6,7 @@
 
 import React, {useRef, useEffect} from "react"
 import {View, FlatList} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useActiveActions, useActiveSelector, useFlagActions, 
 useFlagSelector, useSessionSelector, useThemeSelector} from "../../store"

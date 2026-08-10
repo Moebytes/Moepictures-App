@@ -6,8 +6,9 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Pressable, useWindowDimensions, Alert} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
+import {useInvalidatePost} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
@@ -36,6 +37,7 @@ const PostHistoryRow: React.FunctionComponent<Props> = (props) => {
     const [tagCategories, setTagCategories] = useState({} as TagCategories)
     const navigation = useNavigation()
     let hasChanges = functions.compare.hasHistoryChanges(props.history)
+    const invalidatePost = useInvalidatePost()
 
     const updateTagCategories = async () => {
         if (!props.history.addedTags || !props.history.removedTags) return
@@ -87,7 +89,7 @@ const PostHistoryRow: React.FunctionComponent<Props> = (props) => {
     const revertHistory = () => {
         Alert.alert(i18n.dialogs.revertPostHistory.title, i18n.dialogs.revertGroupHistory.header, [
             {text: i18n.buttons.cancel, style: "cancel"},
-            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+            {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
                 if (props.history.historyID === props.currentHistory.historyID) return
                 const imgChanged = await functions.compare.imagesChanged(props.history, props.currentHistory, session)
                 const tagsChanged = functions.compare.tagsChanged(props.history, props.currentHistory)
@@ -134,6 +136,8 @@ const PostHistoryRow: React.FunctionComponent<Props> = (props) => {
                     imageLinks, tagGroups: props.history.tagGroups, parentID: props.history.parentID, reason: props.history.reason}, 
                     session)
                 }
+                
+                invalidatePost(props.history.postID)
                 props.refetch()
             }}
         ], {cancelable: true})

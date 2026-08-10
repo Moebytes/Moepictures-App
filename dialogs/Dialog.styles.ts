@@ -11,7 +11,7 @@ import {fonts} from "../ui/fonts"
 export const createStylesheet = (colors: ThemeColors) => {
     return StyleSheet.create({
         overlay: {
-            ...StyleSheet.absoluteFillObject,
+            ...StyleSheet.absoluteFill,
             justifyContent: "center",
             alignItems: "center",
             pointerEvents: "box-none",
@@ -20,7 +20,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             //backgroundColor: "#00000054"
         },
         modalOverlay: {
-            ...StyleSheet.absoluteFillObject,
+            ...StyleSheet.absoluteFill,
             justifyContent: "center",
             alignItems: "center",
             zIndex: 1000,

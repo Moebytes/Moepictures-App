@@ -6,7 +6,7 @@
 
 import React, {useEffect, useRef} from "react"
 import {View, Image, StatusBar, FlatList} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useSessionSelector, useCacheSelector, useSearchSelector} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"

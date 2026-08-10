@@ -159,7 +159,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
                 }}
                 data={history} 
                 renderItem={renderItem}
-                keyExtractor={(item) => item.historyID.toString()}
+                keyExtractor={(item, index) => item.historyID?.toString() || index.toString()}
                 numColumns={1}
 
                 refreshControl={

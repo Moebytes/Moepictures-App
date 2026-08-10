@@ -6,8 +6,9 @@
 
 import React, {useState, useEffect} from "react"
 import {View, Pressable, useWindowDimensions, Alert} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
+import {useInvalidateGroup} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector} from "../../store"
@@ -35,6 +36,7 @@ const GroupHistoryRow: React.FunctionComponent<Props> = (props) => {
     const [img, setImg] = useState("")
     const navigation = useNavigation()
     let hasChanges = functions.compare.hasHistoryChanges(props.history)
+    const invalidateGroup = useInvalidateGroup()
 
     useEffect(() => {
         if (!props.history) return
@@ -60,7 +62,7 @@ const GroupHistoryRow: React.FunctionComponent<Props> = (props) => {
 
     const onPress = () => {
         let historyID = props.history.historyID === props.currentHistory.historyID ? "" : props.history.historyID
-        navigation.navigate("Group", {slug: props.history.slug, historyID}, {pop: true})
+        navigation.navigate("Group", {slug: props.currentHistory.slug, historyID}, {pop: true})
     }
 
     const openPost = (postID: string | null) => {
@@ -71,10 +73,13 @@ const GroupHistoryRow: React.FunctionComponent<Props> = (props) => {
     const revertHistory = () => {
         Alert.alert(i18n.dialogs.revertGroupHistory.title, i18n.dialogs.revertGroupHistory.header, [
             {text: i18n.buttons.cancel, style: "cancel"},
-            {text: i18n.buttons.delete, style: "destructive", onPress: async () => {
+            {text: i18n.buttons.revert, style: "destructive", onPress: async () => {
                 if (props.history.historyID === props.currentHistory.historyID) return
                 await functions.http.put("/api/group/reorder", {slug: props.currentHistory.slug, posts: props.history.posts}, session)
                 await functions.http.put("/api/group/edit", {slug: props.currentHistory.slug, name: props.history.name, description: props.history.description}, session)
+                
+                navigation.navigate("GroupHistory", {slug: functions.post.generateSlug(props.history.name)}, {pop: true})
+                invalidateGroup(props.currentHistory.slug)
                 props.refetch()
             }}
         ], {cancelable: true})

@@ -7,7 +7,7 @@
 import React, {useState, useEffect, useRef} from "react"
 import {View, ScrollView} from "react-native"
 import Clipboard from "@react-native-clipboard/clipboard"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"

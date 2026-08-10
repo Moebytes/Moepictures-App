@@ -6,7 +6,7 @@
 
 import React, {useState} from "react"
 import {Pressable, StyleProp, TextStyle} from "react-native"
-import {UITextView as Text} from "react-native-uitextview"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/SpoilerText.styles"
 
