@@ -59,13 +59,16 @@ const FullscreenModal: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateImages = async () => {
             if (!props.post) return
-            let img = await functions.link.resolveImage(image, session, session.upscaledImages)
-            const prevImg = await functions.link.resolveImage(prevImage, session, session.upscaledImages)
-            const nextImg = await functions.link.resolveImage(nextImage, session, session.upscaledImages)
+            let img = await functions.link.resolveImage(image, session, false)
+            const prevImg = await functions.link.resolveImage(prevImage, session, false)
+            const nextImg = await functions.link.resolveImage(nextImage, session, false)
             setImg(img)
             setPrevImg(prevImg)
             setNextImg(nextImg)
         }
+        setImg("")
+        setPrevImg("")
+        setNextImg("")
         updateImages()
     }, [image, prevImage, nextImage])
 

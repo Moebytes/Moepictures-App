@@ -85,7 +85,8 @@ export const createStylesheet = (colors: ThemeColors) => {
         carousel: {
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "flex-start",
+            width: "100%",
             alignItems: "center"
         }
     })
