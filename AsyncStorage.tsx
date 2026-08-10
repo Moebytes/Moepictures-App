@@ -50,7 +50,7 @@ const AsyncStorage: React.FunctionComponent = () => {
             setTheme(session.themeSettings.theme as Themes)
             setAppHue(Number(session.themeSettings.hue))
             setAppSaturation(Number(session.themeSettings.saturation))
-            setAppSaturation(Number(session.themeSettings.lightness))
+            setAppLightness(Number(session.themeSettings.lightness))
         }
     }
 

@@ -296,7 +296,7 @@ const PostHistoryRow: React.FunctionComponent<Props> = (props) => {
         const editText = firstHistory ? i18n.time.uploaded : i18n.time.edited
 
         return functions.jsx.usernameJSX(props.history.user, 
-            colors, i18n, styles.dateText, undefined, styles.dateContainer, editText, targetDate)
+            colors, i18n, navigation, styles.dateText, undefined, styles.dateContainer, editText, targetDate)
     }
 
     const diffJSX = () => {

@@ -237,7 +237,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 </View></>}
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploader}:</Text>
-                    {uploader && functions.jsx.usernameJSX(uploader, colors, i18n, {fontSize: 18}, 22)}
+                    {uploader && functions.jsx.usernameJSX(uploader, colors, i18n, navigation, {fontSize: 18}, 22)}
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.uploaded}:</Text>

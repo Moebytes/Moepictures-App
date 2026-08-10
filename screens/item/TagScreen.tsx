@@ -403,7 +403,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
     const getTagName = () => {
         if (!tag) return
-        if (historyID && (tag as TagHistory).key) return functions.util.toProperCase((tag as TagHistory).key.replaceAll("-", " "))
+        if (historyID && (tag as TagHistory).key) return functions.util.toProperCase((tag as TagHistory).key.replace(/-/g, " "))
         return functions.util.toProperCase(tag.tag.replace(/-/g, " "))
     }
 

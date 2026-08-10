@@ -14,15 +14,15 @@ import ContributorPencilIcon from "../assets/svg/pencil.svg"
 import PremiumStarIcon from "../assets/svg/premium-star.svg"
 import {ThemeColors} from "../ui/colors"
 import {createStylesheet} from "./styles/JSXFunctions.styles"
-import functions from "./Functions"
+import functions, {Navigation} from "./Functions"
 import enLocale from "../assets/locales/en.json"
 
 export default class JSXFunctions {
     public static usernameJSX = (userData: {username: string, role: string, premium: boolean | null, banned: boolean | null, 
-        deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, textStyle?: StyleProp<TextStyle>, iconSize = 17,
-        rowStyle?: StyleProp<ViewStyle>, editText?: string, date?: string, pressable = true) => {
+        deleted: boolean | null}, colors: ThemeColors, i18n: typeof enLocale, navigation: Navigation, 
+        textStyle?: StyleProp<TextStyle>, iconSize = 17, rowStyle?: StyleProp<ViewStyle>, 
+        editText?: string, date?: string, pressable = true) => {
         const styles = createStylesheet(colors)
-        const navigation = useNavigation()
 
         const color = functions.tag.getUserColor(userData, colors)
         let iconMap = {
@@ -60,7 +60,7 @@ export default class JSXFunctions {
 
         return (
             <ScalableHaptic style={[styles.container, rowStyle]} scaleFactor={0.97}
-                onPress={() => navigation.navigate("User", {username: userData.username}, {pop: true})}>
+                onPress={() => navigation?.navigate("User", {username: userData.username}, {pop: true})}>
                     {userJSX()}
             </ScalableHaptic>
         )

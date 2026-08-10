@@ -24,7 +24,7 @@ import {CommonActions, NavigationProp, NavigationState} from "@react-navigation/
 import {PostRating} from "../types/Types"
 import clone from "fast-clone"
 
-type Navigation = Omit<NavigationProp<ReactNavigation.RootParamList>, "getState"> & {
+export type Navigation = Omit<NavigationProp<ReactNavigation.RootParamList>, "getState"> & {
     getState(): NavigationState | undefined
 }
 

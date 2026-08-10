@@ -97,7 +97,7 @@ const UserScreen: React.FunctionComponent<Props> = ({route}) => {
                     <View style={styles.container}>
                         <View style={styles.rowContainer}>
                             <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} src={pfp} resizeMode="contain"/>
-                            {user ? functions.jsx.usernameJSX(user, colors, i18n, {fontSize: 30, 
+                            {user ? functions.jsx.usernameJSX(user, colors, i18n, navigation, {fontSize: 30, 
                                 marginRight: 5}, 35, undefined, undefined, undefined, false) : null}
                         </View>
                         <View style={styles.rowContainer}>

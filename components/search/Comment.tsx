@@ -162,7 +162,7 @@ const Comment: React.FunctionComponent<Props> = (props) => {
             </Pressable> : null}
              {!props.image ? <Pressable style={styles.userContainer} onPress={pfpPress}>
                 <Image style={{width: pfpSize, height: pfpSize, borderRadius: 5}} src={pfp} resizeMode="contain"/>
-                {functions.jsx.usernameJSX(props.comment, colors, i18n, {fontSize: 18}, 20)}
+                {functions.jsx.usernameJSX(props.comment, colors, i18n, navigation, {fontSize: 18}, 20)}
              </Pressable> : null}
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>

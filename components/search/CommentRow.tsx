@@ -151,7 +151,7 @@ const CommentRow: React.FunctionComponent<Props> = (props) => {
             <View style={styles.textContainer}>
                 <View style={styles.rowContainer}>
                     <Image style={{width: pfpSize, height: pfpSize, borderRadius: pfpSize / 2}} src={pfp} resizeMode="contain"/>
-                    {functions.jsx.usernameJSX(props.comment, colors, i18n)}
+                    {functions.jsx.usernameJSX(props.comment, colors, i18n, navigation)}
                 </View>
                 <View style={styles.rowContainer}>
                     <DateIcon width={iconSize} height={iconSize} color={colors.iconColor}/>

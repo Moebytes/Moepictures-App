@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, { useEffect } from "react"
 import {ScrollView, View, Text, Image, Switch, Linking, StatusBar, Platform} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -40,6 +40,10 @@ const ProfileScreen: React.FunctionComponent = () => {
     const {setSessionFlag} = useFlagActions()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
+
+    useEffect(() => {
+        setSessionFlag(true)
+    }, [])
 
     const changeTheme = () => {
         setTheme(theme === "light" ? "dark" : "light")
@@ -143,7 +147,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                         onPress={() => navigation.navigate("UserSettings", undefined, {pop: true})}>
                         <View style={styles.iconContainer}>
                             <Image src={userImg} style={styles.pfp}/>
-                            {functions.jsx.usernameJSX(session, colors, i18n, {fontSize: 22}, 25,
+                            {functions.jsx.usernameJSX(session, colors, i18n, navigation, {fontSize: 22}, 25,
                                 undefined, undefined, undefined, false)}
                         </View>
                     </PressableHaptic> : 
