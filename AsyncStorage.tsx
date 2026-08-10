@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useRef} from "react"
 import {useWindowDimensions} from "react-native"
 import Toast from "react-native-toast-message"
 import {useThemeActions, useSessionSelector, useSessionActions, useSearchSelector, 
@@ -36,11 +36,50 @@ const AsyncStorage: React.FunctionComponent = () => {
         setLightness, setBlur, setSharpen, setPixelate} = useFilterActions()
     const {width, height} = useWindowDimensions()
     const [loaded, setLoaded] = useState(false)
+    const themeSaveTimeout = useRef<NodeJS.Timeout| null>(null)
 
     useEffect(() => {
         const isTablet = Math.min(width, height) >= 600
         setTablet(isTablet)
     }, [width, height])
+
+    const initThemeSettings = async () => {
+        if (!session.username) return
+
+        if (session.themeSettings) {
+            setTheme(session.themeSettings.theme as Themes)
+            setAppHue(Number(session.themeSettings.hue))
+            setAppSaturation(Number(session.themeSettings.saturation))
+            setAppSaturation(Number(session.themeSettings.lightness))
+        }
+    }
+
+    const saveThemeSettings = async () => {
+        if (!session.username) return
+
+        if (themeSaveTimeout.current) {
+            clearTimeout(themeSaveTimeout.current)
+        }
+
+        themeSaveTimeout.current = setTimeout(async () => {
+            await functions.http.post("/api/user/themesettings", 
+                {theme, hue: appHue, saturation: appSaturation, 
+                lightness: appLightness}, session)
+        }, 1000)
+    }
+
+    useEffect(() => {
+        initThemeSettings()
+    }, [session])
+
+    useEffect(() => {
+        saveThemeSettings()
+        return () => {
+            if (themeSaveTimeout.current) {
+                clearTimeout(themeSaveTimeout.current)
+            }
+        }
+    }, [theme, appHue, appSaturation, appLightness, session])
 
     const setSessionCookie = async () => {
         const response = await functions.http.fetch(siteURL)
