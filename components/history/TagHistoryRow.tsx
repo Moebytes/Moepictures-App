@@ -319,7 +319,7 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
                 </PressableHaptic>)
         }
         if (!hasChanges || changes.aliases) {
-            const aliases = props.history.aliases.map((a) => a.replace(/-/g, " "))
+            const aliases = props.history.aliases.map((a) => a?.replace(/-/g, " ")).filter(Boolean)
             jsx.push(
                 <View style={styles.rowContainer}>
                     <Text style={styles.label}>{i18n.sort.aliases}:</Text>
@@ -328,7 +328,7 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
                 </View>)
         }
         if (!hasChanges || changes.implications) {
-            const implications = props.history.implications.map((i) => i.replace(/-/g, " "))
+            const implications = props.history.implications.map((i) => i?.replace(/-/g, " ")).filter(Boolean)
             jsx.push(
                 <View style={styles.rowContainer}>
                     <Text style={styles.label}>{i18n.labels.implications}:</Text>
