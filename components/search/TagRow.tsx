@@ -110,7 +110,7 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
                 </View> : null}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
-                {moeText.renderCommentaryText(props.tag.description, emojis, colors)}
+                <Text style={styles.tagText}>{props.tag.description}</Text>
             </ScrollView>
         </View>
     )

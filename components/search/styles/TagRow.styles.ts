@@ -52,6 +52,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.irohamaruMikami,
             fontSize: 13
         },
+        tagText: {
+            fontFamily: fonts.jkGothicM,
+            fontSize: 14,
+            lineHeight: 20,
+            color: colors.textColor
+        },
         image: {
             height: 40,
             width: 40

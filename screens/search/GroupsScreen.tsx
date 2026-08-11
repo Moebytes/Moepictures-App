@@ -53,22 +53,11 @@ const GroupsScreen: React.FunctionComponent = () => {
         {skip: scroll}
     )
 
-    const filterGroups = (groups: GroupSearch[]) => {
-        let filtered = [] as GroupSearch[]
-        for (const group of groups) {
-            if (group.posts[0].type !== "image" && group.posts[0].type !== "comic") continue
-            if (!session.username) if (group.rating !== functions.r13()) continue
-            if (!session.username) if (group.posts[0].rating !== functions.r13()) continue
-            if (!functions.post.isR18(ratingType)) if (functions.post.isR18(group.rating)) continue
-            filtered.push(group)
-        }
-        return filtered
-    }
+    let groups = scroll
+        ? (infiniteQuery.data?.pages.flat() ?? [])
+        : (pageQuery.data ?? [])
 
-    const groups = scroll
-        ? filterGroups((infiniteQuery.data?.pages.flat() ?? []))
-        : filterGroups((pageQuery.data ?? []))
-
+    groups = groups.filter((g) => functions.post.filterPost(g.posts[0], ratingType, session))
         
     const isLoading = scroll
         ? infiniteQuery.isLoading
@@ -88,6 +77,8 @@ const GroupsScreen: React.FunctionComponent = () => {
     }
 
     const loadMore = () => {
+        console.log(infiniteQuery.hasNextPage)
+        console.log(infiniteQuery.data)
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()
         }

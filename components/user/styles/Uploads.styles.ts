@@ -14,6 +14,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-start",
+            width: "100%",
             backgroundColor: colors.background,
             gap: 20
         },
@@ -46,8 +47,6 @@ export const createStylesheet = (colors: ThemeColors) => {
         carousel: {
             display: "flex",
             flexDirection: "row",
-            justifyContent: "flex-start",
-            width: "100%",
             alignItems: "center"
         }
     })

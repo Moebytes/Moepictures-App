@@ -34,8 +34,14 @@ const customFetch: BaseQueryFn<QueryArgs, unknown, {message: string}> = async (a
 const getNextPageParam = (lastPage: any, allPages: any[], 
     lastPageParam: PageParams, allPageParams: PageParams[]) => {
     const nextOffset = lastPageParam.offset + lastPageParam.limit
+    
+    let countKeys = ["tagCount", "groupCount", "commentCount", 
+        "noteCount", "historyCount", "requestCount", "postCount"]
+    const countKey = countKeys.find((key) => lastPage[0]?.[key] !== undefined)
 
-    if (!lastPage || lastPage.length < lastPageParam.limit) {
+    const total = Number(countKey ? lastPage[0][countKey] : lastPage.length)
+
+    if (!lastPage || total < lastPageParam.limit) {
         return undefined
     }
 

@@ -60,7 +60,8 @@ export default class MoeText {
             } else {
                 const nextItem = items[index + 1]
 
-                if (nextItem?.type === "faviconlink" && item.text.length < 100) {
+                if (nextItem?.type === "faviconlink" && 
+                    item.text.length < 100 && nextItem?.text > 50) {
                     skipFlag = true
                     jsx.push(
                         <View style={styles.groupContainer}>
@@ -384,7 +385,7 @@ export default class MoeText {
                 } else if (functions.file.isVideo(part)) {
                     items.push({text: null, jsx: <Video key={index} style={styles.video} source={{uri: href}} muted controls/>})
                 } else {
-                    items.push({text: null, type: "faviconlink", jsx: <FavivonLink key={index} href={href}>{name}</FavivonLink>})
+                    items.push({text: name, type: "faviconlink", jsx: <FavivonLink key={index} href={href}>{name}</FavivonLink>})
                 }
             } else {
                 items.push({text: part, jsx: null})
