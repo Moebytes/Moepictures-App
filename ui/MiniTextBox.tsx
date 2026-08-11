@@ -95,8 +95,8 @@ const MiniTextBox = forwardRef<MiniTextBoxRef, Props>((props, ref) => {
     }
 
     const previewElements = () => {
-        let fragment = moeText.renderText(previewText, emojis, colors)[0] as React.ReactElement<React.FragmentProps>
-        const rendered = fragment.props.children as React.ReactElement[]
+        let fragment = moeText.renderText(previewText, emojis, colors)[0] as any
+        const rendered = fragment.props.children.props.children as React.ReactElement[]
         return rendered.map((element: any, index: number) => {
             if (element.type === Text) {
                 return React.cloneElement(element, {
