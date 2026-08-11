@@ -55,6 +55,11 @@ export const createStylesheet = (colors: ThemeColors) => {
             height: 200,
             resizeMode: "contain"
         },
+        video: {
+            width: 400,
+            height: 400,
+            resizeMode: "contain"
+        },
         quoteContainer: {
             display: "flex",
             flexDirection: "column",
@@ -68,6 +73,17 @@ export const createStylesheet = (colors: ThemeColors) => {
             lineHeight: 16,
             marginLeft: 2,
             color: colors.highlightColor
+        },
+        groupContainer: {
+            flexDirection: "row",
+            alignItems: "center",
+            flexShrink: 1
+        },
+        markupContainer: {
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignItems: "center",
+            width: "100%",
         }
     })
 }

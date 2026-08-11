@@ -319,26 +319,22 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
                 </PressableHaptic>)
         }
         if (!hasChanges || changes.aliases) {
-            if (props.history.aliases?.[0]) {
-                const aliases = props.history.aliases.map((a) => a.replace(/-/g, " "))
-                jsx.push(
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.label}>{i18n.sort.aliases}:</Text>
-                        <Text style={styles.text} selectable uiTextView
-                        selectionColor={colors.borderColor}>{aliases.join(", ")}</Text>
-                    </View>)
-            }
+            const aliases = props.history.aliases.map((a) => a.replace(/-/g, " "))
+            jsx.push(
+                <View style={styles.rowContainer}>
+                    <Text style={styles.label}>{i18n.sort.aliases}:</Text>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{aliases.length ? aliases.join(", ") : i18n.labels.none}</Text>
+                </View>)
         }
         if (!hasChanges || changes.implications) {
-            if (props.history.implications?.[0]) {
-                const implications = props.history.implications.map((i) => i.replace(/-/g, " "))
-                jsx.push(
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.label}>{i18n.labels.implications}:</Text>
-                        <Text style={styles.text} selectable uiTextView
-                        selectionColor={colors.borderColor}>{implications.join(", ")}</Text>
-                    </View>)
-            }
+            const implications = props.history.implications.map((i) => i.replace(/-/g, " "))
+            jsx.push(
+                <View style={styles.rowContainer}>
+                    <Text style={styles.label}>{i18n.labels.implications}:</Text>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{implications.length ? implications.join(", ") : i18n.labels.none}</Text>
+                </View>)
         }
         if (!hasChanges || changes.pixivTags) {
             if (props.history.pixivTags?.[0]) {

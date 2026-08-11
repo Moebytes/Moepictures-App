@@ -46,20 +46,44 @@ export default class MoeText {
         return result
     }
 
-    public static generateMarkup = (items: {text: any, jsx: any}[], colors: ThemeColors) => {
+    public static generateMarkup = (items: {text: any, type?: string, jsx: any}[], colors: ThemeColors) => {
         const styles = createStylesheet(colors)
         let jsx = [] as React.ReactElement[]
+        let skipFlag = false
         items.forEach((item, index) => {
+            if (skipFlag) { 
+                skipFlag = false 
+                return 
+            }
             if (item.jsx) {
                 jsx.push(item.jsx)
             } else {
-                jsx.push(<Text key={index} style={styles.text} 
-                    selectable uiTextView selectionColor={colors.borderColor}>
-                        {functions.render.trimStartNewline(item.text)}
-                    </Text>)
+                const nextItem = items[index + 1]
+
+                if (nextItem?.type === "faviconlink" && item.text.length < 100) {
+                    skipFlag = true
+                    jsx.push(
+                        <View style={styles.groupContainer}>
+                            <Text key={index} style={styles.text} 
+                            selectable uiTextView selectionColor={colors.borderColor}>
+                                {functions.render.trimStartNewline(item.text)}
+                            </Text>
+                            {nextItem.jsx}
+                        </View>
+                    )
+                } else {
+                    jsx.push(<Text key={index} style={styles.text} 
+                        selectable uiTextView selectionColor={colors.borderColor}>
+                            {functions.render.trimStartNewline(item.text)}
+                        </Text>)
+                }
             }
         })
-        return jsx
+        return (
+            <View style={styles.markupContainer}>
+                {jsx}
+            </View>
+        )
     }
 
     public static parseBullets = (text: string) => {
@@ -321,7 +345,7 @@ export default class MoeText {
 
     public static parseLinks = (text: string, colors: ThemeColors) => {
         const styles = createStylesheet(colors)
-        let items = [] as {text: any, jsx: any}[]
+        let items = [] as {text: any, type?: string, jsx: any}[]
         const parts = text.split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s]+)/g)
 
 
@@ -358,9 +382,9 @@ export default class MoeText {
                 } else if (functions.file.isImage(part) || functions.file.isGIF(part)) {
                     items.push({text: null, jsx: <Image key={index} style={styles.image} src={href}/>})
                 } else if (functions.file.isVideo(part)) {
-                    items.push({text: null, jsx: <Video key={index} style={styles.image} source={{uri: href}} muted controls/>})
+                    items.push({text: null, jsx: <Video key={index} style={styles.video} source={{uri: href}} muted controls/>})
                 } else {
-                    items.push({text: null, jsx: <FavivonLink key={index} href={href}>{name}</FavivonLink>})
+                    items.push({text: null, type: "faviconlink", jsx: <FavivonLink key={index} href={href}>{name}</FavivonLink>})
                 }
             } else {
                 items.push({text: part, jsx: null})
@@ -385,10 +409,11 @@ export default class MoeText {
         return items
     }
 
-    public static renderCommentaryText = (text: string, colors: ThemeColors) => {
+    public static renderCommentaryText = (text: string, emojis: any, colors: ThemeColors) => {
         if (!text) return []
         let items = this.parseLinks(text, colors)
         items = this.appendChain(items, this.parseEmails, colors)
+        items = this.appendParamChain(items, emojis, this.parseEmojis, colors)
         return this.generateMarkup(items, colors)
     }
 

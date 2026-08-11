@@ -8,7 +8,8 @@ import React, {useState, useEffect, useEffectEvent, useRef} from "react"
 import {View, Image, FlatList, ListRenderItem, RefreshControl, 
 NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
-useFlagActions, useSessionSelector, useSearchActions, useCacheActions} from "../../store"
+useFlagActions, useSessionSelector, useSearchActions, useCacheActions,
+useActiveSelector, useActiveActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
@@ -25,6 +26,8 @@ interface Props {
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
+    const {firstLoad} = useActiveSelector()
+    const {setFirstLoad} = useActiveActions()
     const {session, autosearchInterval} = useSessionSelector()
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
@@ -101,6 +104,13 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     posts = functions.post.filterPosts(posts, ratingType, session)
 
+    useEffect(() => {
+        setTimeout(() => {
+            if (!posts.length) setRefreshKey((prev) => prev + 1)
+            setFirstLoad(true)
+        }, 3000)
+    }, [])
+
     const onImagePress = () => {
         if (posts.length) setNavigationPosts(posts)
     }
@@ -110,6 +120,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     }
 
     const renderEmpty = () => {
+        if (!firstLoad) return null
         if (isLoading) return null
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>

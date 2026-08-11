@@ -13,7 +13,7 @@ import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, 
 useSearchSelector, useSearchActions, useFlagActions, useCacheActions,
-useTagDialogActions} from "../../store"
+useTagDialogActions, useCacheSelector} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
@@ -57,6 +57,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
     const {setAliasTagID} = useTagDialogActions()
+    const {emojis} = useCacheSelector()
     const {width} = useWindowDimensions()
     const {name, historyID} = route.params
     const [refreshKey, setRefreshKey] = useState(0)
@@ -463,7 +464,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
 
                     <View style={styles.textContainer}>
-                        {moeText.renderCommentaryText(tag.description, colors)}
+                        {moeText.renderCommentaryText(tag.description, emojis, colors)}
                     </View>
 
                     {tag.implications?.length && implications()}

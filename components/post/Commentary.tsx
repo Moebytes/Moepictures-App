@@ -7,7 +7,7 @@
 import React, {useState} from "react"
 import {View, Pressable} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
-import {useThemeSelector} from "../../store"
+import {useCacheSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/Commentary.styles"
 import CommentaryIcon from "../../assets/svg/commentary.svg"
 import {PostFull, PostHistory} from "../../types/Types"
@@ -20,6 +20,7 @@ interface Props {
 const Commentary: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const {emojis} = useCacheSelector()
     const [showTranslated, setShowTranslated] = useState(true)
 
     let iconSize = 30
@@ -35,7 +36,7 @@ const Commentary: React.FunctionComponent<Props> = (props) => {
                 </Pressable>
             </View>
             <View style={styles.textContainer}>
-                {moeText.renderCommentaryText(showTranslated ? props.post.englishCommentary : props.post.commentary, colors)}
+                {moeText.renderCommentaryText(showTranslated ? props.post.englishCommentary : props.post.commentary, emojis, colors)}
             </View>
         </View>
     )

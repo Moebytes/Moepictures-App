@@ -12,9 +12,8 @@ import Sortable, {SortableFlexDragEndParams} from "react-native-sortables"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
-import {useThemeSelector, useLayoutSelector, useSessionSelector, useFlagActions,
-useSearchSelector, useSearchActions,
-useCacheActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useFlagActions,
+useSearchSelector, useSearchActions, useCacheActions, useCacheSelector} from "../../store"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {StackParamList} from "../../App"
@@ -52,6 +51,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const {setScroll, setSearch, setSearchTags} = useSearchActions()
     const {setNavigationPosts} = useCacheActions()
     const {setSearchScrollFlag} = useFlagActions()
+    const {emojis} = useCacheSelector()
     const {slug, historyID} = route.params
     const [refreshKey, setRefreshKey] = useState(0)
     const {data: currentGroup} = useGetGroupQuery({name: slug, refreshKey})
@@ -353,7 +353,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         </ScalableHaptic></> : null}
                     </View>
                     <View style={styles.rowContainer}>
-                        {moeText.renderCommentaryText(group.description, colors)}
+                        {moeText.renderCommentaryText(group.description, emojis, colors)}
                     </View>
                 </View>
                 <View style={styles.headerContainer}>

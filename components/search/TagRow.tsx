@@ -9,7 +9,7 @@ import {View, ScrollView, Image, Pressable} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {useThemeSelector} from "../../store"
+import {useCacheSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/TagRow.styles"
 import {TagSearch} from "../../types/Types"
 import functions from "../../functions/Functions"
@@ -28,6 +28,7 @@ interface Props {
 const TagRow: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
+    const {emojis} = useCacheSelector()
     const navigation = useNavigation()
 
     const socialIcons = () => {
@@ -109,7 +110,7 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
                 </View> : null}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
-                {moeText.renderCommentaryText(props.tag.description, colors)}
+                {moeText.renderCommentaryText(props.tag.description, emojis, colors)}
             </ScrollView>
         </View>
     )

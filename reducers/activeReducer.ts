@@ -13,23 +13,26 @@ const activeSlice = createSlice({
     name: "active",
     initialState: {
         activeFavgroup: null as Favgroup | null,
-        quoteText: ""
+        quoteText: "",
+        firstLoad: false
     },
     reducers: {
         setActiveFavgroup: (state, action) => {state.activeFavgroup = action.payload},
-        setQuoteText: (state, action) => {state.quoteText = action.payload}
+        setQuoteText: (state, action) => {state.quoteText = action.payload},
+        setFirstLoad: (state, action) => {state.firstLoad = action.payload}
     }    
 })
 
 const {
-    setActiveFavgroup, setQuoteText
+    setActiveFavgroup, setQuoteText, setFirstLoad
 } = activeSlice.actions
 
 export const useActiveSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
         activeFavgroup: selector((state) => state.active.activeFavgroup),
-        quoteText: selector((state) => state.active.quoteText)
+        quoteText: selector((state) => state.active.quoteText),
+        firstLoad: selector((state) => state.active.firstLoad)
     }
 }
 
@@ -37,7 +40,8 @@ export const useActiveActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
         setActiveFavgroup: (state: Favgroup | null) => dispatch(setActiveFavgroup(state)),
-        setQuoteText: (state: string) => dispatch(setQuoteText(state))
+        setQuoteText: (state: string) => dispatch(setQuoteText(state)),
+        setFirstLoad: (state: boolean) => dispatch(setFirstLoad(state))
     }
 }
 
