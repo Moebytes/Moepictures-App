@@ -25,7 +25,7 @@ const GroupsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, ratingType, groupSort} = useSearchSelector()
+    const {scroll, ratingType, groupSort, sortReverse} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -43,12 +43,12 @@ const GroupsScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchGroupsInfiniteQuery(
-        {query: search, sort: groupSort, refreshKey},
+        {query: search, sort: functions.valid.parseSort(groupSort, sortReverse), refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchGroupsPageQuery(
-        {query: search, sort: groupSort, 
+        {query: search, sort: functions.valid.parseSort(groupSort, sortReverse), 
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )
@@ -77,8 +77,6 @@ const GroupsScreen: React.FunctionComponent = () => {
     }
 
     const loadMore = () => {
-        console.log(infiniteQuery.hasNextPage)
-        console.log(infiniteQuery.data)
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
             infiniteQuery.fetchNextPage()
         }

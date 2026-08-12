@@ -8,7 +8,7 @@ import React, {useEffect, useState, useRef} from "react"
 import {View, ScrollView, Text, Image, Animated} from "react-native"
 import Alert from "@blazejkustra/react-native-alert"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
-import {LiquidGlassView} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../ui/CrossLiquidGlassView"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSessionSelector,
 useSearchActions, useFlagActions} from "../store"
 import ScalableHaptic from "../ui/ScalableHaptic"
@@ -91,11 +91,11 @@ const TagFavoritesSheet: React.FunctionComponent = () => {
         for (const item of favoriteTags) {
             jsx.push(
                 <PressableHaptic key={item.tag} onPress={() => append(item.tag)}>
-                    <LiquidGlassView interactive effect="clear" 
+                    <CrossLiquidGlassView interactive effect="clear"
                         style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
                             <HeartIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.tagText}>{item.tag.replace(/-/g, " ")}</Text>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 </PressableHaptic>
             )
         }

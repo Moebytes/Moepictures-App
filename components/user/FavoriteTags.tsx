@@ -7,7 +7,7 @@
 import React, {useState} from "react"
 import {View, Text} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {LiquidGlassView} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {useThemeSelector} from "../../store"
 import {useGetFavoriteTagsQuery} from "../../api"
 import {createStylesheet} from "./styles/FavoriteTags.styles"
@@ -38,11 +38,11 @@ const FavoriteTags: React.FunctionComponent<Props> = (props) => {
         for (const tag of tags) {
             jsx.push(
                 <PressableHaptic key={tag.tag} onPress={() => navigation.navigate("Tag", {name: tag.tag}, {pop: true})}>
-                    <LiquidGlassView interactive effect="clear" 
+                    <CrossLiquidGlassView interactive effect="clear" 
                         style={[styles.tag]}>
                             <HeartIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.tagText}>{tag.tag.replace(/-/g, " ")}</Text>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 </PressableHaptic>
             )
         }

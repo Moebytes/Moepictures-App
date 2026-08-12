@@ -6,7 +6,7 @@
 
 import {Dirs, FileSystem as fs} from "react-native-file-access"
 import functions from "./Functions"
-import {TagCount, Session} from "../types/Types"
+import {TagCount, Alias, Session} from "../types/Types"
 
 export default class CacheFunctions {
     public static cachedThumbs = new Map<string, string>()
@@ -60,7 +60,7 @@ export default class CacheFunctions {
     public static tagCountsCache = async (session: Session) => {
         let tagCountMap = {} as {[key: string]: TagCount}
         const cache = await this.readCache<{[key: string]: TagCount}>("tagCounts")
-        if (cache) {
+        if (cache && Object.keys(cache).length) {
             return cache
         } else {
             let tagCounts = await functions.http.get("/api/tag/counts", {tags: []}, session)
@@ -72,9 +72,20 @@ export default class CacheFunctions {
         }
     }
 
+    public static aliasCache = async (session: Session) => {
+        const cache = await this.readCache<Alias[]>("aliases")
+        if (cache && cache.length) {
+            return cache
+        } else {
+            let aliasMap = await functions.http.get("/api/tag/aliases", {aliases: []}, session)
+            this.writeCache("aliases", aliasMap)
+            return aliasMap
+        }
+    }
+
     public static emojisCache = async (session: Session) => {
         const cache = await this.readCache<{[key: string]: string}>("emojis")
-        if (cache) {
+        if (cache && Object.keys(cache).length) {
             return cache
         } else {
             let emojis = await functions.http.get("/api/misc/emojis", null, session)

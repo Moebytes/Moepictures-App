@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef} from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, TextInput, Keyboard} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useFlagActions, useMiscDialogSelector, useMiscDialogActions} from "../../store"
@@ -34,15 +34,11 @@ const PageDialog: React.FunctionComponent = () => {
         Keyboard.dismiss()
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (showPageDialog) {
         return (
             <View style={styles.overlay}>
                 <Draggable resetKey={showPageDialog}>{(panHandlers) => (
-                    <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
                             <Text style={styles.title}>{i18n.dialogs.page.title}</Text>
@@ -72,7 +68,7 @@ const PageDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
                         </View>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 )}</Draggable>
             </View>
         )

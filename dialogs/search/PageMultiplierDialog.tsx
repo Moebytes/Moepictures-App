@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, Modal, Pressable} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
@@ -65,17 +65,25 @@ const PageMultiplierDialog: React.FunctionComponent = () => {
         return jsx
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (showPageMultiplierDialog) {
         return (
             <Modal transparent visible={showPageMultiplierDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowPageMultiplierDialog(false)}>
-                    <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container]}>
+
+                    <View key={"title"} hitSlop={{left: 100, right: 100, top: 20, bottom: 20}} 
+                        style={styles.rowButton}>
+                        <View style={[styles.rowContent]}>
+                            <Text style={styles.text}>Page Multiplier</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.separator}/>
+                    </View>
+
                         {generateOptions()}
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 </Pressable>
             </Modal>
         )

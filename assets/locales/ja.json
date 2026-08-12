@@ -542,7 +542,10 @@
         "imageCount": "画像数",
         "token": "トークン",
         "logout": "ログアウト",
-        "copyID": "コピーID"
+        "copyID": "コピーID",
+        "order": "注文",
+        "reverseOrder": "逆順",
+        "pageMultiplier": "ページ乗数"
     },
     "contextMenu": {
         "openExternal": "外部リンクを開く",
@@ -930,8 +933,8 @@
             "wait": "数秒待つ。",
             "noResults": "結果は見つからなかった。",
             "nothingFound": "何も見つからない。",
-            "supportedFiletypes": "対応ファイル形式： png, jpg, webp, avif, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj, zip.",
-            "supportedFiletypesZip": "zipでサポートされているタイプ： png, jpg, webp, avif, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj.",
+            "supportedFiletypes": "対応ファイル形式： png, jpg, webp, avif, jxl, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj, zip.",
+            "supportedFiletypesZip": "zipでサポートされているタイプ： png, jpg, webp, avif, jxl, gif, apng, mp4, webm, mp3, wav, glb, vrm, fbx, obj.",
             "maxFileSize": "最大ファイルサイズ"
         },
         "bulkUpload": {

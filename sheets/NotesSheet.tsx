@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState, useRef} from "react"
-import {View, Text, Animated} from "react-native"
+import {View, Text, Animated, Switch} from "react-native"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSearchSelector,
 useSearchActions} from "../store"
@@ -17,9 +17,10 @@ const NotesSheet: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {showNotesSheet} = useSheetSelector()
     const {setShowNotesSheet} = useSheetActions()
-    const {noteSort} = useSearchSelector()
-    const {setNoteSort} = useSearchActions()
+    const {noteSort, sortReverse} = useSearchSelector()
+    const {setNoteSort, setSortReverse} = useSearchActions()
     const [localSort, setLocalSort] = useState(noteSort)
+    const [localReverse, setLocalReverse] = useState(sortReverse)
     const styles = createStylesheet(colors)
     const sheet = useRef<TrueSheet>(null)
 
@@ -28,6 +29,7 @@ const NotesSheet: React.FunctionComponent = () => {
             sheet.current?.present()
 
             setLocalSort(noteSort)
+            setLocalReverse(sortReverse)
             
             setShowNotesSheet(false)
         }
@@ -35,10 +37,12 @@ const NotesSheet: React.FunctionComponent = () => {
 
     const reset = () => {
         setLocalSort("date")
+        setLocalReverse(false)
     }
 
     const apply = () => {
         setNoteSort(localSort)
+        setSortReverse(localReverse)
 
         sheet.current?.dismiss()
     }
@@ -82,6 +86,21 @@ const NotesSheet: React.FunctionComponent = () => {
                     <Text style={styles.title}>{i18n.options.sort}</Text>
                 </View>
                 {generateSortButtons()}
+                <View style={styles.row}>
+                    <Text style={styles.title}>{i18n.labels.order}</Text>
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.toggleContainer}>
+                        <Text style={styles.buttonText}>{i18n.labels.reverseOrder}</Text>
+                        <Switch
+                            value={localReverse}
+                            onValueChange={() => setLocalReverse(!localReverse)}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View>
+                </View>
                 <View style={styles.row}>
                     <View style={styles.evenContainer}>
                         <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton, 

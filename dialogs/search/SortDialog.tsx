@@ -5,12 +5,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
 import Toast from "react-native-toast-message"
 import {View, Text, Modal, Pressable, ScrollView} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
 useSearchActions, useSearchSelector, useSessionSelector} from "../../store"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {createStylesheet} from "../Dialog.styles"
 import {PostSort} from "../../types/Types"
 import CheckIcon from "../../assets/svg/check.svg"
@@ -30,12 +30,8 @@ const SortDialog: React.FunctionComponent = () => {
         if (sort === "bookmarks" && !permissions.isPremium(session)) {
             return Toast.show({text1: i18n.toast.premiumRequired})
         }
+        if (sortType === sort) setSortReverse(!sortReverse)
         setSortType(sort)
-        setShowSortDialog(false)
-    }
-
-    const reverse = () => {
-        setSortReverse(!sortReverse)
         setShowSortDialog(false)
     }
 
@@ -73,7 +69,7 @@ const SortDialog: React.FunctionComponent = () => {
                         <>
                         <View style={[styles.rowContent, pressed && {transform: [{scale: 1.1}]}]}>
                             <Text style={styles.text}>
-                                {i18n.sort[sort]}
+                                {sortReverse ? "↑" : "↓"} {i18n.sort[sort]}
                             </Text>
 
                             {selected && (
@@ -93,37 +89,16 @@ const SortDialog: React.FunctionComponent = () => {
         return jsx
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (showSortDialog) {
         return (
             <Modal transparent visible={showSortDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowSortDialog(false)}>
-                <LiquidGlassView effect="clear" style={[styles.scrollerContainer, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.scrollerContainer]}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 450}} 
                         contentContainerStyle={styles.scrollContainer}>
-                        <PressableHaptic 
-                            hitSlop={{left: 100, right: 100, top: 20, bottom: 20}} 
-                            style={styles.rowButton} 
-                            onPress={() => reverse()}>
-                            {({pressed}) => (
-                                <>
-                                <Text style={[styles.text, pressed && {transform: [{scale: 1.1}]}]}>
-                                    {i18n.sort.reverse}
-                                </Text>
-                                </>
-                            )}
-                        </PressableHaptic>
-
-                        <View style={styles.row}>
-                            <View style={styles.separator}/>
-                        </View>
-
                         {generateOptions()}
                     </ScrollView>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
                 </Pressable>
             </Modal>
         )

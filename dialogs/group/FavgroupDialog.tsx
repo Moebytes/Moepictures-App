@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState} from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, TextInput, Keyboard} from "react-native"
 import {useInvalidateFavgroup, useInvalidateFavgroups} from "../../api"
 import asyncStorage from "@react-native-async-storage/async-storage"
@@ -76,10 +76,6 @@ const FavgroupDialog: React.FunctionComponent = () => {
         Keyboard.dismiss()
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 20
 
     const favgroupJSX = () => {
@@ -111,7 +107,7 @@ const FavgroupDialog: React.FunctionComponent = () => {
         return (
             <View style={styles.overlay}>
                 <Draggable resetKey={favgroupID}>{(panHandlers) => (
-                    <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
                             <Text style={styles.title}>{i18n.dialogs.favgroup.title}</Text>
@@ -157,7 +153,7 @@ const FavgroupDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
                         </View>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 )}</Draggable>
             </View>
         )

@@ -26,7 +26,7 @@ const CommentsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, ratingType, commentSort} = useSearchSelector()
+    const {scroll, ratingType, commentSort, sortReverse} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
     const {commentFlag, commentSearchFlag} = useFlagSelector()
     const {setCommentFlag, setCommentSearchFlag} = useFlagActions()
@@ -47,12 +47,12 @@ const CommentsScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchCommentsInfiniteQuery(
-        {query: search, sort: commentSort, refreshKey},
+        {query: search, sort: functions.valid.parseSort(commentSort, sortReverse), refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchCommentsPageQuery(
-        {query: search, sort: commentSort,
+        {query: search, sort: functions.valid.parseSort(commentSort, sortReverse),
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )

@@ -9,7 +9,7 @@ import {View, Text, TextInput, ImageBackground, Animated, StatusBar} from "react
 import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import {SvgXml} from "react-native-svg"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useSessionSelector, useLayoutSelector, useThemeSelector} from "../../store"
@@ -70,10 +70,6 @@ const ChangeEmailScreen: React.FunctionComponent = () => {
         updateCaptcha()
     }, [session, theme])
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 25
 
     return (
@@ -95,7 +91,7 @@ const ChangeEmailScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={tablet ? 2 : 7}>
-                <LiquidGlassView effect="clear" style={[styles.box, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.user.changeEmail}</Text>
                     </View>
@@ -148,7 +144,7 @@ const ChangeEmailScreen: React.FunctionComponent = () => {
                         }}
                         </ScalableHaptic>
                     </View>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </ImageBackground>
         </View>
     )

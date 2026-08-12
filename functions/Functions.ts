@@ -15,6 +15,7 @@ import HTTPFunctions from "./HTTPFunctions"
 import ImageFunctions from "./ImageFunctions"
 import JSXFunctions from "./JSXFunctions"
 import LinkFunctions from "./LinkFunctions"
+import NativeFunctions from "./NativeFunctions"
 import PostFunctions from "./PostFunctions"
 import RenderFunctions from "./RenderFunctions"
 import TagFunctions from "./TagFunctions"
@@ -40,6 +41,7 @@ export default class Functions {
     public static image = ImageFunctions
     public static jsx = JSXFunctions
     public static link = LinkFunctions
+    public static native = NativeFunctions
     public static post = PostFunctions
     public static render = RenderFunctions
     public static tag = TagFunctions

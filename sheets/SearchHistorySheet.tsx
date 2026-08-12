@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState, useRef} from "react"
-import {View, Text, Animated} from "react-native"
+import {View, Text, Animated, Switch} from "react-native"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSearchSelector,
 useSearchActions} from "../store"
@@ -17,9 +17,10 @@ const SearchHistorySheet: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {showSearchHistorySheet} = useSheetSelector()
     const {setShowSearchHistorySheet} = useSheetActions()
-    const {searchHistorySort} = useSearchSelector()
-    const {setSearchHistorySort} = useSearchActions()
+    const {searchHistorySort, sortReverse} = useSearchSelector()
+    const {setSearchHistorySort, setSortReverse} = useSearchActions()
     const [localSort, setLocalSort] = useState(searchHistorySort)
+    const [localReverse, setLocalReverse] = useState(sortReverse)
     const styles = createStylesheet(colors)
     const sheet = useRef<TrueSheet>(null)
 
@@ -28,6 +29,7 @@ const SearchHistorySheet: React.FunctionComponent = () => {
             sheet.current?.present()
 
             setLocalSort(searchHistorySort)
+            setLocalReverse(sortReverse)
             
             setShowSearchHistorySheet(false)
         }
@@ -35,10 +37,12 @@ const SearchHistorySheet: React.FunctionComponent = () => {
 
     const reset = () => {
         setLocalSort("date")
+        setLocalReverse(false)
     }
 
     const apply = () => {
         setSearchHistorySort(localSort)
+        setSortReverse(localReverse)
 
         sheet.current?.dismiss()
     }
@@ -46,7 +50,6 @@ const SearchHistorySheet: React.FunctionComponent = () => {
     const generateSortButtons = () => {
         let sortOptions = [
             {name: i18n.sort.date, value: "date"},
-            {name: `${i18n.sort.reverse} ${i18n.sort.date}`, value: "reverse date"},
             {name: i18n.sort.random, value: "random"}
         ] as any
 
@@ -83,6 +86,21 @@ const SearchHistorySheet: React.FunctionComponent = () => {
                     <Text style={styles.title}>{i18n.options.sort}</Text>
                 </View>
                 {generateSortButtons()}
+                <View style={styles.row}>
+                    <Text style={styles.title}>{i18n.labels.order}</Text>
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.toggleContainer}>
+                        <Text style={styles.buttonText}>{i18n.labels.reverseOrder}</Text>
+                        <Switch
+                            value={localReverse}
+                            onValueChange={() => setLocalReverse(!localReverse)}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View>
+                </View>
                 <View style={styles.row}>
                     <View style={styles.evenContainer}>
                         <ScalableHaptic scaleFactor={0.97} style={[styles.wideButton, 

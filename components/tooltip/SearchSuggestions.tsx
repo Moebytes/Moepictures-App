@@ -6,7 +6,8 @@
 
 import React, {useState, useEffect} from "react"
 import {Text, ScrollView, Keyboard, Platform} from "react-native"
-import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {LiquidGlassContainerView} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useCacheSelector, useSearchSelector, useSearchActions,
 useLayoutActions} from "../../store"
@@ -93,17 +94,13 @@ const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
         setText("")
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     const visible = focused || props.active
 
     return (
         <>
         {visible && suggestions.length > 0 && (
             <LiquidGlassContainerView style={[styles.suggestionAbsoluteWrapper, {bottom: keyboardHeight}]}>
-                <LiquidGlassView effect="clear" style={[styles.suggestionContainer, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.suggestionContainer]}>
                     <ScrollView horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.suggestionScroller}
@@ -117,7 +114,7 @@ const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
                         </PressableHaptic>
                     ))}
                     </ScrollView>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </LiquidGlassContainerView>
         )}
         </>

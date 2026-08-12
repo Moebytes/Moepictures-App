@@ -9,12 +9,10 @@ import {View, Text, Animated, Easing} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import Toast from "react-native-toast-message"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {useThemeSelector, useSearchSelector, useSearchActions, useFlagActions,
 useSearchDialogActions, useSearchDialogSelector, useSessionSelector, 
-useSheetSelector, useSheetActions,
-useFilterSelector,
-useFilterActions} from "../../store"
+useSheetSelector, useSheetActions, useFilterSelector, useFilterActions} from "../../store"
 import {createStylesheet} from "./styles/SortBar.styles"
 import {launchImageLibrary} from "react-native-image-picker"
 import {pick, types} from "@react-native-documents/picker"
@@ -161,14 +159,10 @@ const SortBar: React.FunctionComponent = () => {
         outputRange: ["0deg", "360deg"]
     })
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 20
 
     return (
-        <LiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container, fallback]}>
+        <CrossLiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container]}>
             <View style={styles.iconContainer}>
                 <ScalableHaptic icon={ImgUploadIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => imageSearch()}/>
@@ -201,7 +195,7 @@ const SortBar: React.FunctionComponent = () => {
                 <ScalableHaptic icon={sortReverse ? SortReverseIcon : SortIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setShowSortDialog(!showSortDialog)}/>
             </View>
-        </LiquidGlassView>
+        </CrossLiquidGlassView>
     )
 }
 

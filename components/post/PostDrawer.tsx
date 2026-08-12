@@ -10,7 +10,8 @@ import Clipboard from "@react-native-clipboard/clipboard"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import Toast from "react-native-toast-message"
 import {useRoute, useNavigation} from "@react-navigation/native"
-import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {LiquidGlassContainerView} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useThemeSelector, useSessionSelector} from "../../store"
 import {useGetUserQuery} from "../../api"
@@ -73,10 +74,10 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         for (const item of tags) {
             jsx.push(
                 <PressableHaptic key={item.tag} onPress={() => navigation.navigate("Tag", {name: item.tag})}>
-                    <LiquidGlassView interactive effect="clear" 
+                    <CrossLiquidGlassView interactive effect="clear" showBlur={false}
                         style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
                             <Text style={styles.tagText}>{item.tag.replace(/-/g, " ")}</Text>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 </PressableHaptic>
             )
         }
@@ -154,15 +155,11 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         setTimeout(() => setCopied(false), 1000)
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (!props.post) return null
 
     return (
         <LiquidGlassContainerView style={{flex: 1}}>
-        <LiquidGlassView effect="clear" style={[{flex: 1}, fallback, {paddingTop: insets.top + 10}]}>
+        <CrossLiquidGlassView effect="clear" style={[{flex: 1}, {paddingTop: insets.top + 10}]}>
             <ScrollView ref={ref} style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
                 <View style={styles.rowItem}>
@@ -178,11 +175,11 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 </View>
                 <View style={styles.rowItem}>
                     <PressableHaptic onPress={copyPostID}>
-                        <LiquidGlassView interactive effect="clear" 
+                        <CrossLiquidGlassView interactive effect="clear" showBlur={false}
                             style={[styles.tag, styles.button]}>
                             <Text style={styles.tagText2}>{copied ? i18n.banner.copied : i18n.labels.copyID}</Text>
                             <CopyIDIcon width={25} height={25} color={colors.white}/>
-                        </LiquidGlassView>
+                        </CrossLiquidGlassView>
                     </PressableHaptic>
                 </View>
                 <View style={styles.rowItem}>
@@ -283,7 +280,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                         {functions.util.readableFileSize(dimensions.size)}</Text>
                 </View>
             </ScrollView>
-        </LiquidGlassView>
+        </CrossLiquidGlassView>
         </LiquidGlassContainerView>
     )
 }

@@ -261,7 +261,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
             ListHeaderComponent={
               <>
                 <TitleBar/>
-                <SearchBar random={true}/>
+                <SearchBar random={true} spaceEnabled={true}/>
                 {historyBarJSX()}
                 <Variations post={post} onImageChange={onImageChange}/>
                 <PostImage post={post} image={image} imageRef={imageRef}/>

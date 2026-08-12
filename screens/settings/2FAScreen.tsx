@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from "react"
 import {View, Text, TextInput, ImageBackground, Animated, StatusBar} from "react-native"
 import {useNavigation} from "@react-navigation/native"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
@@ -48,10 +48,6 @@ const $2FAScreen: React.FunctionComponent = () => {
         }
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 25
 
     return (
@@ -73,7 +69,7 @@ const $2FAScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={tablet ? 2 : 7}>
-                <LiquidGlassView effect="clear" style={[styles.box, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.pages.$2fa.title}</Text>
                     </View>
@@ -111,7 +107,7 @@ const $2FAScreen: React.FunctionComponent = () => {
                         }}
                         </ScalableHaptic>
                     </View>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </ImageBackground>
         </View>
     )

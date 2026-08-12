@@ -9,7 +9,7 @@ import {View, Text, TextInput, ImageBackground, Animated, StatusBar} from "react
 import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import {SvgXml} from "react-native-svg"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useFlagActions, useLayoutSelector, useSessionSelector, useThemeSelector} from "../../store"
@@ -85,10 +85,6 @@ const ChangeUsernameScreen: React.FunctionComponent = () => {
         updateCaptcha()
     }, [session, theme])
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 25
 
     return (
@@ -110,7 +106,7 @@ const ChangeUsernameScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={tablet ? 2 : 7}>
-                <LiquidGlassView effect="clear" style={[styles.box, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.user.changeUsername}</Text>
                     </View>
@@ -167,7 +163,7 @@ const ChangeUsernameScreen: React.FunctionComponent = () => {
                         }}
                         </ScalableHaptic>
                     </View></> : null}
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </ImageBackground>
         </View>
     )

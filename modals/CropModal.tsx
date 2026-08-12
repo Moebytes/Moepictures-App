@@ -7,7 +7,7 @@
 import React, {useState, useEffect, useRef} from "react"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {Modal, View, Text} from "react-native"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../ui/CrossLiquidGlassView"
 import {CropView} from "react-native-image-crop-tools"
 import Toast from "react-native-toast-message"
 import ScalableHaptic from "../ui/ScalableHaptic"
@@ -68,10 +68,6 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
         Toast.show({text1: i18n.toast.changedAvatar})
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 20
 
     return (
@@ -79,18 +75,18 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
             <View style={styles.container}>
                 <View style={[styles.headerContainer, {top: insets.top+5}]}>
                     <ScalableHaptic scaleFactor={0.95}  onPress={onClose}>
-                        <LiquidGlassView interactive effect="clear" style={[styles.headerButton, fallback]}>
+                        <CrossLiquidGlassView interactive effect="clear" style={[styles.headerButton]}>
                             <XIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.cancel}</Text>
-                        </LiquidGlassView>
+                        </CrossLiquidGlassView>
                     </ScalableHaptic>
                     
                     <ScalableHaptic scaleFactor={0.95} style={styles.headerButton} 
                         onPress={() => cropRef.current?.saveImage(true, 100)}>
-                        <LiquidGlassView interactive effect="clear" style={[styles.headerButton, fallback]}>
+                        <CrossLiquidGlassView interactive effect="clear" style={[styles.headerButton]}>
                             <CheckIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.done}</Text>
-                        </LiquidGlassView>
+                        </CrossLiquidGlassView>
                     </ScalableHaptic>
                 </View>
                 {img && <CropView

@@ -8,7 +8,7 @@ import React, {useEffect, useState, useRef} from "react"
 import {View, ScrollView, ImageBackground, Animated, StatusBar, Platform} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {useIAP, getAvailablePurchases, finishTransaction, ErrorCode, ProductSubscription, SubscriptionOffer, Purchase} from "react-native-iap"
 import Toast from "react-native-toast-message"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -142,10 +142,6 @@ const PremiumScreen: React.FunctionComponent = () => {
         if (restored) Toast.show({text1: i18n.toast.premiumRestored})
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 35
 
 
@@ -171,7 +167,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={tablet ? 2 : 7}>
-                <LiquidGlassView effect="clear" style={[styles.box, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.premium.premium.title}</Text>
                         <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor} style={{marginTop: "-5"}}/>
@@ -333,7 +329,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                         </Text>
                         </View>
                     </View>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </ImageBackground>
         </ScrollView>
     )

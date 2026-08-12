@@ -31,7 +31,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "center",
             alignItems: "center",
             pointerEvents: "auto",
-            borderWidth: 1,
+            borderWidth: 0.5,
             borderColor: colors.black,
             paddingHorizontal: 20,
             paddingVertical: 20,
@@ -44,7 +44,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "center",
             alignItems: "center",
             pointerEvents: "auto",
-            borderWidth: 1,
+            borderWidth: 0.5,
             borderColor: colors.black,
             borderRadius: 12
         },

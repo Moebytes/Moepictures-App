@@ -25,7 +25,7 @@ const TagsScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, ratingType, tagSort, tagType} = useSearchSelector()
+    const {scroll, ratingType, tagSort, tagType, sortReverse} = useSearchSelector()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -43,12 +43,12 @@ const TagsScreen: React.FunctionComponent = () => {
     const pageSize = 50
 
     const infiniteQuery = useSearchTagsInfiniteQuery(
-        {query: search, sort: tagSort, type: tagType, refreshKey},
+        {query: search, sort: functions.valid.parseSort(tagSort, sortReverse), type: tagType, refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchTagsPageQuery(
-        {query: search, sort: tagSort, type: tagType,
+        {query: search, sort: functions.valid.parseSort(tagSort, sortReverse), type: tagType,
             offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )

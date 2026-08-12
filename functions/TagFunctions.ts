@@ -211,4 +211,10 @@ export default class TagFunctions {
         if (user.deleted) return colors.deletedColor
         return colors.userColor
     }
+
+    public static tagCacheColor = (tagString: string, tagCounts: {[key: string]: TagCount}, colors: ThemeColors) => {
+        const tag = tagCounts[tagString]
+        if (!tag) return colors.buttonColor
+        return this.getGlassColor(tag, colors)
+    }
 }

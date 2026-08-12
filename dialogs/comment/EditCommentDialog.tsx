@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useRef, useReducer} from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, Keyboard} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSessionSelector, useFlagActions, 
@@ -55,18 +55,14 @@ const EditCommentDialog: React.FunctionComponent = () => {
         setTimeout(() => forceUpdate(), 0)
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (editCommentID) {
         const previewMode = textBoxRef.current?.getPreviewMode()
 
         return (
             <View style={styles.overlay}>
                 <Draggable resetKey={editCommentID}>{(panHandlers) => (
-                    <LiquidGlassView effect="clear" style={[styles.container, {//backgroundColor: colors.mainColor, 
-                        paddingHorizontal: 0}, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container, {//backgroundColor: colors.mainColor, 
+                        paddingHorizontal: 0}]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
                             <Text style={styles.title}>{i18n.dialogs.editComment.title}</Text>
@@ -102,7 +98,7 @@ const EditCommentDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
                         </View>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 )}</Draggable>
             </View>
         )

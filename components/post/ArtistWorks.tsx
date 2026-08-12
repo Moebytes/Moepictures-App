@@ -6,10 +6,12 @@
 
 import React from "react"
 import {View, Text, FlatList, Image, ListRenderItem} from "react-native"
-import {useSessionSelector, useThemeSelector, useCacheSelector, useCacheActions} from "../../store"
+import {useSessionSelector, useThemeSelector, useSearchActions, useCacheActions, useFlagActions} from "../../store"
+import {useNavigation} from "@react-navigation/native"
 import {useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/ArtistWorks.styles"
 import {PostSearch, Post} from "../../types/Types"
+import ScalableHaptic from "../../ui/ScalableHaptic"
 import CarouselImage from "../image/CarouselImage"
 import functions from "../../functions/Functions"
 
@@ -21,12 +23,23 @@ const ArtistWorks: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {showRelated} = useSessionSelector()
     const {setNavigationPosts} = useCacheActions()
+    const {setSearch, setSearchTags} = useSearchActions()
+    const {setSearchScrollFlag} = useFlagActions()
     const styles = createStylesheet(colors)
+    const navigation = useNavigation()
 
     const {data: posts} = useSearchPostsPageQuery(
         {query: props.tag, type: "mobile", rating: "all", style: "all", sort: "posted", limit: 1000},
         {skip: !showRelated || !Boolean(props.tag)}
     )
+
+    const pressAction = () => {
+        if (!props.tag) return
+        setSearchTags([props.tag])
+        setSearch(props.tag)
+        navigation.navigate("Posts", undefined, {pop: true})
+        setSearchScrollFlag(true)
+    }
 
     const onPress = (post: Post) => {
         if (!posts) return
@@ -41,9 +54,9 @@ const ArtistWorks: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}>
+            <ScalableHaptic scaleFactor={0.97} style={styles.headerContainer} onPress={pressAction}>
                 <Text style={styles.headerText}>{i18n.post.artistWorks}</Text>
-            </View>
+            </ScalableHaptic>
 
             <FlatList 
                 horizontal

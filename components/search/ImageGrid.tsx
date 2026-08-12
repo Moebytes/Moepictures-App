@@ -32,7 +32,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
     const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
-    const {search, scroll, imageType, ratingType, styleType, showChildren, sortType, 
+    const {search, scroll, imageType, ratingType, styleType, showChildren, sortType,
     sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
     const {setAutoScroll} = useSearchActions()
@@ -119,19 +119,20 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         return <GridImage post={item} onPress={onImagePress}/>
     }
 
+    const isLoading = scroll
+        ? infiniteQuery.isLoading
+        : pageQuery.isLoading
+
     const renderEmpty = () => {
         if (!firstLoad) return null
         if (isLoading) return null
+
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
                 <Image source={noresults} style={{width: 350, height: 350, resizeMode: "contain"}}/>
             </View>
         )
     }
-
-    const isLoading = scroll
-        ? infiniteQuery.isLoading
-        : pageQuery.isLoading
 
     const loadMore = () => {
         if (randomSearch) {

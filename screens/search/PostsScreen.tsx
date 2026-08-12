@@ -24,7 +24,7 @@ const PostsScreen: React.FunctionComponent = () => {
         <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
         <AnimatedHeaderWrapper visible={tabVisible}>
             <TitleBar/>
-            <SearchBar random={true}/>
+            <SearchBar random={true} spaceEnabled={true}/>
             <SortBar/>
         </AnimatedHeaderWrapper>
         <SearchSuggestions/>

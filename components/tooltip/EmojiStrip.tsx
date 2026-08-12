@@ -6,7 +6,8 @@
 
 import React, {Fragment, useState, useEffect, useRef} from "react"
 import {Image, ScrollView, Keyboard, NativeSyntheticEvent, NativeScrollEvent, Platform} from "react-native"
-import {LiquidGlassContainerView, LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {LiquidGlassContainerView} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useCacheSelector, useLayoutSelector, useFlagActions} from "../../store"
 import {createStylesheet} from "./styles/EmojiStrip.styles"
@@ -52,11 +53,6 @@ const EmojiStrip: React.FunctionComponent = () => {
         }
     }, [emojiStripVisible])
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
-
     const rows = 2
     const size = 30
     const gap = 10
@@ -76,7 +72,7 @@ const EmojiStrip: React.FunctionComponent = () => {
         <>
         {emojiStripVisible && (
             <LiquidGlassContainerView style={[styles.emojiAbsoluteWrapper, {bottom: keyboardHeight}]}>
-                <LiquidGlassView effect="clear" style={[styles.emojiContainer, fallback]}>
+                <CrossLiquidGlassView effect="clear" style={[styles.emojiContainer]}>
                     <ScrollView ref={scrollRef} horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={[styles.emojiScroller, {height, gap, padding}]}
@@ -92,7 +88,7 @@ const EmojiStrip: React.FunctionComponent = () => {
                             ))}
                         </Fragment>))}
                     </ScrollView>
-                </LiquidGlassView>
+                </CrossLiquidGlassView>
             </LiquidGlassContainerView>
         )}
         </>

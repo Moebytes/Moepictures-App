@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef, useState, useReducer} from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, TextInput, Keyboard} from "react-native"
 import Toast from "react-native-toast-message"
 import {useInvalidateTags} from "../../api"
@@ -69,17 +69,13 @@ const AliasTagDialog: React.FunctionComponent = () => {
         Keyboard.dismiss()
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let hasPermission = permissions.isMod(session)
 
     if (aliasTagID) {
         return (
             <View style={styles.overlay}>
                 <Draggable resetKey={aliasTagID}>{(panHandlers) => (
-                    <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container]}>
                         <View {...panHandlers} style={[styles.row, 
                             {paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
                             {hasPermission ? 
@@ -126,7 +122,7 @@ const AliasTagDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
                         </View>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 )}</Draggable>
             </View>
         )

@@ -4,19 +4,21 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useRef} from "react"
-import {View, TextInput, Pressable, Text, ScrollView, TextInputKeyPressEvent} from "react-native"
+import React, {useEffect, useState, useRef} from "react"
+import {View, TextInput, Pressable, Text, ScrollView, TextInputKeyPressEvent, Keyboard} from "react-native"
 import {useRoute, useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchActions, useSearchSelector, useFlagSelector,
 useSessionSelector, useFlagActions, useSheetSelector, useSheetActions,
-useCacheActions} from "../../store"
+useCacheActions, useCacheSelector} from "../../store"
 import {createStylesheet} from "./styles/SearchBar.styles"
 import SearchIcon from "../../assets/svg/search.svg"
 import OptionsIcon from "../../assets/svg/options.svg"
 import RandomIcon from "../../assets/svg/random.svg"
 import XIcon from "../../assets/svg/thick-x.svg"
 import functions from "../../functions/Functions"
+import PressableHaptic from "../../ui/PressableHaptic"
+import {TagCount} from "../../types/Types"
 
 interface Props {
     managedProps?: {
@@ -26,6 +28,7 @@ interface Props {
         setSearchTags: (tags: string[]) => void
         setSearch: (search: string) => void
     }
+    spaceEnabled?: boolean
     random?: boolean
 }
 
@@ -41,6 +44,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     const {setShowCommentsSheet, setShowNotesSheet, setShowSearchHistorySheet,
         setShowGroupsSheet, setShowTagsSheet} = useSheetActions()
     const {setNavigationPosts} = useCacheActions()
+    const [cacheTags, setCacheTags] = useState({} as {[key: string]: TagCount})
     const styles = createStylesheet(colors)
     const inputRef = useRef<TextInput>(null)
     const scrollRef = useRef<ScrollView>(null)
@@ -56,6 +60,10 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     }
 
     useEffect(() => {
+        functions.cache.tagCountsCache(session).then((c) => setCacheTags(c))
+    }, [])
+
+    useEffect(() => {
         if (searchScrollFlag) {
             setTimeout(() => {
                 scrollRef.current?.scrollTo({x: 0})
@@ -64,9 +72,11 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         }
     }, [searchScrollFlag])
 
-    const addItem = () => {
+    const addItem = async () => {
         if (!text.trim()) return
-        setSearchTags([...searchTags, text.trim().toLowerCase()])
+        let query = text.trim().toLowerCase()
+        if (props.spaceEnabled) query = await functions.native.parseSpaceEnabledSearch(query, session)
+        setSearchTags([...searchTags, query])
         setText("")
     }
 
@@ -74,8 +84,10 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
         setSearchTags(searchTags.filter((_, i) => i !== index))
     }
 
-    const commitItem = () => {
-        let tags = [...searchTags, text.trim().toLowerCase()].filter(Boolean)
+    const commitItem = async () => {
+        let query = text.trim().toLowerCase()
+        if (props.spaceEnabled) query = await functions.native.parseSpaceEnabledSearch(query, session)
+        let tags = [...searchTags, query].filter(Boolean)
         setSearchTags(tags)
         setSearch(tags.join(" "))
         setText("")
@@ -127,7 +139,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
                         keyboardShouldPersistTaps="always"
                         onContentSizeChange={() => scrollRef.current?.scrollToEnd({animated: true})}>
                         {searchTags.map((item, index) => (
-                            <View key={index} style={styles.tag}>
+                            <View key={index} style={[styles.tag, {backgroundColor: functions.tag.tagCacheColor(item, cacheTags, colors)}]}>
                                 <Text style={styles.tagText}>{item}</Text>
                                 <Pressable onPress={() => removeItem(index)} hitSlop={10}>
                                     <XIcon width={xSize} height={xSize} color={colors.textColor2}/>
@@ -160,9 +172,12 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
                     </ScrollView>
                 </Pressable>
 
-                <View style={styles.searchIconContainer}>
+                <PressableHaptic style={styles.searchIconContainer} onPress={async () => {
+                    await commitItem()
+                    Keyboard.dismiss()
+                }}>
                     <SearchIcon width={iconSize} height={iconSize} color={colors.borderColor}/>
-                </View>
+                </PressableHaptic>
             </View>
             <Pressable>
                 {props.random ?

@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, Keyboard} from "react-native"
 import Slider from "@react-native-community/slider"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -35,17 +35,13 @@ const FiltersDialog: React.FunctionComponent = () => {
         Keyboard.dismiss()
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     let iconSize = 25
 
     if (showFilters) {
         return (
             <View style={styles.overlay}>
                 <Draggable style={{width: "70%"}} resetKey={showFilters}>{(panHandlers) => (
-                    <LiquidGlassView effect="clear" style={[styles.container, {padding: 0, gap: 0, borderWidth: 1}, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container, {padding: 0, gap: 0, borderWidth: 0.5}]}>
                         <View {...panHandlers} style={[styles.row, 
                             {width: "100%", paddingHorizontal: 5, paddingVertical: 3, borderRadius: 10, overflow: "hidden"}]}>
                             <Text style={styles.title}>{i18n.filters.filters}</Text>
@@ -187,7 +183,7 @@ const FiltersDialog: React.FunctionComponent = () => {
                             )}
                             </PressableHaptic>
                         </View>
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 )}</Draggable>
             </View>
         )

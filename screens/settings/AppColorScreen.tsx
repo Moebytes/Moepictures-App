@@ -46,9 +46,10 @@ const AppColorScreen: React.FunctionComponent = () => {
                 <View style={styles.colorContainer}>
                     <Text style={styles.label}>{i18n.filters.hue}</Text>
                     <LinearGradient
-                        colors={["#F00F00", "#FF4E00", "#FFC400", "#EAF900", "#8CFF00",
-                                "#2FFF00", "#00FFB2", "#0BF0BF", "#0037FF", "#6A00F5",
-                                "#FE00D4", "#FD007F", "#FF002B", "#FF0030"]}
+                        colors={["#00fbff", "#0037FF", "#4a00f5",
+                                "#6A00F5", "#C000F5", "#FE00D4",
+                                "#FF3B9D", "#FD007F", "#FF6B8A",
+                                "#FFC400", "#EAF900", "#2FFF00"]}
                         locations={[0.00, 0.08, 0.17, 0.21, 0.25, 0.31, 0.44, 0.54,
                                     0.60, 0.70, 0.83, 0.88, 0.95, 1.0]}
                         start={{x: 0, y: 0}}
@@ -76,7 +77,7 @@ const AppColorScreen: React.FunctionComponent = () => {
                         style={styles.gradient}>
                         <Slider
                             style={styles.slider}
-                            minimumValue={50}
+                            minimumValue={30}
                             maximumValue={100}
                             step={1}
                             value={appSaturation}
@@ -96,8 +97,8 @@ const AppColorScreen: React.FunctionComponent = () => {
                         style={styles.gradient}>
                         <Slider
                             style={styles.slider}
-                            minimumValue={45}
-                            maximumValue={55}
+                            minimumValue={35}
+                            maximumValue={65}
                             step={1}
                             value={appLightness}
                             onValueChange={setAppLightness}

@@ -54,9 +54,7 @@ const rotateColors = createSelector(
             if (key in {...noRotation, ...noRotationLight}) {
                 newColorList[key] = color
             } else {
-                let targetLightness = appLightness
-                if (targetLightness > 50) targetLightness = 50
-                const rotated = functions.color.rotateColor(color, appHue, appSaturation, targetLightness)
+                const rotated = functions.color.rotateColor(color, appHue, appSaturation, appLightness)
                 newColorList[key] = rotated
             }
         }

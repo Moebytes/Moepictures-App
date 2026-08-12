@@ -25,7 +25,7 @@ const NotesScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, ratingType, noteSort} = useSearchSelector()
+    const {scroll, ratingType, noteSort, sortReverse} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
@@ -44,12 +44,12 @@ const NotesScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchNotesInfiniteQuery(
-        {query: search, sort: noteSort, refreshKey},
+        {query: search, sort: functions.valid.parseSort(noteSort, sortReverse), refreshKey},
         {skip: !scroll}
     )
 
     const pageQuery = useSearchNotesPageQuery(
-        {query: search, sort: noteSort,
+        {query: search, sort: functions.valid.parseSort(noteSort, sortReverse),
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll}
     )

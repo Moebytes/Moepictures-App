@@ -21,6 +21,7 @@ import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/HistoryScreen.styles"
 import {SearchHistory} from "../../types/Types"
 import permissions from "../../structures/Permissions"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 const login = require("../../assets/images/login.png")
@@ -30,7 +31,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
-    const {scroll, searchHistorySort} = useSearchSelector()
+    const {scroll, searchHistorySort, sortReverse} = useSearchSelector()
     const {setSearch: setPostsSearch, setSearchTags: setPostsSearchTags} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
@@ -52,12 +53,12 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const pageSize = 15
 
     const infiniteQuery = useSearchHistoryInfiniteQuery(
-        {query: search, sort: searchHistorySort, refreshKey},
+        {query: search, sort: functions.valid.parseSort(searchHistorySort, sortReverse), refreshKey},
         {skip: !scroll || !permissions.isPremium(session)}
     )
 
     const pageQuery = useSearchHistoryPageQuery(
-        {query: search, sort: searchHistorySort,
+        {query: search, sort: functions.valid.parseSort(searchHistorySort, sortReverse),
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
         {skip: scroll || !permissions.isPremium(session)}
     )

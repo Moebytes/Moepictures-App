@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import CrossLiquidGlassView from "../../ui/CrossLiquidGlassView"
 import {View, Text, Modal, Pressable} from "react-native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector, useSearchDialogSelector, useSearchDialogActions,
@@ -66,17 +66,13 @@ const SizeDialog: React.FunctionComponent = () => {
         return jsx
     }
 
-    const fallback = !isLiquidGlassSupported
-        ? {backgroundColor: "rgba(255,255,255,0.2)"}
-        : undefined
-
     if (showSizeDialog) {
         return (
             <Modal transparent visible={showSizeDialog} animationType="fade" supportedOrientations={["portrait", "landscape"]}>
                 <Pressable style={styles.modalOverlay} onPress={() => setShowSizeDialog(false)}>
-                    <LiquidGlassView effect="clear" style={[styles.container, fallback]}>
+                    <CrossLiquidGlassView effect="clear" style={[styles.container]}>
                         {generateOptions()}
-                    </LiquidGlassView>
+                    </CrossLiquidGlassView>
                 </Pressable>
             </Modal>
         )
