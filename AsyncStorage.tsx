@@ -46,7 +46,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     const initThemeSettings = async () => {
         if (!session.username) return
 
-        if (session.themeSettings) {
+        if (session.themeSettings && Object.keys(session.themeSettings).length) {
             setTheme(session.themeSettings.theme as Themes)
             setAppHue(Number(session.themeSettings.hue))
             setAppSaturation(Number(session.themeSettings.saturation))

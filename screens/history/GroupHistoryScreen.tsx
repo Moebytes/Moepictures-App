@@ -39,6 +39,7 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [afterFirstLoad, setAfterFirstLoad] = useState(false)
     const {slug} = route.params
     const {data: group} = useGetGroupQuery({name: slug}, {skip: !slug})
     const {data: user} = useGetUserQuery({username: group?.creator!}, {skip: !slug})
@@ -86,12 +87,18 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         history = [historyObject]
     }
 
+    useEffect(() => {
+        if (!isLoading) {
+            setAfterFirstLoad(true)
+        }
+    }, [isLoading])
+
     const renderItem: ListRenderItem<GroupHistory> = ({item, index}) => {
         return <GroupHistoryRow history={item} currentHistory={history[0]} index={index} refetch={refetch}/>
     }
 
     const renderEmpty = () => {
-        if (isLoading) return null
+        if (!afterFirstLoad || isLoading) return null
 
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>

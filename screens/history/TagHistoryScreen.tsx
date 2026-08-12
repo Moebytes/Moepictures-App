@@ -40,6 +40,7 @@ const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [afterFirstLoad, setAfterFirstLoad] = useState(false)
     const {name} = route.params
     const {data: tag} = useGetTagQuery({tag: name}, {skip: !name})
     const {data: user} = useGetUserQuery({username: tag?.creator!}, {skip: !name})
@@ -101,6 +102,12 @@ const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         history = [historyObject]
     }
 
+    useEffect(() => {
+        if (!isLoading) {
+            setAfterFirstLoad(true)
+        }
+    }, [isLoading])
+
     const renderItem: ListRenderItem<TagHistory> = ({item, index}) => {
         const previousHistory = history[index + 1] ?? null
 
@@ -108,7 +115,7 @@ const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     }
 
     const renderEmpty = () => {
-        if (isLoading) return null
+        if (!afterFirstLoad || isLoading) return null
 
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>

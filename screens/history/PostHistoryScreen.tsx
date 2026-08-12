@@ -40,6 +40,7 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [afterFirstLoad, setAfterFirstLoad] = useState(false)
     const {postID} = route.params
     const {data: post} = useGetPostQuery({postID}, {skip: !postID})
     const {data: user} = useGetUserQuery({username: post?.uploader!}, {skip: !postID})
@@ -101,13 +102,19 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         historyObject.historyCount = "1"
         history = [historyObject]
     }
-            
+    
+    useEffect(() => {
+        if (!isLoading) {
+            setAfterFirstLoad(true)
+        }
+    }, [isLoading])
+
     const renderItem: ListRenderItem<PostHistory> = ({item, index}) => {
         return <PostHistoryRow history={item} currentHistory={history[0]} index={index} refetch={refetch}/>
     }
 
     const renderEmpty = () => {
-        if (isLoading) return null
+        if (!afterFirstLoad || isLoading) return null
 
         return (
             <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 50}}>
