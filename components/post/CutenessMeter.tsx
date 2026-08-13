@@ -9,6 +9,7 @@ import {View, Pressable} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import StarRating from "react-native-star-rating-widget"
+import Toast from "react-native-toast-message"
 import {useLayoutActions, useMiscDialogSelector, useSessionSelector, useThemeSelector} from "../../store"
 import {createStylesheet} from "./styles/CutenessMeter.styles"
 import DeleteStarIcon from "../../assets/svg/deletestar.svg"
@@ -35,7 +36,7 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
 
     const getCuteness = async () => {
         if (!props.post) return
-        const cuteness = await functions.http.get("/api/cuteness", {postID: props.post.postID}, session)
+        const cuteness = await functions.http.get("/api/cuteness", {postID: props.post.postID}, session).catch(() => null)
         if ("cuteness" in props.post) {
             setAverageCuteness(props.post.cuteness)
         } else {
@@ -76,6 +77,9 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
 
     const changeCuteness = (rating: number) => {
         if (showFullscreenImage) return
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
         setCuteness(rating)
     }
 

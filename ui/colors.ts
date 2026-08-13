@@ -76,7 +76,8 @@ export const noRotationLight = {
     optionRedActive: "#e2296a",
     optionRedInactive: "#ffc8da",
 	profilePremium: "#fde2ff",
-    profilePremiumPressed: "#ffc7ff"
+    profilePremiumPressed: "#ffc7ff",
+    profileEmailPressed: "#ddc7ff"
 }
 
 export const noRotationDark = {
@@ -84,7 +85,8 @@ export const noRotationDark = {
     optionRedActive: "#ff377d",
     optionRedInactive: "#451823",
 	profilePremium: "#2f1136",
-    profilePremiumPressed: "#511b61"
+    profilePremiumPressed: "#511b61",
+    profileEmailPressed: "#371b61"
 }
 
 export const sharedColors = {

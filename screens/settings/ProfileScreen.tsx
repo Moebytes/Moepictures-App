@@ -162,6 +162,19 @@ const ProfileScreen: React.FunctionComponent = () => {
                     </PressableHaptic>}
                 </View>
 
+                {session.username && !session.emailVerified ? <View style={styles.buttonContainer}>
+                    /* Verify Email */
+                    <PressableHaptic style={({pressed}) => [styles.itemContainer, 
+                        {backgroundColor: pressed ? colors.profileEmailPressed : colors.profilePremium}]}
+                        onPress={() => navigation.navigate("VerifyEmail", undefined, {pop: true})}>
+                        <View style={styles.iconContainer}>
+                            <ContactIcon width={iconSize} height={iconSize} color={colors.tagColor}/>
+                            <Text style={[styles.premiumText, {color: colors.tagColor}]}>{i18n.pages.verifyEmail.title}</Text>
+                        </View>
+                            <RightIcon width={iconSize} height={iconSize} color={colors.tagColor}/>
+                    </PressableHaptic>
+                </View> : null}
+
                 {session.username ? <View style={styles.buttonContainer}>
                     /* Premium */
                     <PressableHaptic style={({pressed}) => [styles.itemContainer, 

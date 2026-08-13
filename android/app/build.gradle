@@ -78,11 +78,12 @@ android {
     compileSdk rootProject.ext.compileSdkVersion
 
     namespace "com.moebytes.moepictures"
+ 
     defaultConfig {
         applicationId "com.moebytes.moepictures"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 30
+        versionCode 31
         versionName "1.0.0"
     }
     signingConfigs {

@@ -184,5 +184,28 @@ export const createStylesheet = (colors: ThemeColors) => {
             width: "85%",
             height: 40
         },
+        captchaWrapper: {
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+            width: "90%",
+            backgroundColor: colors.white,
+            paddingHorizontal: 5,
+            paddingVertical: 5,
+            borderRadius: 8
+        },
+        captchaInput: {
+            height: 35,
+            paddingVertical: 5,
+            paddingHorizontal: 5,
+            borderRadius: 8,
+            backgroundColor: colors.white,
+            width: "100%",
+            fontFamily: fonts.genEiMGothicV2,
+            color: colors.black,
+            fontSize: 19,
+            borderWidth: 1,
+            borderColor: colors.black
+        }
     })
 }

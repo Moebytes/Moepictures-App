@@ -8,6 +8,7 @@ import React from "react"
 import PageDialog from "./misc/PageDialog"
 import SizeDialog from "./search/SizeDialog"
 import SortDialog from "./search/SortDialog"
+import CaptchaDialog from "./misc/CaptchaDialog"
 import FiltersDialog from "./misc/FiltersDialog"
 import PageMultiplierDialog from "./search/PageMultiplierDialog"
 import EditCommentDialog from "./comment/EditCommentDialog"
@@ -23,6 +24,7 @@ const Dialogs: React.FunctionComponent = () => {
         <PageDialog/>
         <SizeDialog/>
         <SortDialog/>
+        <CaptchaDialog/>
         <FiltersDialog/>
         <PageMultiplierDialog/>
         <EditCommentDialog/>

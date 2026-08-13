@@ -51,6 +51,7 @@ import DeleteAccountScreen from "./screens/settings/DeleteAccountScreen"
 import ChangeUsernameScreen from "./screens/settings/ChangeUsernameScreen"
 import ChangePasswordScreen from "./screens/settings/ChangePasswordScreen"
 import ChangeEmailScreen from "./screens/settings/ChangeEmailScreen"
+import VerifyEmailScreen from "./screens/settings/VerifyEmailScreen"
 import HelpScreen from "./screens/info/HelpScreen"
 import PremiumScreen from "./screens/info/PremiumScreen"
 import UserScreen from "./screens/item/UserScreen"
@@ -91,6 +92,7 @@ export type StackParamList = {
   ChangeUsername: undefined
   ChangePassword: undefined
   ChangeEmail: undefined
+  VerifyEmail: undefined
   Help: undefined
   Premium: undefined
   User: {username: string}
@@ -195,6 +197,7 @@ const App: React.FunctionComponent = () => {
           <Stack.Screen name="ChangeUsername" component={ChangeUsernameScreen}/>
           <Stack.Screen name="ChangePassword" component={ChangePasswordScreen}/>
           <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen}/>
+          <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen}/>
           <Stack.Screen name="Help" component={HelpScreen}/>
           <Stack.Screen name="Premium" component={PremiumScreen}/>
           <Stack.Screen name="User" component={UserScreen}/>

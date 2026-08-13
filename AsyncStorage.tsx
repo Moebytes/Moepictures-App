@@ -55,7 +55,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     }
 
     const saveThemeSettings = async () => {
-        if (!session.username) return
+        if (!session.username || !session.emailVerified) return
 
         if (themeSaveTimeout.current) {
             clearTimeout(themeSaveTimeout.current)
@@ -96,8 +96,8 @@ const AsyncStorage: React.FunctionComponent = () => {
                 Toast.show({text1: msg})
             }
         }
-        if (cookie.username && !permissions.isPremium(cookie)) {
-            await functions.http.post("/api/user/upscaledimages", {reset: true}, cookie)
+        if (cookie.username && cookie.emailVerified && !permissions.isPremium(cookie)) {
+            await functions.http.post("/api/user/upscaledimages", {reset: true}, cookie).catch(() => null)
         }
         setSession(cookie)
     }

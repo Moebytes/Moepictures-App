@@ -731,7 +731,7 @@
             "heading": "You must verify your email address in order to use your account. If you need to change your email and/or resend the verification link, you can do so below.",
             "submitHeading": "Verification email resent. Check your email.",
             "unverifiedEmail": "Unverified Email",
-            "optionalAddressChange": "Optional Address Change",
+            "optionalAddressChange": "Optional Change",
             "resend": "Resend Verification Link"
         },
         "verifyEmailSuccess": {
@@ -992,7 +992,8 @@
         },
         "captcha": {
             "title": "Rate Limit Exceeded",
-            "header": "Please verify that you are a human. You may ignore this, but content will be locked."
+            "header": "Please verify that you are a human. You may ignore this, but content will be locked.",
+            "error": "Captcha error."
         },
         "categorizeTag": {
             "title": "Categorize Tag",
