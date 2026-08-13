@@ -49,7 +49,7 @@ const PageMultiplierDialog: React.FunctionComponent = () => {
                             </Text>
 
                             {selected && (
-                                <CheckIcon width={22} height={22} color={colors.textColor}/>
+                                <CheckIcon width={22} height={22} color={colors.buttonColor}/>
                             )}
                         </View>
                         </>

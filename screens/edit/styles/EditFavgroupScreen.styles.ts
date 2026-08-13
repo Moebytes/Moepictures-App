@@ -91,7 +91,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             justifyContent: "flex-start",
             alignItems: "center",
             width: "96%",
-            height: 40,
+            height: 45,
             borderRadius: 10,
             borderWidth: 1,
             borderColor: colors.gray,
@@ -99,6 +99,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.honokaShinAntiqueKaku,
             textAlignVertical: "top",
             fontSize: 20,
+            lineHeight: 20,
             paddingHorizontal: 10
         },
         bigInput: {
@@ -115,6 +116,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontFamily: fonts.honokaShinAntiqueKaku,
             textAlignVertical: "top",
             fontSize: 17,
+            lineHeight: 17,
             paddingHorizontal: 10
         },
         wideButton: {

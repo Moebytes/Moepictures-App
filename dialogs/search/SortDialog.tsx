@@ -69,11 +69,11 @@ const SortDialog: React.FunctionComponent = () => {
                         <>
                         <View style={[styles.rowContent, pressed && {transform: [{scale: 1.1}]}]}>
                             <Text style={styles.text}>
-                                {sortReverse ? "↑" : "↓"} {i18n.sort[sort]}
+                                {sort !== "random" ? (sortReverse ? "↑ " : "↓ ") : ""}{i18n.sort[sort]}
                             </Text>
 
                             {selected && (
-                                <CheckIcon width={22} height={22} color={colors.textColor}/>
+                                <CheckIcon width={22} height={22} color={colors.buttonColor}/>
                             )}
                         </View>
                         </>

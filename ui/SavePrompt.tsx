@@ -6,7 +6,7 @@
 
 import React, {useRef, useEffect} from "react"
 import {View, Text, Animated} from "react-native"
-import {BlurView} from "@react-native-community/blur"
+import {ProgressiveBlurView} from "@sbaiahmed1/react-native-blur"
 import {useThemeSelector, useMiscDialogSelector, useMiscDialogActions} from "../store"
 import {createStylesheet} from "./styles/SavePrompt.styles"
 import SaveCheckIcon from "../assets/svg/save-check.svg"
@@ -60,8 +60,8 @@ const SavePrompt: React.FunctionComponent = () => {
         return (
             <View style={styles.overlay}>
                 <Animated.View style={[styles.container, {opacity, transform: [{scale}]}]}>
-                    <BlurView blurAmount={2} blurType="light" style={styles.absolute}
-                    reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
+                    <ProgressiveBlurView blurAmount={2} blurType="light" style={styles.absolute}
+                    startOffset={1.0} reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
                     <Text style={styles.text}>{i18n.buttons.saved}</Text>
                     <SaveCheckIcon width={iconSize} height={iconSize} color={colors.black}/>
                 </Animated.View>

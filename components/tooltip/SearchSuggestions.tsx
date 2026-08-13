@@ -100,7 +100,7 @@ const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
         <>
         {visible && suggestions.length > 0 && (
             <LiquidGlassContainerView style={[styles.suggestionAbsoluteWrapper, {bottom: keyboardHeight}]}>
-                <CrossLiquidGlassView effect="clear" style={[styles.suggestionContainer]}>
+                <CrossLiquidGlassView effect="clear" showBlur={false} style={[styles.suggestionContainer]}>
                     <ScrollView horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.suggestionScroller}

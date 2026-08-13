@@ -72,7 +72,7 @@ const EmojiStrip: React.FunctionComponent = () => {
         <>
         {emojiStripVisible && (
             <LiquidGlassContainerView style={[styles.emojiAbsoluteWrapper, {bottom: keyboardHeight}]}>
-                <CrossLiquidGlassView effect="clear" style={[styles.emojiContainer]}>
+                <CrossLiquidGlassView effect="clear" showBlur={false} style={[styles.emojiContainer]}>
                     <ScrollView ref={scrollRef} horizontal
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={[styles.emojiScroller, {height, gap, padding}]}

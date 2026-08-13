@@ -5,14 +5,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, ViewProps, StyleProp, ViewStyle} from "react-native"
+import {View, ViewProps, StyleProp, ViewStyle, Platform} from "react-native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
-import {BlurView} from "@react-native-community/blur"
+import {ProgressiveBlurView} from "@sbaiahmed1/react-native-blur"
 
 interface CrossLiquidGlassViewProps extends ViewProps {
     children?: React.ReactNode
     style?: StyleProp<ViewStyle>
-    effect?: "clear" | "regular" | "none"
+    effect?: "clear" | "regular"
     tintColor?: string
     interactive?: boolean
     showBlur?: boolean
@@ -21,26 +21,28 @@ interface CrossLiquidGlassViewProps extends ViewProps {
 }
 
 const CrossLiquidGlassView: React.FunctionComponent<CrossLiquidGlassViewProps> = ({children, showBlur = true, ...props}) => {
-    if (isLiquidGlassSupported) {
+    if (Platform.OS === "ios" && isLiquidGlassSupported) {
         return (
             <LiquidGlassView 
+                {...props}
                 effect={props.effect ?? "clear"} 
                 tintColor={props.tintColor}
                 interactive={props.interactive}
-                style={props.style} 
-                {...props}>
+                style={props.style}>
                 {children}
             </LiquidGlassView>
         )
     }
 
+    let fallback = showBlur ? 
+        undefined : {backgroundColor: "rgba(255,255,255,0.5)"}
+    
     return (
-        <View {...props} style={[props.style, {overflow: "hidden"}]}>
-            {showBlur && <BlurView
+        <View {...props} style={[fallback, props.style, {overflow: "hidden"}]}>
+            {showBlur && <ProgressiveBlurView
                 blurType={props.blurType ?? "light"}
                 blurAmount={props.blurAmount ?? 2}
-                reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"
-                pointerEvents="none"
+                startOffset={1.0}
                 style={{
                     position: "absolute",
                     top: 0,

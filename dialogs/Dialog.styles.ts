@@ -87,15 +87,15 @@ export const createStylesheet = (colors: ThemeColors) => {
             gap: 5
         },
         title: {
-            color: colors.textColor,
+            color: colors.buttonColor,
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 20,
             lineHeight: 25
         },
         text: {
-            color: colors.textColor,
-            fontFamily: fonts.genEiMGothicV2,
-            fontSize: 18,
+            color: colors.buttonColor,
+            fontFamily: fonts.tsunagiGothicBlack,
+            fontSize: 20,
             lineHeight: 25
         },
         text2: {
@@ -153,7 +153,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         separator: {
             height: 1,
             width: "50%",
-            backgroundColor: colors.black
+            backgroundColor: colors.buttonColor
         },
         rowButton: {
             display: "flex",

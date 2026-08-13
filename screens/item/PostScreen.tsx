@@ -248,7 +248,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       drawerStyle={{backgroundColor: "transparent"}}
       drawerType="front"
       overlayStyle={{backgroundColor: "transparent"}}
-      renderDrawerContent={() => <PostDrawer post={post} artists={tagCategories?.artists}
+      renderDrawerContent={() => <PostDrawer post={post} artists={tagCategories?.artists} visible={open}
         characters={tagCategories?.characters} series={tagCategories?.series} meta={tagCategories?.meta}
         tags={tagCategories?.tags}/>}
       swipeEdgeWidth={100}>

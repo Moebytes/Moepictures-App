@@ -25,6 +25,7 @@ import {PostFull, PostHistory, TagCount, TagGroupCategory} from "../../types/Typ
 import functions from "../../functions/Functions"
 
 interface Props {
+    visible: boolean
     post?: PostFull | PostHistory
     artists?: TagCount[] 
     characters?: TagCount[]  
@@ -155,7 +156,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
         setTimeout(() => setCopied(false), 1000)
     }
 
-    if (!props.post) return null
+    if (!props.visible || !props.post) return null
 
     return (
         <LiquidGlassContainerView style={{flex: 1}}>
