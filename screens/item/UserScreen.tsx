@@ -26,6 +26,7 @@ import LeftIcon from "../../assets/svg/left.svg"
 import {createStylesheet} from "./styles/UserScreen.styles"
 import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
+import {siteURL} from "../../ui/site"
 
 type Props = {
   route: RouteProp<StackParamList, "User">
@@ -48,31 +49,15 @@ const UserScreen: React.FunctionComponent<Props> = ({route}) => {
 
     const bioText = () => {
         if (!user?.bio) return
-        let fragment = moeText.renderText(user.bio, emojis, colors)[0] as any
-        const rendered = fragment.props.children.props.children as React.ReactElement[]
-        return rendered.map((element: any, index: number) => {
-            if (element.type === Text) {
-                return React.cloneElement(element, {
-                    key: index,
-                    style: [element.props.style, {fontSize: 20}]
-                })
-            }
-
-            if (element.type === Image) {
-                return React.cloneElement(element, {
-                    key: index,
-                    style: [element.props.style, {width: 35, height: 35}]
-                })
-            }
-
-            return element
-        })
+        let rendered = moeText.renderText(user.bio, emojis, colors)
+        return moeText.resizeElements(rendered, 20, 35)
     }
 
     const {comments, loadMore, page, setPage, 
         refetch, totalItems, totalPages} = useUserCommentItems({username})
     
     let pfp = user ? functions.link.getFolderLink("pfp", user.image, user.imageHash) : ""
+    if (!pfp) pfp = `${siteURL}/favicon.png`
     let pfpSize = 70
 
     return (

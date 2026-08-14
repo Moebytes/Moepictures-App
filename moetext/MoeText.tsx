@@ -16,6 +16,7 @@ import SpoilerText from "./SpoilerText"
 import ExpandDetails from "./ExpandDetails"
 import FavivonLink from "./FaviconLink"
 import Link from "./Link"
+import React from "react"
 
 export default class MoeText {
     public static appendChain = (items: {text: any, jsx: any}[], 
@@ -472,6 +473,42 @@ export default class MoeText {
                 jsx.push(<>{this.renderCommentText(piece, emojis, colors)}</>)
             }
         }
-        return jsx
+        return (
+            <View style={styles.markupContainer}>
+                {jsx}
+            </View>
+        )
+    }
+
+    public static resizeElements = (rendered: React.ReactNode, fontSize: number, imageSize: number) => {
+        const resizeElement = (element: React.ReactElement<any>, index: number): React.ReactElement<any> => {
+            if (element.type === Text) {
+                return React.cloneElement(element, {
+                    key: index,
+                    style: [element.props.style, {fontSize}]
+                })
+            }
+
+            if (element.type === Image) {
+                return React.cloneElement(element, {
+                    key: index,
+                    style: [element.props.style, {width: imageSize, height: imageSize}]
+                })
+            }
+
+            const children = React.Children.map(element.props.children, (child, childIndex) => {
+                if (!React.isValidElement(child)) return child
+                return resizeElement(child, childIndex)
+            })
+
+            return React.cloneElement(element, {
+                children
+            })
+        }
+
+        return React.Children.map(rendered, (element, index) => {
+            if (!React.isValidElement(element)) return element
+            return resizeElement(element, index)
+        })
     }
 }

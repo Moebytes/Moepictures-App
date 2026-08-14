@@ -108,25 +108,8 @@ const TextBox = forwardRef<TextBoxRef, Props>((props, ref) => {
     }
 
     const previewElements = () => {
-        let fragment = moeText.renderText(previewText, emojis, colors)[0] as any
-        const rendered = fragment.props.children.props.children as React.ReactElement[]
-        return rendered.map((element: any, index: number) => {
-            if (element.type === Text) {
-                return React.cloneElement(element, {
-                    key: index,
-                    style: [element.props.style, {fontSize: 20}]
-                })
-            }
-
-            if (element.type === Image) {
-                return React.cloneElement(element, {
-                    key: index,
-                    style: [element.props.style, {width: 35, height: 35}]
-                })
-            }
-
-            return element
-        })
+        let rendered = moeText.renderText(previewText, emojis, colors)
+        return moeText.resizeElements(rendered, 20, 35)
     }
 
     let iconSize = 22
@@ -188,7 +171,7 @@ const TextBox = forwardRef<TextBoxRef, Props>((props, ref) => {
                             value={text}
                             onChangeText={setText}
                             multiline={true}
-                            submitBehavior="blurAndSubmit"
+                            submitBehavior="newline"
                             textAlignVertical="top"/>}
                     </View>
                     {error ? <View style={styles.buttonContainer}>

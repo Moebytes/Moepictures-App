@@ -5,12 +5,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
-import {Linking} from "react-native"
+import {Linking, Platform} from "react-native"
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {useActiveActions, useActiveSelector, useCacheSelector, useFlagActions, useSessionSelector, useThemeSelector} from "./store"
 import Toast from "react-native-toast-message"
+import EventSource from "react-native-sse"
 import AsyncStorage from "./AsyncStorage"
 import Dialogs from "./dialogs/Dialogs"
 import EmojiStrip from "./components/tooltip/EmojiStrip"
@@ -56,6 +57,7 @@ import HelpScreen from "./screens/info/HelpScreen"
 import PremiumScreen from "./screens/info/PremiumScreen"
 import UserScreen from "./screens/item/UserScreen"
 import functions from "./functions/Functions"
+import {siteURL} from "./ui/site"
 
 export type StackParamList = {
   Posts: undefined
@@ -126,6 +128,22 @@ const App: React.FunctionComponent = () => {
 
       return () => sub.remove()
     }, [])
+
+    useEffect(() => {
+        if (!session.username) return
+        let headers = {"Accept": "text/event-stream", "Cache-Control": "no-cache"} as {[key: string]: string}
+        if (Platform.OS === "android") headers["cookie"] = functions.http.sessionCookie
+
+        let events = new EventSource(`${siteURL}/api/notifications`, {headers, withCredentials: true})
+
+        events.addEventListener("message", (event) => {
+            if (event.data === "email verified") setSessionFlag(true)
+        })
+        return () => {
+            events.removeAllEventListeners()
+            events.close()
+        }
+    }, [session.username])
 
     const destroy2FA = async () => {
         try {
