@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Text} from "react-native"
+import {View, Text, Platform} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import Toast from "react-native-toast-message"
 import path from "path"

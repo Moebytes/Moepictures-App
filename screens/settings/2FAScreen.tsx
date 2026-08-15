@@ -68,7 +68,7 @@ const $2FAScreen: React.FunctionComponent = () => {
                 source={loginBG} 
                 style={styles.container}
                 imageStyle={styles.containerBG}
-                blurRadius={tablet ? 2 : 7}>
+                blurRadius={2}>
                 <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.pages.$2fa.title}</Text>

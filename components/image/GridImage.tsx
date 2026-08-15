@@ -5,9 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {View, Pressable, Linking, useWindowDimensions, Keyboard, NativeSyntheticEvent, Share} from "react-native"
+import {View, Pressable, Linking, useWindowDimensions, Keyboard, NativeSyntheticEvent, Share, Platform} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
-import {useNavigation} from "@react-navigation/native"
+import {useNavigation, useRoute} from "@react-navigation/native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import {useThemeSelector, useSessionSelector, useLayoutSelector, useFilterSelector,
 useSearchSelector, useMiscDialogActions, useLayoutActions} from "../../store"
@@ -39,7 +39,11 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const [loaded, setLoaded] = useState(false)
     const {showActionSheetWithOptions} = useActionSheet()
     const navigation = useNavigation()
+     const route = useRoute()
     const imageRef = useRef<ImageRef>(null)
+
+    const filtersOn = functions.image.filtersOn({brightness, contrast, hue, 
+        saturation, lightness, blur, sharpen, pixelate})
 
     useEffect(() => {
         if (!props.post) return
@@ -80,8 +84,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
             let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
             let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
 
-            if (imageRef.current && functions.image.filtersOn({brightness, contrast, hue, 
-                saturation, lightness, blur, sharpen, pixelate})) {
+            if (imageRef.current && filtersOn) {
                 const base64 = imageRef.current.toDataURL()
                 filename = path.basename(filename, path.extname(filename)) + ".png"
                 img = await functions.file.saveBase64Image(base64, filename)
@@ -116,7 +119,9 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    const borderWidth = square ? 0.8 : 1.2
+    let borderWidth = square ? 0.8 : 1.2
+    if (filtersOn && route.name === "Post" && Platform.OS === "android") borderWidth = 0
+
     const borderColor = functions.post.borderColor(props.post, colors)
     const landscape = size.width > size.height
     const marginVertical = square ? 0 :

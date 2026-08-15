@@ -75,7 +75,7 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
             <View style={styles.container}>
                 <View style={[styles.headerContainer, {top: insets.top+5}]}>
                     <ScalableHaptic scaleFactor={0.95}  onPress={onClose}>
-                        <CrossLiquidGlassView interactive effect="clear" style={[styles.headerButton]}>
+                        <CrossLiquidGlassView interactive effect="clear" showBlur={false} style={[styles.headerButton]}>
                             <XIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.cancel}</Text>
                         </CrossLiquidGlassView>
@@ -83,7 +83,7 @@ const CropModal: React.FunctionComponent<Props> = (props) => {
                     
                     <ScalableHaptic scaleFactor={0.95} style={styles.headerButton} 
                         onPress={() => cropRef.current?.saveImage(true, 100)}>
-                        <CrossLiquidGlassView interactive effect="clear" style={[styles.headerButton]}>
+                        <CrossLiquidGlassView interactive effect="clear" showBlur={false} style={[styles.headerButton]}>
                             <CheckIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.headerText}>{i18n.buttons.done}</Text>
                         </CrossLiquidGlassView>

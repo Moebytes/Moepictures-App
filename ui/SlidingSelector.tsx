@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {View, Text, Animated, LayoutChangeEvent} from "react-native"
+import {View, Text, Animated, LayoutChangeEvent, Platform} from "react-native"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/SlidingSelector.styles"
 import PressableHaptic from "./PressableHaptic"
@@ -112,7 +112,7 @@ const SlidingSelector = <T,>(props: Props<T>) => {
                     key={item.value as any}
                     onPress={() => onChange(item.value)}
                     onLayout={onLayout}
-                    style={[styles.button, {paddingHorizontal: paddingHorizontal ?? 17}]}>
+                    style={[styles.button, {paddingHorizontal: paddingHorizontal ?? Platform.OS === "android" ? 14 : 17}]}>
                     {Icon && <Icon width={iconSize} height={iconSize} color={selected ? activeIconColor : iconColor}/>}
                     <Text style={[styles.buttonText, {color: selected ? activeTextColor : textColor}]}>
                         {item.name}

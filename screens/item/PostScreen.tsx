@@ -36,7 +36,7 @@ import Related, {useRelatedItems} from "../../components/post/Related"
 import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
-import FullscreenModal from "../../modals/FullscreenModal"
+import SliderModal from "../../modals/SliderModal"
 import CropModal from "../../modals/CropModal"
 import {ImageRef} from "../../components/image/FilterImage"
 import {createStylesheet} from "./styles/PostScreen.styles"
@@ -255,7 +255,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
       <View style={{flex: 1, backgroundColor: colors.mainColor}}>
           <StatusBar hidden={!statusBarVisible} barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
           <SearchSuggestions/>
-          <FullscreenModal post={post} image={image}/>
+          <SliderModal post={post} image={image}/>
           <CropModal post={post} image={image}/>
           <FlatList
             ListHeaderComponent={

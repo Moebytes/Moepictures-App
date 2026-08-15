@@ -552,7 +552,7 @@
         "saveImage": "画像を保存",
         "share": "共有",
         "saveLocation": "保存先を選択してください",
-        "uploadLocation": "アップロード先を選択してください",
+        "reverseImageLocation": "画像の逆検索",
         "photos": "写真",
         "files": "ファイル",
         "logout": "本当にログアウトしますか？",

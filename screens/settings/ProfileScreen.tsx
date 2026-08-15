@@ -139,6 +139,12 @@ const ProfileScreen: React.FunctionComponent = () => {
                     ...styles.container,
                     paddingBottom: tabBarHeight + 20 - offset
                 }}>
+
+                /* Banned Text */
+                {session.banned ? <View style={{flexDirection: "row", width: "100%", marginLeft: 10}}>
+                    <Text style={styles.banText}>{i18n.user.ban}</Text>
+                </View> : null}
+
                 <View style={styles.buttonContainer}>
                     {session.username ? 
                     /* Profile Picture */

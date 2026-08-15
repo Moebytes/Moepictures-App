@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {StyleSheet} from "react-native"
+import {StyleSheet, Platform} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
 import {fonts} from "../../../ui/fonts"
 
@@ -17,7 +17,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             alignItems: "center",
             paddingVertical: 10,
             backgroundColor: colors.background,
-            gap: 25
+            gap: Platform.OS === "android" ? 20 : 25
         },
         iconContainer: {
             display: "flex",

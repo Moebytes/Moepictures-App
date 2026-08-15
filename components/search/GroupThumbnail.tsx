@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Text, useWindowDimensions, Pressable} from "react-native"
+import {View, Text, useWindowDimensions, Pressable, Platform} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupThumbnail.styles"
@@ -37,7 +37,7 @@ const GroupThumbnail: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const imageSize = tablet ? 450 : 200
+            const imageSize = tablet ? 450 : Platform.OS === "android" ? 180 : 200
             const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
         }

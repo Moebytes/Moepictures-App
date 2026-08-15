@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, useWindowDimensions, Pressable} from "react-native"
+import {View, useWindowDimensions, Pressable, Platform} from "react-native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector} from "../../store"
 import {createStylesheet} from "./styles/GroupImage.styles"
 import functions from "../../functions/Functions"
@@ -36,7 +36,7 @@ const GroupImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateSize = async () => {
             if (!img) return
-            const imageSize = tablet ? 350 : 200
+            const imageSize = tablet ? 350 : Platform.OS === "android" ? 180 : 200
             const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
             setSize(size)
         }

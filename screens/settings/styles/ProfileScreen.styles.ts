@@ -37,6 +37,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 22,
             lineHeight: 30
         },
+        banText: {
+            fontFamily: fonts.tsunagiGothicBlack,
+            color: colors.redIcon,
+            fontSize: 25,
+            lineHeight: 30
+        },
         buttonContainer: {
             display: "flex",
             alignItems: "center",

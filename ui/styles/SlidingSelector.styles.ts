@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {StyleSheet} from "react-native"
+import {StyleSheet, Platform} from "react-native"
 import {ThemeColors} from "../colors"
 import {fonts} from "../fonts"
 
@@ -30,7 +30,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: 17,
+            paddingHorizontal: Platform.OS === "android" ? 14 : 17,
             paddingVertical: 7,
             gap: 6,
             zIndex: 1

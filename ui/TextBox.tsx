@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, forwardRef, useImperativeHandle, useEffect, useReducer} from "react"
-import {ScrollView, View, Image, TextInput, FlatList} from "react-native"
+import {ScrollView, View, TextInput, FlatList, Platform} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import ScalableHaptic from "./ScalableHaptic"
 import PressableHaptic from "./PressableHaptic"
@@ -112,7 +112,7 @@ const TextBox = forwardRef<TextBoxRef, Props>((props, ref) => {
         return moeText.resizeElements(rendered, 20, 35)
     }
 
-    let iconSize = 22
+    let iconSize = Platform.OS === "android" ? 20 : 22
 
     const getTextBox = () => {
         if (session.banned) {

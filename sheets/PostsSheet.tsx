@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState, useRef} from "react"
-import {View, Text, Switch, Animated} from "react-native"
+import {View, Text, Switch, Animated, Platform} from "react-native"
 import {TrueSheet} from "@lodev09/react-native-true-sheet"
 import {useThemeSelector, useSheetSelector, useSheetActions, useSearchSelector,
 useSearchActions,
@@ -235,7 +235,7 @@ const PostsSheet: React.FunctionComponent = () => {
     return (
         <TrueSheet
             ref={sheet}
-            detents={[0.87]}
+            detents={[Platform.OS === "android" ? 1.00 : 0.87]}
             cornerRadius={30}
             grabber={false}
             backgroundColor={colors.background}

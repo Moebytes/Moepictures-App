@@ -5,8 +5,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {View, Image, StatusBar} from "react-native"
+import {View, StatusBar} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
+import Toast from "react-native-toast-message"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
@@ -29,6 +30,9 @@ const UserSettingsScreen: React.FunctionComponent = () => {
     const navigation = useNavigation()
 
     const editBio = async () => {
+        if (!session.emailVerified) {
+            return Toast.show({text1: i18n.toast.verificationRequired})
+        }
         setShowBioDialog(!showBioDialog)
     }
 

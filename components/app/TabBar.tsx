@@ -120,10 +120,11 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         if (tabBarHeight !== height) setTabBarHeight(height)
     }
 
+    let offset = Platform.OS === "android" ? 10 : 0
 
     return (
         <Animated.View onLayout={onLayout} style={{...styles.container, 
-            paddingBottom: insets.bottom,
+            paddingBottom: insets.bottom + offset,
             position: props.relative ? "relative" : "absolute",
             transform: [{translateY}]}}>
             {generateTabsJSX()}

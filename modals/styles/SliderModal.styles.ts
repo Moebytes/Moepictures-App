@@ -7,17 +7,25 @@
 import {StyleSheet} from "react-native"
 import {ThemeColors} from "../../ui/colors"
 
-export const createStylesheet = (colors: ThemeColors) => {
+export const createStylesheet = (colors: ThemeColors, width: number, height: number) => {
     return StyleSheet.create({
         container: {
             flex: 1,
-            flexDirection: "row",
+            backgroundColor: "black"
+        },
+        page: {
+            width,
+            height,
             justifyContent: "center",
             alignItems: "center"
         },
+        zoomContainer: {
+            width,
+            height
+        },
         image: {
-            width: "100%",
-            height: "100%"
+            width,
+            height
         }
     })
 }

@@ -117,7 +117,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             color: colors.textColor
         },
         textInput: {
-            width: "70%",
+            width: "60%",
             height: 27,
             color: colors.textColor,
             fontFamily: fonts.jkGothicM,

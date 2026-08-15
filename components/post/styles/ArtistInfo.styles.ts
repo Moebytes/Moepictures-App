@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {StyleSheet} from "react-native"
+import {StyleSheet, Platform} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
 import {fonts} from "../../../ui/fonts"
 
@@ -28,17 +28,17 @@ export const createStylesheet = (colors: ThemeColors) => {
         },
         artistIcon: {
             borderRadius: 35,
-            height: 55,
-            width: 55
+            height: Platform.OS === "android" ? 50 : 55,
+            width: Platform.OS === "android" ? 50 : 55
         },
         artistText: {
             fontFamily: fonts.irohamaruMikami,
-            fontSize: 24,
+            fontSize: Platform.OS === "android" ? 22 : 24,
             color: colors.iconColor
         },
         sourceIcon: {
-            height: 55,
-            width: 55
+            height: Platform.OS === "android" ? 50 : 55,
+            width: Platform.OS === "android" ? 50 : 55
         }
     })
 }

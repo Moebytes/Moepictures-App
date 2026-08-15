@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Pressable} from "react-native"
+import {View, Pressable, Platform} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import StarRating from "react-native-star-rating-widget"
@@ -113,7 +113,7 @@ const CutenessMeter: React.FunctionComponent<Props> = (props) => {
                     fullFraction={true}
                     multiplier={200}
                     snap={0.025}
-                    starSize={50}
+                    starSize={Platform.OS === "android" ? 45 : 50}
                     strokeWidth={1}
                     hitSlopVertical={20}
                     animationConfig={{scale: 1}}

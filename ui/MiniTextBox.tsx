@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, forwardRef, useImperativeHandle, useEffect} from "react"
-import {ScrollView, View, Image, TextInput} from "react-native"
+import {ScrollView, View, TextInput, Platform} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import ScalableHaptic from "./ScalableHaptic"
 import {useCacheSelector, useFlagActions, useFlagSelector, useLayoutActions, 
@@ -99,7 +99,7 @@ const MiniTextBox = forwardRef<MiniTextBoxRef, Props>((props, ref) => {
         return moeText.resizeElements(rendered, 20, 35)
     }
 
-    let iconSize = 20
+    let iconSize = Platform.OS === "android" ? 17 : 20
     let bgColor = {backgroundColor: props.opaque ? colors.background : "transparent"}
 
     const getTextBox = () => {

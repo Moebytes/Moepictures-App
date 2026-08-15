@@ -82,6 +82,14 @@ export default class Functions {
             return navigation.navigate("Post", {postID: postID.toString()}, {pop: true})
         }
 
+        const currentPostID = lastRoute.name === "Post"
+            ? lastRoute.params?.postID?.toString()
+            : undefined
+
+        if (lastRoute.name === "Post" && currentPostID === postID) {
+            return
+        }
+
         const newRoute = {
             name: "Post",
             params: {postID: postID},

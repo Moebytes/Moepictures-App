@@ -6,8 +6,8 @@
 
 import React, {useMemo, useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
 import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkData,
-    RuntimeShader, Skia, Blur, Fit} from "@shopify/react-native-skia"
-import {Platform} from "react-native"
+    RuntimeShader, Skia, Blur} from "@shopify/react-native-skia"
+import {Platform, Image as RNImage} from "react-native"
 import {useRoute} from "@react-navigation/native"
 import {useFilterSelector, useThemeSelector} from "../../store"
 import {PostFull, PostHistory} from "../../types/Types"
@@ -20,7 +20,7 @@ export interface ImageRef {
 interface Props {
     size?: {width: number, height: number}
     img?: string
-    fit?: Fit
+    fit?: "cover" | "contain"
     onLoad?: () => void
     post?: PostFull | PostHistory
 }
@@ -194,22 +194,31 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
 
     let opaque = route.name === "Post" && Platform.OS === "android"
 
+    const filtersOn = functions.image.filtersOn({brightness, contrast, hue, 
+        saturation, lightness, blur, sharpen, pixelate})
+
+    if (filtersOn) {
+        return (
+            <Canvas opaque={opaque} androidWarmup={opaque} style={props.size} ref={canvasRef}>
+                {opaque && <Fill color={colors.background}/>}
+                <Image image={image} x={0} y={0} width={width} height={height} fit={props.fit}>
+                    <ColorMatrix matrix={brightnessMatrix}/>
+                    <ColorMatrix matrix={contrastMatrix}/>
+                    <ColorMatrix matrix={hueMatrix}/>
+                    <ColorMatrix matrix={saturationMatrix}/>
+                    <ColorMatrix matrix={lightnessMatrix}/>
+                    <Blur blur={blur} mode="decal"/>
+                    {sharpen > 0 && 
+                    <RuntimeShader source={sharpenEffect} uniforms={{strength: sharpen}}/>}
+                    {pixelate > 1 && 
+                    <RuntimeShader source={pixelateEffect} uniforms={{pixelSize: pixelate}}/>}
+                </Image>
+            </Canvas>
+        )
+    }
+
     return (
-        <Canvas opaque={opaque} androidWarmup={opaque} style={props.size} ref={canvasRef}>
-            {opaque && <Fill color={colors.background}/>}
-            <Image image={image} x={0} y={0} width={width} height={height} fit={props.fit}>
-                <ColorMatrix matrix={brightnessMatrix}/>
-                <ColorMatrix matrix={contrastMatrix}/>
-                <ColorMatrix matrix={hueMatrix}/>
-                <ColorMatrix matrix={saturationMatrix}/>
-                <ColorMatrix matrix={lightnessMatrix}/>
-                <Blur blur={blur} mode="decal"/>
-                {sharpen > 0 && 
-                <RuntimeShader source={sharpenEffect} uniforms={{strength: sharpen}}/>}
-                {pixelate > 1 && 
-                <RuntimeShader source={pixelateEffect} uniforms={{pixelSize: pixelate}}/>}
-            </Image>
-        </Canvas>
+        <RNImage source={{uri: props.img}} style={props.size} resizeMode={props.fit} onLoad={props.onLoad}/>
     )
 })
 

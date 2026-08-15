@@ -91,7 +91,7 @@ const TagFavoritesSheet: React.FunctionComponent = () => {
         for (const item of favoriteTags) {
             jsx.push(
                 <PressableHaptic key={item.tag} onPress={() => append(item.tag)}>
-                    <CrossLiquidGlassView interactive effect="clear"
+                    <CrossLiquidGlassView interactive effect="clear" showBlur={false}
                         style={[styles.tag, {backgroundColor: functions.tag.getGlassColor(item, colors)}]}>
                             <HeartIcon width={iconSize} height={iconSize} color={colors.white}/>
                             <Text style={styles.tagText}>{item.tag.replace(/-/g, " ")}</Text>

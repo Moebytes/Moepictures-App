@@ -169,12 +169,22 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
     }
 
     const changeReorderState = () => {
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
         if (reorderState) {
             setReorderState(false)
             setSortKey((key) => key + 1)
         } else {
             setReorderState(true)
         }
+    }
+
+    const changeDeleteMode = () => {
+        if (session.banned) {
+            return Toast.show({text1: i18n.toast.banned})
+        }
+        setDeleteMode((prev: boolean) => !prev)
     }
 
     const groupHistory = () => {
@@ -342,7 +352,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         {reorderState ? <ScalableHaptic onPress={commitReorder}>
                             <AcceptIcon width={iconSize2} height={iconSize2} color={colors.iconColor}/>
                         </ScalableHaptic> : null}
-                        <ScalableHaptic onPress={() => setDeleteMode((prev: boolean) => !prev)}>
+                        <ScalableHaptic onPress={changeDeleteMode}>
                             <CancelIcon width={iconSize2} height={iconSize2} color={deleteMode ? colors.favoriteColor : colors.iconColor}/>
                         </ScalableHaptic>
                         <ScalableHaptic onPress={editGroup}>

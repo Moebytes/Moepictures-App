@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
-import {View, Text, Animated, Easing} from "react-native"
+import {View, Text, Animated, Easing, Platform} from "react-native"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import Toast from "react-native-toast-message"
 import ScalableHaptic from "../../ui/ScalableHaptic"
@@ -51,7 +51,7 @@ const SortBar: React.FunctionComponent = () => {
 
     const imageSearch = async () => {
         showActionSheetWithOptions({
-            title: i18n.contextMenu.uploadLocation,
+            title: i18n.contextMenu.reverseImageLocation,
             options: [i18n.contextMenu.photos, i18n.contextMenu.files, i18n.buttons.cancel],
             cancelButtonIndex: 2,
             tintColor: colors.iconColor,
@@ -159,7 +159,7 @@ const SortBar: React.FunctionComponent = () => {
         outputRange: ["0deg", "360deg"]
     })
 
-    let iconSize = 20
+    let iconSize = Platform.OS === "android" ? 19 : 20
 
     return (
         <CrossLiquidGlassView effect="clear" tintColor={colors.glassTint} style={[styles.container]}>

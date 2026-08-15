@@ -144,7 +144,6 @@ const PremiumScreen: React.FunctionComponent = () => {
 
     let iconSize = 35
 
-
     let offset = Platform.OS === "android" ? 40 : 0
 
     return (
@@ -166,7 +165,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                 source={premiumBG} 
                 style={styles.container}
                 imageStyle={styles.containerBG}
-                blurRadius={tablet ? 2 : 7}>
+                blurRadius={2}>
                 <CrossLiquidGlassView effect="clear" style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.premium.premium.title}</Text>

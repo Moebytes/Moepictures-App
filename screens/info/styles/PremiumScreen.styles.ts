@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {StyleSheet} from "react-native"
+import {StyleSheet, Platform} from "react-native"
 import {ThemeColors} from "../../../ui/colors"
 import {fonts} from "../../../ui/fonts"
 
@@ -51,7 +51,7 @@ export const createStylesheet = (colors: ThemeColors, tablet: boolean) => {
             borderRadius: 15,
             paddingHorizontal: 25,
             paddingVertical: 20,
-            width: "90%",
+            width: Platform.OS === "android" ? "99%" : "90%",
             gap: 20
         },
         row: {
