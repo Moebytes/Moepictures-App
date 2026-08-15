@@ -7,7 +7,7 @@
 import React, {useRef, useEffect} from "react"
 import {View, Text, Animated} from "react-native"
 import {ProgressiveBlurView} from "@sbaiahmed1/react-native-blur"
-import {useThemeSelector, useMiscDialogSelector, useMiscDialogActions} from "../store"
+import {useThemeSelector, useMiscDialogSelector, useMiscDialogActions, useSessionSelector} from "../store"
 import {createStylesheet} from "./styles/SavePrompt.styles"
 import SaveCheckIcon from "../assets/svg/save-check.svg"
 
@@ -15,6 +15,7 @@ const SavePrompt: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {showSavePrompt} = useMiscDialogSelector()
     const {setShowSavePrompt} = useMiscDialogActions()
+    const {lowPerformance} = useSessionSelector()
     const styles = createStylesheet(colors)
     const opacity = useRef(new Animated.Value(0)).current
     const scale = useRef(new Animated.Value(0.9)).current
@@ -60,8 +61,10 @@ const SavePrompt: React.FunctionComponent = () => {
         return (
             <View style={styles.overlay}>
                 <Animated.View style={[styles.container, {opacity, transform: [{scale}]}]}>
+                    {lowPerformance ? 
+                    <View style={[styles.absolute, {backgroundColor: "rgba(255,255,255,0.5)"}]}/> :
                     <ProgressiveBlurView blurAmount={2} blurType="light" style={styles.absolute}
-                    startOffset={1.0} reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>
+                    startOffset={1.0} reducedTransparencyFallbackColor="rgba(255,255,255,0.5)"/>}
                     <Text style={styles.text}>{i18n.buttons.saved}</Text>
                     <SaveCheckIcon width={iconSize} height={iconSize} color={colors.black}/>
                 </Animated.View>

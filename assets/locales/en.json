@@ -559,7 +559,9 @@
         "enterSearchTags": "Enter the tags for this search",
         "enterSearchName": "Enter a name for this search",
         "enterNewName": "Enter a new name or continue",
-        "enterNewTags": "Enter new tags or continue"
+        "enterNewTags": "Enter new tags or continue",
+        "lowPerformance": "Low Performance",
+        "lowPerformanceInfo": "Disables liquid glass / background blur for better performance on low-end devices"
     },
     "options": {
         "searchOptions": "Search Options",

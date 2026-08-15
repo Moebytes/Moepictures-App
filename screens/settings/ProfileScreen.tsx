@@ -33,9 +33,9 @@ const ProfileScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {tabBarHeight} = useLayoutSelector()
     const {setTheme} = useThemeActions()
-    const {session, userImg, showRelated, autosearchInterval,
+    const {session, userImg, showRelated, autosearchInterval, lowPerformance,
     privateFavorites, privateTagFavorites, upscaledImages, showR18} = useSessionSelector()
-    const {setShowRelated, setAutosearchInterval, setPrivateFavorites, 
+    const {setShowRelated, setAutosearchInterval, setPrivateFavorites, setLowPerformance,
         setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
     const {setSessionFlag} = useFlagActions()
     const styles = createStylesheet(colors)
@@ -54,6 +54,19 @@ const ProfileScreen: React.FunctionComponent = () => {
         if (session.username) {
             await functions.http.post("/api/user/showrelated", null, session)
             setSessionFlag(true)
+        }
+    }
+
+    const changeLowPerformance = async () => {
+        if (lowPerformance) {
+            setLowPerformance(false)
+        } else {
+            Alert.alert(i18n.contextMenu.lowPerformance, i18n.contextMenu.lowPerformanceInfo, [
+                {text: i18n.buttons.cancel, style: "cancel"},
+                {text: i18n.buttons.ok, style: "default", onPress: async () => {
+                    setLowPerformance(true)
+                }}
+            ], {cancelable: true})
         }
     }
 
@@ -332,6 +345,20 @@ const ProfileScreen: React.FunctionComponent = () => {
                             ios_backgroundColor={colors.switchOff}
                         />
                     </View></> : null}
+
+                    <View style={styles.separator}/>
+                    
+                    /* Low Performance */
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.text}>{i18n.contextMenu.lowPerformance}</Text>
+                        <Switch
+                            value={lowPerformance}
+                            onValueChange={changeLowPerformance}
+                            thumbColor="#ffffff"
+                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
+                            ios_backgroundColor={colors.switchOff}
+                        />
+                    </View>
                 </View>
 
                 {session.username ? 

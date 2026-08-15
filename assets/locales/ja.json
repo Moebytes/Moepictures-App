@@ -560,7 +560,9 @@
         "enterSearchTags": "この検索のタグを入力してください",
         "enterSearchName": "この検索の名前を入力してください",
         "enterNewName": "新しい名前を入力するか、続行してください",
-        "enterNewTags": "新しいタグを入力するか、続行してください"
+        "enterNewTags": "新しいタグを入力するか、続行してください",
+        "lowPerformance": "パフォーマンスの低下",
+        "lowPerformanceInfo": "ローエンド端末でのパフォーマンス向上のため、リキッドグラスおよび背景のぼかし機能を無効にします"
     },
     "options": {
         "searchOptions": "検索オプション",

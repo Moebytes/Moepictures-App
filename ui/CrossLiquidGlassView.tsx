@@ -7,6 +7,7 @@
 import React from "react"
 import {View, ViewProps, StyleProp, ViewStyle, Platform} from "react-native"
 import {LiquidGlassView, isLiquidGlassSupported} from "@callstack/liquid-glass"
+import {useSessionSelector} from "../store"
 import {ProgressiveBlurView} from "@sbaiahmed1/react-native-blur"
 
 interface CrossLiquidGlassViewProps extends ViewProps {
@@ -21,7 +22,10 @@ interface CrossLiquidGlassViewProps extends ViewProps {
 }
 
 const CrossLiquidGlassView: React.FunctionComponent<CrossLiquidGlassViewProps> = ({children, showBlur = true, ...props}) => {
-    if (Platform.OS === "ios" && isLiquidGlassSupported) {
+    const {lowPerformance} = useSessionSelector()
+    if (lowPerformance) showBlur = false
+
+    if (Platform.OS === "ios" && isLiquidGlassSupported && !lowPerformance) {
         return (
             <LiquidGlassView 
                 {...props}

@@ -23,8 +23,8 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {setSessionFlag} = useFlagActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags, setEmojis} = useCacheActions()
-    const {session, showRelated, autosearchInterval} = useSessionSelector()
-    const {setSession, setUserImg, setShowRelated, setAutosearchInterval, 
+    const {session, showRelated, autosearchInterval, lowPerformance} = useSessionSelector()
+    const {setSession, setUserImg, setShowRelated, setAutosearchInterval, setLowPerformance,
     setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
     const {scroll, square, imageType, ratingType, styleType, 
         showChildren, sizeType, sortType, sortReverse} = useSearchSelector()
@@ -142,6 +142,7 @@ const AsyncStorage: React.FunctionComponent = () => {
             "square",
             "showRelated",
             "autosearchInterval",
+            "lowPerformance",
             "imageType",
             "ratingType",
             "styleType",
@@ -177,6 +178,7 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (saved.sortReverse) setSortReverse(saved.sortReverse === "sortReverse")
         if (saved.showRelated) setShowRelated(saved.showRelated === "true")
         if (saved.autosearchInterval) setAutosearchInterval(Number(saved.autosearchInterval))
+        if (saved.lowPerformance) setLowPerformance(saved.lowPerformance === "true")
         if (saved.brightness) setBrightness(Number(saved.brightness))
         if (saved.contrast) setContrast(Number(saved.contrast))
         if (saved.hue) setHue(Number(saved.hue))
@@ -221,7 +223,9 @@ const AsyncStorage: React.FunctionComponent = () => {
         asyncStorage.setItem("appLightness", String(appLightness))
         asyncStorage.setItem("showRelated", String(showRelated))
         asyncStorage.setItem("autosearchInterval", String(autosearchInterval))
-    }, [theme, language, appHue, appSaturation, appLightness, showRelated, autosearchInterval])
+        asyncStorage.setItem("lowPerformance", String(lowPerformance))
+    }, [theme, language, appHue, appSaturation, appLightness, 
+        showRelated, autosearchInterval, lowPerformance])
 
     useEffect(() => {
         if (!loaded) return

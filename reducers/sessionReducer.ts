@@ -19,7 +19,8 @@ const sessionSlice = createSlice({
         privateFavorites: false,
         privateTagFavorites: false,
         upscaledImages: false,
-        showR18: false
+        showR18: false,
+        lowPerformance: false
     },
     reducers: {
         setSession: (state, action) => {state.session = action.payload},
@@ -29,13 +30,14 @@ const sessionSlice = createSlice({
         setPrivateFavorites: (state, action) => {state.privateFavorites = action.payload},
         setPrivateTagFavorites: (state, action) => {state.privateTagFavorites = action.payload},
         setUpscaledImages: (state, action) => {state.upscaledImages = action.payload},
-        setShowR18: (state, action) => {state.showR18 = action.payload}
+        setShowR18: (state, action) => {state.showR18 = action.payload},
+        setLowPerformance: (state, action) => {state.lowPerformance = action.payload}
     }    
 })
 
 const {
     setSession, setUserImg, setShowRelated, setAutosearchInterval, setPrivateFavorites,
-    setPrivateTagFavorites, setUpscaledImages, setShowR18
+    setPrivateTagFavorites, setUpscaledImages, setShowR18, setLowPerformance
 } = sessionSlice.actions
 
 export const useSessionSelector = () => {
@@ -48,7 +50,8 @@ export const useSessionSelector = () => {
         privateFavorites: selector((state) => state.session.privateFavorites),
         privateTagFavorites: selector((state) => state.session.privateTagFavorites),
         upscaledImages: selector((state) => state.session.upscaledImages),
-        showR18: selector((state) => state.session.showR18)
+        showR18: selector((state) => state.session.showR18),
+        lowPerformance: selector((state) => state.session.lowPerformance)
     }
 }
 
@@ -62,7 +65,8 @@ export const useSessionActions = () => {
         setPrivateFavorites: (state: boolean) => dispatch(setPrivateFavorites(state)),
         setPrivateTagFavorites: (state: boolean) => dispatch(setPrivateTagFavorites(state)),
         setUpscaledImages: (state: boolean) => dispatch(setUpscaledImages(state)),
-        setShowR18: (state: boolean) => dispatch(setShowR18(state))
+        setShowR18: (state: boolean) => dispatch(setShowR18(state)),
+        setLowPerformance: (state: boolean) => dispatch(setLowPerformance(state))
     }
 }
 
