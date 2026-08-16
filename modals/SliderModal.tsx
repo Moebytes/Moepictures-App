@@ -32,19 +32,21 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const {setShowFullscreenImage} = useMiscDialogActions()
     const {setStatusBarVisible} = useLayoutActions()
     const {navigationPosts} = useCacheSelector()
-    const {session} = useSessionSelector()
+    const {session, lowPerformance} = useSessionSelector()
     const {width, height} = useWindowDimensions()
     const [data, setData] = useState<ImageItem[]>([])
     const [index, setIndex] = useState(0)
     const [zoom, setZoom] = useState(1)
+    const [visible, setVisible] = useState(false)
     const styles = createStylesheet(colors, width, height)
     const navigation = useNavigation()
     const ref = useRef<FlatList<ImageItem>>(null)
-    const zoomRefs = useRef<Array<ReactNativeZoomableView | null>>([])
+    const zoomRef = useRef<ReactNativeZoomableView | null>(null)
 
     const post = data[index]?.post
 
     const collectImages = async () => {
+        setVisible(false)
         const images: ImageItem[] = []
         let index = 0
 
@@ -67,9 +69,10 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         setIndex(index)
         setZoom(1)
 
-        requestAnimationFrame(() => {
+        setTimeout(() => {
             ref.current?.scrollToIndex({index, animated: false})
-        })
+            setVisible(true)
+        }, lowPerformance ? 300 : 10)
     }
 
     useEffect(() => {
@@ -116,7 +119,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         setZoom(1)
 
         requestAnimationFrame(() => {
-            zoomRefs.current[newIndex]?.resetPan()
+            zoomRef.current?.resetPan()
         })
     }
 
@@ -127,11 +130,10 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const renderItem: ListRenderItem<ImageItem> = ({item}) => {
         return (
             <View style={styles.page}>
-                <ReactNativeZoomableView style={styles.zoomContainer} panEnabled={true}
+                <ReactNativeZoomableView ref={zoomRef} style={styles.zoomContainer}
                     minZoom={1} maxZoom={10} visualTouchFeedbackEnabled={false}
-                    lockMinZoomAxis={true} onShiftingAfter={onShiftEnd}
-                    onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}
-                    ref={(zoomRef) => {zoomRefs.current[index] = zoomRef}}>
+                    panEnabled={true} lockMinZoomAxis={true} onShiftingAfter={onShiftEnd}
+                    onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}>
                     <FilterImage size={{width, height}} img={item.image} fit="contain" onLoad={onImageLoad}/>
                 </ReactNativeZoomableView>
             </View>
@@ -143,6 +145,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         supportedOrientations={["portrait", "landscape"]} onRequestClose={onClose}>
             <View style={styles.container}>
                 <FlatList
+                    style={{opacity: visible ? 1 : 0}}
                     ref={ref}
                     data={data}
                     renderItem={renderItem}
@@ -162,8 +165,10 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                             ref.current?.scrollToIndex({index: info.index, animated: false})
                         }, 100)
                     }}
-                    windowSize={3}
-                    removeClippedSubviews={false}
+                    initialNumToRender={lowPerformance ? 1 : 2}
+                    maxToRenderPerBatch={lowPerformance ? 1 : 2}
+                    windowSize={lowPerformance ? 2 : 3}
+                    removeClippedSubviews={lowPerformance}
                 />
             </View>
         </Modal>
