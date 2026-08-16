@@ -561,7 +561,7 @@
         "enterNewName": "Enter a new name or continue",
         "enterNewTags": "Enter new tags or continue",
         "lowPerformance": "Low Performance",
-        "lowPerformanceInfo": "Disables liquid glass / background blur for better performance on low-end devices"
+        "lowPerformanceInfo": "Disables liquid glass / background blur and fast image swiping for better performance on low-end devices."
     },
     "options": {
         "searchOptions": "Search Options",

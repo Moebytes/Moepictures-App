@@ -10,7 +10,7 @@ import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkData,
 import {Platform, Image as RNImage} from "react-native"
 import {useRoute} from "@react-navigation/native"
 import {useFilterSelector, useThemeSelector} from "../../store"
-import {PostFull, PostHistory} from "../../types/Types"
+import {Post, PostHistory} from "../../types/Types"
 import functions from "../../functions/Functions"
 
 export interface ImageRef {
@@ -22,7 +22,7 @@ interface Props {
     img?: string
     fit?: "cover" | "contain"
     onLoad?: () => void
-    post?: PostFull | PostHistory
+    post?: Post | PostHistory
 }
 
 const sharpenShader = /*glsl*/`

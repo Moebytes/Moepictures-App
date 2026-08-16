@@ -110,7 +110,8 @@ const TagRow: React.FunctionComponent<Props> = (props) => {
                 </View> : null}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{maxHeight: 150}} contentContainerStyle={styles.textContainer}>
-                <Text style={styles.tagText}>{props.tag.description}</Text>
+                <Text style={styles.tagText} selectable uiTextView
+                selectionColor={colors.borderColor}>{props.tag.description}</Text>
             </ScrollView>
         </View>
     )

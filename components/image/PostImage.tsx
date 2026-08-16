@@ -13,11 +13,11 @@ useMiscDialogActions, useGroupDialogActions, usePostDialogActions} from "../../s
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import FilterImage, {ImageRef} from "./FilterImage"
-import {PostFull, PostHistory, Image as VariantImage} from "../../types/Types"
+import {Post, PostHistory, Image as VariantImage} from "../../types/Types"
 import {siteURL} from "../../ui/site"
 
 interface Props {
-    post?: PostFull | PostHistory
+    post?: Post | PostHistory
     image?: VariantImage | string | null
     imageRef?: React.RefObject<ImageRef | null>
     refreshKey?: string

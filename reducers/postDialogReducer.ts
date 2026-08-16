@@ -7,12 +7,12 @@
 import {createSlice} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
-import {PostFull, PostHistory} from "../types/Types"
+import {Post, PostHistory} from "../types/Types"
 
 const postDialogSlice = createSlice({
     name: "postDialog",
     initialState: {
-        childPostObj: null as PostFull | PostHistory | null
+        childPostObj: null as Post | PostHistory | null
     },
     reducers: {
         setChildPostObj: (state, action) => {state.childPostObj = action.payload}
@@ -33,7 +33,7 @@ export const usePostDialogSelector = () => {
 export const usePostDialogActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
-        setChildPostObj: (state: PostFull | PostHistory | null) => dispatch(setChildPostObj(state))
+        setChildPostObj: (state: Post | PostHistory | null) => dispatch(setChildPostObj(state))
     }    
 }
 
