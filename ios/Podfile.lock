@@ -1638,6 +1638,29 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - react-native-pager-view (8.0.3):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - SwiftUIIntrospect (~> 1.0)
+    - Yoga
   - react-native-quick-base64 (2.2.2):
     - React-Core
   - react-native-safe-area-context (5.7.0):
@@ -2648,6 +2671,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - SwiftUIIntrospect (1.3.0)
   - TOCropViewController (2.5.3)
   - Yoga (0.0.0)
   - ZIPFoundation (0.9.20)
@@ -2706,6 +2730,7 @@ DEPENDENCIES:
   - react-native-image-crop-tools (from `../node_modules/react-native-image-crop-tools`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-image-resizer (from `../node_modules/@bam.tech/react-native-image-resizer`)"
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
@@ -2762,6 +2787,7 @@ SPEC REPOS:
   trunk:
     - openiap
     - React-Codegen
+    - SwiftUIIntrospect
     - TOCropViewController
     - ZIPFoundation
 
@@ -2871,6 +2897,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-resizer:
     :path: "../node_modules/@bam.tech/react-native-image-resizer"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-quick-base64:
     :path: "../node_modules/react-native-quick-base64"
   react-native-safe-area-context:
@@ -3029,6 +3057,7 @@ SPEC CHECKSUMS:
   react-native-image-crop-tools: 0995d2ece9b4b6b04d298bd1dfe00b2b841507f2
   react-native-image-picker: 23540feacc79c63c60857f318fdfa8477c26e70a
   react-native-image-resizer: 529805dab6cb9c586d4c561b029ce29cb25bb2ab
+  react-native-pager-view: ea839f217edfba44c222730f20f88b28c9f3f153
   react-native-quick-base64: 6568199bb2ac8e72ecdfdc73a230fbc5c1d3aac4
   react-native-safe-area-context: 6b4966397ada0f7dd481e4486a2ef936834861a1
   react-native-skia: 448b544cf5040e6779a3bc57f545a8106ba5968b
@@ -3079,6 +3108,7 @@ SPEC CHECKSUMS:
   RNSVG: 04044c3abcf177fd674a1a3d13097efa1adebcbe
   RNTrueSheet: fa8b104afa2fa9eca2338f879880a147cae322f9
   RNWorklets: 9052122d7f98de547d247e775ea2069839236d38
+  SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
   Yoga: 77dfa8673de2874e1855002ae59c68b8be9b007b
   ZIPFoundation: dfd3d681c4053ff7e2f7350bc4e53b5dba3f5351

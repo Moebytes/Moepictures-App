@@ -180,7 +180,7 @@ const TagHistoryRow: React.FunctionComponent<Props> = (props) => {
     const dateTextJSX = () => {
         let firstHistory = props.index === Number(props.history.historyCount) - 1
         let targetDate = props.history.date
-        const editText = firstHistory ? i18n.time.uploaded : i18n.time.edited
+        const editText = firstHistory ? i18n.time.created : i18n.time.edited
 
         return functions.jsx.usernameJSX(props.history.user, 
             colors, i18n, navigation, styles.dateText, undefined, styles.dateContainer, editText, targetDate)
