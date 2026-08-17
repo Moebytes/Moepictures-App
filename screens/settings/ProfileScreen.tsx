@@ -501,7 +501,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <Text style={styles.copyText}>© 2026 Moepictures</Text>
                 </View>
             </ScrollView>
-            <TabBar relative={true}/>
+            <TabBar/>
         </View>
     )
 }
