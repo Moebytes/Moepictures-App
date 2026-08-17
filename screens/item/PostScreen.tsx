@@ -33,7 +33,6 @@ import CutenessMeter from "../../components/post/CutenessMeter"
 import Commentary from "../../components/post/Commentary"
 import Comments from "../../components/post/Comments"
 import Related, {useRelatedItems} from "../../components/post/Related"
-import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import SliderModal from "../../modals/SliderModal"
@@ -303,11 +302,9 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
               <PageButtons page={related.page} setPage={related.setPage} 
               totalPages={related.totalPages} hideEndArrow={true}
               marginBottom={20}/>
-              <BackToTop ref={ref}/>
-              <TabBar relative={true}/>
+              <TabBar relative={true} ref={ref} backToTop={true}/>
               </> : <>
-              <BackToTop ref={ref}/>
-              <TabBar relative={true}/>
+              <TabBar relative={true} ref={ref} backToTop={true}/>
               </>}
           />
       </View>

@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
+import React, {useRef} from "react"
 import {View, ScrollView, Image, StatusBar, Pressable, FlatList, ListRenderItem} from "react-native"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
@@ -33,6 +33,7 @@ const FavgroupsScreen: React.FunctionComponent = () => {
     const {data: favgroups, isLoading} = useGetFavgroupsQuery(null)
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
+    const ref = useRef<ScrollView>(null)
 
     let iconSize = 20
 
@@ -102,12 +103,12 @@ const FavgroupsScreen: React.FunctionComponent = () => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView contentContainerStyle={[styles.container, {paddingBottom: tabBarHeight}]}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{i18n.help.favoriteGroups.title}</Text>
-                </View>
-                {generateFavgroupJSX()}
-            <TabBar relative={false}/>
+            <ScrollView ref={ref} contentContainerStyle={[styles.container]}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>{i18n.help.favoriteGroups.title}</Text>
+                    </View>
+                    {generateFavgroupJSX()}
+                <TabBar relative={true} ref={ref} backToTop={true}/>
             </ScrollView>
         </View>
     )

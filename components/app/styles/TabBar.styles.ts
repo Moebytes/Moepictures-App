@@ -16,10 +16,17 @@ export const createStylesheet = (colors: ThemeColors, tablet: boolean) => {
             left: 0,
             right: 0,
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            backgroundColor: colors.mainColor
+        },
+        innerContainer: {
+            display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: colors.mainColor,
             paddingVertical: 10,
             paddingHorizontal: 14,
             gap: tablet ? 40 : Platform.OS === "android" ? 16 : 18

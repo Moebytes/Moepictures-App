@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {TextInput} from "react-native"
+import {TextInput, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 type Selection = {start: number, end: number}
 
 export default class RenderFunctions {
@@ -130,5 +130,12 @@ export default class RenderFunctions {
 
     public static trimStartNewline = (text: string) => {
         return text.replace(/^\n+/, "")
+    }
+
+    public static backToTopScroll = (event: NativeSyntheticEvent<NativeScrollEvent>, 
+        setShowBackToTop: React.Dispatch<React.SetStateAction<boolean>>) => {
+        const {contentOffset, contentSize, layoutMeasurement} = event.nativeEvent
+        const distanceFromBottom = contentSize.height - (contentOffset.y + layoutMeasurement.height)
+        setShowBackToTop(distanceFromBottom <= 50)
     }
 }

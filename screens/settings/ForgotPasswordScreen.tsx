@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState} from "react"
-import {View, Text, TextInput, ImageBackground, Animated, StatusBar} from "react-native"
+import {View, TextInput, ImageBackground, Animated, StatusBar} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import {SvgXml} from "react-native-svg"
@@ -83,7 +84,8 @@ const ForgotPasswordScreen: React.FunctionComponent = () => {
                         <Text style={styles.title}>{i18n.pages.forgotPassword.title}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>{i18n.pages.forgotPassword.heading}</Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.pages.forgotPassword.heading}</Text>
                     </View>
                     <View style={styles.row}>
                         <View style={styles.inputWrapper}>

@@ -41,6 +41,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 18,
             lineHeight: 20
         },
+        textHidden: {
+            color: colors.deletedColor,
+            fontFamily: fonts.jkGothicM,
+            fontSize: 18,
+            lineHeight: 20,
+            textDecorationLine: "line-through"
+        },
         tagContainer: {
             display: "flex",
             flexDirection: "row",

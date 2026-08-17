@@ -4,10 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {ScrollView, View, Text, TextInput, Animated, StatusBar} from "react-native"
 import {useNavigation, RouteProp} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
+import PagerView from "react-native-pager-view"
 import {StackParamList} from "../../App"
 import {useGetGroupQuery, useInvalidateGroup, useInvalidateGroups} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -38,6 +39,7 @@ const EditGroupScreen: React.FunctionComponent<Props> = ({route}) => {
     const navigation = useNavigation()
     const invalidateGroup = useInvalidateGroup()
     const invalidateGroups = useInvalidateGroups()
+    const pagerRef = useRef<PagerView>(null)
 
     const edit = async () => {
         if (!group) return
@@ -83,131 +85,144 @@ const EditGroupScreen: React.FunctionComponent<Props> = ({route}) => {
         {name: i18n.buttons.remap, value: "remap"}
     ]
 
+    const changePage = (value: string) => {
+        const index = pages.findIndex((page) => page.value === value)
+        if (index === -1) return
+        setPage(value)
+        pagerRef.current?.setPage(index)
+    }
+
+    const onPageSelected = (event: any) => {
+        const index = event.nativeEvent.position
+        const value = pages[index]?.value
+        if (value) setPage(value)
+    }
+
     useEffect(() => {
         if (!group) return
         setName(group.name)
         setDescription(group.description)
         setItems(group.posts.map((p) => p.postID).join(" "))
-    }, [group, page])
+    }, [group])
 
     let hasPermission = permissions.isContributor(session)
 
-    const generatePageJSX = () => {
-        if (page === "details") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.name}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={name}
-                        onChangeText={setName}
-                        placeholder={i18n.placeholder.enterGroupName}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.description}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.bigInput}
-                        selectionColor={colors.borderColor}
-                        value={description}
-                        onChangeText={setDescription}
-                        placeholder={i18n.placeholder.enterGroupDescription}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                {!hasPermission ? <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View></> : null}
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={edit}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
-                    }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        } else if (page === "remap") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.buttons.remap}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.bigInput}
-                        selectionColor={colors.borderColor}
-                        value={items}
-                        onChangeText={setItems}
-                        placeholder={i18n.placeholder.enterPostIDs}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                {!hasPermission ? <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View></> : null}
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={remap}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.remap : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
-                    }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        }
+    const DetailsPage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.name}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={name}
+                    onChangeText={setName}
+                    placeholder={i18n.placeholder.enterGroupName}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.description}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.bigInput}
+                    selectionColor={colors.borderColor}
+                    value={description}
+                    onChangeText={setDescription}
+                    placeholder={i18n.placeholder.enterGroupDescription}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            {!hasPermission ? <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View></> : null}
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={edit}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
+    }
+
+    const RemapPage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.buttons.remap}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.bigInput}
+                    selectionColor={colors.borderColor}
+                    value={items}
+                    onChangeText={setItems}
+                    placeholder={i18n.placeholder.enterPostIDs}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            {!hasPermission ? <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View></> : null}
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={remap}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.remap : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
     }
 
     return (
@@ -224,18 +239,28 @@ const EditGroupScreen: React.FunctionComponent<Props> = ({route}) => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} 
-                contentContainerStyle={[styles.container, {flex: 1}]}>
+            <View style={styles.outerContainer}>
                 <View style={styles.centerRow}>
                     <SlidingSelector
                         data={pages}
                         value={page}
-                        onChange={setPage}
+                        onChange={changePage}
                         paddingHorizontal={30}
                     />
                 </View>
-                {generatePageJSX()}
-            </ScrollView>
+                
+                <PagerView ref={pagerRef} style={{flex: 1}}
+                    initialPage={0} onPageSelected={onPageSelected}>
+                    <ScrollView key="details" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <DetailsPage/>
+                    </ScrollView>
+                    <ScrollView key="remap" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <RemapPage/>
+                    </ScrollView>
+                </PagerView>
+            </View>
         </View>
     )
 }

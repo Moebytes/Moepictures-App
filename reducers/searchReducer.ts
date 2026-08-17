@@ -23,6 +23,7 @@ const searchSlice = createSlice({
         sortReverse: false,
         square: false,
         scroll: false,
+        scrolling: false,
         pageMultiplier: 1,
         format: "jpg" as ImageFormat,
         autoSearch: false,
@@ -51,6 +52,7 @@ const searchSlice = createSlice({
         setSortReverse: (state, action) => {state.sortReverse = action.payload},
         setSquare: (state, action) => {state.square = action.payload},
         setScroll: (state, action) => {state.scroll = action.payload},
+        setScrolling: (state, action) => {state.scrolling = action.payload},
         setPageMultiplier: (state, action) => {state.pageMultiplier = action.payload},
         setFormat: (state, action) => {state.format = action.payload},
         setAutoSearch: (state, action) => {state.autoSearch = action.payload},
@@ -73,7 +75,7 @@ const searchSlice = createSlice({
 const {
     setSearch, setSearchFlag, setImageType, setRatingType, setStyleType, setSizeType,
     setSortType, setSortReverse, setSquare, setScroll, setAutoScroll, setPageMultiplier,
-    setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren,
+    setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren, setScrolling,
     setText, setFocused, setSearchTags, setCommentSort, setNoteSort, setGroupSort,
     setTagSort, setTagType, setSearchHistorySort
 } = searchSlice.actions
@@ -91,6 +93,7 @@ export const useSearchSelector = () => {
         sortReverse: selector((state) => state.search.sortReverse),
         square: selector((state) => state.search.square),
         scroll: selector((state) => state.search.scroll),
+        scrolling: selector((state) => state.search.scrolling),
         pageMultiplier: selector((state) => state.search.pageMultiplier),
         format: selector((state) => state.search.format),
         autoSearch: selector((state) => state.search.autoSearch),
@@ -123,6 +126,7 @@ export const useSearchActions = () => {
         setSortReverse: (state: boolean) => dispatch(setSortReverse(state)),
         setSquare: (state: boolean) => dispatch(setSquare(state)),
         setScroll: (state: boolean) => dispatch(setScroll(state)),
+        setScrolling: (state: boolean) => dispatch(setScrolling(state)),
         setPageMultiplier: (state: number) => dispatch(setPageMultiplier(state)),
         setFormat: (state: ImageFormat) => dispatch(setFormat(state)),
         setAutoSearch: (state: boolean) => dispatch(setAutoSearch(state)),

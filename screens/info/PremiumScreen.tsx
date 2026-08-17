@@ -172,7 +172,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                         <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor} style={{marginTop: "-5"}}/>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>{session.premium ? i18n.mobilePremium.premium.alreadyPremium : 
+                        <Text style={styles.text} selectable uiTextView
+                         selectionColor={colors.borderColor}>{session.premium ? i18n.mobilePremium.premium.alreadyPremium : 
                             i18n.mobilePremium.premium.line1}</Text>
                     </View>
 
@@ -182,7 +183,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <SearchHistoryIcon width={iconSize} height={iconSize} color={"#FF2792"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.searchHistory.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.searchHistory.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -191,7 +193,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <FavoriteGroupsIcon width={iconSize} height={iconSize} color={"#E833FF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.favoriteGroups.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.favoriteGroups.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -200,7 +203,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <SavedSearchesIcon width={iconSize} height={iconSize} color={"#8352FF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.savedSearches.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.savedSearches.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -209,7 +213,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <UpscaledImagesIcon width={iconSize} height={iconSize} color={"#2F91FF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.upscaledImages.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.upscaledImages.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -218,7 +223,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <ImageFiltersIcon width={iconSize} height={iconSize} color={"#304FFF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.imageFilters.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.imageFilters.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -227,7 +233,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <AutoSearchIcon width={40} height={40} color={"#5B2FFF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.autoSearch.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.autoSearch.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -236,7 +243,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <AutoScrollIcon width={iconSize} height={iconSize} color={"#FF38B3"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.autoScroll.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.autoScroll.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -245,7 +253,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <BookmarkSortIcon width={iconSize} height={iconSize} color={"#3A51FF"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.bookmarkSort.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.bookmarkSort.header}</Text>
                         </View>
                     </View>
                     <View style={styles.itemBox}>
@@ -254,7 +263,8 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <ChangeUsernameIcon width={iconSize} height={iconSize} color={"#FF45F0"}/>
                         </View>
                         <View style={styles.itemBoxRow}>
-                            <Text style={styles.text}>{i18n.mobilePremium.changeUsername.header}</Text>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>{i18n.mobilePremium.changeUsername.header}</Text>
                         </View>
                     </View>
 
@@ -323,7 +333,8 @@ const PremiumScreen: React.FunctionComponent = () => {
 
                     <View style={styles.row}>
                         <View style={[styles.itemBoxRow, {borderRadius: 13, backgroundColor: "rgba(255, 199, 227, 0.30)"}]}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                             {i18n.mobilePremium.premium.renewal}
                         </Text>
                         </View>

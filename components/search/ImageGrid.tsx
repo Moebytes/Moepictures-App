@@ -21,7 +21,10 @@ import functions from "../../functions/Functions"
 const noresults = require("../../assets/images/noresults.png")
 
 interface Props {
+    ref: React.RefObject<FlatList| null>
+    setShowBackToTop: React.Dispatch<React.SetStateAction<boolean>>
     onScrollChange?: (visible: boolean) => void
+    isLoading: React.RefObject<boolean>
 }
 
 const ImageGrid: React.FunctionComponent<Props> = (props) => {
@@ -35,27 +38,26 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {search, scroll, imageType, ratingType, styleType, showChildren, sortType,
     sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
-    const {setAutoScroll} = useSearchActions()
+    const {setAutoScroll, setScrolling} = useSearchActions()
     const styles = createStylesheet(colors)
     const {handleScroll} = useAutoHideScroll(props.onScrollChange)
     const {width} = useWindowDimensions()
     const [page, setPage] = useState(1)
     const [refreshKey, setRefreshKey] = useState(0)
     const [randomPosts, setRandomPosts] = useState<PostSearch[]>([])
-    const ref = useRef<FlatList>(null)
     const scrollOffsetRef = useRef(0)
     const autoSearchRef = useRef<NodeJS.Timeout | null>(null)
     const searchingRef = useRef(false)
 
     useEffect(() => {
-        ref.current?.scrollToOffset({offset: 0, animated: true})
+        props.ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
     useEffect(() => {
         let frame: number
 
         const step = () => {
-            ref.current?.scrollToOffset({
+            props.ref.current?.scrollToOffset({
                 offset: scrollOffsetRef.current + 1,
                 animated: false
             })
@@ -71,6 +73,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         scrollOffsetRef.current = event.nativeEvent.contentOffset.y
+        functions.render.backToTopScroll(event, props.setShowBackToTop)
         handleScroll(event)
     }
 
@@ -123,6 +126,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         ? infiniteQuery.isLoading
         : pageQuery.isLoading
 
+    props.isLoading.current = isLoading
+    
     const renderEmpty = () => {
         if (!firstLoad) return null
         if (isLoading) return null
@@ -209,7 +214,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     return (
         <View style={styles.container}>
             <FlatList
-                ref={ref}
+                ref={props.ref}
                 key={columns}
                 style={{flex: 1}}
                 
@@ -242,6 +247,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
                 onScroll={onScroll}
                 onTouchStart={stopAutoScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 onMomentumScrollBegin={stopAutoScroll}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"

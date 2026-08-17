@@ -21,7 +21,6 @@ import {useGetGroupQuery, useGetGroupHistoryQuery, useInvalidateGroup, useInvali
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GroupImage from "../../components/image/GroupImage"
-import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
 import PagesIcon from "../../assets/svg/pages.svg"
@@ -389,11 +388,9 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
                         <PageButtons page={page} setPage={setPage} 
                         totalPages={totalPages} hideEndArrow={true}
                         marginBottom={20}/>
-                        <BackToTop ref={ref}/>
-                        <TabBar relative={true}/>
+                        <TabBar relative={true} ref={ref} backToTop={true}/>
                         </> : <>
-                        <BackToTop ref={ref}/>
-                        <TabBar relative={true}/>
+                        <TabBar relative={true} ref={ref} backToTop={true}/>
                     </>}
                 </View>    
             </Animated.ScrollView>

@@ -22,7 +22,6 @@ import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
 import GridImage from "../../components/image/GridImage"
 import Related, {useRelatedItems} from "../../components/post/Related"
-import BackToTop from "../../components/post/BackToTop"
 import PageButtons from "../../components/search/PageButtons"
 import LeftIcon from "../../assets/svg/left.svg"
 import HeartIcon from "../../assets/svg/heart.svg"
@@ -492,11 +491,9 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
                 <PageButtons page={related.page} setPage={related.setPage} 
                 totalPages={related.totalPages} hideEndArrow={true}
                 marginBottom={20}/>
-                <BackToTop ref={ref}/>
-                <TabBar relative={true}/>
+                <TabBar relative={true} ref={ref} backToTop={true}/>
                 </> : <>
-                <BackToTop ref={ref}/>
-                <TabBar relative={true}/>
+                <TabBar relative={true} ref={ref} backToTop={true}/>
                 </>}
             />
         </View>

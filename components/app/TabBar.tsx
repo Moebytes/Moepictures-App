@@ -4,13 +4,13 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useRef, useEffect} from "react"
-import {Text, Pressable, Animated, LayoutChangeEvent, Platform} from "react-native"
+import React, {useRef, useEffect, useEffectEvent} from "react"
+import {View, Text, Pressable, Animated, LayoutChangeEvent, Platform, FlatList, ScrollView} from "react-native"
 import {useNavigation, useNavigationState} from "@react-navigation/native"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
 import {StackParamList} from "../../App"
 import {SvgProps} from "react-native-svg"
-import {useThemeSelector, useLayoutSelector, useLayoutActions} from "../../store"
+import {useThemeSelector, useLayoutSelector, useLayoutActions, useSearchSelector} from "../../store"
 import {createStylesheet} from "./styles/TabBar.styles"
 import PostsIcon from "../../assets/svg/posts.svg"
 import CommentsIcon from "../../assets/svg/comments.svg"
@@ -19,11 +19,16 @@ import TagsIcon from "../../assets/svg/tags.svg"
 import GroupsIcon from "../../assets/svg/groups.svg"
 import HistoryIcon from "../../assets/svg/history-thin.svg"
 import ProfileIcon from "../../assets/svg/profile.svg"
+import BackToTop from "../post/BackToTop"
 import clone from "fast-clone"
 
 interface Props {
     relative?: boolean
     visible?: boolean
+    ref?: React.RefObject<FlatList | ScrollView | null>
+    backToTop?: boolean
+    showBackToTop?: boolean
+    isLoading?: boolean
 }
 
 type NoParamScreens = {
@@ -34,16 +39,52 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
     const {tablet, tabBarHeight} = useLayoutSelector()
     const {setTabBarHeight} = useLayoutActions()
+    const {scrolling} = useSearchSelector()
     const styles = createStylesheet(colors, tablet)
     const navigation = useNavigation()
     const insets = useSafeAreaInsets()
     const translateY = useRef(new Animated.Value(0)).current
+    const backToTopHeight = useRef(new Animated.Value(0)).current
+    const pendingBackToTop = useRef(false)
+    const appliedBackToTop = useRef(false)
+    const ref = useRef<View>(null)
 
     let iconSize = 43
 
     const activeRoute = useNavigationState(
         (state) => state.routes[state.index].name
     )
+
+    const recalculateHeight = useEffectEvent(() => {
+        requestAnimationFrame(() => {
+            ref.current?.measure((x, y, width, height) => {
+                if (!height) return
+                let offset = Platform.OS === "android" ? 175 : 0
+                let newHeight = height + offset
+                if (tabBarHeight !== newHeight) setTabBarHeight(newHeight)
+            })
+        })
+    })
+
+    useEffect(() => {
+        recalculateHeight()
+    }, [activeRoute])
+
+    useEffect(() => {
+        pendingBackToTop.current = Boolean(props.showBackToTop)
+        if (scrolling) return
+        if (appliedBackToTop.current === pendingBackToTop.current) return
+
+        appliedBackToTop.current = pendingBackToTop.current
+
+        Animated.timing(backToTopHeight, {
+            toValue: appliedBackToTop.current ? 30 : 0,
+            duration: 200,
+            useNativeDriver: false
+        }).start(({finished}) => {
+            if (finished) recalculateHeight()
+        })
+    }, [props.showBackToTop, scrolling])
 
     useEffect(() => {
         const visible = props.visible ?? true
@@ -121,13 +162,21 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
     }
 
     let offset = Platform.OS === "android" ? 10 : 0
+    let height = props.relative ? 30 :
+        props.isLoading ? 0 : backToTopHeight
 
     return (
-        <Animated.View onLayout={onLayout} style={{...styles.container, 
+        <Animated.View ref={ref} onLayout={onLayout} style={{...styles.container, 
             paddingBottom: insets.bottom + offset,
             position: props.relative ? "relative" : "absolute",
             transform: [{translateY}]}}>
-            {generateTabsJSX()}
+            {props.backToTop && (
+                <Animated.View style={{width: "100%", overflow: "hidden", height}}>
+                    <BackToTop ref={props.ref!}/>
+                </Animated.View>)}
+            <View style={styles.innerContainer}>
+                {generateTabsJSX()}
+            </View>
         </Animated.View>
     )
 }

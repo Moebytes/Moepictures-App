@@ -5,11 +5,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, useEffect} from "react"
-import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl,
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {RouteProp} from "@react-navigation/native"
 import {StackParamList} from "../../App"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useSearchActions} from "../../store"
 import {usePostHistoryInfiniteQuery, usePostHistoryPageQuery, useGetPostQuery, useGetUserQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -32,6 +33,7 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll} = useSearchSelector()
+    const {setScrolling} = useSearchActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -45,6 +47,7 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const {data: post} = useGetPostQuery({postID}, {skip: !postID})
     const {data: user} = useGetUserQuery({username: post?.uploader!}, {skip: !postID})
     const [tagCategories, setTagCategories] = useState<TagCategories>({artists: [], characters: [], series: [], meta: [], tags: []})
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const ref = useRef<FlatList>(null)
 
     useEffect(() => {
@@ -108,6 +111,11 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
             setAfterFirstLoad(true)
         }
     }, [isLoading])
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        functions.render.backToTopScroll(event, setShowBackToTop) 
+        handleScroll(event)    
+    }
 
     const renderItem: ListRenderItem<PostHistory> = ({item, index}) => {
         return <PostHistoryRow history={item} currentHistory={history[0]} index={index} refetch={refetch}/>
@@ -181,12 +189,15 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"
             />
-            <TabBar visible={tabVisible}/>
+            <TabBar visible={tabVisible} backToTop={history.length > 1} ref={ref} 
+                showBackToTop={showBackToTop} isLoading={isLoading}/>
         </View>
     )
 }

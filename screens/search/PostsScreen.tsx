@@ -4,8 +4,8 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState} from "react"
-import {View, StatusBar} from "react-native"
+import React, {useState, useRef} from "react"
+import {View, StatusBar, FlatList} from "react-native"
 import {useThemeSelector} from "../../store"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -18,6 +18,9 @@ import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 const PostsScreen: React.FunctionComponent = () => {
   const {theme, colors} = useThemeSelector()
   const [tabVisible, setTabVisible] = useState(true)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const ref = useRef<FlatList>(null)
+  const isLoading = useRef(false)
 
   return (
     <View style={{flex: 1, backgroundColor: colors.background}}>
@@ -28,8 +31,10 @@ const PostsScreen: React.FunctionComponent = () => {
             <SortBar/>
         </AnimatedHeaderWrapper>
         <SearchSuggestions/>
-        <ImageGrid onScrollChange={setTabVisible}/>
-        <TabBar visible={tabVisible}/>
+        <ImageGrid ref={ref} onScrollChange={setTabVisible} 
+          setShowBackToTop={setShowBackToTop} isLoading={isLoading}/>
+        <TabBar visible={tabVisible} backToTop={true} ref={ref} 
+          showBackToTop={showBackToTop} isLoading={isLoading.current}/>
     </View>
   )
 }

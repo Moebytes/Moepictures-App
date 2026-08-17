@@ -4,8 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View, ScrollView, Text, StatusBar} from "react-native"
+import React, {useRef} from "react"
+import {View, ScrollView, StatusBar} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector} from "../../store"
@@ -19,6 +20,7 @@ const PrivacyPolicyScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
+    const ref = useRef<ScrollView>(null)
 
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
@@ -34,127 +36,153 @@ const PrivacyPolicyScreen: React.FunctionComponent = () => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            <ScrollView ref={ref} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <PrivacyIcon width={30} height={30} color={colors.iconColor}/>
-                        <Text style={styles.title}>{i18n.terms.privacy.title}</Text>
+                        <Text style={styles.title} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.terms.privacy.title}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>{i18n.terms.tos.lastUpdated}</Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.terms.tos.lastUpdated}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.header1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.accountRelated.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.accountRelated.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.submittedContent.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.submittedContent.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.cookies.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.cookies.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.subscriptionRelated.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.subscriptionRelated.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.informationUse.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
                         <View style={styles.boxContainer}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.informationUse.line1}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.informationUse.bullet1}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.informationUse.bullet2}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.informationUse.bullet3}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.informationUse.bullet4}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.sharingInformation.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
                         <View style={styles.boxContainer}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.sharingInformation.line1}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.sharingInformation.bullet1}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.sharingInformation.bullet2}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.privacy.sharingInformation.bullet3}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.accountDeletion.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.accountDeletion.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.changes.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.privacy.changes.line1}
                         </Text>
                     </View>
                 </View>
-                <TabBar relative={true}/>
+                <TabBar relative={true} ref={ref} backToTop={true}/>
             </ScrollView>
         </View>
     )

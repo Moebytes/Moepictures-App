@@ -5,9 +5,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, useEffect} from "react"
-import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl,
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useSearchActions} from "../../store"
 import {useSearchTagsInfiniteQuery, useSearchTagsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -26,6 +27,7 @@ const TagsScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, ratingType, tagSort, tagType, sortReverse} = useSearchSelector()
+    const {setScrolling} = useSearchActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -34,6 +36,7 @@ const TagsScreen: React.FunctionComponent = () => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const ref = useRef<FlatList>(null)
 
     useEffect(() => {
@@ -71,6 +74,11 @@ const TagsScreen: React.FunctionComponent = () => {
     const isLoading = scroll
         ? infiniteQuery.isLoading
         : pageQuery.isLoading
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        functions.render.backToTopScroll(event, setShowBackToTop) 
+        handleScroll(event)    
+    }
 
     const renderItem: ListRenderItem<TagSearch> = ({item}) => {
         return <TagRow tag={item}/>
@@ -143,12 +151,15 @@ const TagsScreen: React.FunctionComponent = () => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"
             />
-            <TabBar visible={tabVisible}/>
+            <TabBar visible={tabVisible} backToTop={true} ref={ref} 
+                showBackToTop={showBackToTop} isLoading={isLoading}/>
         </View>
     )
 }

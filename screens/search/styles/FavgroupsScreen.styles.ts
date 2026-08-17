@@ -36,6 +36,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "center",
+            width: "100%",
             backgroundColor: colors.background,
             gap: 12
         },

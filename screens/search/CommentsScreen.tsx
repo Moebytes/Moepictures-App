@@ -5,10 +5,11 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, useEffect} from "react"
-import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl,
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
 import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useCacheActions,
-useFlagSelector, useFlagActions} from "../../store"
+useFlagSelector, useFlagActions, useSearchActions} from "../../store"
 import {useSearchCommentsInfiniteQuery, useSearchCommentsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -27,6 +28,7 @@ const CommentsScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, ratingType, commentSort, sortReverse} = useSearchSelector()
+    const {setScrolling} = useSearchActions()
     const {setNavigationPosts} = useCacheActions()
     const {commentFlag, commentSearchFlag} = useFlagSelector()
     const {setCommentFlag, setCommentSearchFlag} = useFlagActions()
@@ -38,6 +40,7 @@ const CommentsScreen: React.FunctionComponent = () => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const ref = useRef<FlatList>(null)
 
     useEffect(() => {
@@ -92,6 +95,11 @@ const CommentsScreen: React.FunctionComponent = () => {
         if (posts.length) setNavigationPosts(posts)
     }
 
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        functions.render.backToTopScroll(event, setShowBackToTop)
+        handleScroll(event)
+    }
+
     const renderItem: ListRenderItem<CommentSearch> = ({item}) => {
         return <CommentRow comment={item} onPress={onPress} refetch={refetch}/>
     }
@@ -104,7 +112,6 @@ const CommentsScreen: React.FunctionComponent = () => {
             </View>
         )
     }
-
 
     const loadMore = () => {
         if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
@@ -164,12 +171,15 @@ const CommentsScreen: React.FunctionComponent = () => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"
             />
-            <TabBar visible={tabVisible}/>
+            <TabBar visible={tabVisible} backToTop={true} ref={ref} 
+                showBackToTop={showBackToTop} isLoading={isLoading}/>
         </View>
     )
 }

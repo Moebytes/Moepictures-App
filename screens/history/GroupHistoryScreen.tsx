@@ -5,11 +5,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, useEffect} from "react"
-import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl,
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {RouteProp} from "@react-navigation/native"
 import {StackParamList} from "../../App"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
-import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector} from "../../store"
+import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelector, useSearchActions} from "../../store"
 import {useGroupHistoryInfiniteQuery, useGroupHistoryPageQuery, useGetGroupQuery, useGetUserQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
@@ -19,6 +20,7 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/HistoryScreen.styles"
 import {GroupHistory} from "../../types/Types"
+import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
 
@@ -31,6 +33,7 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll} = useSearchSelector()
+    const {setScrolling} = useSearchActions()
     const styles = createStylesheet(colors)
     const [tabVisible, setTabVisible] = useState(true)
     const {handleScroll} = useAutoHideScroll(setTabVisible)
@@ -43,6 +46,7 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
     const {slug} = route.params
     const {data: group} = useGetGroupQuery({name: slug}, {skip: !slug})
     const {data: user} = useGetUserQuery({username: group?.creator!}, {skip: !slug})
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const ref = useRef<FlatList>(null)
 
     useEffect(() => {
@@ -92,6 +96,11 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
             setAfterFirstLoad(true)
         }
     }, [isLoading])
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        functions.render.backToTopScroll(event, setShowBackToTop) 
+        handleScroll(event)    
+    }
 
     const renderItem: ListRenderItem<GroupHistory> = ({item, index}) => {
         return <GroupHistoryRow history={item} currentHistory={history[0]} index={index} refetch={refetch}/>
@@ -165,12 +174,15 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"
             />
-            <TabBar visible={tabVisible}/>
+            <TabBar visible={tabVisible} backToTop={history.length > 1} ref={ref} 
+                showBackToTop={showBackToTop} isLoading={isLoading}/>
         </View>
     )
 }

@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState} from "react"
-import {View, ScrollView, Text, TextInput, Animated, StatusBar, Linking} from "react-native"
+import {View, ScrollView, TextInput, Animated, StatusBar, Linking} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"

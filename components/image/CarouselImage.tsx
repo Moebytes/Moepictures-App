@@ -58,11 +58,10 @@ const CarouselImage: React.FunctionComponent<Props> = (props) => {
     }
 
     const borderWidth = pressed ? 3 : 0
-    const landscape = size.width > size.height
-    const imageSize = landscape ?
-        {width: size.width - borderWidth * 2, height: size.height} : 
-        {width: size.width, height: size.height - borderWidth * 2}
-
+    const imageSize = {
+        width: size.width - borderWidth * 2,
+        height: size.height - borderWidth * 2
+    }
     return (
         <PressableHaptic style={[styles.container, size, {opacity: loaded ? 1 : 0, borderWidth}]} 
             onPress={onPress} onPressIn={() => setPressed(true)} onPressOut={() => setPressed(false)}>

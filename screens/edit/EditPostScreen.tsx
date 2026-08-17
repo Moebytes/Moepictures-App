@@ -4,10 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {ScrollView, View, Text, TextInput, Animated, StatusBar, KeyboardAvoidingView} from "react-native"
 import {useNavigation, RouteProp} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
+import PagerView from "react-native-pager-view"
 import {StackParamList} from "../../App"
 import {useGetPostQuery, useInvalidatePost} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -77,6 +78,7 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
     const invalidatePost = useInvalidatePost()
+    const pagerRef = useRef<PagerView>(null)
 
     const updateCategories = async () => {
         if (!post) return
@@ -192,6 +194,19 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
         {name: i18n.labels.source, value: "source"}
     ]
 
+    const changePage = (value: string) => {
+        const index = pages.findIndex((page) => page.value === value)
+        if (index === -1) return
+        setPage(value)
+        pagerRef.current?.setPage(index)
+    }
+
+    const onPageSelected = (event: any) => {
+        const index = event.nativeEvent.position
+        const value = pages[index]?.value
+        if (value) setPage(value)
+    }
+
     const updateTagFields = async () => {
         if (!post || !tagCategories) return
         setType(post.type)
@@ -225,7 +240,7 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
     useEffect(() => {
         updateTagFields()
         updateSourceFields()
-    }, [post, tagCategories, page])
+    }, [post, tagCategories])
 
     let hasPermission = permissions.isContributor(session)
 
@@ -403,394 +418,394 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const generatePageJSX = () => {
-        if (page === "tags") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sidebar.type}</Text>
-                </View>
-                {generateTypeButtons()}
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sidebar.rating}</Text>
-                </View>
-                {generateRatingButtons()}
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sidebar.style}</Text>
-                </View>
-                {generateStyleButtons()}
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.navbar.artists}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 40, color: colors.artistTagColor}]}
-                        selectionColor={colors.borderColor}
-                        value={artists}
-                        placeholder={i18n.placeholder.enterArtists}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                        onChangeText={(text) => {
-                            setArtists(text)
-                            setTypingText(getTypingText(text, selection.start))
-                        }}
-                        onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                        onFocus={() => inputFocus("artist")}
-                        onBlur={() => inputBlur()}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.navbar.characters}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 100, color: colors.characterTagColor}]}
-                        selectionColor={colors.borderColor}
-                        value={characters}
-                        placeholder={i18n.placeholder.enterCharacters}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                        onChangeText={(text) => {
-                            setCharacters(text)
-                            setTypingText(getTypingText(text, selection.start))
-                        }}
-                        onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                        onFocus={() => inputFocus("character")}
-                        onBlur={() => inputBlur()}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.tag.series}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 100, color: colors.seriesTagColor}]}
-                        selectionColor={colors.borderColor}
-                        value={series}
-                        placeholder={i18n.placeholder.enterSeries}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                        onChangeText={(text) => {
-                            setSeries(text)
-                            setTypingText(getTypingText(text, selection.start))
-                        }}
-                        onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                        onFocus={() => inputFocus("series")}
-                        onBlur={() => inputBlur()}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.tag.meta}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 100, color: colors.metaTagColor}]}
-                        selectionColor={colors.borderColor}
-                        value={metaTags}
-                        placeholder={i18n.placeholder.enterMetaTags}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                        onChangeText={(text) => {
-                            setMetaTags(text)
-                            setTypingText(getTypingText(text, selection.start))
-                        }}
-                        onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                        onFocus={() => inputFocus("meta")}
-                        onBlur={() => inputBlur()}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.navbar.tags}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {fontSize: 16, height: 400}]}
-                        selectionColor={colors.borderColor}
-                        value={rawTags}
-                        placeholder={i18n.placeholder.enterTags}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                        onChangeText={(text) => {
-                            setRawTags(text)
-                            setTypingText(getTypingText(text, selection.start))
-                        }}
-                        onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                        onFocus={() => inputFocus("tags")}
-                        onBlur={() => inputBlur()}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={editTags}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
+    const TagsPage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sidebar.type}</Text>
+            </View>
+            {generateTypeButtons()}
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sidebar.rating}</Text>
+            </View>
+            {generateRatingButtons()}
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sidebar.style}</Text>
+            </View>
+            {generateStyleButtons()}
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.navbar.artists}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 40, color: colors.artistTagColor}]}
+                    selectionColor={colors.borderColor}
+                    value={artists}
+                    placeholder={i18n.placeholder.enterArtists}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                    onChangeText={(text) => {
+                        setArtists(text)
+                        setTypingText(getTypingText(text, selection.start))
                     }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        } else if (page === "source") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.title}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 60}]}
-                        selectionColor={colors.borderColor}
-                        value={title}
-                        onChangeText={setTitle}
-                        placeholder={i18n.placeholder.enterTitle}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.englishTitle}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 60}]}
-                        selectionColor={colors.borderColor}
-                        value={englishTitle}
-                        onChangeText={setEnglishTitle}
-                        placeholder={i18n.placeholder.enterEnglishTitle}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.tag.artist}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={artist}
-                        onChangeText={setArtist}
-                        placeholder={i18n.placeholder.enterArtist}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sort.posted}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={posted}
-                        onChangeText={setPosted}
-                        placeholder={i18n.placeholder.enterPostedDate}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.imageCount}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={sourceImageCount}
-                        onChangeText={setSourceImageCount}
-                        placeholder={i18n.placeholder.enterImageCount}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sort.bookmarks}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={bookmarks}
-                        onChangeText={setBookmarks}
-                        placeholder={i18n.placeholder.enterBookmarks}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.source}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 60}]}
-                        selectionColor={colors.borderColor}
-                        value={source}
-                        onChangeText={setSource}
-                        placeholder={i18n.placeholder.enterSource}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.userProfile}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 60}]}
-                        selectionColor={colors.borderColor}
-                        value={userProfile}
-                        onChangeText={setUserProfile}
-                        placeholder={i18n.placeholder.enterUserProfile}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.commentary}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.bigInput}
-                        selectionColor={colors.borderColor}
-                        value={commentary}
-                        onChangeText={setCommentary}
-                        placeholder={i18n.placeholder.enterCommentary}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.englishCommentary}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.bigInput}
-                        selectionColor={colors.borderColor}
-                        value={englishCommentary}
-                        onChangeText={setEnglishCommentary}
-                        placeholder={i18n.placeholder.enterEnglishCommentary}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.mirrors}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.bigInput}
-                        selectionColor={colors.borderColor}
-                        value={mirrors}
-                        onChangeText={setMirrors}
-                        placeholder={i18n.placeholder.enterMirrors}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.pixivTags}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 100}]}
-                        selectionColor={colors.borderColor}
-                        value={pixivTags}
-                        onChangeText={setPixivTags}
-                        placeholder={i18n.placeholder.enterPixivTags}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.drawingTools}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={drawingTools}
-                        onChangeText={setDrawingTools}
-                        placeholder={i18n.placeholder.enterDrawingTools}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.buyLink}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={buyLink}
-                        onChangeText={setBuyLink}
-                        placeholder={i18n.placeholder.enterBuyLink}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={editSource}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
+                    onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                    onFocus={() => inputFocus("artist")}
+                    onBlur={() => inputBlur()}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.navbar.characters}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 100, color: colors.characterTagColor}]}
+                    selectionColor={colors.borderColor}
+                    value={characters}
+                    placeholder={i18n.placeholder.enterCharacters}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                    onChangeText={(text) => {
+                        setCharacters(text)
+                        setTypingText(getTypingText(text, selection.start))
                     }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        }
+                    onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                    onFocus={() => inputFocus("character")}
+                    onBlur={() => inputBlur()}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.tag.series}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 100, color: colors.seriesTagColor}]}
+                    selectionColor={colors.borderColor}
+                    value={series}
+                    placeholder={i18n.placeholder.enterSeries}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                    onChangeText={(text) => {
+                        setSeries(text)
+                        setTypingText(getTypingText(text, selection.start))
+                    }}
+                    onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                    onFocus={() => inputFocus("series")}
+                    onBlur={() => inputBlur()}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.tag.meta}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 100, color: colors.metaTagColor}]}
+                    selectionColor={colors.borderColor}
+                    value={metaTags}
+                    placeholder={i18n.placeholder.enterMetaTags}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                    onChangeText={(text) => {
+                        setMetaTags(text)
+                        setTypingText(getTypingText(text, selection.start))
+                    }}
+                    onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                    onFocus={() => inputFocus("meta")}
+                    onBlur={() => inputBlur()}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.navbar.tags}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {fontSize: 16, height: 400}]}
+                    selectionColor={colors.borderColor}
+                    value={rawTags}
+                    placeholder={i18n.placeholder.enterTags}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                    onChangeText={(text) => {
+                        setRawTags(text)
+                        setTypingText(getTypingText(text, selection.start))
+                    }}
+                    onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                    onFocus={() => inputFocus("tags")}
+                    onBlur={() => inputBlur()}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={editTags}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
+    }
+
+    const SourcePage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.title}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 60}]}
+                    selectionColor={colors.borderColor}
+                    value={title}
+                    onChangeText={setTitle}
+                    placeholder={i18n.placeholder.enterTitle}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.englishTitle}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 60}]}
+                    selectionColor={colors.borderColor}
+                    value={englishTitle}
+                    onChangeText={setEnglishTitle}
+                    placeholder={i18n.placeholder.enterEnglishTitle}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.tag.artist}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={artist}
+                    onChangeText={setArtist}
+                    placeholder={i18n.placeholder.enterArtist}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sort.posted}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={posted}
+                    onChangeText={setPosted}
+                    placeholder={i18n.placeholder.enterPostedDate}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.imageCount}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={sourceImageCount}
+                    onChangeText={setSourceImageCount}
+                    placeholder={i18n.placeholder.enterImageCount}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sort.bookmarks}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={bookmarks}
+                    onChangeText={setBookmarks}
+                    placeholder={i18n.placeholder.enterBookmarks}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.source}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 60}]}
+                    selectionColor={colors.borderColor}
+                    value={source}
+                    onChangeText={setSource}
+                    placeholder={i18n.placeholder.enterSource}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.userProfile}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 60}]}
+                    selectionColor={colors.borderColor}
+                    value={userProfile}
+                    onChangeText={setUserProfile}
+                    placeholder={i18n.placeholder.enterUserProfile}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.commentary}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.bigInput}
+                    selectionColor={colors.borderColor}
+                    value={commentary}
+                    onChangeText={setCommentary}
+                    placeholder={i18n.placeholder.enterCommentary}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.englishCommentary}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.bigInput}
+                    selectionColor={colors.borderColor}
+                    value={englishCommentary}
+                    onChangeText={setEnglishCommentary}
+                    placeholder={i18n.placeholder.enterEnglishCommentary}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.mirrors}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.bigInput}
+                    selectionColor={colors.borderColor}
+                    value={mirrors}
+                    onChangeText={setMirrors}
+                    placeholder={i18n.placeholder.enterMirrors}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.pixivTags}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 100}]}
+                    selectionColor={colors.borderColor}
+                    value={pixivTags}
+                    onChangeText={setPixivTags}
+                    placeholder={i18n.placeholder.enterPixivTags}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.drawingTools}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={drawingTools}
+                    onChangeText={setDrawingTools}
+                    placeholder={i18n.placeholder.enterDrawingTools}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.buyLink}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={buyLink}
+                    onChangeText={setBuyLink}
+                    placeholder={i18n.placeholder.enterBuyLink}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={editSource}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
     }
 
     return (
@@ -808,18 +823,28 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} 
-                contentContainerStyle={styles.container}>
+            <View style={styles.outerContainer}>
                 <View style={styles.centerRow}>
                     <SlidingSelector
                         data={pages}
                         value={page}
-                        onChange={setPage}
+                        onChange={changePage}
                         paddingHorizontal={30}
                     />
                 </View>
-                {generatePageJSX()}
-            </ScrollView>
+                                
+                <PagerView ref={pagerRef} style={{flex: 1}}
+                    initialPage={0} onPageSelected={onPageSelected}>
+                    <ScrollView key="tags" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <TagsPage/>
+                    </ScrollView>
+                    <ScrollView key="source" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <SourcePage/>
+                    </ScrollView>
+                </PagerView>
+            </View>
         </View>
     )
 }

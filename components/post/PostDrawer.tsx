@@ -20,6 +20,8 @@ import PressableHaptic from "../../ui/PressableHaptic"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import EditIcon from "../../assets/svg/edit.svg"
 import HistoryIcon from "../../assets/svg/history.svg"
+import LockIcon from "../../assets/svg/lock.svg"
+import PrivateIcon from "../../assets/svg/private.svg"
 import CopyIDIcon from "../../assets/svg/copy-id.svg"
 import {PostFull, PostHistory, TagCount, TagGroupCategory} from "../../types/Types"
 import functions from "../../functions/Functions"
@@ -158,12 +160,18 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
 
     if (!props.visible || !props.post) return null
 
+    let textStyle = props.post.hidden ? styles.textHidden : styles.text
+
     return (
         <LiquidGlassContainerView style={{flex: 1}}>
         <CrossLiquidGlassView effect="clear" style={[{flex: 1}, {paddingTop: insets.top + 10}]}>
             <ScrollView ref={ref} style={{flex: 1}} showsVerticalScrollIndicator={false}
                 contentContainerStyle={[styles.container, {paddingBottom: insets.bottom + 40}]}>
                 <View style={styles.rowItem}>
+                    {props.post.private ? 
+                        <PrivateIcon width={30} height={30} color={colors.drawerTitle}/> : null}
+                    {props.post.locked ? 
+                        <LockIcon width={30} height={30} color={colors.lockColor}/> : null}
                     <Text style={styles.title}>{i18n.dialogs.postInfo.title}</Text>
                     {session.username ? <>
                     <ScalableHaptic onPress={editPost}>
@@ -185,27 +193,27 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.labels.title}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                    <Text style={textStyle} selectable uiTextView selectionColor={colors.borderColor}>
                         {props.post.title}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sidebar.english}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                    <Text style={textStyle} selectable uiTextView selectionColor={colors.borderColor}>
                         {props.post.englishTitle}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.tag.artist}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                    <Text style={textStyle} selectable uiTextView selectionColor={colors.borderColor}>
                         {props.post.artist}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.posted}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                    <Text style={textStyle} selectable uiTextView selectionColor={colors.borderColor}>
                         {functions.date.formatDate(new Date(props.post.posted))}</Text>
                 </View>
                 <View style={styles.rowItem}>
                     <Text style={styles.highlightText}>{i18n.sort.bookmarks}:</Text>
-                    <Text style={styles.text} selectable uiTextView selectionColor={colors.borderColor}>
+                    <Text style={textStyle} selectable uiTextView selectionColor={colors.borderColor}>
                         {props.post.bookmarks}</Text>
                 </View>
                 <View style={styles.rowItem}>

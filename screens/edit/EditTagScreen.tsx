@@ -4,10 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 import {ScrollView, View, Text, TextInput, Animated, StatusBar} from "react-native"
 import {useNavigation, RouteProp} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
+import PagerView from "react-native-pager-view"
 import {StackParamList} from "../../App"
 import {useGetTagQuery, useInvalidateTag, useInvalidateTags} from "../../api"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -51,6 +52,7 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
     const navigation = useNavigation()
     const invalidateTag = useInvalidateTag()
     const invalidateTags = useInvalidateTags()
+    const pagerRef = useRef<PagerView>(null)
 
     const edit = async () => {
         if (!tag) return
@@ -119,6 +121,19 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
         {name: i18n.labels.category, value: "category"}
     ]
 
+    const changePage = (value: string) => {
+        const index = pages.findIndex((page) => page.value === value)
+        if (index === -1) return
+        setPage(value)
+        pagerRef.current?.setPage(index)
+    }
+
+    const onPageSelected = (event: any) => {
+        const index = event.nativeEvent.position
+        const value = pages[index]?.value
+        if (value) setPage(value)
+    }
+
     useEffect(() => {
         if (!tag) return
         setKey(tag.tag)
@@ -134,7 +149,7 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
         setPixivTags(tag.pixivTags?.join(" ") ?? "")
         setDanbooruTag(tag.danbooruTag ?? "")
         setType(tag.type)
-    }, [tag, page])
+    }, [tag])
 
     let iconSize = 25
     let hasPermission = permissions.isContributor(session)
@@ -257,243 +272,243 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const generatePageJSX = () => {
-        if (page === "details") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.tag.tag}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={key}
-                        onChangeText={setKey}
-                        placeholder={i18n.placeholder.enterTagName}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                {tagSocialJSX()}
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.featured}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={featuredPost}
-                        onChangeText={setFeaturedPost}
-                        placeholder={i18n.placeholder.enterFeaturedPost}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.description}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {fontSize: 15, height: 300}]}
-                        selectionColor={colors.borderColor}
-                        value={description}
-                        onChangeText={setDescription}
-                        placeholder={i18n.placeholder.enterTagDescription}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.sort.aliases}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 70}]}
-                        selectionColor={colors.borderColor}
-                        value={aliases}
-                        onChangeText={setAliases}
-                        placeholder={i18n.placeholder.enterAliases}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.implications}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 70}]}
-                        selectionColor={colors.borderColor}
-                        value={implications}
-                        onChangeText={setImplications}
-                        placeholder={i18n.placeholder.enterImplications}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.pixivTags}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={[styles.bigInput, {height: 70}]}
-                        selectionColor={colors.borderColor}
-                        value={pixivTags}
-                        onChangeText={setPixivTags}
-                        placeholder={i18n.placeholder.enterPixivTags}
-                        placeholderTextColor={colors.gray}
-                        multiline={true}
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.danbooruTag}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={danbooruTag}
-                        onChangeText={setDanbooruTag}
-                        placeholder={i18n.placeholder.enterDanbooruTag}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View>
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={edit}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
-                    }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        } else if (page === "category") {
-            return (
-                <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.category}</Text>
-                </View>
-                <View style={styles.tagColumn}>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("artist")}>
-                        {type === "artist" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.artistTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.artistTagColor}/>}
-                        <Text style={[styles.label, {color: colors.artistTagColor}]}>{i18n.tag.artist}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("character")}>
-                        {type === "character" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.characterTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.characterTagColor}/>}
-                        <Text style={[styles.label, {color: colors.characterTagColor}]}>{i18n.tag.character}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("series")}>
-                        {type === "series" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.seriesTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.seriesTagColor}/>}
-                        <Text style={[styles.label, {color: colors.seriesTagColor}]}>{i18n.tag.series}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("meta")}>
-                        {type === "meta" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.metaTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.metaTagColor}/>}
-                        <Text style={[styles.label, {color: colors.metaTagColor}]}>{i18n.tag.meta}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("appearance")}>
-                        {type === "appearance" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.appearanceTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.appearanceTagColor}/>}
-                        <Text style={[styles.label, {color: colors.appearanceTagColor}]}>{i18n.tag.appearance}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("outfit")}>
-                        {type === "outfit" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.outfitTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.outfitTagColor}/>}
-                        <Text style={[styles.label, {color: colors.outfitTagColor}]}>{i18n.tag.outfit}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("accessory")}>
-                        {type === "accessory" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.accessoryTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.accessoryTagColor}/>}
-                        <Text style={[styles.label, {color: colors.accessoryTagColor}]}>{i18n.tag.accessory}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("action")}>
-                        {type === "action" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.actionTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.actionTagColor}/>}
-                        <Text style={[styles.label, {color: colors.actionTagColor}]}>{i18n.tag.action}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("scenery")}>
-                        {type === "scenery" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.sceneryTagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.sceneryTagColor}/>}
-                        <Text style={[styles.label, {color: colors.sceneryTagColor}]}>{i18n.tag.scenery}</Text>
-                    </PressableHaptic>
-                    <PressableHaptic style={styles.tagBox} onPress={() => setType("tag")}>
-                        {type === "tag" ?
-                        <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.tagColor}/> :
-                        <CheckboxIcon width={iconSize} height={iconSize} color={colors.tagColor}/>}
-                        <Text style={[styles.label, {color: colors.tagColor}]}>{i18n.tag.tag}</Text>
-                    </PressableHaptic>
-                </View>
-                {!hasPermission ? <>
-                <View style={styles.row}>
-                    <Text style={styles.label}>{i18n.labels.reason}</Text>
-                </View>
-                <View style={styles.row}>
-                    <TextInput
-                        style={styles.textInput}
-                        selectionColor={colors.borderColor}
-                        value={reason}
-                        onChangeText={setReason}
-                        placeholder={i18n.placeholder.enterReason}
-                        placeholderTextColor={colors.gray}
-                        submitBehavior="blurAndSubmit"
-                    />
-                </View></> : null}
-                <View style={styles.centerRow}>
-                    <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
-                    style={styles.wideButton} onPress={categorize}>
-                    {({colorAnim}) => {
-                        const color = colorAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [colors.white, colors.black],
-                        })
-                        return (
-                            <Animated.Text style={[styles.wideButtonText, {color}]}>
-                                {hasPermission ? i18n.buttons.categorize : i18n.buttons.submitRequest}
-                            </Animated.Text>
-                        )
-                    }}
-                    </ScalableHaptic>
-                </View>
-                </>
-            )
-        }
+    const DetailsPage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.tag.tag}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={key}
+                    onChangeText={setKey}
+                    placeholder={i18n.placeholder.enterTagName}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            {tagSocialJSX()}
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.featured}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={featuredPost}
+                    onChangeText={setFeaturedPost}
+                    placeholder={i18n.placeholder.enterFeaturedPost}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.description}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {fontSize: 15, height: 300}]}
+                    selectionColor={colors.borderColor}
+                    value={description}
+                    onChangeText={setDescription}
+                    placeholder={i18n.placeholder.enterTagDescription}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.sort.aliases}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 70}]}
+                    selectionColor={colors.borderColor}
+                    value={aliases}
+                    onChangeText={setAliases}
+                    placeholder={i18n.placeholder.enterAliases}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.implications}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 70}]}
+                    selectionColor={colors.borderColor}
+                    value={implications}
+                    onChangeText={setImplications}
+                    placeholder={i18n.placeholder.enterImplications}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.pixivTags}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={[styles.bigInput, {height: 70}]}
+                    selectionColor={colors.borderColor}
+                    value={pixivTags}
+                    onChangeText={setPixivTags}
+                    placeholder={i18n.placeholder.enterPixivTags}
+                    placeholderTextColor={colors.gray}
+                    multiline={true}
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.danbooruTag}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={danbooruTag}
+                    onChangeText={setDanbooruTag}
+                    placeholder={i18n.placeholder.enterDanbooruTag}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View>
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={edit}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.edit : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
+    }
+
+    const CategoryPage: React.FunctionComponent = () => {
+        return (
+            <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.category}</Text>
+            </View>
+            <View style={styles.tagColumn}>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("artist")}>
+                    {type === "artist" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.artistTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.artistTagColor}/>}
+                    <Text style={[styles.label, {color: colors.artistTagColor}]}>{i18n.tag.artist}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("character")}>
+                    {type === "character" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.characterTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.characterTagColor}/>}
+                    <Text style={[styles.label, {color: colors.characterTagColor}]}>{i18n.tag.character}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("series")}>
+                    {type === "series" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.seriesTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.seriesTagColor}/>}
+                    <Text style={[styles.label, {color: colors.seriesTagColor}]}>{i18n.tag.series}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("meta")}>
+                    {type === "meta" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.metaTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.metaTagColor}/>}
+                    <Text style={[styles.label, {color: colors.metaTagColor}]}>{i18n.tag.meta}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("appearance")}>
+                    {type === "appearance" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.appearanceTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.appearanceTagColor}/>}
+                    <Text style={[styles.label, {color: colors.appearanceTagColor}]}>{i18n.tag.appearance}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("outfit")}>
+                    {type === "outfit" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.outfitTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.outfitTagColor}/>}
+                    <Text style={[styles.label, {color: colors.outfitTagColor}]}>{i18n.tag.outfit}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("accessory")}>
+                    {type === "accessory" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.accessoryTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.accessoryTagColor}/>}
+                    <Text style={[styles.label, {color: colors.accessoryTagColor}]}>{i18n.tag.accessory}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("action")}>
+                    {type === "action" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.actionTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.actionTagColor}/>}
+                    <Text style={[styles.label, {color: colors.actionTagColor}]}>{i18n.tag.action}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("scenery")}>
+                    {type === "scenery" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.sceneryTagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.sceneryTagColor}/>}
+                    <Text style={[styles.label, {color: colors.sceneryTagColor}]}>{i18n.tag.scenery}</Text>
+                </PressableHaptic>
+                <PressableHaptic style={styles.tagBox} onPress={() => setType("tag")}>
+                    {type === "tag" ?
+                    <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.tagColor}/> :
+                    <CheckboxIcon width={iconSize} height={iconSize} color={colors.tagColor}/>}
+                    <Text style={[styles.label, {color: colors.tagColor}]}>{i18n.tag.tag}</Text>
+                </PressableHaptic>
+            </View>
+            {!hasPermission ? <>
+            <View style={styles.row}>
+                <Text style={styles.label}>{i18n.labels.reason}</Text>
+            </View>
+            <View style={styles.row}>
+                <TextInput
+                    style={styles.textInput}
+                    selectionColor={colors.borderColor}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={i18n.placeholder.enterReason}
+                    placeholderTextColor={colors.gray}
+                    submitBehavior="blurAndSubmit"
+                />
+            </View></> : null}
+            <View style={styles.centerRow}>
+                <ScalableHaptic scaleFactor={0.96} containerStyle={{width: "70%"}} 
+                style={styles.wideButton} onPress={categorize}>
+                {({colorAnim}) => {
+                    const color = colorAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [colors.white, colors.black],
+                    })
+                    return (
+                        <Animated.Text style={[styles.wideButtonText, {color}]}>
+                            {hasPermission ? i18n.buttons.categorize : i18n.buttons.submitRequest}
+                        </Animated.Text>
+                    )
+                }}
+                </ScalableHaptic>
+            </View>
+            </>
+        )
     }
 
     return (
@@ -510,18 +525,28 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} 
-                contentContainerStyle={styles.container}>
+            <View style={styles.outerContainer}>
                 <View style={styles.centerRow}>
                     <SlidingSelector
                         data={pages}
                         value={page}
-                        onChange={setPage}
+                        onChange={changePage}
                         paddingHorizontal={30}
                     />
                 </View>
-                {generatePageJSX()}
-            </ScrollView>
+                                
+                <PagerView ref={pagerRef} style={{flex: 1}}
+                    initialPage={0} onPageSelected={onPageSelected}>
+                    <ScrollView key="details" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <DetailsPage/>
+                    </ScrollView>
+                    <ScrollView key="category" showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.container}>
+                        <CategoryPage/>
+                    </ScrollView>
+                </PagerView>
+            </View>
         </View>
     )
 }

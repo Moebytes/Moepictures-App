@@ -4,8 +4,9 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React from "react"
-import {View, ScrollView, Text, StatusBar} from "react-native"
+import React, {useRef} from "react"
+import {View, ScrollView, StatusBar} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
 import {useThemeSelector} from "../../store"
@@ -19,6 +20,7 @@ const TermsOfServiceScreen: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
+    const ref = useRef<ScrollView>(null)
 
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
@@ -34,236 +36,283 @@ const TermsOfServiceScreen: React.FunctionComponent = () => {
                 )}
                 </PressableHaptic>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
+            <ScrollView ref={ref} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <TermsIcon width={30} height={30} color={colors.iconColor}/>
-                        <Text style={styles.title}>{i18n.terms.tos.title}</Text>
+                        <Text style={styles.title} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.terms.tos.title}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>{i18n.terms.tos.lastUpdated}</Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.terms.tos.lastUpdated}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.header1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.header2}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.ageRestriction.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.ageRestriction.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             <Text style={styles.textAlt}>{i18n.sortbar.rating.cute}</Text>{i18n.terms.tos.ageRestriction.cuteRating}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             <Text style={styles.textAlt}>{i18n.sortbar.rating.sexy}</Text>{i18n.terms.tos.ageRestriction.sexyRating}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             <Text style={styles.textAlt}>{i18n.sortbar.rating.erotic}</Text>{i18n.terms.tos.ageRestriction.eroticRating}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.ageRestriction.line2}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.animeOnly.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.animeOnly.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.animeOnly.line2}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.spam.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.spam.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.harassment.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.harassment.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.vandalism.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.vandalism.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.userContent.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.userContent.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.userContent.line2}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.copyrightDMCA.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.copyrightDMCA.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
                         <View style={styles.boxContainer}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.line2}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet1}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet2}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.row}>
                         <View style={styles.boxContainer}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.line3}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet3}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet4}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet5}
                             </Text>
                         </View>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.scraping.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.scraping.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.maliciousActivity.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.maliciousActivity.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.accounts.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.accounts.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.premiumSubscriptions.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.premiumSubscriptions.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.premiumSubscriptions.line2}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.premiumSubscriptions.line3}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.accountTermination.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.accountTermination.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.liability.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.liability.line1}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.heading}>
+                        <Text style={styles.heading} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.changes.title}
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.terms.tos.changes.line1}
                         </Text>
                     </View>
                 </View>
-                <TabBar relative={true}/>
+                <TabBar relative={true} ref={ref} backToTop={true}/>
             </ScrollView>
         </View>
     )

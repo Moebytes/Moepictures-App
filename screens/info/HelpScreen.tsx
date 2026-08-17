@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useState} from "react"
-import {View, ScrollView, Text, Image, StatusBar, useWindowDimensions, Platform} from "react-native"
+import {View, ScrollView, Image, StatusBar, useWindowDimensions, Platform} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {TabView, SceneMap, TabBar as DefaultTabBar, SceneRendererProps, NavigationState} from "react-native-tab-view"
 import {useNavigation} from "@react-navigation/native"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -58,12 +59,14 @@ const HelpTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.help.help.welcome}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.help.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.help.line2}
                 </Text>
             </View>
@@ -96,52 +99,64 @@ const SearchTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.mobileHelp.search.title}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.search.line1}
                 </Text>
                 <View style={styles.column}>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.searching.example1}
                     </Text>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.searching.example2}
                     </Text>
                 </View>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.search.specialModifiers.header}
                     </Text>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialModifiers.items)[0]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialModifiers.items)[0]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialModifiers.items)[1]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialModifiers.items)[1]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialModifiers.items)[2]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialModifiers.items)[2]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialModifiers.items)[3]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialModifiers.items)[3]}
                         </Text>
                     </View>
@@ -149,102 +164,127 @@ const SearchTab: React.FunctionComponent = () => {
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.search.specialSearches.header}
                     </Text>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[0]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[0]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[1]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[1]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[2]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[2]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[3]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[3]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[4]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[4]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[5]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[5]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[6]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[6]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[7]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[7]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[8]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[8]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[9]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[9]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[10]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[10]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.search.specialSearches.items)[11]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.search.specialSearches.items)[11]}
                         </Text>
                     </View>
@@ -252,62 +292,77 @@ const SearchTab: React.FunctionComponent = () => {
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.search.borderColors.header}
                     </Text>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[0]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[0]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[1]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[1]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[2]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[2]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[3]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[3]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[4]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[4]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[5]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[5]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.help.searching.borderColors.items)[6]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.help.searching.borderColors.items)[6]}
                         </Text>
                     </View>
@@ -342,12 +397,14 @@ const ImageSearchTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.mobileHelp.imageSearch.title}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.imageSearch.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.imageSearch.line2}
                 </Text>
             </View>
@@ -380,7 +437,8 @@ const FiltersTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.filters.filters}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.filters.line1}
                 </Text>
             </View>
@@ -413,7 +471,8 @@ const FavoritesTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.sort.favorites}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.favorites.line1}
                 </Text>
             </View>
@@ -446,7 +505,8 @@ const FavoriteGroupsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.help.favoriteGroups.title}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.favoriteGroups.line1}
                 </Text>
             </View>
@@ -479,7 +539,8 @@ const CutenessTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.sort.cuteness}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.cuteness.line1}
                 </Text>
             </View>
@@ -512,120 +573,150 @@ const MoeTextTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.help.moetext.title}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.moetext.line1}
                 </Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>{i18n.help.moetext.quotes.title}</Text>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>{i18n.help.moetext.quotes.title}</Text>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.moetext.quotes.line1}
                     </Text>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.moetext.quotes.line2}
                     </Text>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.highlight.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.highlight.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.bold.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.bold.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.italic.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.italic.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.underline.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.underline.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.strikethrough.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.strikethrough.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.spoiler.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.spoiler.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.link.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.link.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.dropdown.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.dropdown.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.color.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.color.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.code.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.code.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.emojis.title}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.emojis.line1}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.links.postTitle}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.links.postLine}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.links.tagTitle}
                         </Text>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.help.moetext.links.tagLine}
                         </Text>
                     </View>
@@ -660,94 +751,116 @@ const TagsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.navbar.tags}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.tags.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.tags.tagCategories.header}
                 </Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.artistTagColor}]}>
+                        <Text style={[styles.text, {color: colors.artistTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[0]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[0]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.characterTagColor}]}>
+                        <Text style={[styles.text, {color: colors.characterTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[1]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[1]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.seriesTagColor}]}>
+                        <Text style={[styles.text, {color: colors.seriesTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[2]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[2]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.metaTagColor}]}>
+                        <Text style={[styles.text, {color: colors.metaTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[3]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[3]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.appearanceTagColor}]}>
+                        <Text style={[styles.text, {color: colors.appearanceTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[4]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[4]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.outfitTagColor}]}>
+                        <Text style={[styles.text, {color: colors.outfitTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[5]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[5]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.accessoryTagColor}]}>
+                        <Text style={[styles.text, {color: colors.accessoryTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[6]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[6]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.actionTagColor}]}>
+                        <Text style={[styles.text, {color: colors.actionTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[7]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[7]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.sceneryTagColor}]}>
+                        <Text style={[styles.text, {color: colors.sceneryTagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[8]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[8]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.tagColor}]}>
+                        <Text style={[styles.text, {color: colors.tagColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.tags.tagCategories.items)[9]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.tags.tagCategories.items)[9]}
                         </Text>
                     </View>
@@ -782,22 +895,26 @@ const TagGroupsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.labels.tagGroups}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.tagGroups.line1}
                 </Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.tagGroups.line2}
                     </Text>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.tagGroups.example}
                     </Text>
                 </View>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.tagGroups.line3}
                 </Text>
             </View>
@@ -830,17 +947,20 @@ const VariationsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.sort.variations}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.variations.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.variations.line2}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.variations.line3}
                 </Text>
             </View>
@@ -873,17 +993,20 @@ const ChildPostsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.post.childPosts}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.childPosts.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.childPosts.line2}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.childPosts.line3}    
                 </Text>
             </View>
@@ -916,12 +1039,14 @@ const GroupsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.sort.groups}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.groups.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.groups.line2}
                 </Text>
             </View>
@@ -954,16 +1079,19 @@ const AliasesTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.sort.aliases}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.aliases.line1}
                 </Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.aliases.aliasingTo.title}
                     </Text>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.aliases.line2}
                     </Text>
                 </View>
@@ -997,7 +1125,8 @@ const ImplicationsTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.labels.implications}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.implications.line1}
                 </Text>
             </View>
@@ -1030,65 +1159,80 @@ const UsersTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.help.users.title}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.users.userLevels.header}
                 </Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.iconColor}]}>
+                        <Text style={[styles.text, {color: colors.iconColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[0]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[0]}
                         </Text>
                     </View>
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.userColor}]}>
+                        <Text style={[styles.text, {color: colors.userColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[1]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[1]}
                         </Text>
                     </View> 
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.contributorColor}]}>
+                        <Text style={[styles.text, {color: colors.contributorColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[3]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[3]}
                         </Text>
                     </View> 
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.curatorColor}]}>
+                        <Text style={[styles.text, {color: colors.curatorColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[4]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[4]}
                         </Text>
                     </View> 
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.modColor}]}>
+                        <Text style={[styles.text, {color: colors.modColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[5]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[5]}
                         </Text>
                     </View> 
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.adminColor}]}>
+                        <Text style={[styles.text, {color: colors.adminColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[6]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[6]}
                         </Text>
                     </View> 
                     <View style={styles.rowItem}>
-                        <Text style={[styles.text, {color: colors.systemColor}]}>
+                        <Text style={[styles.text, {color: colors.systemColor}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.keys(i18n.mobileHelp.users.userLevels.items)[7]}
                         </Text>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {Object.values(i18n.mobileHelp.users.userLevels.items)[7]}
                         </Text>
                     </View> 
@@ -1096,10 +1240,12 @@ const UsersTab: React.FunctionComponent = () => {
             </View>
             <View style={styles.row}>
                 <View style={styles.column}>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.help.users.avatars.title}
                     </Text>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.mobileHelp.users.avatars}
                     </Text>
                 </View>
@@ -1133,12 +1279,14 @@ const WebsiteTab: React.FunctionComponent = () => {
                 <Text style={styles.title}>{i18n.labels.website}</Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.website.line1}
                 </Text>
             </View>
             <View style={styles.row}>
-                <Text style={styles.text}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.website.line2}
                 </Text>
             </View>

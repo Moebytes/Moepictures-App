@@ -30,6 +30,12 @@ export const createStylesheet = (colors: ThemeColors) => {
             fontSize: 23,
             lineHeight: 30
         },
+        outerContainer: {
+            display: "flex",
+            flex: 1,
+            paddingTop: 20,
+            backgroundColor: colors.background
+        },
         container: {
             display: "flex",
             flexDirection: "column",

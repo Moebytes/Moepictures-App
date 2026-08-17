@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useRef, useEffect} from "react"
-import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl} from "react-native"
+import {View, Text, Image, StatusBar, FlatList, ListRenderItem, RefreshControl,
+NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {useAutoHideScroll} from "../../components/app/useAutoHideScroll"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -32,7 +33,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const {session} = useSessionSelector()
     const {headerHeight, tabBarHeight} = useLayoutSelector()
     const {scroll, searchHistorySort, sortReverse} = useSearchSelector()
-    const {setSearch: setPostsSearch, setSearchTags: setPostsSearchTags} = useSearchActions()
+    const {setSearch: setPostsSearch, setSearchTags: setPostsSearchTags, setScrolling} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
     const styles = createStylesheet(colors)
@@ -43,6 +44,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const [text, setText] = useState("")
     const [search, setSearch] = useState("")
     const [searchTags, setSearchTags] = useState<string[]>([])
+    const [showBackToTop, setShowBackToTop] = useState(false)
     const ref = useRef<FlatList>(null)
     const navigation = useNavigation()
 
@@ -83,6 +85,11 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
     const onPress = () => {
         const posts = history.map((h) => h.post)
         if (posts.length) setNavigationPosts(posts)
+    }
+
+    const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        functions.render.backToTopScroll(event, setShowBackToTop) 
+        handleScroll(event)    
     }
             
     const renderItem: ListRenderItem<SearchHistory> = ({item}) => {
@@ -180,12 +187,15 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 
-                onScroll={handleScroll}
+                onScroll={onScroll}
+                onScrollBeginDrag={() => setScrolling(true)}
+                onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
                 keyboardShouldPersistTaps="handled"
             />
-            <TabBar visible={tabVisible}/>
+            <TabBar visible={tabVisible} backToTop={history.length > 1} ref={ref} 
+                showBackToTop={showBackToTop} isLoading={isLoading}/>
         </View>
     )
 }

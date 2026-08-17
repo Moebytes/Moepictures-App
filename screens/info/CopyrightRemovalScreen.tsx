@@ -5,7 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState} from "react"
-import {View, ScrollView, Text, TextInput, Animated, StatusBar, Linking} from "react-native"
+import {View, ScrollView, TextInput, Animated, StatusBar, Linking} from "react-native"
+import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import {useNavigation} from "@react-navigation/native"
 import {stripIndents} from "common-tags"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -71,7 +72,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
             return (
                 <>
                 <View style={styles.row}>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.pages.copyrightRemoval.artistTagPageHeading}
                     </Text>
                 </View>
@@ -91,7 +93,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
             return (
                 <>
                 <View style={styles.row}>
-                    <Text style={styles.textAlt}>
+                    <Text style={styles.textAlt} selectable uiTextView
+                    selectionColor={colors.borderColor}>
                         {i18n.pages.copyrightRemoval.postLinkHeading}
                     </Text>
                 </View>
@@ -135,7 +138,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                         <Text style={styles.title}>{i18n.pages.copyrightRemoval.title}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text}>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.pages.copyrightRemoval.heading}
                         </Text>
                     </View>
@@ -148,7 +152,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                             onChangeText={setName}/>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.pages.copyrightRemoval.artistTagHeading}
                         </Text>
                     </View>
@@ -161,7 +166,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                             onChangeText={setArtistTag}/>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.textAlt}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
                             {i18n.pages.copyrightRemoval.socialMediaHeading}
                         </Text>
                     </View>
@@ -183,7 +189,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                             <CheckboxIcon width={iconSize} height={iconSize} color={colors.iconColor}/> :
                             <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.iconColor}/>}
                         </PressableHaptic>
-                        <Text style={styles.text}>{i18n.pages.copyrightRemoval.removeSpecified}</Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.pages.copyrightRemoval.removeSpecified}</Text>
                     </View>
                     <View style={styles.row}>
                         <PressableHaptic onPress={() => setRemoveAllRequest(true)}>
@@ -191,21 +198,26 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                             <CheckboxCheckedIcon width={iconSize} height={iconSize} color={colors.iconColor}/> :
                             <CheckboxIcon width={iconSize} height={iconSize} color={colors.iconColor}/>}
                         </PressableHaptic>
-                        <Text style={styles.text}>{i18n.pages.copyrightRemoval.removeAll}</Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>{i18n.pages.copyrightRemoval.removeAll}</Text>
                     </View>
                     {removalTypeJSX()}
                     <View style={styles.row}>
                         <View style={styles.boxContainer}>
-                            <Text style={styles.text}>
+                            <Text style={styles.text} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.pages.copyrightRemoval.proofHeading}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet3}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet4}
                             </Text>
-                            <Text style={styles.textAlt}>
+                            <Text style={styles.textAlt} selectable uiTextView
+                            selectionColor={colors.borderColor}>
                                 {i18n.terms.tos.copyrightDMCA.bullet5}
                             </Text>
                         </View>
@@ -229,7 +241,8 @@ const CopyrightRemovalScreen: React.FunctionComponent = () => {
                             <CheckboxIcon width={iconSize} height={iconSize} color={colors.iconColor}/>}
                         </PressableHaptic>
                         <View style={{width: "90%"}}>
-                            <Text style={styles.miniText}>{"* "}{i18n.pages.copyrightRemoval.verifyCopyright}</Text>
+                            <Text style={styles.miniText} selectable uiTextView
+                            selectionColor={colors.borderColor}>{"* "}{i18n.pages.copyrightRemoval.verifyCopyright}</Text>
                         </View>
                     </View>
                     <View style={styles.centerRow}>

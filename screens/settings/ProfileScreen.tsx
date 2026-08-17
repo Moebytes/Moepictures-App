@@ -144,7 +144,7 @@ const ProfileScreen: React.FunctionComponent = () => {
     let offset = Platform.OS === "android" ? 175 : 0
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.mainColor}}>
+        <View style={{flex: 1, position: "relative", backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
             <TitleBar/>
             <ScrollView showsVerticalScrollIndicator={false} 
@@ -501,7 +501,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                     <Text style={styles.copyText}>© 2026 Moepictures</Text>
                 </View>
             </ScrollView>
-            <TabBar/>
+            <TabBar relative={true}/>
         </View>
     )
 }
