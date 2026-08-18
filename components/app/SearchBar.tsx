@@ -60,7 +60,7 @@ const SearchBar: React.FunctionComponent<Props> = ({managedProps, ...props}) => 
     }
 
     useEffect(() => {
-        functions.cache.tagCountsCache(session).then((c) => setCacheTags(c))
+        //functions.cache.tagCountsCache(session).then((c) => setCacheTags(c))
     }, [])
 
     useEffect(() => {
