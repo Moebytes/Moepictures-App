@@ -418,7 +418,7 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const TagsPage: React.FunctionComponent = () => {
+    const TagsPage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -571,7 +571,7 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
         )
     }
 
-    const SourcePage: React.FunctionComponent = () => {
+    const SourcePage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -837,11 +837,11 @@ const EditPostScreen: React.FunctionComponent<Props> = ({route}) => {
                     initialPage={0} onPageSelected={onPageSelected}>
                     <ScrollView key="tags" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <TagsPage/>
+                        {TagsPage()}
                     </ScrollView>
                     <ScrollView key="source" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <SourcePage/>
+                        {SourcePage()}
                     </ScrollView>
                 </PagerView>
             </View>

@@ -272,7 +272,7 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const DetailsPage: React.FunctionComponent = () => {
+    const DetailsPage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -408,7 +408,7 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
         )
     }
 
-    const CategoryPage: React.FunctionComponent = () => {
+    const CategoryPage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -539,11 +539,11 @@ const EditTagScreen: React.FunctionComponent<Props> = ({route}) => {
                     initialPage={0} onPageSelected={onPageSelected}>
                     <ScrollView key="details" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <DetailsPage/>
+                        {DetailsPage()}
                     </ScrollView>
                     <ScrollView key="category" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <CategoryPage/>
+                        {CategoryPage()}
                     </ScrollView>
                 </PagerView>
             </View>

@@ -97,7 +97,7 @@ const EditFavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
 
     let iconSize = 25
 
-    const DetailsPage: React.FunctionComponent = () => {
+    const DetailsPage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -151,7 +151,7 @@ const EditFavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
         )
     }
 
-    const RemapPage: React.FunctionComponent = () => {
+    const RemapPage = () => {
         return (
             <>
             <View style={styles.row}>
@@ -216,11 +216,11 @@ const EditFavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
                     initialPage={0} onPageSelected={onPageSelected}>
                     <ScrollView key="details" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <DetailsPage/>
+                        {DetailsPage()}
                     </ScrollView>
                     <ScrollView key="remap" showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.container}>
-                        <RemapPage/>
+                        {RemapPage()}
                     </ScrollView>
                 </PagerView>
             </View>
