@@ -1,1 +1,1 @@
-export const siteURL = "https://moepictures.net"
+export const siteURL = "https://moepictures.com"
