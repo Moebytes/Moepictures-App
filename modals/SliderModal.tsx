@@ -70,7 +70,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         setZoom(1)
 
         setTimeout(() => {
-            ref.current?.scrollToIndex({index, animated: false})
+            ref.current?.scrollToIndex({index: index || 1, animated: false})
             setVisible(true)
         }, lowPerformance ? 300 : 10)
     }
@@ -152,6 +152,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                     keyExtractor={(_, index) => index.toString()}
                     horizontal
                     pagingEnabled
+                    directionalLockEnabled
                     scrollEnabled={zoom <= 1.1}
                     showsHorizontalScrollIndicator={false}
                     getItemLayout={(_, index) => ({
@@ -162,13 +163,13 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                     onMomentumScrollEnd={onMomentumScrollEnd}
                     onScrollToIndexFailed={(info) => {
                         setTimeout(() => {
-                            ref.current?.scrollToIndex({index: info.index, animated: false})
+                            ref.current?.scrollToIndex({index: info.index || 1, animated: false})
                         }, 100)
                     }}
                     initialNumToRender={lowPerformance ? 1 : 2}
                     maxToRenderPerBatch={lowPerformance ? 1 : 2}
                     windowSize={lowPerformance ? 1 : 3}
-                    removeClippedSubviews={lowPerformance}
+                    removeClippedSubviews={true}
                 />
             </View>
         </Modal>

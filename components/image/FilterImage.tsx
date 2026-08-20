@@ -197,7 +197,7 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
     const filtersOn = functions.image.filtersOn({brightness, contrast, hue, 
         saturation, lightness, blur, sharpen, pixelate})
 
-    if (filtersOn) {
+    if (Platform.OS === "ios" || filtersOn) {
         return (
             <Canvas opaque={opaque} androidWarmup={opaque} style={props.size} ref={canvasRef}>
                 {opaque && <Fill color={colors.background}/>}
