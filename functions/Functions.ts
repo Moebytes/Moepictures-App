@@ -108,15 +108,73 @@ export default class Functions {
 
     public static handleAppLink = (url: string, navigation: Navigation) => {
         const prefix = url.replace("moepics://", "")
+            .replace("moepictures.com/", "")
+            .replace("moepictures.net/", "")
+            .replace("moepictures.moe/", "")
+
+        if (prefix.startsWith("post/history")) {
+            const postID = prefix.split("/")[2]
+            return navigation.navigate("PostHistory", {postID}, {pop: true})
+        }
 
         if (prefix.startsWith("post/")) {
             const postID = prefix.split("/")[1]
-            this.navigateToPost(postID, navigation)
+            return navigation.navigate("Post", {postID}, {pop: true})
+        }
+
+        if (prefix.startsWith("tag/history")) {
+            const tag = prefix.split("/")[2]
+            return navigation.navigate("TagHistory", {name: tag}, {pop: true})
         }
 
         if (prefix.startsWith("tag/")) {
             const tag = prefix.split("/")[1]
-            navigation.navigate("Tag", {name: tag}, {pop: true})
+            return navigation.navigate("Tag", {name: tag}, {pop: true})
+        }
+
+        if (prefix.startsWith("group/history")) {
+            const slug = prefix.split("/")[2]
+            return navigation.navigate("GroupHistory", {slug}, {pop: true})
+        }
+
+        if (prefix.startsWith("group/")) {
+            const slug = prefix.split("/")[1]
+            return navigation.navigate("Group", {slug}, {pop: true})
+        }
+        
+        if (prefix.startsWith("favgroup/")) {
+            const username = prefix.split("/")[1]
+            const slug = prefix.split("/")[2]
+            return navigation.navigate("Favgroup", {username, slug}, {pop: true})
+        }
+
+        if (prefix.startsWith("user/")) {
+            const username = prefix.split("/")[1]
+            return navigation.navigate("User", {username}, {pop: true})
+        }
+
+        if (prefix.startsWith("comments")) {
+            return navigation.navigate("Comments", undefined, {pop: true})
+        }
+
+        if (prefix.startsWith("tags")) {
+            return navigation.navigate("Tags", undefined, {pop: true})
+        }
+
+        if (prefix.startsWith("groups")) {
+            return navigation.navigate("Groups", undefined, {pop: true})
+        }
+
+        if (prefix.startsWith("history")) {
+            return navigation.navigate("History", undefined, {pop: true})
+        }
+
+        if (prefix.startsWith("help")) {
+            return navigation.navigate("Help", undefined, {pop: true})
+        }
+
+        if (!prefix || prefix.startsWith("posts")) {
+            return navigation.navigate("Posts", undefined, {pop: true})
         }
     }
 }
