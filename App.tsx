@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useEffect, useRef} from "react"
-import {Linking, Platform} from "react-native"
+import {Linking, Platform, AppState} from "react-native"
 import {NavigationContainer, NavigationContainerRef} from "@react-navigation/native"
 import {createNativeStackNavigator} from "@react-navigation/native-stack"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
@@ -115,6 +115,7 @@ const App: React.FunctionComponent = () => {
     const {activeFavgroup} = useActiveSelector()
     const {setActiveFavgroup} = useActiveActions()
     const {top} = useSafeAreaInsets()
+    const appStateRef = useRef(AppState.currentState)
     const navigationRef = useRef<NavigationContainerRef<StackParamList>>(null)
 
     useEffect(() => {
@@ -128,6 +129,18 @@ const App: React.FunctionComponent = () => {
 
       return () => sub.remove()
     }, [])
+
+    useEffect(() => {
+      const sub = AppState.addEventListener("change", (nextState) => {
+          if ((appStateRef.current === "background" || appStateRef.current === "inactive") 
+              && nextState === "active") {
+              setSessionFlag(true)
+          }
+          appStateRef.current = nextState
+      })
+
+      return () => sub.remove()
+  }, [])
 
     useEffect(() => {
         if (!session.username) return

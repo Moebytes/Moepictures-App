@@ -56,7 +56,7 @@ export default class LinkFunctions {
 
         if (typeof image === "string") {
             if (image.startsWith("history/post")) return `${siteURL}/${image}`
-            if (new URL(image).searchParams.has("hash")) return image
+            if (image.startsWith("http") && new URL(image).searchParams.has("hash")) return image
         }
         let post = await functions.http.get("/api/post", {postID: partialPost.postID}, session)
         if (!post) return ""
@@ -146,7 +146,7 @@ export default class LinkFunctions {
 
         if (typeof image === "string") {
             if (image.startsWith("history/post")) return `${siteURL}/${image}`
-            if (new URL(image).searchParams.has("hash")) return image
+            if (image.startsWith("http") && new URL(image).searchParams.has("hash")) return image
         }
         let post = await functions.http.get("/api/post", {postID: partialPost.postID}, session)
         if (!post) return ""
@@ -159,7 +159,7 @@ export default class LinkFunctions {
     public static resolveImage = async (image: Image | string, session: Session, upscaled?: boolean) => {
         if (typeof image === "string") {
             if (image.startsWith("history/post")) return `${siteURL}/${image}`
-            if (new URL(image).searchParams.has("hash")) return image
+            if (image.startsWith("http") && new URL(image).searchParams.has("hash")) return image
             const [postID, order, filename] = path.basename(image).split("-")
 
             let post = await functions.http.get("/api/post", {postID}, session)
@@ -175,7 +175,7 @@ export default class LinkFunctions {
     public static resolveThumbnail = async (image: Image | string, sizeType: string, session: Session) => {
         if (typeof image === "string") {
             if (image.startsWith("history/post")) return `${siteURL}/${image}`
-            if (new URL(image).searchParams.has("hash")) return image
+            if (image.startsWith("http") && new URL(image).searchParams.has("hash")) return image
             const [postID, order, filename] = path.basename(image).split("-")
 
             let post = await functions.http.get("/api/post", {postID}, session)

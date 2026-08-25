@@ -104,14 +104,18 @@ const SearchTab: React.FunctionComponent = () => {
                     {i18n.mobileHelp.search.line1}
                 </Text>
                 <View style={styles.column}>
-                    <Text style={styles.textAlt} selectable uiTextView
-                    selectionColor={colors.borderColor}>
-                        {i18n.help.searching.example1}
-                    </Text>
-                    <Text style={styles.textAlt} selectable uiTextView
-                    selectionColor={colors.borderColor}>
-                        {i18n.help.searching.example2}
-                    </Text>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {i18n.help.searching.example1}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {i18n.help.searching.example2}
+                        </Text>
+                    </View>
                 </View>
             </View>
             <View style={styles.row}>
