@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect, useRef} from "react"
-import {Modal, View, Image, FlatList, ListRenderItem, GestureResponderEvent, PanResponderGestureState,
+import {Modal, View, FlatList, ListRenderItem, GestureResponderEvent, PanResponderGestureState,
 useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
@@ -70,7 +70,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         setZoom(1)
 
         setTimeout(() => {
-            ref.current?.scrollToIndex({index: index || 1, animated: false})
+            ref.current?.scrollToIndex({index, animated: false})
             setVisible(true)
         }, lowPerformance ? 300 : 10)
     }
@@ -163,7 +163,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                     onMomentumScrollEnd={onMomentumScrollEnd}
                     onScrollToIndexFailed={(info) => {
                         setTimeout(() => {
-                            ref.current?.scrollToIndex({index: info.index || 1, animated: false})
+                            ref.current?.scrollToIndex({index: info.index, animated: false})
                         }, 100)
                     }}
                     initialNumToRender={lowPerformance ? 1 : 2}
