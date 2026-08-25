@@ -9,7 +9,7 @@ import {View, Text, Pressable} from "react-native"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSearchSelector, useSearchActions, 
 useSearchDialogActions, useSearchDialogSelector,
-useSessionSelector} from "../../store"
+useSessionSelector, useLayoutSelector} from "../../store"
 import {useSearchPostsInfiniteQuery, useSearchPostsPageQuery} from "../../api"
 import {createStylesheet} from "./styles/Related.styles"
 import PagesIcon from "../../assets/svg/pages.svg"
@@ -28,6 +28,7 @@ interface Props {
 export const useRelatedItems = (props: Props) => {
     const {showRelated} = useSessionSelector()
     const {session} = useSessionSelector()
+    const {tablet} = useLayoutSelector()
     const {scroll, pageMultiplier, ratingType} = useSearchSelector()
     const [fallbackIndex, setFallbackIndex] = React.useState(-1)
     const [activeTag, setActiveTag] = useState(props.tag)
@@ -41,7 +42,8 @@ export const useRelatedItems = (props: Props) => {
         setRefreshKey(prev => prev + 1)
     }, [props.tag])
 
-    const pageSize = 16 * pageMultiplier
+    let initial = tablet ? 15 : 16
+    const pageSize = initial * pageMultiplier
 
     let rating = props.post?.rating || (functions.post.isR18(ratingType) ? ratingType : "all")
 

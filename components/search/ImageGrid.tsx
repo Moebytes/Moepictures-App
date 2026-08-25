@@ -81,7 +81,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         if (autoScroll) setAutoScroll(false)
     }
 
-    const pageSize = 16 * pageMultiplier
+    let initial = tablet ? 15 : 16
+    const pageSize = initial * pageMultiplier
 
     const sort = functions.valid.parseSort(sortType, sortReverse)
     const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)

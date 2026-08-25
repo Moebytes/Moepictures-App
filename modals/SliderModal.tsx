@@ -72,7 +72,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         setTimeout(() => {
             ref.current?.scrollToIndex({index, animated: false})
             setVisible(true)
-        }, lowPerformance ? 300 : 10)
+        }, 300)
     }
 
     useEffect(() => {
