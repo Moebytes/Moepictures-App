@@ -53,7 +53,7 @@ const GroupHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = useGroupHistoryInfiniteQuery(
         {slug, query: search, refreshKey},

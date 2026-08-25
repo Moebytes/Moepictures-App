@@ -64,7 +64,7 @@ const FavgroupScreen: React.FunctionComponent<Props> = ({route}) => {
         ref.current?.scrollTo({y: 0})
     }, [route.params, scroll])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const totalPages = Math.ceil(Number(favgroup?.postCount || 0) / pageSize)
 

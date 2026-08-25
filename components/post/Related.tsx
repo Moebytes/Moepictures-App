@@ -41,7 +41,7 @@ export const useRelatedItems = (props: Props) => {
         setRefreshKey(prev => prev + 1)
     }, [props.tag])
 
-    const pageSize = 15 * pageMultiplier
+    const pageSize = 16 * pageMultiplier
 
     let rating = props.post?.rating || (functions.post.isR18(ratingType) ? ratingType : "all")
 

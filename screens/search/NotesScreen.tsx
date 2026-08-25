@@ -44,7 +44,7 @@ const NotesScreen: React.FunctionComponent = () => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = useSearchNotesInfiniteQuery(
         {query: search, sort: functions.valid.parseSort(noteSort, sortReverse), refreshKey},

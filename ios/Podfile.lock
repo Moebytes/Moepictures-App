@@ -1801,7 +1801,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-uitextview (2.6.0):
+  - react-native-uitextview (2.7.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -3063,7 +3063,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: 6b4966397ada0f7dd481e4486a2ef936834861a1
   react-native-skia: 448b544cf5040e6779a3bc57f545a8106ba5968b
   react-native-slider: f9910f69950b9953c46e091377c1265b71eb01f0
-  react-native-uitextview: 0aa49a3139251fe036a8b23603a80b85cb0d38f2
+  react-native-uitextview: b5ae6a21caea05caef4fbfd7072477f8569cf9a9
   react-native-video: db3a70efc9fa0c00f5499d7798283bf0585cbd37
   React-NativeModulesApple: deba264b03bd79c6bd61014fa30e40321b5e443a
   React-networking: 35e6070b084f435429f85c5db40b4d5b38652fe9

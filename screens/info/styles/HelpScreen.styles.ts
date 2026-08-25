@@ -80,6 +80,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         title: {
             fontFamily: fonts.tsunagiGothicBlack,
             fontSize: 24,
+            lineHeight: 29,
             color: colors.iconColor
         },
         text: {

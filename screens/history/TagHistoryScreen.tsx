@@ -64,7 +64,7 @@ const TagHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         updateOldestPost()
     }, [tag])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = useTagHistoryInfiniteQuery(
         {tag: name, query: search, refreshKey},

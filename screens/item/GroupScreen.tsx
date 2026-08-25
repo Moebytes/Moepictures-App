@@ -96,7 +96,7 @@ const GroupScreen: React.FunctionComponent<Props> = ({route}) => {
         updatePosts()
     }, [group])
 
-    const pageSize = 15
+    const pageSize = 16
 
     let postCount = group && "postCount" in group ? 
         group?.postCount || 0 : group?.posts.length

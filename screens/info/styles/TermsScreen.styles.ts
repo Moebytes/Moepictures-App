@@ -71,7 +71,7 @@ export const createStylesheet = (colors: ThemeColors) => {
         heading: {
             fontFamily: fonts.genEiMGothicV2,
             fontSize: 17,
-            lineHeight: 22,
+            lineHeight: 24,
             color: colors.iconColor
         },
         text: {

@@ -63,7 +63,7 @@ const PostHistoryScreen: React.FunctionComponent<Props> = ({route}) => {
         updateCategories()
     }, [post])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = usePostHistoryInfiniteQuery(
         {postID, query: search, refreshKey},

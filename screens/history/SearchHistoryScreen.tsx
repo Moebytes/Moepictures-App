@@ -52,7 +52,7 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = useSearchHistoryInfiniteQuery(
         {query: search, sort: functions.valid.parseSort(searchHistorySort, sortReverse), refreshKey},

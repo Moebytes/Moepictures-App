@@ -47,7 +47,7 @@ const CommentsScreen: React.FunctionComponent = () => {
         ref.current?.scrollToOffset({offset: 0, animated: true})
     }, [page])
 
-    const pageSize = 15
+    const pageSize = 16
 
     const infiniteQuery = useSearchCommentsInfiniteQuery(
         {query: search, sort: functions.valid.parseSort(commentSort, sortReverse), refreshKey},

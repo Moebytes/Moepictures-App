@@ -14,7 +14,7 @@
   "dependencies": {
     "@bam.tech/react-native-image-resizer": "github:Moestash/react-native-image-resizer",
     "@blazejkustra/react-native-alert": "^1.0.0",
-    "@bsky.app/react-native-uitextview": "github:Moestash/react-native-uitextview",
+    "@bsky.app/react-native-uitextview": "^2.7.1",
     "@callstack/liquid-glass": "^0.7.0",
     "@expo/react-native-action-sheet": "^4.1.1",
     "@lodev09/react-native-true-sheet": "^3.11.9",

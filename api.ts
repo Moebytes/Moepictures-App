@@ -72,7 +72,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -99,7 +99,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -126,7 +126,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -153,7 +153,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -186,7 +186,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -219,7 +219,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -246,7 +246,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -273,7 +273,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -300,7 +300,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -478,7 +478,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -497,7 +497,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam
@@ -536,7 +536,7 @@ export const api = createApi({
             infiniteQueryOptions: {
                 initialPageParam: {
                     offset: 0,
-                    limit: 15
+                    limit: 16
                 },
                 getNextPageParam,
                 getPreviousPageParam

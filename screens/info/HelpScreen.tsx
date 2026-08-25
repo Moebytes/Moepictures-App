@@ -103,6 +103,8 @@ const SearchTab: React.FunctionComponent = () => {
                 selectionColor={colors.borderColor}>
                     {i18n.mobileHelp.search.line1}
                 </Text>
+            </View>
+            <View style={styles.row}>
                 <View style={styles.column}>
                     <View style={styles.rowItem}>
                         <Text style={styles.textAlt} selectable uiTextView
