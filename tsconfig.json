@@ -5,7 +5,8 @@
     "noImplicitAny": true,
     "noEmit": true,
     "jsx": "react-native",
-    "moduleResolution": "node",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -13,7 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "downlevelIteration": true
+    "types": ["node"]
   },
   "exclude": [
     "node_modules"
