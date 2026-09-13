@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from "react"
 import {View, Image, FlatList, ListRenderItem, useWindowDimensions} from "react-native"
 import {useThemeSelector, useSessionSelector, useLayoutSelector} from "../../store"
-import {createStylesheet} from "./styles/Variations.styles"
+import {createStylesheet} from "./styles/Variants.styles"
 import {PostFull, PostHistory, Image as PostImage} from "../../types/Types"
 import FilterImage from "../image/FilterImage"
 import PressableHaptic from "../../ui/PressableHaptic"
@@ -76,7 +76,7 @@ interface Props {
     onImageChange: (img: PostImage | string) => void
 }
 
-const Variations: React.FunctionComponent<Props> = (props) => {
+const Variants: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
 
@@ -101,4 +101,4 @@ const Variations: React.FunctionComponent<Props> = (props) => {
     )
 }
 
-export default Variations
+export default Variants

@@ -99,7 +99,7 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         if (!props.post) return
         if (!await functions.file.requestWritePermission()) return
 
-        let img = await functions.link.resolveImage(props.post.images[0], session, session.upscaledImages)
+        let img = await functions.link.resolveImage(props.post.images[0], session, false)
         let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
 
         if (props.imageRef?.current && functions.image.filtersOn({brightness, contrast, hue, 

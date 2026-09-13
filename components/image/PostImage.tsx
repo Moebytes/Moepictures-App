@@ -40,7 +40,7 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateImage = async () => {
             if (!props.image) return
-            const img = await functions.link.resolveImage(props.image, session, session.upscaledImages)
+            const img = await functions.link.resolveImage(props.image, session, false)
             setImg(img)
         }
         setImg("")

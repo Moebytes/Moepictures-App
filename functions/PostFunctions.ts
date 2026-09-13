@@ -18,7 +18,7 @@ export default class PostFunctions {
         if (post.hasChildren) return colors.parentBorder
         if (post.parentID) return colors.childBorder
         if (post.isGrouped) return colors.groupBorder
-        if (Number(post.variationCount) > 1) return colors.variationBorder
+        if (Number(post.variantCount) > 1) return colors.variantBorder
         return colors.borderColor
     }
 

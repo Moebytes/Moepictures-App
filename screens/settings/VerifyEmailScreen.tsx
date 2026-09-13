@@ -93,7 +93,7 @@ const VerifyEmailScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={2}>
-                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
+                <CrossLiquidGlassView effect="clear" showBlur={false} style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.pages.verifyEmail.title}</Text>
                     </View>

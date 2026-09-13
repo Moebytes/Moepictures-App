@@ -8,7 +8,7 @@ import {StyleSheet, Platform} from "react-native"
 import {ThemeColors} from "../colors"
 import {fonts} from "../fonts"
 
-export const createStylesheet = (colors: ThemeColors) => {
+export const createStylesheet = (language: string, colors: ThemeColors) => {
     return StyleSheet.create({
         buttonContainer: {
             display: "flex",
@@ -30,7 +30,7 @@ export const createStylesheet = (colors: ThemeColors) => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            paddingHorizontal: Platform.OS === "android" ? 14 : 17,
+            paddingHorizontal: language === "ja" ? 8 : (Platform.OS === "android" ? 14 : 17),
             paddingVertical: 7,
             gap: 6,
             zIndex: 1

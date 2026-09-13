@@ -27,9 +27,10 @@ const favoritesImg = require("../../assets/images/favorites.jpg")
 const favoriteGroupsImg = require("../../assets/images/favorite-groups.jpg")
 const cutenessImg = require("../../assets/images/cuteness.jpg")
 const moetextImg = require("../../assets/images/moetext.jpg")
+const postsImg = require("../../assets/images/posts.jpg")
 const tagsImg = require("../../assets/images/tags.jpg")
 const tagGroupsImg = require("../../assets/images/tag-groups.jpg")
-const variationsImg = require("../../assets/images/variations.jpg")
+const variantsImg = require("../../assets/images/variants.jpg")
 const childPostsImg = require("../../assets/images/child-posts.jpg")
 const groupsImg = require("../../assets/images/groups.jpg")
 const aliasesImg = require("../../assets/images/aliases.jpg")
@@ -735,6 +736,337 @@ const MoeTextTab: React.FunctionComponent = () => {
     )
 }
 
+const PostsTab: React.FunctionComponent = () => {
+    const {i18n, colors} = useThemeSelector()
+    const {tablet} = useLayoutSelector()
+    const styles = createStylesheet(colors)
+    const {width} = useWindowDimensions()
+    const [size, setSize] = useState({width: 0, height: 0})
+
+    useEffect(() => {
+        const updateSize = async () => {
+            let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
+            const size = await functions.image.normalizeWidth(postsImg, targetWidth, width)
+            setSize(size)
+        }
+        updateSize()
+    }, [tablet])
+
+    return (
+        <View style={[styles.container, {height: "100%"}]}>
+            <View style={styles.row}>
+                <Text style={styles.title}>{i18n.sort.posts}</Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
+                    {i18n.mobileHelp.posts.line1}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
+                        {i18n.mobileHelp.posts.type.header}
+                    </Text>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.type.items)[0]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.type.items)[0]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.type.items)[1]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.type.items)[1]}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
+                        {i18n.mobileHelp.posts.rating.header}
+                    </Text>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.rating.items)[0]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.rating.items)[0]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.rating.items)[1]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.rating.items)[1]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.rating.items)[2]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.rating.items)[2]}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <Text style={styles.text} selectable uiTextView
+                    selectionColor={colors.borderColor}>
+                        {i18n.mobileHelp.posts.style.header}
+                    </Text>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[0]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[0]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[1]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[1]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[2]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[2]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[3]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[3]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[4]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[4]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[5]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[5]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[6]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[6]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.style.items)[7]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.style.items)[7]}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+
+            <View style={styles.row}>
+                <Text style={styles.text} selectable uiTextView
+                selectionColor={colors.borderColor}>
+                    {i18n.mobileHelp.posts.line2}
+                </Text>
+            </View>
+            <View style={styles.row}>
+                <View style={styles.column}>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[0]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[0]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[1]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[1]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[2]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[2]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[3]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[3]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[4]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[4]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[5]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[5]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[6]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[6]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[7]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[7]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[8]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[8]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[9]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[9]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[10]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[10]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[11]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[11]}
+                        </Text>
+                    </View>
+                    <View style={styles.rowItem}>
+                        <Text style={styles.textAlt} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.keys(i18n.mobileHelp.posts.source.items)[12]}
+                        </Text>
+                        <Text style={styles.text} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                            {Object.values(i18n.mobileHelp.posts.source.items)[12]}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+            <View style={styles.centerRow}>
+                <Image style={size} source={postsImg} resizeMode="contain"/>
+            </View>
+        </View>
+    )
+}
+
 const TagsTab: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
@@ -931,7 +1263,7 @@ const TagGroupsTab: React.FunctionComponent = () => {
     )
 }
 
-const VariationsTab: React.FunctionComponent = () => {
+const VariantsTab: React.FunctionComponent = () => {
     const {i18n, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
     const styles = createStylesheet(colors)
@@ -941,7 +1273,7 @@ const VariationsTab: React.FunctionComponent = () => {
     useEffect(() => {
         const updateSize = async () => {
             let targetWidth = (tablet && width > 1000) ? width - 700 : width - 50
-            const size = await functions.image.normalizeWidth(variationsImg, targetWidth, width)
+            const size = await functions.image.normalizeWidth(variantsImg, targetWidth, width)
             setSize(size)
         }
         updateSize()
@@ -950,28 +1282,28 @@ const VariationsTab: React.FunctionComponent = () => {
     return (
         <View style={[styles.container, {height: "100%"}]}>
             <View style={styles.row}>
-                <Text style={styles.title}>{i18n.sort.variations}</Text>
+                <Text style={styles.title}>{i18n.sort.variants}</Text>
             </View>
             <View style={styles.row}>
                 <Text style={styles.text} selectable uiTextView
                 selectionColor={colors.borderColor}>
-                    {i18n.mobileHelp.variations.line1}
+                    {i18n.mobileHelp.variants.line1}
                 </Text>
             </View>
             <View style={styles.row}>
                 <Text style={styles.text} selectable uiTextView
                 selectionColor={colors.borderColor}>
-                    {i18n.mobileHelp.variations.line2}
+                    {i18n.mobileHelp.variants.line2}
                 </Text>
             </View>
             <View style={styles.row}>
                 <Text style={styles.text} selectable uiTextView
                 selectionColor={colors.borderColor}>
-                    {i18n.mobileHelp.variations.line3}
+                    {i18n.mobileHelp.variants.line3}
                 </Text>
             </View>
             <View style={styles.centerRow}>
-                <Image style={size} source={variationsImg} resizeMode="contain"/>
+                <Image style={size} source={variantsImg} resizeMode="contain"/>
             </View>
         </View>
     )
@@ -1325,9 +1657,10 @@ const HelpScreen: React.FunctionComponent = () => {
         favoriteGroups: FavoriteGroupsTab,
         cuteness: CutenessTab,
         moeText: MoeTextTab,
+        posts: PostsTab,
         tags: TagsTab,
         tagGroups: TagGroupsTab,
-        variations: VariationsTab,
+        variants: VariantsTab,
         childPosts: ChildPostsTab,
         groups: GroupsTab,
         aliases: AliasesTab,
@@ -1345,9 +1678,10 @@ const HelpScreen: React.FunctionComponent = () => {
         {key: "favoriteGroups", title: i18n.help.favoriteGroups.title, height: tablet ? 1100 : 950},
         {key: "cuteness", title: i18n.sort.cuteness, height: tablet ? 950 : 850},
         {key: "moeText", title: i18n.help.moetext.title, height: tablet ? 1050 : 960},
+        {key: "posts", title: i18n.sort.posts, height: tablet ? 1800 : 1650},
         {key: "tags", title: i18n.navbar.tags, height: tablet ? 1300 : 1150},
         {key: "tagGroups", title: i18n.labels.tagGroups, height: tablet ? 1300 : 1150},
-        {key: "variations", title: i18n.sort.variations, height: tablet ? 1400 : 1320},
+        {key: "variants", title: i18n.sort.variants, height: tablet ? 1400 : 1320},
         {key: "childPosts", title: i18n.post.childPosts, height: tablet ? 1500 : 1450},
         {key: "groups", title: i18n.sort.groups, height: tablet ? 1100 : 1040},
         {key: "aliases", title: i18n.sort.aliases, height: tablet ? 1200 : 1100},

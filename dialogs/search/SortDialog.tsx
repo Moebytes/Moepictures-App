@@ -40,7 +40,7 @@ const SortDialog: React.FunctionComponent = () => {
 
         let sortModes = [
             "random", "date", "posted", "bookmarks", "favorites", "popularity",
-            "cuteness", "variations", "parent", "child", "groups", "tagcount", "filesize",
+            "cuteness", "variants", "parent", "child", "groups", "tagcount", "filesize",
             "aspectRatio", "hidden", "locked", "private"
         ] as const
 

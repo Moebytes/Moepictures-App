@@ -18,10 +18,10 @@ interface Props {
 }
 
 const Commentary: React.FunctionComponent<Props> = (props) => {
-    const {i18n, colors} = useThemeSelector()
+    const {i18n, language, colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const {emojis} = useCacheSelector()
-    const [showTranslated, setShowTranslated] = useState(true)
+    const [showTranslated, setShowTranslated] = useState(language !== "ja")
 
     let iconSize = 30
 

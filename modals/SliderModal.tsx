@@ -169,7 +169,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                     initialNumToRender={lowPerformance ? 1 : 2}
                     maxToRenderPerBatch={lowPerformance ? 1 : 2}
                     windowSize={lowPerformance ? 1 : 3}
-                    removeClippedSubviews={true}
+                    removeClippedSubviews={lowPerformance}
                 />
             </View>
         </Modal>

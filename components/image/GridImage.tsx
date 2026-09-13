@@ -81,7 +81,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         } else if (event.nativeEvent.name === i18n.contextMenu.saveImage) {
             if (!await functions.file.requestWritePermission()) return
     
-            let img = functions.link.getImageLink(props.post.images[0], session.upscaledImages)
+            let img = functions.link.getImageLink(props.post.images[0], false)
             let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
 
             if (imageRef.current && filtersOn) {

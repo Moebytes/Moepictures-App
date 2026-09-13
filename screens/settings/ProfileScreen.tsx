@@ -108,15 +108,7 @@ const ProfileScreen: React.FunctionComponent = () => {
             setSessionFlag(true)
         }
     }
-
-    const changeShowR18 = async () => {
-        let newValue = !showR18
-
-        setShowR18(newValue)
-        await functions.http.post("/api/user/r18", {r18: newValue}, session)
-        setSessionFlag(true)
-    }
-
+    
     const changeUsername = async () => {
         if (!permissions.isPremium(session)) {
             Toast.show({text1: i18n.toast.premiumRequired})
@@ -316,10 +308,10 @@ const ProfileScreen: React.FunctionComponent = () => {
                         />
                     </View></> : null}
 
-                    {session.username ? <>
+                    {/*session.username ? <>
                     <View style={styles.separator}/>
 
-                    /* Upscaled Images */
+                    // Upscaled Images
                     <View style={styles.itemContainer}>
                         <Text style={styles.text}>{i18n.user.upscaledImages}</Text>
                         <Switch
@@ -329,22 +321,7 @@ const ProfileScreen: React.FunctionComponent = () => {
                             trackColor={{false: colors.switchOff, true: colors.switchOn}}
                             ios_backgroundColor={colors.switchOff}
                         />
-                    </View></> : null}
-
-                    {permissions.isOwner(session) ? <>
-                    <View style={styles.separator}/>
-
-                    /* Show R18 */
-                    <View style={styles.itemContainer}>
-                        <Text style={styles.text}>{i18n.user.showR18}</Text>
-                        <Switch
-                            value={showR18}
-                            onValueChange={changeShowR18}
-                            thumbColor="#ffffff"
-                            trackColor={{false: colors.switchOff, true: colors.switchOn}}
-                            ios_backgroundColor={colors.switchOff}
-                        />
-                    </View></> : null}
+                    </View></> : null*/}
 
                     <View style={styles.separator}/>
                     

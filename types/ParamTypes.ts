@@ -55,8 +55,8 @@ export type PostSort =
     | "reverse favorites"
     | "cuteness"
     | "reverse cuteness"
-    | "variations"
-    | "reverse variations"
+    | "variants"
+    | "reverse variants"
     | "parent"
     | "reverse parent"
     | "child"
@@ -176,6 +176,7 @@ export interface FileFormat {
     png?: boolean
     webp?: boolean
     avif?: boolean
+    jxl?: boolean
     gif?: boolean
     mp4?: boolean
     webm?: boolean

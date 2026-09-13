@@ -7,11 +7,6 @@
 import {ServerSession, MiniTag, TagCount} from "../types/Types"
 
 export default class Permissions {
-    public static isOwner = (session: ServerSession) => {
-        if (!session) return false
-        return session.username === "moebytes"
-    }
-    
     public static isAdmin = (session: ServerSession) => {
         if (!session) return false
         return session.role === "admin" ? true : false

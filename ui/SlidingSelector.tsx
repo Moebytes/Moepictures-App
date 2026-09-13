@@ -28,11 +28,11 @@ const SlidingSelector = <T,>(props: Props<T>) => {
     let {data, value, onChange, inactiveColor, activeColor, 
         textColor, activeTextColor, iconColor, activeIconColor, 
         paddingHorizontal, iconSize = 20} = props
-    const {colors} = useThemeSelector()
+    const {language, colors} = useThemeSelector()
     const [buttons, setButtons] = useState<{x: number, width: number}[]>([])
     const translateX = useRef(new Animated.Value(0)).current
     const widthAnim = useRef(new Animated.Value(0)).current
-    const styles = createStylesheet(colors)
+    const styles = createStylesheet(language, colors)
 
     inactiveColor = inactiveColor ?? colors.optionInactive
     activeColor = activeColor ?? colors.optionActive
@@ -112,7 +112,7 @@ const SlidingSelector = <T,>(props: Props<T>) => {
                     key={item.value as any}
                     onPress={() => onChange(item.value)}
                     onLayout={onLayout}
-                    style={[styles.button, {paddingHorizontal: paddingHorizontal ?? Platform.OS === "android" ? 14 : 17}]}>
+                    style={[styles.button, {paddingHorizontal: paddingHorizontal ?? language === "ja" ? 8 : (Platform.OS === "android" ? 14 : 17)}]}>
                     {Icon && <Icon width={iconSize} height={iconSize} color={selected ? activeIconColor : iconColor}/>}
                     <Text style={[styles.buttonText, {color: selected ? activeTextColor : textColor}]}>
                         {item.name}

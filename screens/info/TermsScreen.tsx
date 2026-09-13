@@ -270,12 +270,6 @@ const TermsOfServiceScreen: React.FunctionComponent = () => {
                         </Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.text} selectable uiTextView
-                        selectionColor={colors.borderColor}>
-                            {i18n.terms.tos.premiumSubscriptions.line3}
-                        </Text>
-                    </View>
-                    <View style={styles.row}>
                         <Text style={styles.heading} selectable uiTextView
                         selectionColor={colors.borderColor}>
                             {i18n.terms.tos.accountTermination.title}

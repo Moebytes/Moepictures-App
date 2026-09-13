@@ -22,7 +22,7 @@ import PostImageOptions from "../../components/post/PostImageOptions"
 import PostDrawer from "../../components/post/PostDrawer"
 import PixivTags from "../../components/post/PixivTags"
 import ArtistInfo from "../../components/post/ArtistInfo"
-import Variations from "../../components/post/Variations"
+import Variants from "../../components/post/Variants"
 import Parent from "../../components/post/Parent"
 import Children from "../../components/post/Children"
 import Groups from "../../components/post/Groups"
@@ -262,7 +262,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                 <TitleBar/>
                 <SearchBar random={true} spaceEnabled={true}/>
                 {historyBarJSX()}
-                <Variations post={post} onImageChange={onImageChange}/>
+                <Variants post={post} onImageChange={onImageChange}/>
                 <PostImage post={post} image={image} imageRef={imageRef}/>
                 <PostImageOptions openDrawer={openDrawer} post={post} imageRef={imageRef}/>
                 <PixivTags post={post}/>

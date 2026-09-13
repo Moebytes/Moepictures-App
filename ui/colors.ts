@@ -33,7 +33,7 @@ export const noRotation = {
 
     favoriteBorder: "#e72d95",
     favgroupBorder: "#c22de7",
-    variationBorder: "#1664de",
+    variantBorder: "#1664de",
     parentBorder: "#1eab3c",
     childBorder: "#c59f23",
     groupBorder: "#ff5c2e",

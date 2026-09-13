@@ -166,7 +166,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                 style={styles.container}
                 imageStyle={styles.containerBG}
                 blurRadius={2}>
-                <CrossLiquidGlassView effect="clear" style={[styles.box]}>
+                <CrossLiquidGlassView effect="clear" showBlur={false} style={[styles.box]}>
                     <View style={styles.row}>
                         <Text style={styles.title}>{i18n.premium.premium.title}</Text>
                         <StarIcon width={iconSize} height={iconSize} color={colors.premiumColor} style={{marginTop: "-5"}}/>
@@ -207,7 +207,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                             selectionColor={colors.borderColor}>{i18n.mobilePremium.savedSearches.header}</Text>
                         </View>
                     </View>
-                    <View style={styles.itemBox}>
+                    {/*<View style={styles.itemBox}>
                         <View style={[styles.itemBoxRow, {backgroundColor: "rgba(191, 221, 255, 0.50)"}]}>
                             <Text style={[styles.itemBoxTitle, {color: "#2F91FF"}]}>{i18n.user.upscaledImages}</Text>
                             <UpscaledImagesIcon width={iconSize} height={iconSize} color={"#2F91FF"}/>
@@ -216,7 +216,7 @@ const PremiumScreen: React.FunctionComponent = () => {
                             <Text style={styles.text} selectable uiTextView
                             selectionColor={colors.borderColor}>{i18n.mobilePremium.upscaledImages.header}</Text>
                         </View>
-                    </View>
+                    </View>*/}
                     <View style={styles.itemBox}>
                         <View style={[styles.itemBoxRow, {backgroundColor: "rgba(191, 207, 255, 0.5)"}]}>
                             <Text style={[styles.itemBoxTitle, {color: "#304FFF"}]}>{i18n.mobilePremium.imageFilters.title}</Text>

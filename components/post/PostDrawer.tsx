@@ -62,7 +62,7 @@ const PostDrawer: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         const updateDimensions = async () => {
             if (!props.post) return
-            const img = await functions.link.resolveImage(props.post.images[0], session, session.upscaledImages)
+            const img = await functions.link.resolveImage(props.post.images[0], session, false)
             const dimensions = await functions.image.imageDimensions(img)
             setDimensions(dimensions)
         }
