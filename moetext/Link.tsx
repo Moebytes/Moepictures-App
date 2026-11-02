@@ -5,21 +5,22 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React from "react"
-import {StyleProp, TextStyle} from "react-native"
+import {View, StyleProp, TextStyle} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import ScalableHaptic from "../ui/ScalableHaptic"
-import {UITextView as Text} from "@bsky.app/react-native-uitextview"
+import Text from "./TextFallback"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/Link.styles"
 import functions from "../functions/Functions"
 
 interface Props {
+    block?: boolean
     href: string
     children: React.ReactNode
     style?: StyleProp<TextStyle>
 }
 
-const Link: React.FunctionComponent<Props> = ({href, children, style}) => {
+const Link: React.FunctionComponent<Props> = ({href, children, style, block}) => {
     const {colors} = useThemeSelector()
     const styles = createStylesheet(colors)
     const navigation = useNavigation()
@@ -34,8 +35,10 @@ const Link: React.FunctionComponent<Props> = ({href, children, style}) => {
 
     return (
         <ScalableHaptic scaleFactor={0.97} onPress={handleLink}>
-            <Text style={[styles.text, style]} selectable uiTextView 
-            selectionColor={colors.borderColor}>{children}</Text>
+            {block ? <View>{children}</View> : (
+                <Text style={[styles.text, style]} selectable uiTextView
+                    selectionColor={colors.borderColor}>{children}</Text>
+            )}
         </ScalableHaptic>
     )
 }

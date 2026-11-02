@@ -5,8 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import functions from "../functions/Functions"
-import {View, Image, Pressable} from "react-native"
-import {UITextView as Text} from "@bsky.app/react-native-uitextview"
+import {View, Image, Pressable, TextStyle, Platform} from "react-native"
+import Text from "./TextFallback"
 import Video from "react-native-video"
 import {createStylesheet} from "./styles/MoeText.styles"
 import {Session} from "../types/Types"
@@ -18,7 +18,135 @@ import FavivonLink from "./FaviconLink"
 import Link from "./Link"
 import React from "react"
 
+type MoeTextNode = {
+    kind: "format" | "color" | "details" | "code" | "link" | "url"
+    value: string
+    children: (string | MoeTextNode)[]
+    summary?: (string | MoeTextNode)[]
+}
+
+type OpenSegment = {
+    opener: string
+    closer: string
+    node: MoeTextNode
+    children: (string | MoeTextNode)[]
+}
+
 export default class MoeText {
+    public static parseMarkup = (text: string) => {
+        const root: (string | MoeTextNode)[] = []
+        const stack: OpenSegment[] = []
+        const children = () => stack[stack.length - 1]?.children ?? root
+
+        const appendText = (value: string) => {
+            const target = children()
+            if (typeof target[target.length - 1] === "string") {
+                target[target.length - 1] = (target[target.length - 1] as string) + value
+            } else if (value) {
+                target.push(value)
+            }
+        }
+
+        const open = (kind: MoeTextNode["kind"], value: string, opener: string, closer: string) => {
+            const node: MoeTextNode = {kind, value, children: []}
+            stack.push({opener, closer, node, children: node.children})
+        }
+
+        const close = () => {
+            const current = stack.pop()!
+            if (current.node.kind === "details" && typeof current.node.children[0] === "string") {
+                current.node.children[0] = current.node.children[0].trimStart()
+            }
+            children().push(current.node)
+        }
+
+        const tokenPatterns = {
+            code: /```/,
+            link: /\[[^\]\n]*\]\([^\n)]*\)/,
+            url: /https?:\/\/\S+/,
+            email: /\b[A-Za-z0-9._%+-]+[@＠][A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/,
+            emoji: /:[^\s:]+:/,
+            color: /#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\{/,
+            detailsEnd: /\|\|>>/,
+            detailsStart: /<</,
+            bold: /\*\*/,
+            italic: /\/\//,
+            underline: /__/,
+            strikethrough: /~~/,
+            spoiler: /\|\|/,
+            highlight: /==/,
+            colorEnd: /}/
+        }
+
+        const tokens = new RegExp(Object.values(tokenPatterns).map((pattern) => pattern.source).join("|"), "g")
+        let position = 0
+        let match: RegExpExecArray | null
+
+        while ((match = tokens.exec(text))) {
+            appendText(text.slice(position, match.index))
+            const token = match[0]
+            position = tokens.lastIndex
+            const current = stack[stack.length - 1]
+
+            if (token === "```") {
+                const end = text.indexOf("```", position)
+                if (end === -1) {
+                    appendText(token)
+                } else {
+                    children().push({kind: "code", value: text.slice(position, end), children: []})
+                    position = tokens.lastIndex = end + 3
+                }
+            } else if (token.startsWith("[")) {
+                const separator = token.indexOf("](")
+                const label = token.slice(1, separator)
+                const destination = token.slice(separator + 2, -1)
+                children().push({kind: "link", value: destination, children: this.parseMarkup(label)})
+            } else if (token.startsWith("http://") || token.startsWith("https://")) {
+                let end = token.length
+                for (const parent of stack) {
+                    const index = token.indexOf(parent.closer, token.indexOf("://") + 3)
+                    if (index !== -1) end = Math.min(end, index)
+                }
+                children().push({kind: "url", value: token.slice(0, end), children: []})
+                position = tokens.lastIndex = match.index + end
+            } else if (token.includes("@") || token.includes("＠") || token.startsWith(":")) {
+                appendText(token)
+            } else if (current && token === current.closer) {
+                if (current.node.kind === "details" && !current.node.summary) {
+                    appendText(token)
+                } else {
+                    close()
+                }
+            } else if (token === "||" && current?.node.kind === "details" && !current.node.summary) {
+                current.node.summary = current.children
+                current.node.children = current.children = []
+            } else if (token === "<<") {
+                open("details", "", token, "||>>")
+            } else if (token.startsWith("#")) {
+                open("color", token.slice(0, -1), token, "}")
+            } else if (token === "}" || token === "||>>") {
+                appendText(token)
+            } else {
+                open("format", token, token, token)
+            }
+        }
+
+        appendText(text.slice(position))
+
+        while (stack.length) {
+            const current = stack.pop()!
+            appendText(current.opener)
+            if (current.node.summary) {
+                children().push(...current.node.summary)
+                appendText("||")
+            }
+            children().push(...current.children)
+        }
+
+        return root
+    }
+
+
     public static appendChain = (items: {text: any, jsx: any}[], 
         func: (text: string, colors: ThemeColors) => {text: any, jsx: any}[],
         colors: ThemeColors) => {
@@ -57,7 +185,7 @@ export default class MoeText {
                 return 
             }
             if (item.jsx) {
-                jsx.push(item.jsx)
+                jsx.push(React.cloneElement(item.jsx, {key: index}))
             } else {
                 const nextItem = items[index + 1]
 
@@ -89,7 +217,7 @@ export default class MoeText {
     }
 
     public static parseBullets = (text: string) => {
-        return [{text: text.replace(/(^|\n)-\s+/g, "$1▪ "), jsx: null}]
+        return text.replace(/(^|\n)-\s+/g, "$1▪ ")
     }
 
     public static parseBold = (text: string, colors: ThemeColors) => {
@@ -297,7 +425,7 @@ export default class MoeText {
     public static linkReplacements = async (text: string, session: Session) => {
         let parsed = text
 
-        const postMatches = [...parsed.matchAll(/\bPost\s+#(\d+)\b/gi)]
+        const postMatches = Array.from(parsed.matchAll(/\bPost\s+#(\d+)\b/gi))
         for (const match of postMatches) {
             const full = match[0]
             const id = match[1]
@@ -420,20 +548,87 @@ export default class MoeText {
     }
 
     public static commonChain = (text: string, emojis: any, colors: ThemeColors) => {
-        let items = this.parseBullets(text)
-        items = this.appendChain(items, this.parseLinks, colors)
-        items = this.appendChain(items, this.parseEmails, colors)
-        items = this.appendParamChain(items, emojis, this.parseEmojis, colors)
-        items = this.appendChain(items, this.parseDetails, colors)
-        items = this.appendChain(items, this.parseHighlight, colors)
-        items = this.appendChain(items, this.parseBold, colors)
-        items = this.appendChain(items, this.parseItalic, colors)
-        items = this.appendChain(items, this.parseUnderline, colors)
-        items = this.appendChain(items, this.parseStrikethrough, colors)
-        items = this.appendChain(items, this.parseSpoiler, colors)
-        items = this.appendChain(items, this.parseColor, colors)
-        items = this.appendChain(items, this.parseCode, colors)
-        return items
+        const styles = createStylesheet(colors)
+        type Item = {text: any, type?: string, jsx: any}
+
+        const formatStyles: Record<string, TextStyle> = {
+            "**": {...styles.boldText, fontWeight: "bold"},
+            "//": {...styles.italicText, fontStyle: "italic"},
+            "__": {textDecorationLine: "underline"},
+            "~~": {textDecorationLine: "line-through"},
+            "==": {color: colors.highlightColor}
+        }
+
+        const render = (nodes: (string | MoeTextNode)[], inherited: TextStyle = {}, inLink = false) => {
+            const styleElement = (element: React.ReactElement<any>): React.ReactElement<any> => {
+                if (element.type === Image || element.type === Video) return element
+                return React.cloneElement(element, {style: [element.props.style, inherited]})
+            }
+            
+            return nodes.flatMap((node): Item[] => {
+                if (typeof node === "string") {
+                    let items: Item[] = [{text: node, jsx: null}]
+                    if (!inLink) items = this.appendChain(items, this.parseEmails, colors)
+                    items = this.appendParamChain(items, emojis, this.parseEmojis, colors)
+                    return items.filter((item) => item.jsx || item.text).map((item, index) => ({
+                        ...item, jsx: item.jsx ? styleElement(item.jsx) : (
+                            <Text key={index} style={[styles.text, inherited]} selectable uiTextView
+                                selectionColor={colors.borderColor}>{item.text}</Text>
+                        )
+                    }))
+                }
+                if (node.kind === "code") {
+                    return [{text: null, jsx: (
+                        <Text style={[inherited, styles.codeText, {color: inherited.color ?? styles.text.color}]} 
+                        selectable uiTextView selectionColor={colors.borderColor}>{node.value}</Text>
+                    )}]
+                }
+                if (node.kind === "url") {
+                    if (inLink) return [{text: null, jsx: <Text style={[styles.text, inherited]}>{node.value}</Text>}]
+                    return this.parseLinks(node.value, colors).filter((item) => item.jsx).map((item) => ({
+                        ...item, jsx: styleElement(item.jsx)
+                    }))
+                }
+                if (node.kind === "link") {
+                    const label = this.generateMarkup(render(node.children, {
+                        color: colors.highlightColor, fontWeight: "bold", ...inherited
+                    }, true), colors)
+                    return [{text: null, jsx: inLink ? label : (
+                        <Link block href={node.value}>{label}</Link>
+                    )}]
+                }
+                if (node.kind === "details") {
+                    return [{text: null, jsx: (
+                        <ExpandDetails style={[styles.text, inherited]}
+                        summary={this.generateMarkup(render(node.summary ?? [], inherited, inLink), colors)}
+                        details={this.generateMarkup(render(node.children, inherited, inLink), colors)}/>
+                    )}]
+                }
+                if (node.value === "||") {
+                    return [{text: null, jsx: (
+                        <SpoilerText style={[styles.text, inherited]}>
+                            {this.generateMarkup(render(node.children, inherited, inLink), colors)}
+                        </SpoilerText>
+                    )}]
+                }
+                const own = node.kind === "color" ? {color: node.value} : formatStyles[node.value]
+                const combined = {...inherited, ...own}
+                if (node.value === "**" || node.value === "//") combined.color = inherited.color ?? styles.text.color
+                if (inherited.textDecorationLine && own.textDecorationLine &&
+                    inherited.textDecorationLine !== own.textDecorationLine) {
+                    combined.textDecorationLine = "underline line-through"
+                }
+                // Fallback to system font since the bundled fonts don't support bold and italic at the same time
+                if (combined.fontWeight === "bold" && combined.fontStyle === "italic") {
+                    combined.fontFamily = Platform.OS === "ios" ? "System" : "sans-serif"
+                    combined.fontSize = styles.boldText.fontSize
+                }
+                return render(node.children, combined, inLink)
+            })
+        }
+
+        const bullets = this.parseBullets(text)
+        return render(this.parseMarkup(bullets))
     }
 
     public static renderCommentText = (text: string, emojis: any, colors: ThemeColors) => {
@@ -446,8 +641,17 @@ export default class MoeText {
         const styles = createStylesheet(colors)
         const pieces = functions.render.parsePieces(text)
         let jsx = [] as React.ReactElement[]
-        for (let i = 0; i < pieces.length; i++) {
-            const piece = pieces[i]
+        const grouped: string[] = []
+        for (const piece of pieces) {
+            const previous = grouped[grouped.length - 1]
+            if (previous !== undefined && !previous.startsWith(">") && !piece.startsWith(">")) {
+                grouped[grouped.length - 1] += piece
+            } else {
+                grouped.push(piece)
+            }
+        }
+        for (let i = 0; i < grouped.length; i++) {
+            const piece = grouped[i]
             if (piece.startsWith(">")) {
                 const matchPart = piece.match(/(>>>(\[\d+\])?)(.*?)(?=$|>)/gm)?.[0] ?? ""
                 const userPart = matchPart.replace(/(>>>(\[\d+\])?\s*)/, "")
@@ -482,13 +686,6 @@ export default class MoeText {
 
     public static resizeElements = (rendered: React.ReactNode, fontSize: number, imageSize: number) => {
         const resizeElement = (element: React.ReactElement<any>, index: number): React.ReactElement<any> => {
-            if (element.type === Text) {
-                return React.cloneElement(element, {
-                    key: index,
-                    style: [element.props.style, {fontSize}]
-                })
-            }
-
             if (element.type === Image) {
                 return React.cloneElement(element, {
                     key: index,
@@ -502,6 +699,12 @@ export default class MoeText {
             })
 
             return React.cloneElement(element, {
+                key: index,
+                ...(element.type === Text ? {style: [element.props.style, {fontSize}]} : {}),
+                ...(element.type === ExpandDetails ? {
+                    summary: this.resizeElements(element.props.summary, fontSize, imageSize),
+                    details: this.resizeElements(element.props.details, fontSize, imageSize)
+                } : {}),
                 children
             })
         }

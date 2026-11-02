@@ -16,6 +16,8 @@ export const createStylesheet = (colors: ThemeColors) => {
             width: "100%"
         },
         summary: {
+            flexDirection: "row",
+            alignItems: "center",
             backgroundColor: colors.mainColor,
             color: colors.textColor,
             fontWeight: "bold",

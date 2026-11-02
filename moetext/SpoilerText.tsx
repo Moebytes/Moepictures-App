@@ -5,8 +5,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState} from "react"
-import {Pressable, StyleProp, TextStyle} from "react-native"
-import {UITextView as Text} from "@bsky.app/react-native-uitextview"
+import {View, Pressable, StyleProp, TextStyle} from "react-native"
+import Text from "./TextFallback"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/SpoilerText.styles"
 
@@ -21,11 +21,16 @@ const SpoilerText: React.FunctionComponent<Props> = ({children, style}) => {
     const styles = createStylesheet(colors)
 
     return (
-        <Pressable onPress={() => setShown(prev => !prev)}>
-            <Text style={[style, styles.spoiler, shown && styles.shown]}
-                selectable uiTextView selectionColor={colors.borderColor}>
-                {children}
-            </Text>
+        <Pressable onPress={() => setShown(prev => !prev)}
+            style={{backgroundColor: shown ? "transparent" : colors.textColor}}>
+            <View style={{opacity: shown ? 1 : 0}} pointerEvents={shown ? "auto" : "none"}
+                accessibilityElementsHidden={!shown} importantForAccessibility={shown ? "auto" : "no-hide-descendants"}>
+                {typeof children === "string" ? (
+                    <Text style={[style, styles.shown]} selectable uiTextView selectionColor={colors.borderColor}>
+                        {children}
+                    </Text>
+                ) : children}
+            </View>
         </Pressable>
     )
 }

@@ -6,13 +6,13 @@
 
 import React, {useState} from "react"
 import {View, Pressable, StyleProp, TextStyle} from "react-native"
-import {UITextView as Text} from "@bsky.app/react-native-uitextview"
+import Text from "./TextFallback"
 import {useThemeSelector} from "../store"
 import {createStylesheet} from "./styles/ExpandDetails.styles"
 
 interface Props {
-    summary: string
-    details: string
+    summary: React.ReactNode
+    details: React.ReactNode
     style?: StyleProp<TextStyle>
 }
 
@@ -25,12 +25,21 @@ const ExpandDetails: React.FunctionComponent<Props> = ({summary, details, style}
         <View style={styles.container}>
             <Pressable onPress={() => setOpen(prev => !prev)}
                 style={({pressed}) => pressed && styles.summaryPressed}>
-                <Text style={[style, styles.summary]} selectable uiTextView 
-                    selectionColor={colors.borderColor}>{open ? "▾ " : "▸ "}{summary}</Text>
+                <View style={styles.summary}>
+                    <Text style={[style, {fontFamily: styles.summary.fontFamily,
+                        fontSize: styles.summary.fontSize, fontWeight: "bold"}]} selectable uiTextView
+                        selectionColor={colors.borderColor}>
+                        {open ? "▾ " : "▸ "}
+                        {typeof summary === "string" ? summary : null}
+                    </Text>
+                    {typeof summary === "string" ? null : <View style={{flex: 1}}>{summary}</View>}
+                </View>
             </Pressable>
 
-            {open ? <Text style={[style, styles.details]} selectable uiTextView 
-                selectionColor={colors.borderColor}>{details}</Text> : null}
+            {open ? <View style={styles.details}>
+                {typeof details === "string" ? <Text style={style} selectable uiTextView
+                    selectionColor={colors.borderColor}>{details}</Text> : details}
+            </View> : null}
         </View>
     )
 }
