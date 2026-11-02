@@ -11,6 +11,7 @@ import {useThemeSelector, useLayoutSelector, useSearchSelector, useFlagSelector,
 useFlagActions, useSessionSelector, useSearchActions, useCacheActions,
 useActiveSelector, useActiveActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
+import {nextNavigationOffset} from "./useNavigationPagination"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
 import {useAutoHideScroll} from "../app/useAutoHideScroll"
@@ -114,7 +115,14 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     }, [])
 
     const onImagePress = () => {
-        if (posts.length) setNavigationPosts(posts)
+        if (posts.length) {
+            setNavigationPosts(posts, reverseSearch || randomSearch ? null : {
+                endpoint: "/api/search/posts",
+                params: {query: search, type: imageType, rating: ratingType, style: styleType, sort, showChildren},
+                offset: scroll ? nextNavigationOffset(infiniteQuery.data?.pageParams) : page * pageSize,
+                limit: scroll ? 16 : pageSize
+            })
+        }
     }
 
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {

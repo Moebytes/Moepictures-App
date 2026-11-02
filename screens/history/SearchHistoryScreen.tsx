@@ -22,6 +22,7 @@ import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/HistoryScreen.styles"
 import {SearchHistory} from "../../types/Types"
 import permissions from "../../structures/Permissions"
+import {nextNavigationOffset} from "../../components/search/useNavigationPagination"
 import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
@@ -84,7 +85,14 @@ const SearchHistoryScreen: React.FunctionComponent = () => {
 
     const onPress = () => {
         const posts = history.map((h) => h.post)
-        if (posts.length) setNavigationPosts(posts)
+        if (posts.length) {
+            setNavigationPosts(posts, {
+                endpoint: "/api/user/history",
+                params: {query: search, sort: functions.valid.parseSort(searchHistorySort, sortReverse)},
+                offset: scroll ? nextNavigationOffset(infiniteQuery.data?.pageParams) : page * pageSize,
+                limit: scroll ? 16 : pageSize
+            })
+        }
     }
 
     const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

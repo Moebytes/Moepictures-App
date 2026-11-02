@@ -129,7 +129,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const onRelatedPress = () => {
     if (!post) return
     if (related.posts.length) {
-        setNavigationPosts(functions.post.appendIfNotExists(post, related.posts))
+        setNavigationPosts(functions.post.appendIfNotExists(post, related.posts), related.pagination)
     }
   }
 

@@ -10,7 +10,7 @@ import Alert from "@blazejkustra/react-native-alert"
 import {UITextView as Text} from "@bsky.app/react-native-uitextview"
 import ReactNativeHapticFeedback from "react-native-haptic-feedback"
 import Toast from "react-native-toast-message"
-import {useNavigation, useNavigationState, RouteProp} from "@react-navigation/native"
+import {useNavigation, RouteProp} from "@react-navigation/native"
 import {useThemeSelector, useLayoutSelector, useSessionSelector, 
 useSearchSelector, useSearchActions, useFlagActions, useCacheActions,
 useTagDialogActions, useCacheSelector} from "../../store"
@@ -83,7 +83,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
 
     const onRelatedPress = () => {
         if (related.posts.length) {
-            setNavigationPosts(related.posts)
+            setNavigationPosts(related.posts, related.pagination)
         }
     }
 

@@ -18,6 +18,7 @@ import PageButtons from "../../components/search/PageButtons"
 import AnimatedHeaderWrapper from "../../components/app/AnimatedHeaderWrapper"
 import {createStylesheet} from "./styles/CommentsScreen.styles"
 import {NoteSearch} from "../../types/Types"
+import {nextNavigationOffset} from "../../components/search/useNavigationPagination"
 import functions from "../../functions/Functions"
 
 const noresults = require("../../assets/images/noresults.png")
@@ -69,7 +70,14 @@ const NotesScreen: React.FunctionComponent = () => {
             
     const onPress = () => {
         const posts = notes.map((h) => h.post)
-        if (posts.length) setNavigationPosts(posts)
+        if (posts.length) {
+            setNavigationPosts(posts, {
+                endpoint: "/api/search/notes",
+                params: {query: search, sort: functions.valid.parseSort(noteSort, sortReverse)},
+                offset: scroll ? nextNavigationOffset(infiniteQuery.data?.pageParams) : page * pageSize,
+                limit: scroll ? 16 : pageSize
+            })
+        }
     }
 
     const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

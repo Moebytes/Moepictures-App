@@ -6,14 +6,15 @@
 
 import React, {useState, useEffect, useRef} from "react"
 import {Modal, View, FlatList, ListRenderItem, GestureResponderEvent, PanResponderGestureState,
-useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
+Image, Platform, useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
 import {useThemeSelector, useSessionSelector, useMiscDialogSelector,
 useMiscDialogActions, useCacheSelector, useLayoutActions,
-useLayoutSelector} from "../store"
+useLayoutSelector, useFilterSelector} from "../store"
+import {useNavigationPagination} from "../components/search/useNavigationPagination"
 import {createStylesheet} from "./styles/SliderModal.styles"
-import FilterImage from "../components/image/FilterImage"
+import FilterImage, {loadCachedImage} from "../components/image/FilterImage"
 import functions from "../functions/Functions"
 import {PostFull, Post, PostHistory, Image as VariantImage} from "../types/Types"
 
@@ -34,6 +35,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const {noteMode} = useLayoutSelector()
     const {setStatusBarVisible} = useLayoutActions()
     const {navigationPosts} = useCacheSelector()
+    const filters = useFilterSelector()
     const {session, lowPerformance} = useSessionSelector()
     const {width, height} = useWindowDimensions()
     const [data, setData] = useState<ImageItem[]>([])
@@ -43,23 +45,24 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors, width, height)
     const navigation = useNavigation()
     const ref = useRef<FlatList<ImageItem>>(null)
-    const zoomRef = useRef<ReactNativeZoomableView | null>(null)
+    const zoomRefs = useRef(new Map<number, ReactNativeZoomableView>())
+    const {loadMore} = useNavigationPagination(visible && showFullscreenImage)
 
+    const useSkia = Platform.OS === "ios" || functions.image.filtersOn(filters)
+    
     const post = data[index]?.post
 
     const collectImages = async () => {
-        setVisible(false)
         const images: ImageItem[] = []
-        let index = 0
+        let initialIndex = 0
 
-        for (const post of navigationPosts) {
+        const posts = navigationPosts.length ? navigationPosts : props.post ? [props.post] : []
+        for (const post of posts) {
             for (const image of post.images) {
-                const current = images.length
-
                 if (typeof image === "string") {
-                    if (image === props.image) index = current
+                    if (image === props.image) initialIndex = images.length
                 } else {
-                    if (String(image.imageID) === String((props.image as VariantImage)?.imageID)) index = current
+                    if (String(image.imageID) === String((props.image as VariantImage)?.imageID)) initialIndex = images.length
                 }
 
                 const img = await functions.link.resolveImage(image, session, false)
@@ -68,24 +71,50 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         }
 
         setData(images)
-        setIndex(index)
+        if (visible) return
+        setIndex(initialIndex)
         setZoom(1)
 
         setTimeout(() => {
-            ref.current?.scrollToIndex({index, animated: false})
+            if (images.length) ref.current?.scrollToIndex({index: initialIndex, animated: false})
             setVisible(true)
         }, 300)
     }
 
     useEffect(() => {
-        if (noteMode) return
-        if (!showFullscreenImage) return
-        if (!props.image) return
+        if (noteMode || !showFullscreenImage || !props.image) return setVisible(false)
 
         collectImages()
-
         setStatusBarVisible(false)
-    }, [showFullscreenImage, props.image, navigationPosts])
+    }, [noteMode, showFullscreenImage, props.image, navigationPosts])
+
+    useEffect(() => {
+        if (visible && data.length && index >= data.length - (lowPerformance ? 3 : 5)) loadMore()
+    }, [index, data.length, visible])
+
+    useEffect(() => {
+        if (!visible || !showFullscreenImage) return
+        let cancelled = false
+        const prefetch = async () => {
+            const nearby = [index + 1, index + 2, index - 1].slice(0, lowPerformance ? 1 : 3)
+            for (const next of nearby) {
+                if (cancelled) return
+                const url = data[next]?.image
+                if (!url) continue
+                try {
+                    if (useSkia) {
+                        await loadCachedImage(url)
+                    } else {
+                        await Image.prefetch(url)
+                    }
+                } catch {}
+            }
+        }
+        prefetch()
+        return () => {
+            cancelled = true
+        }
+    }, [index, data, visible, showFullscreenImage, lowPerformance, useSkia])
 
     const onClose = () => {
         if (post && String(props.post?.postID) !== String(post.postID)) {
@@ -117,12 +146,13 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const newIndex = Math.round(event.nativeEvent.contentOffset.x / width)
 
+        if (newIndex >= data.length - (lowPerformance ? 3 : 5)) loadMore()
         if (newIndex === index) return
         setIndex(newIndex)
         setZoom(1)
 
         requestAnimationFrame(() => {
-            zoomRef.current?.resetPan()
+            zoomRefs.current.get(newIndex)?.resetPan()
         })
     }
 
@@ -130,14 +160,19 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         saveHistory()
     }
 
-    const renderItem: ListRenderItem<ImageItem> = ({item}) => {
+    const renderItem: ListRenderItem<ImageItem> = ({item, index: itemIndex}) => {
         return (
             <View style={styles.page}>
-                <ReactNativeZoomableView ref={zoomRef} style={styles.zoomContainer}
+                <ReactNativeZoomableView ref={(view) => {
+                    if (view) zoomRefs.current.set(itemIndex, view)
+                    else zoomRefs.current.delete(itemIndex)
+                }} style={styles.zoomContainer}
                     minZoom={1} maxZoom={10} visualTouchFeedbackEnabled={false}
                     panEnabled={true} lockMinZoomAxis={true} onShiftingAfter={onShiftEnd}
-                    onZoomAfter={(event, gestureState, zoomObj) => setZoom(zoomObj.zoomLevel)}>
-                    <FilterImage size={{width, height}} img={item.image} fit="contain" onLoad={onImageLoad}/>
+                    onZoomAfter={(event, gestureState, zoomObj) => {
+                        if (itemIndex === index) setZoom(zoomObj.zoomLevel)
+                    }}>
+                    <FilterImage size={{width, height}} img={item.image} fit="contain" cache onLoad={onImageLoad}/>
                 </ReactNativeZoomableView>
             </View>
         )
@@ -164,15 +199,18 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                         index
                     })}
                     onMomentumScrollEnd={onMomentumScrollEnd}
+                    onEndReached={loadMore}
+                    onEndReachedThreshold={lowPerformance ? 2 : 4}
                     onScrollToIndexFailed={(info) => {
                         setTimeout(() => {
                             ref.current?.scrollToIndex({index: info.index, animated: false})
                         }, 100)
                     }}
-                    initialNumToRender={lowPerformance ? 1 : 2}
-                    maxToRenderPerBatch={lowPerformance ? 1 : 2}
-                    windowSize={lowPerformance ? 1 : 3}
-                    removeClippedSubviews={lowPerformance}
+                    initialNumToRender={lowPerformance ? 2 : 3}
+                    maxToRenderPerBatch={lowPerformance ? 2 : 3}
+                    updateCellsBatchingPeriod={16}
+                    windowSize={lowPerformance ? 3 : 5}
+                    removeClippedSubviews={false}
                 />
             </View>
         </Modal>

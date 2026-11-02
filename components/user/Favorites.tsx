@@ -15,6 +15,7 @@ import {createStylesheet} from "./styles/Uploads.styles"
 import {PostSearch, Post} from "../../types/Types"
 import CarouselImage from "../image/CarouselImage"
 import ScalableHaptic from "../../ui/ScalableHaptic"
+import {nextNavigationOffset} from "../search/useNavigationPagination"
 import functions from "../../functions/Functions"
 
 interface Props {
@@ -49,7 +50,12 @@ const Favorites: React.FunctionComponent<Props> = (props) => {
 
     const onPress = (post: Post) => {
         if (!posts) return
-        setNavigationPosts(functions.post.appendIfNotExists(post, posts))
+        setNavigationPosts(functions.post.appendIfNotExists(post, posts), {
+            endpoint: "/api/user/favorites",
+            params: {username: props.username, rating: functions.post.isR18(ratingType) ? ratingType : "all"},
+            offset: nextNavigationOffset(infiniteQuery.data?.pageParams),
+            limit: 16
+        })
     }
 
     const renderItem: ListRenderItem<PostSearch> = ({item}) => {

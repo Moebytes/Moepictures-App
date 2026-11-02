@@ -17,6 +17,7 @@ import ScrollIcon from "../../assets/svg/scroll.svg"
 import SquareIcon from "../../assets/svg/square.svg"
 import SizeIcon from "../../assets/svg/size.svg"
 import {PostFull, PostHistory} from "../../types/Types"
+import {nextNavigationOffset, NavigationPagination} from "../search/useNavigationPagination"
 import functions from "../../functions/Functions"
 
 interface Props {
@@ -97,8 +98,18 @@ export const useRelatedItems = (props: Props) => {
     const totalItems = Number(pageQuery.data?.[0]?.postCount ?? 0)
     const totalPages = Math.ceil(totalItems / pageSize)
 
+    const pagination: NavigationPagination | null = !active ? null : {
+        endpoint: "/api/search/posts",
+        params: {query: activeTag, type: props.post?.type || "mobile",
+            rating: functions.post.isR18(rating) ? rating : "all",
+            style: functions.post.isSketch(props.post?.style || "all") ? "all+s" : "all"},
+        offset: scroll ? nextNavigationOffset(infiniteQuery.data?.pageParams) : page * pageSize,
+        limit: scroll ? 16 : pageSize
+    }
+
     return {
         posts,
+        pagination,
         loadMore,
         page,
         setPage,

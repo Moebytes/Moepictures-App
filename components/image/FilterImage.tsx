@@ -5,7 +5,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useMemo, useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
-import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkData,
+import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkImage,
     RuntimeShader, Skia, Blur} from "@shopify/react-native-skia"
 import {Platform, Image as RNImage} from "react-native"
 import {useRoute} from "@react-navigation/native"
@@ -21,6 +21,7 @@ interface Props {
     size?: {width: number, height: number}
     img?: string
     fit?: "cover" | "contain"
+    cache?: boolean
     onLoad?: () => void
     post?: Post | PostHistory
 }
@@ -68,14 +69,63 @@ const pixelateShader = /*glsl*/`
 const sharpenEffect = Skia.RuntimeEffect.Make(sharpenShader)!
 const pixelateEffect = Skia.RuntimeEffect.Make(pixelateShader)!
 
+const images = new Map<string, {image: SkImage, bytes: number}>()
+const pending = new Map<string, Promise<SkImage>>()
+const maxBytes = 48 * 1024 * 1024
+const maxEntries = 6
+let bytes = 0
+
+export const getCachedImage = (url: string) => {
+    const cached = images.get(url)
+    if (!cached) return null
+    images.delete(url)
+    images.set(url, cached)
+    return cached.image
+}
+
+export const loadCachedImage = (url: string): Promise<SkImage> => {
+    const cached = getCachedImage(url)
+    if (cached) return Promise.resolve(cached)
+    const request = pending.get(url)
+    if (request) return request
+
+    const loading = async () => {
+        try {
+            const buffer = await functions.http.fetch(url).then((r) => r.arrayBuffer())
+            const image = Skia.Image.MakeImageFromEncoded(Skia.Data.fromBytes(new Uint8Array(buffer)))
+            if (!image) throw new Error("Unable to decode")
+
+            const size = image.width() * image.height() * 4
+            while (images.size && (bytes + size > maxBytes || images.size >= maxEntries)) {
+                const oldest = images.keys().next().value!
+                bytes -= images.get(oldest)!.bytes
+                images.delete(oldest)
+            }
+            
+            images.set(url, {image, bytes: size})
+            bytes += size
+            return image
+        } finally {
+            pending.delete(url)
+        }
+    }
+    pending.set(url, loading())
+    return loading()
+}
+
 const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
     const {colors} = useThemeSelector()
     const {brightness, contrast, hue, saturation, 
         lightness, blur, sharpen, pixelate} = useFilterSelector()
-    const [imgData, setImgData] = useState<SkData | null>(null)
+    const [loadedImage, setLoadedImage] = useState<{url: string, image: SkImage} | null>(null)
+    const filtersOn = functions.image.filtersOn({brightness, contrast, hue,
+        saturation, lightness, blur, sharpen, pixelate})
     let {width, height} = props.size ?? {width: 1, height: 1}
     const canvasRef = useCanvasRef()
+    const hasLoaded = useRef(false)
     const route = useRoute()
+    
+    const useSkia = Platform.OS === "ios" || filtersOn
 
     useImperativeHandle(ref, () => ({
         toDataURL: () => {
@@ -86,22 +136,35 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
     }))
 
     useEffect(() => {
+        let cancelled = false
         const loadImage = async () => {
-            if (!props.img) return
-            const buffer = await functions.http.fetch(props.img).then((r) => r.arrayBuffer())
-            const data = Skia.Data.fromBytes(new Uint8Array(buffer))
-            setImgData(data)
+            if (!props.img || !useSkia) return
+            try {
+                let image: SkImage | null
+                if (props.cache) {
+                    image = await loadCachedImage(props.img)
+                } else {
+                    const buffer = await functions.http.fetch(props.img).then((r) => r.arrayBuffer())
+                    image = Skia.Image.MakeImageFromEncoded(Skia.Data.fromBytes(new Uint8Array(buffer)))
+                }
+                if (!cancelled && image) setLoadedImage({url: props.img, image})
+            } catch {}
         }
-        setImgData(null)
         loadImage()
-    }, [props.img])
+        return () => {
+            cancelled = true
+        }
+    }, [props.img, props.cache, useSkia])
 
     const image = useMemo(() => {
-        if (!imgData) return null
-        return Skia.Image.MakeImageFromEncoded(imgData)
-    }, [imgData])
-
-    const hasLoaded = useRef(false)
+        if (!props.img) return null
+        if (props.cache) {
+            const cached = getCachedImage(props.img)
+            if (cached) return cached
+        }
+        if (!loadedImage || loadedImage.url !== props.img) return null
+        return loadedImage.image
+    }, [props.cache, props.img, loadedImage])
 
     useEffect(() => {
         hasLoaded.current = false
@@ -194,10 +257,7 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
 
     let opaque = route.name === "Post" && Platform.OS === "android"
 
-    const filtersOn = functions.image.filtersOn({brightness, contrast, hue, 
-        saturation, lightness, blur, sharpen, pixelate})
-
-    if (Platform.OS === "ios" || filtersOn) {
+    if (useSkia) {
         return (
             <Canvas opaque={opaque} androidWarmup={opaque} style={props.size} ref={canvasRef}>
                 {opaque && <Fill color={colors.background}/>}
