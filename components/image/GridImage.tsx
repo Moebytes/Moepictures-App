@@ -19,6 +19,7 @@ import FilterImage, {ImageRef} from "./FilterImage"
 import path from "path"
 
 interface Props {
+    tileSize?: {width: number, height: number}
     post: PostSearch
     onPress?: () => void
 }
@@ -27,7 +28,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
     const {tablet, keyboardOpen, dialogOpen, sharingActive} = useLayoutSelector()
     const {setSharingActive} = useLayoutActions()
-    const {sizeType, square} = useSearchSelector()
+    const {sizeType, tiling} = useSearchSelector()
     const {setShowSavePrompt} = useMiscDialogActions()
     const {session} = useSessionSelector()
     const {width} = useWindowDimensions()
@@ -53,11 +54,16 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         const updateSize = async () => {
+            if (props.tileSize) {
+                setSize(props.tileSize)
+                setLoaded(true)
+                return
+            }
             if (!img) return
-            const {imageSize} = functions.image.getImageSize(sizeType, square, tablet, width)
+            const {imageSize} = functions.image.getImageSize(sizeType, tiling, tablet, width)
             let size = await functions.image.dynamicResize({uri: img}, imageSize, width)
 
-            if (square) {
+            if (tiling === "square") {
                 size = {width: imageSize, height: imageSize}
             }
             setSize(size)
@@ -65,7 +71,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         }
         setLoaded(false)
         updateSize()
-    }, [img, tablet, sizeType, square, width])
+    }, [img, tablet, sizeType, tiling, width, props.tileSize?.width, props.tileSize?.height])
 
     const onPress = () => {
         if (dialogOpen) return
@@ -119,15 +125,16 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
         }
     }
 
-    let borderWidth = square ? 0.8 : 1.2
+    let borderWidth = tiling === "square" ? 0.8 : 1.2
     if (filtersOn && route.name === "Post" && Platform.OS === "android") borderWidth = 0
 
     const borderColor = functions.post.borderColor(props.post, colors)
     const landscape = size.width > size.height
-    const marginVertical = square ? 0 :
+    const marginVertical = tiling !== "row" ? 0 :
         sizeType === "large" || sizeType === "massive" ? 10 : 5
     
-    const imageSize = landscape ?
+    const imageSize = tiling === "column" ?
+        {width: size.width - borderWidth * 2, height: size.height - borderWidth * 2} : landscape ?
         {width: size.width - borderWidth * 2, height: size.height} : 
         {width: size.width, height: size.height - borderWidth * 2}
 
@@ -145,7 +152,7 @@ const GridImage: React.FunctionComponent<Props> = (props) => {
 
                 {!loaded && <View style={{position: "absolute", width: "100%", height: "100%"}}/>}
 
-                <FilterImage ref={imageRef} img={img} size={imageSize} fit={square ? "cover" : "contain"}/>
+                <FilterImage ref={imageRef} img={img} size={imageSize} fit={tiling === "square" ? "cover" : "contain"}/>
             </Pressable>
         </ContextMenu>
     )

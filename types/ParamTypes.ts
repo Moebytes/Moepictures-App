@@ -8,6 +8,11 @@ export type Themes =
     | "light"
     | "dark"
 
+export type Tiling = 
+    | "row" 
+    | "square" 
+    | "column"
+
 export type Languages =
     | "en"
     | "ja"

@@ -5,11 +5,27 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import {Image, ImageSourcePropType} from "react-native"
-import {PostSize} from "../types/ParamTypes"
+import {PostSize, Tiling} from "../types/ParamTypes"
+import type {PostSearch} from "../types/PostTypes"
 import ImageResizer from "@bam.tech/react-native-image-resizer"
 import functions from "./Functions"
 
 export default class ImageFunctions {
+    public static columnLayout = (posts: readonly PostSearch[], width: number, columns: number, gap = 6) => {
+        const tileWidth = Math.max(1, (width - gap * (columns + 1)) / columns)
+        const heights = Array<number>(columns).fill(gap)
+        const tiles = posts.map((post) => {
+            const column = heights.indexOf(Math.min(...heights))
+            const image = post.images[0]
+            const ratio = image?.width > 0 && image?.height > 0 ? image.height / image.width : 1
+            const height = tileWidth * ratio
+            const tile = {post, x: gap + column * (tileWidth + gap), y: heights[column], width: tileWidth, height}
+            heights[column] += height + gap
+            return tile
+        })
+        return {tiles, height: posts.length ? Math.max(...heights) : 0}
+    }
+
     public static dynamicResize = async (img: ImageSourcePropType, maxSize: number, deviceWidth: number) => {
         const asset = Image.resolveAssetSource(img)
         const size = await Image.getSize(asset.uri)
@@ -70,7 +86,7 @@ export default class ImageFunctions {
         return {width: newWidth, height: newHeight}
     }
 
-    public static getImageSize = (sizeType: PostSize, square: boolean, tablet: boolean, width: number) => {
+    public static getImageSize = (sizeType: PostSize, tiling: Tiling, tablet: boolean, width: number) => {
         let portrait = width <= 1000
         if (tablet) {
             if (sizeType === "tiny") {
@@ -86,13 +102,13 @@ export default class ImageFunctions {
             }
         } else {
             if (sizeType === "tiny") {
-                return {imageSize: square ? 100 : 120, columns: 4}
+                return {imageSize: tiling !== "row" ? 100 : 120, columns: 4}
             } else if (sizeType === "small") {
-                return {imageSize: square ? 135 : 160, columns: 3}
+                return {imageSize: tiling !== "row" ? 135 : 160, columns: 3}
             } else if (sizeType === "medium") {
                 return {imageSize: 200, columns: 2}
             } else if (sizeType === "large") {
-                return {imageSize: square ? 200 : 250, columns: 2}
+                return {imageSize: tiling !== "row" ? 200 : 250, columns: 2}
             } else {
                 return {imageSize: 350, columns: 1}
             }

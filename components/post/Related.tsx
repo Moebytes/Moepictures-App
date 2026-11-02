@@ -126,8 +126,8 @@ interface RelatedProps {
 const Related: React.FunctionComponent<RelatedProps> = (props) => {
     const {showRelated} = useSessionSelector()
     const {i18n, colors} = useThemeSelector()
-    const {scroll, square} = useSearchSelector()
-    const {setScroll, setSquare} = useSearchActions()
+    const {scroll, tiling} = useSearchSelector()
+    const {setScroll, setTiling} = useSearchActions()
     const {showSizeDialog} = useSearchDialogSelector()
     const {setShowSizeDialog} = useSearchDialogActions()
     const styles = createStylesheet(colors)
@@ -146,7 +146,7 @@ const Related: React.FunctionComponent<RelatedProps> = (props) => {
                 <ScalableHaptic icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)} style={styles.iconContainer}/>
                 <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
-                    onPress={() => setSquare(!square)}/>
+                    onPress={() => setTiling(tiling === "row" ? "square" : tiling === "square" ? "column" : "row")}/>
                 <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor} style={styles.iconContainer}
                     onPress={() => setShowSizeDialog(!showSizeDialog)}/>
             </View>

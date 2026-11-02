@@ -4,11 +4,11 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import {createSlice} from "@reduxjs/toolkit"
+import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {useSelector, useDispatch} from "react-redux"
 import type {StoreState, StoreDispatch} from "../store"
 import {PostType, PostRating, PostStyle, PostSize, PostSort, 
-ImageFormat, CommentSort, GroupSort, TagSort, TagType} from "../types/Types"
+ImageFormat, CommentSort, GroupSort, TagSort, TagType, Tiling} from "../types/Types"
 
 const searchSlice = createSlice({
     name: "search",
@@ -21,7 +21,7 @@ const searchSlice = createSlice({
         sizeType: "medium" as PostSize,
         sortType: "random" as PostSort,
         sortReverse: false,
-        square: false,
+        tiling: "row" as Tiling,
         scroll: false,
         scrolling: false,
         pageMultiplier: 1,
@@ -50,7 +50,7 @@ const searchSlice = createSlice({
         setSizeType: (state, action) => {state.sizeType = action.payload},
         setSortType: (state, action) => {state.sortType = action.payload},
         setSortReverse: (state, action) => {state.sortReverse = action.payload},
-        setSquare: (state, action) => {state.square = action.payload},
+        setTiling: (state, action) => {state.tiling = action.payload},
         setScroll: (state, action) => {state.scroll = action.payload},
         setScrolling: (state, action) => {state.scrolling = action.payload},
         setPageMultiplier: (state, action) => {state.pageMultiplier = action.payload},
@@ -74,7 +74,7 @@ const searchSlice = createSlice({
 
 const {
     setSearch, setSearchFlag, setImageType, setRatingType, setStyleType, setSizeType,
-    setSortType, setSortReverse, setSquare, setScroll, setAutoScroll, setPageMultiplier,
+    setSortType, setSortReverse, setTiling, setScroll, setAutoScroll, setPageMultiplier,
     setFormat, setAutoSearch, setSaveSearch, setFavSearch, setShowChildren, setScrolling,
     setText, setFocused, setSearchTags, setCommentSort, setNoteSort, setGroupSort,
     setTagSort, setTagType, setSearchHistorySort
@@ -91,7 +91,7 @@ export const useSearchSelector = () => {
         sizeType: selector((state) => state.search.sizeType),
         sortType: selector((state) => state.search.sortType),
         sortReverse: selector((state) => state.search.sortReverse),
-        square: selector((state) => state.search.square),
+        tiling: selector((state) => state.search.tiling),
         scroll: selector((state) => state.search.scroll),
         scrolling: selector((state) => state.search.scrolling),
         pageMultiplier: selector((state) => state.search.pageMultiplier),
@@ -124,7 +124,7 @@ export const useSearchActions = () => {
         setSizeType: (state: PostSize) => dispatch(setSizeType(state)),
         setSortType: (state: PostSort) => dispatch(setSortType(state)),
         setSortReverse: (state: boolean) => dispatch(setSortReverse(state)),
-        setSquare: (state: boolean) => dispatch(setSquare(state)),
+        setTiling: (state: Tiling) => dispatch(setTiling(state)),
         setScroll: (state: boolean) => dispatch(setScroll(state)),
         setScrolling: (state: boolean) => dispatch(setScrolling(state)),
         setPageMultiplier: (state: number) => dispatch(setPageMultiplier(state)),

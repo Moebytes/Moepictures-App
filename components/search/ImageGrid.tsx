@@ -12,6 +12,7 @@ useFlagActions, useSessionSelector, useSearchActions, useCacheActions,
 useActiveSelector, useActiveActions} from "../../store"
 import {createStylesheet} from "./styles/ImageGrid.styles"
 import {nextNavigationOffset} from "./useNavigationPagination"
+import PostGridList from "./PostGridList"
 import GridImage from "../image/GridImage"
 import PageButtons from "./PageButtons"
 import {useAutoHideScroll} from "../app/useAutoHideScroll"
@@ -37,7 +38,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {startupReady, imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
     const {search, scroll, imageType, ratingType, styleType, showChildren, sortType,
-    sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
+    sortReverse, sizeType, tiling, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
     const {setNavigationPosts} = useCacheActions()
     const {setAutoScroll, setScrolling} = useSearchActions()
     const styles = createStylesheet(colors)
@@ -86,7 +87,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const pageSize = initial * pageMultiplier
 
     const sort = functions.valid.parseSort(sortType, sortReverse)
-    const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
+    const {columns} = functions.image.getImageSize(sizeType, tiling, tablet, width)
 
     const reverseSearch = imageSearchFlag !== null
     const randomSearch = randomPosts.length > 0
@@ -220,9 +221,10 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     return (
         <View style={styles.container}>
-            <FlatList
+            <PostGridList
                 ref={props.ref}
                 key={columns}
+                onPostPress={onImagePress}
                 style={{flex: 1}}
                 
                 contentContainerStyle={{
@@ -248,7 +250,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
                 onEndReached={scroll ? loadMore : undefined}
                 onEndReachedThreshold={scroll ? 0.1 : undefined}
                 ListFooterComponent={!scroll ? <PageButtons page={page} setPage={setPage}
-                    totalPages={totalPages} marginTop={square ? 10 : 0}/> : undefined}
+                    totalPages={totalPages} marginTop={tiling === "square" ? 10 : 0}/> : undefined}
                 ListFooterComponentStyle={!scroll ? styles.footer : undefined}
                 ListEmptyComponent={renderEmpty}
 

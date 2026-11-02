@@ -20,6 +20,7 @@ import {StackParamList} from "../../App"
 import {useGetTagQuery, useGetTagHistoryQuery, useInvalidateTag, useInvalidateTags} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import TabBar from "../../components/app/TabBar"
+import PostGridList from "../../components/search/PostGridList"
 import GridImage from "../../components/image/GridImage"
 import Related, {useRelatedItems} from "../../components/post/Related"
 import PageButtons from "../../components/search/PageButtons"
@@ -51,7 +52,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     const {session} = useSessionSelector()
     const {i18n, theme, colors} = useThemeSelector()
     const {tablet} = useLayoutSelector()
-    const {scroll, sizeType, square} = useSearchSelector()
+    const {scroll, sizeType, tiling} = useSearchSelector()
     const {setSearchTags, setSearch} = useSearchActions()
     const {setSearchScrollFlag} = useFlagActions()
     const {setNavigationPosts} = useCacheActions()
@@ -87,7 +88,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
         }
     }
 
-    const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
+    const {columns} = functions.image.getImageSize(sizeType, tiling, tablet, width)
 
     const getFavorite = async () => {
         if (!session.username) return
@@ -410,7 +411,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
     return (
         <View style={{flex: 1, backgroundColor: colors.mainColor}}>
             <StatusBar barStyle={theme === "dark" ? "light-content" : "dark-content"}/>
-            <FlatList
+            <PostGridList
             ListHeaderComponent={
                 <>
                 <TitleBar/>
@@ -474,6 +475,7 @@ const TagScreen: React.FunctionComponent<Props> = ({route}) => {
             }
             ref={ref}
             key={columns}
+            onPostPress={onRelatedPress}
             data={related.posts}
             renderItem={({item}) => <GridImage post={item} onPress={onRelatedPress}/>}
             keyExtractor={(item) => item.postID.toString()}

@@ -13,7 +13,8 @@ useFlagActions, useFlagSelector, useFilterSelector, useFilterActions} from "./st
 import asyncStorage from "@react-native-async-storage/async-storage"
 import functions from "./functions/Functions"
 import permissions from "./structures/Permissions"
-import {Languages, PostRating, PostSize, PostSort, PostStyle, PostType, Themes} from "./types/ParamTypes"
+import {Languages, PostRating, PostSize, PostSort, PostStyle, 
+PostType, Themes, Tiling} from "./types/ParamTypes"
 import {siteURL} from "./ui/site"
 
 const AsyncStorage: React.FunctionComponent = () => {
@@ -26,9 +27,9 @@ const AsyncStorage: React.FunctionComponent = () => {
     const {session, showRelated, autosearchInterval, lowPerformance} = useSessionSelector()
     const {setSession, setUserImg, setShowRelated, setAutosearchInterval, setLowPerformance,
     setPrivateFavorites, setPrivateTagFavorites, setUpscaledImages, setShowR18} = useSessionActions()
-    const {scroll, square, imageType, ratingType, styleType, 
+    const {scroll, tiling, imageType, ratingType, styleType,
         showChildren, sizeType, sortType, sortReverse} = useSearchSelector()
-    const {setScroll, setSquare, setImageType, setRatingType, setStyleType, 
+    const {setScroll, setTiling, setImageType, setRatingType, setStyleType,
         setShowChildren, setSizeType, setSortType, setSortReverse} = useSearchActions()
     const {brightness, contrast, hue, saturation, 
         lightness, blur, sharpen, pixelate} = useFilterSelector()
@@ -139,7 +140,7 @@ const AsyncStorage: React.FunctionComponent = () => {
             "appLightness",
             "language",
             "scroll",
-            "square",
+            "tiling",
             "showRelated",
             "autosearchInterval",
             "lowPerformance",
@@ -168,7 +169,7 @@ const AsyncStorage: React.FunctionComponent = () => {
         if (saved.appSaturation) setAppSaturation(Number(saved.appSaturation))
         if (saved.appLightness) setAppLightness(Number(saved.appLightness))
         if (saved.scroll) setScroll(saved.scroll === "true")
-        if (saved.square) setSquare(saved.square === "true")
+        if (saved.tiling) setTiling(saved.tiling as Tiling)
         if (saved.imageType) setImageType(saved.imageType as PostType)
         if (saved.ratingType) setRatingType(saved.ratingType as PostRating)
         if (saved.styleType) setStyleType(saved.styleType as PostStyle)
@@ -233,7 +234,7 @@ const AsyncStorage: React.FunctionComponent = () => {
     useEffect(() => {
         if (!loaded) return
         asyncStorage.setItem("scroll", String(scroll))
-        asyncStorage.setItem("square", String(square))
+        asyncStorage.setItem("tiling", String(tiling))
         asyncStorage.setItem("imageType", String(imageType))
         asyncStorage.setItem("ratingType", String(ratingType))
         asyncStorage.setItem("styleType", String(styleType))
@@ -241,7 +242,7 @@ const AsyncStorage: React.FunctionComponent = () => {
         asyncStorage.setItem("sizeType", String(sizeType))
         asyncStorage.setItem("sortType", String(sortType))
         asyncStorage.setItem("sortReverse", String(sortReverse))
-    }, [scroll, square, imageType, ratingType, styleType, 
+    }, [scroll, tiling, imageType, ratingType, styleType,
         showChildren, sizeType, sortType, sortReverse])
 
     

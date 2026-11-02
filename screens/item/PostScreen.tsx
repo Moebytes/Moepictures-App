@@ -17,6 +17,7 @@ import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
 import TabBar from "../../components/app/TabBar"
 import PostImage from "../../components/image/PostImage"
+import PostGridList from "../../components/search/PostGridList"
 import GridImage from "../../components/image/GridImage"
 import PostImageOptions from "../../components/post/PostImageOptions"
 import PostDrawer from "../../components/post/PostDrawer"
@@ -55,7 +56,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
   const {tablet, statusBarVisible, postDrawerSwipe} = useLayoutSelector()
   const {tagCategories} = useCacheSelector()
   const {setTagCategories, setNavigationPosts} = useCacheActions()
-  const {scroll, sizeType, square} = useSearchSelector()
+  const {scroll, sizeType, tiling} = useSearchSelector()
   const [open, setOpen] = useState(false)
   const {width} = useWindowDimensions()
   const {postID, historyID} = route.params
@@ -235,7 +236,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
     )
   }
 
-  const {columns} = functions.image.getImageSize(sizeType, square, tablet, width)
+  const {columns} = functions.image.getImageSize(sizeType, tiling, tablet, width)
 
   return (
     <Drawer
@@ -256,7 +257,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
           <SearchSuggestions/>
           <SliderModal post={post} image={image}/>
           <CropModal post={post} image={image}/>
-          <FlatList
+          <PostGridList
             ListHeaderComponent={
               <>
                 <TitleBar/>
@@ -283,6 +284,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
             }
             ref={ref}
             key={columns}
+            onPostPress={onRelatedPress}
             data={related.posts}
             renderItem={({item}) => <GridImage post={item} onPress={onRelatedPress}/>}
             keyExtractor={(item) => item.postID.toString()}

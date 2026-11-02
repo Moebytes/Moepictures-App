@@ -37,8 +37,8 @@ const SortBar: React.FunctionComponent = () => {
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
     const styles = createStylesheet(colors)
-    const {scroll, square, sortReverse, autoSearch, pageMultiplier, autoScroll} = useSearchSelector()
-    const {setScroll, setSquare, setAutoSearch, setAutoScroll} = useSearchActions()
+    const {scroll, tiling, sortReverse, autoSearch, pageMultiplier, autoScroll} = useSearchSelector()
+    const {setScroll, setTiling, setAutoSearch, setAutoScroll} = useSearchActions()
     const {setImageSearchFlag} = useFlagActions()
     const {showSizeDialog, showSortDialog, showPageMultiplierDialog} = useSearchDialogSelector()
     const {setShowSizeDialog, setShowSortDialog, setShowPageMultiplierDialog} = useSearchDialogActions()
@@ -187,7 +187,7 @@ const SortBar: React.FunctionComponent = () => {
                 <ScalableHaptic icon={scroll ? ScrollIcon : PagesIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => setScroll(!scroll)}/>
                 <ScalableHaptic icon={SquareIcon} size={iconSize} color={colors.iconColor}
-                    onPress={() => setSquare(!square)}/>
+                    onPress={() => setTiling(tiling === "row" ? "square" : tiling === "square" ? "column" : "row")}/>
                 <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor}
                     onPress={() => imageFilters()}/>
                 <ScalableHaptic icon={SizeIcon} size={iconSize} color={colors.iconColor}
