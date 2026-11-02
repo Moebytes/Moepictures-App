@@ -102,15 +102,18 @@ export const loadCachedImage = (url: string): Promise<SkImage> => {
                 images.delete(oldest)
             }
             
-            images.set(url, {image, bytes: size})
-            bytes += size
+            if (size <= maxBytes) {
+                images.set(url, {image, bytes: size})
+                bytes += size
+            }
             return image
         } finally {
             pending.delete(url)
         }
     }
-    pending.set(url, loading())
-    return loading()
+    const promise = loading()
+    pending.set(url, promise)
+    return promise
 }
 
 const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {

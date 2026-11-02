@@ -49,12 +49,12 @@ export default class CryptoFunctions {
         }
         if (functions.file.isImage(img) && !isAnimatedWebP && !isAnimatedPNG) {
             const base64 = await functions.link.linkToBase64(decrypted)
-            functions.cache.cachedImages.set(cacheKey, base64)
+            functions.cache.setImageCache(cacheKey, base64)
             return base64
         } else {
             arrayBuffer = await functions.http.getBuffer(decrypted)
             const url = functions.byte.arrayBufferToBase64(arrayBuffer)
-            functions.cache.cachedImages.set(cacheKey, url)
+            functions.cache.setImageCache(cacheKey, url)
             return url
         }
     }
