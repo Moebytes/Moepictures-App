@@ -27,7 +27,7 @@ const LoginScreen: React.FunctionComponent = () => {
     const {tablet} = useLayoutSelector()
     const {i18n, language, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
-    const {setSessionFlag} = useFlagActions()
+    const {setSessionFlag, setLoginToastFlag} = useFlagActions()
     const styles = createStylesheet(colors, tablet)
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -46,6 +46,7 @@ const LoginScreen: React.FunctionComponent = () => {
         setError(i18n.buttons.submitting)
         try {
             const result = await functions.http.post("/api/user/login", {username, password, captchaResponse}, session)
+            setLoginToastFlag(result !== "2fa")
             setSessionFlag(true)
             if (result === "2fa") {
                 navigation.navigate("$2FA")

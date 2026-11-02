@@ -33,7 +33,7 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     const {setFirstLoad} = useActiveActions()
     const {session, autosearchInterval} = useSessionSelector()
     const {tablet, headerHeight, tabBarHeight} = useLayoutSelector()
-    const {imageSearchFlag, randomSearchFlag} = useFlagSelector()
+    const {startupReady, imageSearchFlag, randomSearchFlag} = useFlagSelector()
     const {setImageSearchFlag, setRandomSearchFlag} = useFlagActions()
     const {search, scroll, imageType, ratingType, styleType, showChildren, sortType,
     sortReverse, sizeType, square, pageMultiplier, autoScroll, autoSearch} = useSearchSelector()
@@ -92,13 +92,13 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
 
     const infiniteQuery = useSearchPostsInfiniteQuery(
         {query: search, type: imageType, rating: ratingType, style: styleType, sort, showChildren, refreshKey},
-        {skip: !scroll || reverseSearch || randomSearch}
+        {skip: !startupReady || !scroll || reverseSearch || randomSearch}
     )
 
     const pageQuery = useSearchPostsPageQuery(
         {query: search, type: imageType, rating: ratingType, style: styleType, sort, showChildren,
         offset: (page - 1) * pageSize, limit: pageSize, refreshKey},
-        {skip: scroll || reverseSearch || randomSearch}
+        {skip: !startupReady || scroll || reverseSearch || randomSearch}
     )
 
     let posts = reverseSearch ? imageSearchFlag :
@@ -109,10 +109,8 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
     posts = functions.post.filterPosts(posts, ratingType, session)
 
     useEffect(() => {
-        setTimeout(() => {
-            if (!posts.length) setRefreshKey((prev) => prev + 1)
-            setFirstLoad(true)
-        }, 3000)
+        const timeout = setTimeout(() => setFirstLoad(true), 3000)
+        return () => clearTimeout(timeout)
     }, [])
 
     const onImagePress = () => {

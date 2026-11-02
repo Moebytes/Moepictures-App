@@ -19,8 +19,8 @@ import {siteURL} from "./ui/site"
 const AsyncStorage: React.FunctionComponent = () => {
     const {i18n, theme, language, appHue, appSaturation, appLightness} = useThemeSelector()
     const {setTheme, setLanguage, setAppHue, setAppSaturation, setAppLightness} = useThemeActions()
-    const {sessionFlag} = useFlagSelector()
-    const {setSessionFlag} = useFlagActions()
+    const {sessionFlag, loginToastFlag} = useFlagSelector()
+    const {setSessionFlag, setLoginToastFlag, setStartupReady} = useFlagActions()
     const {setTablet} = useLayoutActions()
     const {setSortedTags, setEmojis} = useCacheActions()
     const {session, showRelated, autosearchInterval, lowPerformance} = useSessionSelector()
@@ -81,11 +81,11 @@ const AsyncStorage: React.FunctionComponent = () => {
         }
     }, [theme, appHue, appSaturation, appLightness, session])
 
-    const setSessionCookie = async () => {
+    const setSessionCookie = async (showLoginToast = false) => {
         const response = await functions.http.fetch(siteURL)
         await functions.http.updateSessionCookie(response)
         const cookie = await functions.http.get("/api/user/session", null, session)
-        if (loaded && !session.username && cookie.username) {
+        if (showLoginToast && cookie.username) {
             if (cookie.deleted) {
                 await functions.http.put("/api/user/undelete", null, cookie)
                 Toast.show({text1: i18n.banner.accountRestored})
@@ -192,8 +192,10 @@ const AsyncStorage: React.FunctionComponent = () => {
     }
 
     useEffect(() => {
-        restoreSettings()
-        setSessionCookie()
+        Promise.allSettled([
+            restoreSettings(), 
+            setSessionCookie()
+        ]).then(() => setStartupReady(true))
     }, [])
 
     useEffect(() => {
@@ -203,7 +205,8 @@ const AsyncStorage: React.FunctionComponent = () => {
 
     useEffect(() => {
         if (sessionFlag) {
-            setSessionCookie()
+            setSessionCookie(loginToastFlag)
+            setLoginToastFlag(false)
             setSessionFlag(false)
         }
     }, [sessionFlag])

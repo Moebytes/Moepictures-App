@@ -12,7 +12,9 @@ import {PostSearch} from "../types/Types"
 const flagSlice = createSlice({
     name: "flag",
     initialState: {
+        startupReady: false,
         sessionFlag: false,
+        loginToastFlag: false,
         pageFlag: null as number | null,
         randomSearchFlag: false,
         imageSearchFlag: null as PostSearch[] | null,
@@ -23,6 +25,8 @@ const flagSlice = createSlice({
         emojiFlag: ""
     },
     reducers: {
+        setStartupReady: (state, action) => {state.startupReady = action.payload},
+        setLoginToastFlag: (state, action) => {state.loginToastFlag = action.payload},
         setSessionFlag: (state, action) => {state.sessionFlag = action.payload},
         setPageFlag: (state, action) => {state.pageFlag = action.payload},
         setRandomSearchFlag: (state, action) => {state.randomSearchFlag = action.payload},
@@ -36,7 +40,7 @@ const flagSlice = createSlice({
 })
 
 const {
-    setSessionFlag, setPageFlag, setRandomSearchFlag, setImageSearchFlag, 
+    setStartupReady, setLoginToastFlag, setSessionFlag, setPageFlag, setRandomSearchFlag, setImageSearchFlag,
     setSearchScrollFlag, setFavgroupFlag, setCommentFlag, setEmojiFlag,
     setCommentSearchFlag
 } = flagSlice.actions
@@ -44,6 +48,8 @@ const {
 export const useFlagSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
+        startupReady: selector((state) => state.flag.startupReady),
+        loginToastFlag: selector((state) => state.flag.loginToastFlag),
         sessionFlag: selector((state) => state.flag.sessionFlag),
         pageFlag: selector((state) => state.flag.pageFlag),
         randomSearchFlag: selector((state) => state.flag.randomSearchFlag),
@@ -59,6 +65,8 @@ export const useFlagSelector = () => {
 export const useFlagActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
+        setStartupReady: (state: boolean) => dispatch(setStartupReady(state)),
+        setLoginToastFlag: (state: boolean) => dispatch(setLoginToastFlag(state)),
         setSessionFlag: (state: boolean) => dispatch(setSessionFlag(state)),
         setPageFlag: (state: number | null) => dispatch(setPageFlag(state)),
         setRandomSearchFlag: (state: boolean) => dispatch(setRandomSearchFlag(state)),

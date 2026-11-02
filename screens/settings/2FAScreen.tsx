@@ -23,7 +23,7 @@ const $2FAScreen: React.FunctionComponent = () => {
     const {tablet} = useLayoutSelector()
     const {i18n, theme, colors} = useThemeSelector()
     const {session} = useSessionSelector()
-    const {setSessionFlag} = useFlagActions()
+    const {setSessionFlag, setLoginToastFlag} = useFlagActions()
     const styles = createStylesheet(colors, tablet)
     const [token, setToken] = useState("")
     const [error, setError] = useState("")
@@ -38,6 +38,7 @@ const $2FAScreen: React.FunctionComponent = () => {
         setError(i18n.buttons.submitting)
         try {
             await functions.http.post("/api/2fa", {token}, session)
+            setLoginToastFlag(true)
             setSessionFlag(true)
             navigation.navigate("Profile", undefined, {pop: true})
             setError("")
