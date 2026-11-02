@@ -143,6 +143,12 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
         return false
     }
 
+    const onPanMove = (event: GestureResponderEvent, gestureState: PanResponderGestureState,
+        context: ZoomableViewEvent) => {
+        return context.zoomLevel <= 1.1 && gestureState.numberActiveTouches === 1 &&
+            Math.abs(gestureState.dx) > Math.abs(gestureState.dy)
+    }
+
     const onMomentumScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const newIndex = Math.round(event.nativeEvent.contentOffset.x / width)
 
@@ -168,7 +174,17 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                     else zoomRefs.current.delete(itemIndex)
                 }} style={styles.zoomContainer}
                     minZoom={1} maxZoom={10} visualTouchFeedbackEnabled={false}
-                    panEnabled={true} lockMinZoomAxis={true} onShiftingAfter={onShiftEnd}
+                    panEnabled={true} lockMinZoomAxis={true} lockMinZoom={1.1} onShiftingAfter={onShiftEnd}
+                    onPanResponderMove={onPanMove}
+                    onPanResponderTerminationRequest={onPanMove}
+                    onShouldBlockNativeResponder={(event, gestureState, context) => {
+                        return context.zoomLevel > 1.1 || gestureState.numberActiveTouches > 1
+                    }}
+                    onPanResponderEnd={(event, gestureState, context) => {
+                        if (context.zoomLevel <= 1.1 && Math.abs(gestureState.dx) > Math.abs(gestureState.dy)) {
+                            zoomRefs.current.get(itemIndex)?.resetPan()
+                        }
+                    }}
                     onZoomAfter={(event, gestureState, zoomObj) => {
                         if (itemIndex === index) setZoom(zoomObj.zoomLevel)
                     }}>
