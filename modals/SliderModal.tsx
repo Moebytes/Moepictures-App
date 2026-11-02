@@ -59,7 +59,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
                 if (typeof image === "string") {
                     if (image === props.image) index = current
                 } else {
-                    if (image.imageID === (props.image as VariantImage)?.imageID) index = current
+                    if (String(image.imageID) === String((props.image as VariantImage)?.imageID)) index = current
                 }
 
                 const img = await functions.link.resolveImage(image, session, false)

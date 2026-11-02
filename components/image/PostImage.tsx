@@ -5,16 +5,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import {View, Image, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import {useActionSheet} from "@expo/react-native-action-sheet"
+import {useIsFocused} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector, useFilterSelector,
 useMiscDialogActions, useGroupDialogActions, usePostDialogActions} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import FilterImage, {ImageRef} from "./FilterImage"
-import {Post, PostHistory, Image as VariantImage} from "../../types/Types"
+import NoteEditor from "../../modals/NoteEditor"
+import {Post, PostHistory, Note, Image as VariantImage} from "../../types/Types"
 import {siteURL} from "../../ui/site"
 import path from "path"
 
@@ -28,7 +30,7 @@ interface Props {
 const PostImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
     const {tablet, noteMode} = useLayoutSelector()
-    const {setSharingActive} = useLayoutActions()
+    const {setSharingActive, setNoteMode} = useLayoutActions()
     const {setShowFullscreenImage, setShowCropImage, setShowSavePrompt} = useMiscDialogActions()
     const {setGroupPostID} = useGroupDialogActions()
     const {setChildPostObj} = usePostDialogActions()
@@ -40,29 +42,73 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
     const styles = createStylesheet(colors)
     const [img, setImg] = useState("")
     const [loaded, setLoaded] = useState(false)
+    const [naturalSize, setNaturalSize] = useState({width: 0, height: 0})
+    const [noteData, setNoteData] = useState({key: "", notes: [] as Note[]})
     const {showActionSheetWithOptions} = useActionSheet()
+    const isFocused = useIsFocused()
+
+    const imageIndex = props.image ? props.post?.images.findIndex((image) => image === props.image) ?? -1 : -1
+    const order = typeof props.image === "object" && props.image ? props.image.order ?? imageIndex + 1 : imageIndex + 1
+    const noteKey = `${props.post?.postID || ""}:${order}:${props.refreshKey || ""}`
+    const notes = noteData.key === noteKey ? noteData.notes : []
 
     useEffect(() => {
+        if (!isFocused) return
+        let cancelled = false
+        setNoteMode(false)
+        setNoteData({key: noteKey, notes: []})
+        const updateNotes = async () => {
+            if (!props.post || order < 1) return
+            try {
+                const result = await functions.http.get("/api/notes", {postID: props.post.postID}, session)
+                if (cancelled) return
+                const notes = (result || []).filter((note) => note.order === undefined || note.order === order)
+                setNoteData({key: noteKey, notes})
+                setNoteMode(notes.length > 0)
+            } catch {
+                if (!cancelled) setNoteMode(false)
+            }
+        }
+        updateNotes()
+        return () => {
+            cancelled = true
+        }
+    }, [noteKey, session, isFocused])
+
+    useEffect(() => {
+        let cancelled = false
         const updateImage = async () => {
             if (!props.image) return
             const img = await functions.link.resolveImage(props.image, session, false)
-            setImg(img)
+            if (!cancelled) setImg(img)
         }
         setImg("")
         setLoaded(false)
         updateImage()
-    }, [props.image])
+        return () => {
+            cancelled = true
+        }
+    }, [props.image, props.post?.postID])
 
     useEffect(() => {
+        let cancelled = false
         const updateSize = async () => {
             if (!img) return
             let imageSize = tablet ? 1100 : 500
-            const size = await functions.image.dynamicResize({uri: img}, imageSize, width)
+            const [size, naturalSize] = await Promise.all([
+                functions.image.dynamicResize({uri: img}, imageSize, width),
+                Image.getSize(img)
+            ])
+            if (cancelled) return
             setSize(size)
+            setNaturalSize(naturalSize)
             setLoaded(true)
         }
         updateSize()
-    }, [img, tablet])
+        return () => {
+            cancelled = true
+        }
+    }, [img, tablet, width])
 
     const downloadImage = async () => {
         if (!props.post) return
@@ -159,9 +205,14 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
             ]}
             onPress={contextMenu}>
                 <View style={[styles.container, {opacity: loaded ? 1 : 0}]}>
-                    <Pressable onLongPress={() => null} onPress={() => !noteMode && setShowFullscreenImage(true)}>
-                        <FilterImage ref={props.imageRef} img={img} size={size} post={props.post}/>
-                    </Pressable>
+                    <View style={size}>
+                        <Pressable onLongPress={() => null} onPress={() => !noteMode && setShowFullscreenImage(true)}>
+                            <FilterImage ref={props.imageRef} img={img} size={size} post={props.post}/>
+                        </Pressable>
+                        {noteMode && loaded && notes.length > 0 && 
+                        <NoteEditor key={noteKey} notes={notes} imageWidth={naturalSize.width} 
+                        imageHeight={naturalSize.height} width={size.width} height={size.height}/>}
+                    </View>
                 </View>
         </ContextMenu>
     )

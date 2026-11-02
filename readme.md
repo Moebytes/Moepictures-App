@@ -11,7 +11,6 @@ The mobile app for Moepictures! Supported on iOS, Android, iPad, and Android Tab
 
 We aim for feature-parity with our website, however it's known that these features are not available:
 
-- Notes
 - Non-image posts
 - Messages
 - Uploading

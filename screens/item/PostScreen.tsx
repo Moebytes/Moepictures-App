@@ -263,7 +263,7 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
                 <SearchBar random={true} spaceEnabled={true}/>
                 {historyBarJSX()}
                 <Variants post={post} onImageChange={onImageChange}/>
-                <PostImage post={post} image={image} imageRef={imageRef}/>
+                <PostImage post={post} image={image} imageRef={imageRef} refreshKey={String(refreshKey)}/>
                 <PostImageOptions openDrawer={openDrawer} post={post} imageRef={imageRef}/>
                 <PixivTags post={post}/>
                 <ArtistInfo post={post} artists={tagCategories?.artists}/>
