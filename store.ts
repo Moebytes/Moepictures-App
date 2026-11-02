@@ -8,7 +8,7 @@ import {configureStore} from "@reduxjs/toolkit"
 import {api} from "./api"
 import themeReducer, {useThemeSelector, useThemeActions} from "./reducers/themeReducer"
 import sessionReducer, {useSessionSelector, useSessionActions} from "./reducers/sessionReducer"
-import layoutReducer, {useLayoutSelector, useLayoutActions} from "./reducers/layoutReducer"
+import layoutReducer, {useLayoutSelector, useLayoutActions, useNoteModeSelector} from "./reducers/layoutReducer"
 import activeReducer, {useActiveSelector, useActiveActions} from "./reducers/activeReducer"
 import cacheReducer, {useCacheSelector, useCacheActions} from "./reducers/cacheReducer"
 import searchReducer, {useSearchSelector, useSearchActions} from "./reducers/searchReducer"
@@ -52,7 +52,7 @@ export type StoreDispatch = typeof store.dispatch
 export {
     useThemeSelector, useThemeActions,
     useSessionSelector, useSessionActions,
-    useLayoutSelector, useLayoutActions,
+    useLayoutSelector, useLayoutActions, useNoteModeSelector,
     useActiveSelector, useActiveActions,
     useCacheSelector, useCacheActions,
     useSearchSelector, useSearchActions,

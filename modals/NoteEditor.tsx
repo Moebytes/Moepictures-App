@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useState} from "react"
+import React, {memo, useEffect, useMemo, useState} from "react"
 import {View, Text, Pressable, ScrollView, StyleSheet} from "react-native"
 import {G, Rect, Text as SVGText} from "react-native-svg"
 import {ShapeEditor, wrapShape, ShapeRenderProps} from "react-native-shape-editor"
@@ -14,6 +14,7 @@ import {createStylesheet} from "./styles/NoteEditor.styles"
 
 interface Props {
     notes: Note[]
+    visible: boolean
     imageWidth: number
     imageHeight: number
     width: number
@@ -73,10 +74,11 @@ const NoteEditor: React.FunctionComponent<Props> = (props) => {
     const [textLines, setTextLines] = useState<{[key: number]: string[]}>({})
     const [bubbleHeight, setBubbleHeight] = useState(0)
 
-    if (props.width <= 0 || props.height <= 0 || 
-        props.imageWidth <= 0 || props.imageHeight <= 0) return null
+    useEffect(() => {
+        if (!props.visible) setActiveIndex(null)
+    }, [props.visible])
 
-    const notes = props.notes.map((note) => {
+    const notes = useMemo(() => props.notes.map((note) => {
         const scaleX = props.width / (note.imageWidth || props.imageWidth)
         const scaleY = props.height / (note.imageHeight || props.imageHeight)
 
@@ -91,7 +93,10 @@ const NoteEditor: React.FunctionComponent<Props> = (props) => {
             borderRadius: (note.borderRadius ?? 0) * scaleY,
             overlay: !note.character && note.overlay && !session.forceNoteBubbles
         }
-    })
+    }), [props.notes, props.width, props.height, props.imageWidth, props.imageHeight, session.forceNoteBubbles])
+
+    if (props.width <= 0 || props.height <= 0 ||
+        props.imageWidth <= 0 || props.imageHeight <= 0) return null
 
     const activeNote = activeIndex === null ? undefined : notes[activeIndex]
 
@@ -164,4 +169,4 @@ const NoteEditor: React.FunctionComponent<Props> = (props) => {
     )
 }
 
-export default NoteEditor
+export default memo(NoteEditor)

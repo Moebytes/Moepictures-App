@@ -63,11 +63,17 @@ const dialogOpen = createSelector(
     }
 )
 
+const selectNoteMode = createSelector(
+    [(state: StoreState) => state.layout],
+    (layout) => layout.noteMode
+)
+
+export const useNoteModeSelector = () => useSelector(selectNoteMode)
+
 export const useLayoutSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
         tablet: selector((state) => state.layout.tablet),
-        noteMode: selector((state) => state.layout.noteMode),
         headerHeight: selector((state) => state.layout.headerHeight),
         tabBarHeight: selector((state) => state.layout.tabBarHeight),
         keyboardOpen: selector((state) => state.layout.keyboardOpen),

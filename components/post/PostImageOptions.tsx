@@ -10,7 +10,7 @@ import Toast from "react-native-toast-message"
 import ScalableHaptic from "../../ui/ScalableHaptic"
 import {useThemeSelector, useSessionSelector, useGroupDialogActions,
 useFlagSelector, useFlagActions, useFilterSelector, useFilterActions,
-useLayoutSelector, useLayoutActions} from "../../store"
+useNoteModeSelector, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
@@ -32,7 +32,7 @@ interface Props {
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
     const {i18n, colors} = useThemeSelector()
-    const {noteMode} = useLayoutSelector()
+    const noteMode = useNoteModeSelector()
     const {setNoteMode} = useLayoutActions()
     const {session} = useSessionSelector()
     const {setFavgroupID} = useGroupDialogActions()

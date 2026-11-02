@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useMemo, useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
+import React, {memo, useMemo, useState, useRef, useEffect, forwardRef, useImperativeHandle} from "react"
 import {Canvas, Fill, Image, useCanvasRef, ColorMatrix, SkImage,
     RuntimeShader, Skia, Blur} from "@shopify/react-native-skia"
 import {Platform, Image as RNImage} from "react-native"
@@ -285,4 +285,4 @@ const FilterImage = forwardRef<ImageRef, Props>((props, ref) => {
     )
 })
 
-export default FilterImage
+export default memo(FilterImage)

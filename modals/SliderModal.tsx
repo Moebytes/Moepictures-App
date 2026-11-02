@@ -11,7 +11,7 @@ import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
 import {useThemeSelector, useSessionSelector, useMiscDialogSelector,
 useMiscDialogActions, useCacheSelector, useLayoutActions,
-useLayoutSelector, useFilterSelector} from "../store"
+useNoteModeSelector, useFilterSelector} from "../store"
 import {useNavigationPagination} from "../components/search/useNavigationPagination"
 import {createStylesheet} from "./styles/SliderModal.styles"
 import FilterImage, {loadCachedImage} from "../components/image/FilterImage"
@@ -32,7 +32,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const {showFullscreenImage} = useMiscDialogSelector()
     const {setShowFullscreenImage} = useMiscDialogActions()
-    const {noteMode} = useLayoutSelector()
+    const noteMode = useNoteModeSelector()
     const {setStatusBarVisible} = useLayoutActions()
     const {navigationPosts} = useCacheSelector()
     const filters = useFilterSelector()

@@ -5,13 +5,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Image, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent} from "react-native"
+import {View, Image, Pressable, useWindowDimensions, Linking, Share, NativeSyntheticEvent, StyleSheet} from "react-native"
 import ContextMenu, {ContextMenuOnPressNativeEvent} from "react-native-context-menu-view"
 import {useActionSheet} from "@expo/react-native-action-sheet"
 import {useIsFocused} from "@react-navigation/native"
 import Toast from "react-native-toast-message"
 import {useThemeSelector, useLayoutSelector, useLayoutActions, useSessionSelector, useFilterSelector,
-useMiscDialogActions, useGroupDialogActions, usePostDialogActions} from "../../store"
+useMiscDialogActions, useGroupDialogActions, usePostDialogActions, useNoteModeSelector} from "../../store"
 import {createStylesheet} from "./styles/PostImage.styles"
 import functions from "../../functions/Functions"
 import FilterImage, {ImageRef} from "./FilterImage"
@@ -29,7 +29,8 @@ interface Props {
 
 const PostImage: React.FunctionComponent<Props> = (props) => {
     const {i18n, theme, colors} = useThemeSelector()
-    const {tablet, noteMode} = useLayoutSelector()
+    const {tablet} = useLayoutSelector()
+    const noteMode = useNoteModeSelector()
     const {setSharingActive, setNoteMode} = useLayoutActions()
     const {setShowFullscreenImage, setShowCropImage, setShowSavePrompt} = useMiscDialogActions()
     const {setGroupPostID} = useGroupDialogActions()
@@ -209,9 +210,12 @@ const PostImage: React.FunctionComponent<Props> = (props) => {
                         <Pressable onLongPress={() => null} onPress={() => !noteMode && setShowFullscreenImage(true)}>
                             <FilterImage ref={props.imageRef} img={img} size={size} post={props.post}/>
                         </Pressable>
-                        {noteMode && loaded && notes.length > 0 && 
-                        <NoteEditor key={noteKey} notes={notes} imageWidth={naturalSize.width} 
-                        imageHeight={naturalSize.height} width={size.width} height={size.height}/>}
+                        {loaded && notes.length > 0 &&
+                        <View style={[StyleSheet.absoluteFill, {opacity: noteMode ? 1 : 0}]}
+                            pointerEvents={noteMode ? "box-none" : "none"}>
+                            <NoteEditor key={noteKey} notes={notes} visible={noteMode} imageWidth={naturalSize.width}
+                                imageHeight={naturalSize.height} width={size.width} height={size.height}/>
+                        </View>}
                     </View>
                 </View>
         </ContextMenu>
