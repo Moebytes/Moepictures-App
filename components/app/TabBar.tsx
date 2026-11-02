@@ -122,10 +122,10 @@ const TabBar: React.FunctionComponent<Props> = (props) => {
         let tabMap: {screen: NoParamScreens, icon: React.ComponentType<SvgProps>, name: string}[] = [
             {screen: "Posts", icon: PostsIcon, name: i18n.sort.posts},
             {screen: "Comments", icon: CommentsIcon, name: i18n.navbar.comments},
-            //{screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
+            {screen: "Notes", icon: NotesIcon, name: i18n.navbar.notes},
             {screen: "Tags", icon: TagsIcon, name: i18n.navbar.tags},
             {screen: "Groups", icon: GroupsIcon, name: i18n.sort.groups},
-            {screen: "History", icon: HistoryIcon, name: i18n.sidebar.history},
+            //{screen: "History", icon: HistoryIcon, name: i18n.sidebar.history},
             {screen: "Profile", icon: ProfileIcon, name: i18n.navbar.profile}
         ]
         for (const tab of tabMap) {

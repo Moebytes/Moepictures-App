@@ -5,18 +5,19 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 import React, {useState, useEffect} from "react"
-import {View, Text, Platform} from "react-native"
-import {useActionSheet} from "@expo/react-native-action-sheet"
+import {View, Text} from "react-native"
 import Toast from "react-native-toast-message"
-import path from "path"
 import ScalableHaptic from "../../ui/ScalableHaptic"
-import {useThemeSelector, useSessionSelector, useMiscDialogActions, useGroupDialogActions,
-useFlagSelector, useFlagActions, useFilterSelector, useFilterActions} from "../../store"
+import {useThemeSelector, useSessionSelector, useGroupDialogActions,
+useFlagSelector, useFlagActions, useFilterSelector, useFilterActions,
+useLayoutSelector, useLayoutActions} from "../../store"
 import {createStylesheet} from "./styles/PostImageOptions.styles"
 import StarIcon from "../../assets/svg/star.svg"
 import StarGroupIcon from "../../assets/svg/stargroup.svg"
 import InfoIcon from "../../assets/svg/info.svg"
 import DownloadIcon from "../../assets/svg/download.svg"
+import NotesIcon from "../../assets/svg/notes.svg"
+import SliderIcon from "../../assets/svg/slider.svg"
 import FiltersIcon from "../../assets/svg/filters.svg"
 import functions from "../../functions/Functions"
 import permissions from "../../structures/Permissions"
@@ -30,19 +31,18 @@ interface Props {
 }
 
 const PostImageOptions: React.FunctionComponent<Props> = (props) => {
-    const {i18n, theme, colors} = useThemeSelector()
+    const {i18n, colors} = useThemeSelector()
+    const {noteMode} = useLayoutSelector()
+    const {setNoteMode} = useLayoutActions()
     const {session} = useSessionSelector()
-    const {setShowSavePrompt} = useMiscDialogActions()
     const {setFavgroupID} = useGroupDialogActions()
     const {favgroupFlag} = useFlagSelector()
     const {setFavgroupFlag} = useFlagActions()
-    const {showFilters, brightness, contrast, hue, saturation, 
-        lightness, blur, sharpen, pixelate} = useFilterSelector()
+    const {showFilters} = useFilterSelector()
     const {setShowFilters} = useFilterActions()
     const [favorited, setFavorited] = useState(false)
     const [favGrouped, setFavGrouped] = useState(false)
     const styles = createStylesheet(colors)
-    const {showActionSheetWithOptions} = useActionSheet()
 
     const getFavorite = async () => {
         if (!props.post || !session.username) return
@@ -95,38 +95,6 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
         setFavgroupID(props.post.postID)
     }
 
-    const downloadImage = async () => {
-        if (!props.post) return
-        if (!await functions.file.requestWritePermission()) return
-
-        let img = await functions.link.resolveImage(props.post.images[0], session, false)
-        let filename = decodeURIComponent(path.basename(functions.util.pruneURLParams(img)))
-
-        if (props.imageRef?.current && functions.image.filtersOn({brightness, contrast, hue, 
-            saturation, lightness, blur, sharpen, pixelate})) {
-            const base64 = props.imageRef.current.toDataURL()
-            filename = path.basename(filename, path.extname(filename)) + ".png"
-            img = await functions.file.saveBase64Image(base64, filename)
-        }
-
-        showActionSheetWithOptions({
-            title: i18n.contextMenu.saveLocation,
-            options: [i18n.contextMenu.photos, i18n.contextMenu.files, i18n.buttons.cancel],
-            cancelButtonIndex: 2,
-            tintColor: colors.iconColor,
-            cancelButtonTintColor: colors.iconColor,
-            userInterfaceStyle: theme
-        }, async (selectedIndex) => {
-            if (selectedIndex === 0) {
-                await functions.file.saveToCameraRoll(img, filename)
-                setShowSavePrompt(true)
-            } else if (selectedIndex === 1) {
-                await functions.file.saveToFiles(img, filename)
-                setShowSavePrompt(true)
-            }
-        })
-    }
-
     const imageFilters = () => {
         if (!session.username) {
             return Toast.show({text1: i18n.toast.loginRequired})
@@ -153,9 +121,9 @@ const PostImageOptions: React.FunctionComponent<Props> = (props) => {
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={props.openDrawer}>
                     <Text style={styles.text}>{i18n.post.info}</Text>
             </ScalableHaptic>
-            <ScalableHaptic icon={DownloadIcon} size={iconSize} color={colors.iconColor} 
-                activeColor={colors.iconActive} style={styles.iconContainer} onPress={downloadImage}>
-                <Text style={styles.text}>{i18n.buttons.download}</Text>
+            <ScalableHaptic icon={noteMode ? NotesIcon : SliderIcon} size={iconSize} color={colors.iconColor} 
+                activeColor={colors.iconActive} style={styles.iconContainer} onPress={() => setNoteMode(!noteMode)}>
+                <Text style={styles.text}>{noteMode ? i18n.navbar.notes : i18n.sortbar.type.image}</Text>
             </ScalableHaptic>
             <ScalableHaptic icon={FiltersIcon} size={iconSize} color={colors.iconColor} 
                 activeColor={colors.iconActive} style={styles.iconContainer} onPress={imageFilters}>

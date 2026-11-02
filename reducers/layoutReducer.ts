@@ -14,6 +14,7 @@ const layoutSlice = createSlice({
     name: "layout",
     initialState: {
         tablet: false,
+        noteMode: false,
         headerHeight: 210,
         tabBarHeight: 110,
         keyboardOpen: false,
@@ -24,6 +25,7 @@ const layoutSlice = createSlice({
     },
     reducers: {
         setTablet: (state, action) => {state.tablet = action.payload},
+        setNoteMode: (state, action) => {state.noteMode = action.payload},
         setHeaderHeight: (state, action) => {state.headerHeight = action.payload},
         setTabBarHeight: (state, action) => {state.tabBarHeight = action.payload},
         setKeyboardOpen: (state, action) => {state.keyboardOpen = action.payload},
@@ -37,7 +39,7 @@ const layoutSlice = createSlice({
 const {
     setHeaderHeight, setTabBarHeight, setTablet, setKeyboardOpen, 
     setSharingActive, setStatusBarVisible, setPostDrawerSwipe,
-    setEmojiStripVisible
+    setEmojiStripVisible, setNoteMode
 } = layoutSlice.actions
 
 const dialogOpen = createSelector(
@@ -65,6 +67,7 @@ export const useLayoutSelector = () => {
     const selector = useSelector.withTypes<StoreState>()
     return {
         tablet: selector((state) => state.layout.tablet),
+        noteMode: selector((state) => state.layout.noteMode),
         headerHeight: selector((state) => state.layout.headerHeight),
         tabBarHeight: selector((state) => state.layout.tabBarHeight),
         keyboardOpen: selector((state) => state.layout.keyboardOpen),
@@ -80,6 +83,7 @@ export const useLayoutActions = () => {
     const dispatch = useDispatch.withTypes<StoreDispatch>()()
     return {
         setTablet: (state: boolean) => dispatch(setTablet(state)),
+        setNoteMode: (state: boolean) => dispatch(setNoteMode(state)),
         setHeaderHeight: (state: number) => dispatch(setHeaderHeight(state)),
         setTabBarHeight: (state: number) => dispatch(setTabBarHeight(state)),
         setKeyboardOpen: (state: boolean) => dispatch(setKeyboardOpen(state)),

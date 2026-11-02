@@ -10,7 +10,8 @@ useWindowDimensions, NativeSyntheticEvent, NativeScrollEvent} from "react-native
 import {useNavigation} from "@react-navigation/native"
 import {ReactNativeZoomableView, ZoomableViewEvent} from "@openspacelabs/react-native-zoomable-view"
 import {useThemeSelector, useSessionSelector, useMiscDialogSelector,
-useMiscDialogActions, useCacheSelector, useLayoutActions} from "../store"
+useMiscDialogActions, useCacheSelector, useLayoutActions,
+useLayoutSelector} from "../store"
 import {createStylesheet} from "./styles/SliderModal.styles"
 import FilterImage from "../components/image/FilterImage"
 import functions from "../functions/Functions"
@@ -30,6 +31,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     const {colors} = useThemeSelector()
     const {showFullscreenImage} = useMiscDialogSelector()
     const {setShowFullscreenImage} = useMiscDialogActions()
+    const {noteMode} = useLayoutSelector()
     const {setStatusBarVisible} = useLayoutActions()
     const {navigationPosts} = useCacheSelector()
     const {session, lowPerformance} = useSessionSelector()
@@ -76,6 +78,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     }
 
     useEffect(() => {
+        if (noteMode) return
         if (!showFullscreenImage) return
         if (!props.image) return
 
@@ -141,7 +144,7 @@ const SliderModal: React.FunctionComponent<Props> = (props) => {
     }
 
     return (
-        <Modal visible={showFullscreenImage} backdropColor="black" animationType="fade" 
+        <Modal visible={!noteMode && showFullscreenImage} backdropColor="black" animationType="fade" 
         supportedOrientations={["portrait", "landscape"]} onRequestClose={onClose}>
             <View style={styles.container}>
                 <FlatList
