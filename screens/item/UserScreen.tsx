@@ -87,7 +87,7 @@ const UserScreen: React.FunctionComponent<Props> = ({route}) => {
                         <View style={styles.rowContainer}>
                             <View style={styles.bioContainer}>
                                 <Text style={styles.labelText}>{i18n.user.bio}: </Text>
-                                {bioText()}
+                                <View style={styles.bioText}>{bioText()}</View>
                             </View>
                             {user ? <Text style={styles.labelText}>
                                 {i18n.user.joinDate}: {functions.date.prettyDate(user.joinDate, i18n)}

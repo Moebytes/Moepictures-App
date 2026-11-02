@@ -212,30 +212,6 @@ const ProfileScreen: React.FunctionComponent = () => {
                             <LogoutIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
                     </PressableHaptic>
                 </View> : null}
-                 
-                <View style={styles.buttonContainer}>
-                    /* Search History */
-                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => navigation.navigate("History", undefined, {pop: true})} 
-                    style={({pressed}) => [styles.itemContainer, 
-                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                        <View style={styles.iconContainer}>
-                            <Text style={styles.text}>{i18n.history.search}</Text>
-                        </View>
-                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </PressableHaptic>
-                    {session.username ?
-                    /* Favorite Groups */
-                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
-                    onPress={() => navigation.navigate("Favgroups", undefined, {pop: true})} 
-                    style={({pressed}) => [styles.itemContainer, 
-                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
-                        <View style={styles.iconContainer}>
-                            <Text style={styles.text}>{i18n.help.favoriteGroups.title}</Text>
-                        </View>
-                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
-                    </PressableHaptic> : null}
-                </View> 
 
                 <View style={styles.buttonContainer}>
                     /* Dark Theme */
@@ -361,6 +337,30 @@ const ProfileScreen: React.FunctionComponent = () => {
                             ios_backgroundColor={colors.switchOff}
                         />
                     </View>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                    /* Search History */
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("History", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.history.search}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic>
+                    {session.username ?
+                    /* Favorite Groups */
+                    <PressableHaptic delayLongPress={pressDelay} onLongPress={() => null} 
+                    onPress={() => navigation.navigate("Favgroups", undefined, {pop: true})} 
+                    style={({pressed}) => [styles.itemContainer, 
+                    {backgroundColor: pressed ? colors.profileItemPressed : colors.profileItem}]}>
+                        <View style={styles.iconContainer}>
+                            <Text style={styles.text}>{i18n.help.favoriteGroups.title}</Text>
+                        </View>
+                        <RightIcon width={iconSize} height={iconSize} color={colors.iconColor}/>
+                    </PressableHaptic> : null}
                 </View>
 
                 {session.username ? 

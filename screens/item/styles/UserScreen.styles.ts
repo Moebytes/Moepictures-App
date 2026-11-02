@@ -55,9 +55,13 @@ export const createStylesheet = (colors: ThemeColors) => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-start",
-            alignItems: "center",
+            alignItems: "flex-start",
             width: "100%",
             paddingVertical: 10
+        },
+        bioText: {
+            flex: 1,
+            minWidth: 0
         },
         labelText: {
             color: colors.textColor,

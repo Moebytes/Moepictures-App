@@ -15,6 +15,7 @@ import functions from "../../functions/Functions"
 import moeText from "../../moetext/MoeText"
 import MiniTextBox, {MiniTextBoxRef} from "../../ui/MiniTextBox"
 import Draggable from "../Draggable"
+import {useInvalidateUser} from "../../api"
 
 const EditBioDialog: React.FunctionComponent = () => {
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
@@ -27,6 +28,7 @@ const EditBioDialog: React.FunctionComponent = () => {
     const [text, setText] = useState("")
     const styles = createStylesheet(colors)
     const textBoxRef = useRef<MiniTextBoxRef>(null)
+    const invalidateUser = useInvalidateUser()
 
     useEffect(() => {
         if (showBioDialog) setText(moeText.undoLinkReplacements(session.bio))
@@ -45,6 +47,7 @@ const EditBioDialog: React.FunctionComponent = () => {
         }
 
         await functions.http.post("/api/user/changebio", {bio}, session)
+        invalidateUser(session.username)
         setSessionFlag(true)
         onClose()
     }
