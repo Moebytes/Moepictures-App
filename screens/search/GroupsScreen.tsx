@@ -12,6 +12,7 @@ import {useThemeSelector, useLayoutSelector, useSearchSelector, useSessionSelect
 import {useSearchGroupsInfiniteQuery, useSearchGroupsPageQuery} from "../../api"
 import TitleBar from "../../components/app/TitleBar"
 import SearchBar from "../../components/app/SearchBar"
+import SearchSuggestions from "../../components/tooltip/SearchSuggestions"
 import TabBar from "../../components/app/TabBar"
 import GroupThumbnail from "../../components/search/GroupThumbnail"
 import PageButtons from "../../components/search/PageButtons"
@@ -112,6 +113,10 @@ const GroupsScreen: React.FunctionComponent = () => {
             <TitleBar/>
             <SearchBar managedProps={{text, setText, searchTags, setSearchTags, setSearch}}/>
             </AnimatedHeaderWrapper>
+            <SearchSuggestions text={text} addSuggestion={(suggestion) => {
+                setSearchTags((tags) => [...tags, suggestion.tag])
+                setText("")
+            }}/>
             <FlatList
                 ref={ref}
                 style={{flex: 1}}
@@ -148,7 +153,7 @@ const GroupsScreen: React.FunctionComponent = () => {
                 onScrollEndDrag={() => setScrolling(false)}
                 scrollEventThrottle={16}
                 keyboardDismissMode="on-drag"
-                keyboardShouldPersistTaps="handled"
+                keyboardShouldPersistTaps="never"
             />
             <TabBar visible={tabVisible} backToTop={true} ref={ref} 
                 showBackToTop={showBackToTop} isLoading={isLoading}/>

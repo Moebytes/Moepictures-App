@@ -51,7 +51,7 @@ const SearchSuggestions: React.FunctionComponent<Props> = (props) => {
     }, [])
 
     const updateSearchSuggestions = async () => {
-        let query = props.text ? functions.tag.parseTagGroups(props.text).tags.join(" ") : text
+        let query = props.text !== undefined ? functions.tag.parseTagGroups(props.text).tags.join(" ") : text
 
         query = functions.tag.trimSpecialCharacters(query)
         let searchString = query?.trim().toLowerCase().split(/ +/g).filter(Boolean).join("-") ?? ""
