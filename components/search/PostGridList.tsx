@@ -4,7 +4,7 @@
  * Licensed under CC BY-NC 4.0. See license.txt for details. *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-import React, {useMemo, useState, useEffect} from "react"
+import React, {useMemo, useState} from "react"
 import {FlatList, FlatListProps, View, useWindowDimensions, StyleSheet, ListRenderItem} from "react-native"
 import {PostSearch} from "../../types/PostTypes"
 import {useSearchSelector} from "../../store"
@@ -27,16 +27,20 @@ const PostGridList = (props: Props) => {
     const contentStyle = StyleSheet.flatten(props.contentContainerStyle)
 
     const column = tiling === "column"
+    const columns = props.numColumns ?? 1
     const gridWidth = sizeType === "medium" || sizeType === "massive" ? width * 0.9 : width
 
-    useEffect(() => {
-        setOffset(0)
-    }, [tiling])
+    const posts = useMemo(() => {
+        return Array.from(props.data ?? [])
+    }, [props.data])
+
+    const data = useMemo(() => {
+        return column ? posts.slice(0, 1) : posts.filter((_, index) => index % columns === 0)
+    }, [column, posts, columns])
 
     const layout = useMemo(() => {
-        return functions.image.columnLayout(column ? Array.from(props.data ?? []) : [], gridWidth,
-        props.numColumns ?? 1)
-    }, [column, props.data, gridWidth, props.numColumns])
+        return functions.image.columnLayout(column ? posts : [], gridWidth, columns)
+    }, [column, posts, gridWidth, columns])
     
     const gridTop = headerHeight + (Number(contentStyle?.paddingTop) || 
         Number(contentStyle?.paddingVertical) || 0)
@@ -46,7 +50,19 @@ const PostGridList = (props: Props) => {
     const header = React.isValidElement(Header) ? Header : Header ? <Header/> : null
 
     const renderItem: ListRenderItem<PostSearch> = (info) => {
-        if (!column) return props.renderItem?.(info) ?? null
+        if (!column) {
+            if (columns === 1) return props.renderItem?.(info) ?? null
+            const start = info.index * columns
+            return (
+                <View style={[{flexDirection: "row"}, props.columnWrapperStyle]}>
+                    {posts.slice(start, start + columns).map((post, index) => (
+                        <React.Fragment key={post.postID}>
+                            {props.renderItem?.({...info, item: post, index: start + index})}
+                        </React.Fragment>
+                    ))}
+                </View>
+            )
+        }
 
         return (
             <View style={{height: layout.height, width: gridWidth, alignSelf: "center"}}>
@@ -65,12 +81,12 @@ const PostGridList = (props: Props) => {
         <FlatList
             {...props}
             ref={props.ref}
-            key={`${column ? "column" : "row"}-${props.numColumns}`}
 
-            data={column ? props.data?.length ? [props.data[0]] : [] : props.data}
+            data={data}
+            keyExtractor={(_, index) => column ? "column-grid" : `row-${index}`}
             renderItem={renderItem}
-            numColumns={column ? 1 : props.numColumns}
-            columnWrapperStyle={column ? undefined : props.columnWrapperStyle}
+            numColumns={1}
+            columnWrapperStyle={undefined}
 
             onLayout={(event) => {
                 setWidth(event.nativeEvent.layout.width)
@@ -79,15 +95,15 @@ const PostGridList = (props: Props) => {
             }}
             onScroll={(event) => {
                 const next = event.nativeEvent.contentOffset.y
-                if (column && Math.abs(next - offset) > viewportHeight / 2) setOffset(next)
+                if (Math.abs(next - offset) > viewportHeight / 2) setOffset(next)
                 props.onScroll?.(event)
             }}
             scrollEventThrottle={props.scrollEventThrottle ?? 16}
             removeClippedSubviews={column ? false : props.removeClippedSubviews}
 
-            ListHeaderComponent={column ? <View style={headerStyle}
-                onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}>{header}</View> : Header}
-            ListHeaderComponentStyle={column ? undefined : props.ListHeaderComponentStyle}
+            ListHeaderComponent={<View style={headerStyle}
+                onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}>{header}</View>}
+            ListHeaderComponentStyle={undefined}
         />
     )
 }

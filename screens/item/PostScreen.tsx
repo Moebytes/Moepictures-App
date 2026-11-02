@@ -283,7 +283,6 @@ const PostScreen: React.FunctionComponent<Props> = ({route}) => {
               </>
             }
             ref={ref}
-            key={columns}
             onPostPress={onRelatedPress}
             data={related.posts}
             renderItem={({item}) => <GridImage post={item} onPress={onRelatedPress}/>}

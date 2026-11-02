@@ -223,7 +223,6 @@ const ImageGrid: React.FunctionComponent<Props> = (props) => {
         <View style={styles.container}>
             <PostGridList
                 ref={props.ref}
-                key={columns}
                 onPostPress={onImagePress}
                 style={{flex: 1}}
                 
